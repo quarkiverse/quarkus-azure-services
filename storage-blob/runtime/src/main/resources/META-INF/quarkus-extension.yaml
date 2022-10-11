@@ -1,9 +1,7 @@
-name: Azure Storage Blob
-#description: Do something useful.
+name: "Azure Storage Blob"
 metadata:
-#  keywords:
-#    - azure-storage-blob
-#  guide: https://quarkiverse.github.io/quarkiverse-docs/azure-storage-blob/dev/
-#  categories:
-#    - "miscellaneous"
-#  status: "preview"
+  keywords:
+    - "azure-storage-blob"
+  categories:
+    - "cloud"
+  status: "preview"

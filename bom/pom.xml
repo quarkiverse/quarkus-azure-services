@@ -23,7 +23,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Azure dependencies, imported as a BOM -->
+            <!-- Azure sdk dependencies, imported as a BOM -->
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-sdk-bom</artifactId>
