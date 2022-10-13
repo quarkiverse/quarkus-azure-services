@@ -11,7 +11,7 @@
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-parent</artifactId>
     <name>Quarkus Azure Services - Parent</name>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
