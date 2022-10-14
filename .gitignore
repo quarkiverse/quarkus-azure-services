@@ -1,17 +1,26 @@
-# Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
+# Compiled class file
+*.class
 
-# IDEA
-.idea
-*.ipr
-*.iml
-*.iws
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see https://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
 
 # Eclipse
 .project
@@ -19,13 +28,37 @@ dependency-reduced-pom.xml
 .settings/
 bin/
 
-# VS CODE
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
 .vscode
-*.code-workspace
 .factorypath
 
-# Vi/Vim
+# OSX
+.DS_Store
+
+# Vim
 *.swp
+*.swo
 
+# patch
+*.orig
+*.rej
 
-**/.cache/*
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties

@@ -1,0 +1,8 @@
+name: "Azure Storage Blob"
+metadata:
+  keywords:
+    - "azure-storage-blob"
+#    - guide: https://quarkiverse.github.io/quarkiverse-docs/azure-storage-blob/dev/
+  categories:
+    - "cloud"
+  status: "preview"
