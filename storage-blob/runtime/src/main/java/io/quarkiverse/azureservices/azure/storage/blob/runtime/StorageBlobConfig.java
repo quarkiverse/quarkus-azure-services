@@ -5,7 +5,7 @@ import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 
 @ConfigRoot(name = "azure.storage.blob", phase = ConfigPhase.RUN_TIME)
-public class StorageBlobConfiguration {
+public class StorageBlobConfig {
 
     /**
      * The connection string of Azure Storage Account.
