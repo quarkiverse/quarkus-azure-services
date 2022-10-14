@@ -7,7 +7,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 
-public class AzureStorageBlobTestResource implements QuarkusTestResourceLifecycleManager {
+public class StorageBlobTestResource implements QuarkusTestResourceLifecycleManager {
 
     static String accountName = "devstoreaccount1";
     static String accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";

@@ -5,7 +5,7 @@ import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 
-class AzureStorageBlobProcessor {
+class StorageBlobProcessor {
 
     private static final String FEATURE = "azure-storage-blob";
 

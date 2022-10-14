@@ -13,8 +13,8 @@ import io.quarkus.test.QuarkusDevModeTest;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.restassured.RestAssured;
 
-@QuarkusTestResource(AzureStorageBlobTestResource.class)
-public class AzureStorageBlobDevModeTest {
+@QuarkusTestResource(StorageBlobTestResource.class)
+public class StorageBlobDevModeTest {
 
     @RegisterExtension
     static QuarkusDevModeTest test = new QuarkusDevModeTest()
@@ -25,7 +25,7 @@ public class AzureStorageBlobDevModeTest {
                             .addAsResource(new StringAsset(
                                     "quarkus.azure.storage.blob.connection-string=${quarkus.azure.storage.blob.connection-string}"),
                                     "application.properties")
-                            .addClass(AzureStorageBlobResource.class);
+                            .addClass(StorageBlobResource.class);
                 }
             });
 

@@ -10,7 +10,7 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 
 @Path("/storageblob")
-public class AzureStorageBlobResource {
+public class StorageBlobResource {
 
     @Inject
     BlobServiceClient blobServiceClient;

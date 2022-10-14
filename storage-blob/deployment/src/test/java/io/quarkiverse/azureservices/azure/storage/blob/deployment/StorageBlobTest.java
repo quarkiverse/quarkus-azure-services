@@ -15,8 +15,8 @@ import com.azure.storage.blob.BlobServiceClient;
 import io.quarkus.test.QuarkusUnitTest;
 import io.quarkus.test.common.QuarkusTestResource;
 
-@QuarkusTestResource(AzureStorageBlobTestResource.class)
-public class AzureStorageBlobTest {
+@QuarkusTestResource(StorageBlobTestResource.class)
+public class StorageBlobTest {
 
     @Inject
     Instance<BlobServiceClient> blobServiceClient;
