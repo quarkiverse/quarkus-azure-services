@@ -20,7 +20,7 @@ public class StorageBlobBuildTimeConfig {
 
     @Override
     public String toString() {
-        return "VaultBuildTimeConfig{" +
+        return "StorageBlobBuildTimeConfig{" +
                 "healthEnabled=" + healthEnabled +
                 ", devservices=" + devservices +
                 '}';
