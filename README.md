@@ -8,7 +8,7 @@ The following services are implemented:
 
 ## Example applications
 
-Example applications can be found inside the integration-test folder:
+Example applications can be found inside the integration-tests folder:
 
 - [integration-tests](integration-tests): RESTEasy endpoints using all the Azure Services extensions, to be deployed as
   a standalone JAR and a native executable.
