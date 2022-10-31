@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -21,6 +22,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>2.13.1.Final</quarkus.version>
+        <azure.core.http.client.vertx.version>2.13.0</azure.core.http.client.vertx.version>
+        <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <enforcer-plugin.version>3.0.0-M3</enforcer-plugin.version>
     </properties>
@@ -28,6 +31,7 @@
     <modules>
         <module>bom</module>
         <module>storage-blob</module>
+        <module>integration-tests</module>
     </modules>
 
     <dependencyManagement>
@@ -45,6 +49,22 @@
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
+            <dependency>
+                <groupId>org.apache.camel.quarkus</groupId>
+                <artifactId>camel-quarkus-support-azure-core-http-client-vertx</artifactId>
+                <version>${azure.core.http.client.vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.quarkus</groupId>
+                <artifactId>camel-quarkus-support-azure-core-http-client-vertx-deployment</artifactId>
+                <version>${azure.core.http.client.vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-tcnative</artifactId>
+                <version>${netty.tcnative.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

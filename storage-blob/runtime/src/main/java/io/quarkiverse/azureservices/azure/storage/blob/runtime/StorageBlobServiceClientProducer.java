@@ -11,7 +11,7 @@ import com.azure.storage.blob.BlobServiceClientBuilder;
 public class StorageBlobServiceClientProducer {
 
     @Inject
-    StorageBlobConfiguration storageBlobConfiguration;
+    StorageBlobConfig storageBlobConfiguration;
 
     @Produces
     @Singleton

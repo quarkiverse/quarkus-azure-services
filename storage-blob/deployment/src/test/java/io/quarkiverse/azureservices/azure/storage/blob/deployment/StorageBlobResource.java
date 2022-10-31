@@ -17,9 +17,9 @@ public class StorageBlobResource {
 
     @GET
     public String test() {
-        BlobContainerClient blobContainerClient = blobServiceClient.createBlobContainer("mycontainer");
+        BlobContainerClient blobContainerClient = blobServiceClient.createBlobContainerIfNotExists("mycontainer");
         BlobClient blobClient = blobContainerClient.getBlobClient("myblob");
-        blobClient.upload(BinaryData.fromString("samples"));
+        blobClient.upload(BinaryData.fromString("samples"), true);
 
         return blobClient.downloadContent().toString();
     }
