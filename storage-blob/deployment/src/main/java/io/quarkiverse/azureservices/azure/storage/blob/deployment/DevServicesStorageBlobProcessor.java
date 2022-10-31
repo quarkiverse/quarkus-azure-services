@@ -37,7 +37,7 @@ public class DevServicesStorageBlobProcessor {
     private static final String CONFIG_KEY = "quarkus.azure.storage.blob.connection-string";
 
     /**
-     * Label to add to shared Dev Service for Azurite storage blob service running in containers.
+     * Label to add to shared Dev Services for Azurite storage blob service running in containers.
      * This allows other applications to discover the running service and use it instead of starting a new instance.
      */
     private static final String DEV_SERVICE_LABEL = "quarkus-dev-service-azure-storage-blob";

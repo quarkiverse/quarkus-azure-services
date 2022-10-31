@@ -4,7 +4,7 @@ This is the integration test for testing all Quarkus Azure services extensions f
 
 ## Running the test with Dev services
 
-Some Quarkus Azure services extensions support Dev services, it allows to test easily.
+Some Quarkus Azure services extensions support Dev Services, it allows to test easily.
 Launch these tests with:
 
 ```

@@ -4,7 +4,7 @@ This repository hosts Quarkus extensions for different Azure Services.
 
 The following services are implemented:
 
-- [StorageBlob](storage-blob)
+- [StorageBlob](storage-blob): Support Dev Services.
 
 ## Example applications
 

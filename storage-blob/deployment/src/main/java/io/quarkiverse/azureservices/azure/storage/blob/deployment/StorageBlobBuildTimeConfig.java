@@ -13,7 +13,7 @@ public class StorageBlobBuildTimeConfig {
     public boolean healthEnabled;
 
     /**
-     * Dev services configuration.
+     * Dev Services configuration.
      */
     @ConfigItem
     public DevServicesConfig devservices;
