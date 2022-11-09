@@ -7,6 +7,16 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "majguo",
+      "name": "Jianguo Ma",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10357495?v=4",
+      "profile": "https://www.linkedin.com/in/jianguo-ma-40783518/",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    },
+    {
       "login": "agoncal",
       "name": "Antonio Goncalves",
       "avatar_url": "https://avatars.githubusercontent.com/u/729277?v=4",
