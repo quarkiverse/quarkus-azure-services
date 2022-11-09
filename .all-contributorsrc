@@ -15,6 +15,16 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "agoncal",
+      "name": "Antonio Goncalves",
+      "avatar_url": "https://avatars.githubusercontent.com/u/729277?v=4",
+      "profile": "http://www.antoniogoncalves.org",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
