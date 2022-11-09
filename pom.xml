@@ -22,7 +22,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>2.14.0.Final</quarkus.version>
-        <azure.core.http.client.vertx.version>2.13.0</azure.core.http.client.vertx.version>
+        <azure.core.http.client.vertx.version>2.14.0</azure.core.http.client.vertx.version>
         <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <enforcer-plugin.version>3.1.0</enforcer-plugin.version>
