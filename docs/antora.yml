@@ -1,0 +1,5 @@
+name: quarkus-azure-services
+title: Quarkus Azure Services Extension
+version: dev
+nav:
+  - modules/ROOT/nav.adoc
