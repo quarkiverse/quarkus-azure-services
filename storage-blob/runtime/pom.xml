@@ -11,7 +11,7 @@
     </parent>
     
     <artifactId>quarkus-azure-storage-blob</artifactId>
-    <name>Quarkus Azure Storage Blob - Runtime</name>
+    <name>Quarkus Azure Services - Storage Blob - Runtime</name>
     
     <dependencies>
         <dependency>
