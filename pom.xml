@@ -22,7 +22,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>2.14.0.Final</quarkus.version>
-        <azure.core.http.client.vertx.version>2.14.0</azure.core.http.client.vertx.version>
+        <azure.core.http.client.vertx.version>1.0.0-beta.1</azure.core.http.client.vertx.version>
         <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <enforcer-plugin.version>3.1.0</enforcer-plugin.version>
@@ -52,13 +52,8 @@
             </dependency>
             <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
             <dependency>
-                <groupId>org.apache.camel.quarkus</groupId>
-                <artifactId>camel-quarkus-support-azure-core-http-client-vertx</artifactId>
-                <version>${azure.core.http.client.vertx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.camel.quarkus</groupId>
-                <artifactId>camel-quarkus-support-azure-core-http-client-vertx-deployment</artifactId>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-core-http-vertx</artifactId>
                 <version>${azure.core.http.client.vertx.version}</version>
             </dependency>
             <dependency>
