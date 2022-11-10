@@ -34,8 +34,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-support-azure-core-http-client-vertx</artifactId>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core-http-vertx</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

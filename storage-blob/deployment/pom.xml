@@ -18,11 +18,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-devservices-deployment</artifactId>
         </dependency>
-        <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
-        <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-support-azure-core-http-client-vertx-deployment</artifactId>
-        </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-storage-blob</artifactId>
