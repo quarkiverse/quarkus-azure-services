@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>quarkus-azure-services-docs</artifactId>
-    <name>Quarkus Azure Services Extension - Documentation</name>
+    <name>Quarkus Azure Services - Documentation</name>
 
     <dependencies>
         <!-- Make sure the doc is built after the other artifacts -->
