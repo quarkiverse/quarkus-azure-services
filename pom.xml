@@ -16,53 +16,26 @@
     <packaging>pom</packaging>
 
     <properties>
+
+        <azure.core.http.client.vertx.version>1.0.0-beta.1</azure.core.http.client.vertx.version>
+        <msal4j.version>1.13.1</msal4j.version><!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
+        <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>2.14.0.Final</quarkus.version>
-        <azure.core.http.client.vertx.version>1.0.0-beta.1</azure.core.http.client.vertx.version>
-        <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <enforcer-plugin.version>3.1.0</enforcer-plugin.version>
     </properties>
 
     <modules>
         <module>bom</module>
-        <module>storage-blob</module>
+        <module>extensions</module>
         <module>integration-tests</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.azureservices</groupId>
-                <artifactId>quarkus-azure-services-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
-            <dependency>
-                <groupId>com.azure</groupId>
-                <artifactId>azure-core-http-vertx</artifactId>
-                <version>${azure.core.http.client.vertx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-tcnative</artifactId>
-                <version>${netty.tcnative.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <pluginManagement>
