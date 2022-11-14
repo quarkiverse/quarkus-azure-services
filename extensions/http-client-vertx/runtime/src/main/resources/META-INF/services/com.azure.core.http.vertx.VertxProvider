@@ -1,1 +1,1 @@
-org.apache.camel.quarkus.support.azure.core.http.vertx.QuarkusVertxProvider
+io.quarkiverse.azureservices.core.http.vertx.runtime.QuarkusVertxProvider

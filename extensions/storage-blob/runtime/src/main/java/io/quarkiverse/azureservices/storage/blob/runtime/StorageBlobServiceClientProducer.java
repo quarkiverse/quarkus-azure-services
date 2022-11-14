@@ -1,10 +1,10 @@
 package io.quarkiverse.azureservices.storage.blob.runtime;
 
-import com.azure.storage.blob.BlobServiceClient;
-import com.azure.storage.blob.BlobServiceClientBuilder;
-
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 
 public class StorageBlobServiceClientProducer {
 

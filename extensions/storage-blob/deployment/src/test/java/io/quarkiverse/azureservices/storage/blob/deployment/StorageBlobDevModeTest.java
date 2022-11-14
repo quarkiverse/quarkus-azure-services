@@ -1,8 +1,7 @@
 package io.quarkiverse.azureservices.storage.blob.deployment;
 
-import io.quarkus.test.QuarkusDevModeTest;
-import io.quarkus.test.common.QuarkusTestResource;
-import io.restassured.RestAssured;
+import java.util.function.Supplier;
+
 import org.hamcrest.Matchers;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -10,7 +9,9 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import java.util.function.Supplier;
+import io.quarkus.test.QuarkusDevModeTest;
+import io.quarkus.test.common.QuarkusTestResource;
+import io.restassured.RestAssured;
 
 @QuarkusTestResource(StorageBlobTestResource.class)
 public class StorageBlobDevModeTest {
