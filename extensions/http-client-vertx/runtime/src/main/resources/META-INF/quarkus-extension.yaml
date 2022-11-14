@@ -16,12 +16,12 @@
 #
 
 ---
-name: "Camel Quarkus Support Azure Core HTTP Client Vert.x"
-description: "Camel Quarkus Support Azure Core HTTP Client Vert.x"
+name: "Quarkus Support Azure Core HTTP Client Vert.x"
+description: "Quarkus Support Azure Core HTTP Client Vert.x"
 metadata:
   unlisted: true
   keywords:
-    - "camel"
-  guide: "https://quarkus.io/guides/camel"
+    - "azure"
+  guide: "https://quarkus.io/guides/deploying-to-azure-cloud"
   categories:
     - "integration"
