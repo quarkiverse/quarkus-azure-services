@@ -1,9 +1,9 @@
-package io.quarkiverse.azureservices.azure.storage.blob.deployment;
+package io.quarkiverse.azureservices.storage.blob.deployment;
 
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 
-import io.quarkiverse.azureservices.azure.storage.blob.runtime.StorageBlobServiceClientProducer;
+import io.quarkiverse.azureservices.storage.blob.runtime.StorageBlobServiceClientProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;

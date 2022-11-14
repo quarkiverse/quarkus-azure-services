@@ -1,4 +1,4 @@
-package io.quarkiverse.azureservices.azure.storage.blob.deployment;
+package io.quarkiverse.azureservices.storage.blob.deployment;
 
 import java.util.Objects;
 import java.util.Optional;

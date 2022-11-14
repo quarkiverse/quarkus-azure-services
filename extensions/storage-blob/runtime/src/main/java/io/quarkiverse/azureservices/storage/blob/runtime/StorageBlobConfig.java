@@ -1,4 +1,4 @@
-package io.quarkiverse.azureservices.azure.storage.blob.runtime;
+package io.quarkiverse.azureservices.storage.blob.runtime;
 
 import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigPhase;

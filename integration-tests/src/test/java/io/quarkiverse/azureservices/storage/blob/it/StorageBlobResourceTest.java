@@ -1,4 +1,4 @@
-package io.quarkiverse.azureservices.azure.storage.blob.it;
+package io.quarkiverse.azureservices.storage.blob.it;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
