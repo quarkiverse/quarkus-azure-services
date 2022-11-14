@@ -1,4 +1,4 @@
-package io.quarkiverse.azureservices.azure.storage.blob.deployment;
+package io.quarkiverse.azureservices.storage.blob.deployment;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

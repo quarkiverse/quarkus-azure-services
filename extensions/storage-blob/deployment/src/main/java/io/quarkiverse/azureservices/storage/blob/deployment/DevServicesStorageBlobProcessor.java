@@ -1,4 +1,4 @@
-package io.quarkiverse.azureservices.azure.storage.blob.deployment;
+package io.quarkiverse.azureservices.storage.blob.deployment;
 
 import static io.quarkus.runtime.LaunchMode.DEVELOPMENT;
 

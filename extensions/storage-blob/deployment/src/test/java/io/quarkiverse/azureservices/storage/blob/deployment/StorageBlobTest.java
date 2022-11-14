@@ -1,19 +1,17 @@
-package io.quarkiverse.azureservices.azure.storage.blob.deployment;
+package io.quarkiverse.azureservices.storage.blob.deployment;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-
+import com.azure.storage.blob.BlobServiceClient;
+import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.common.QuarkusTestResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import com.azure.storage.blob.BlobServiceClient;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
-import io.quarkus.test.QuarkusUnitTest;
-import io.quarkus.test.common.QuarkusTestResource;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTestResource(StorageBlobTestResource.class)
 public class StorageBlobTest {
