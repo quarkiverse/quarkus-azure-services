@@ -1,1 +1,1 @@
-io.quarkiverse.azureservices.core.http.vertx.runtime.QuarkusVertxProvider
+io.quarkiverse.azure.core.http.vertx.runtime.QuarkusVertxProvider
