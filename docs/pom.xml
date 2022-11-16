@@ -117,7 +117,7 @@
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-services.adoc</include>
+                                    <include>quarkus-azure-storage-blob.adoc</include>
                                     <filtering>false</filtering>
                                 </resource>
                                 <resource>

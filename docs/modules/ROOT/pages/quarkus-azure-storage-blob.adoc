@@ -1,0 +1,22 @@
+= Quarkus Azure Blob Storage Extension
+
+This extension allows to inject a `com.azure.storage.blob.BlobServiceClient` object inside your Quarkus application.
+
+== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-storage-blob</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]
