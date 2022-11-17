@@ -16,28 +16,44 @@
  */
 package io.quarkiverse.azure.storage.blob.it;
 
+import static javax.ws.rs.core.Response.Status.CREATED;
+
+import java.time.LocalDateTime;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
-@Path("/azure-storage-blob")
+@Path("/quarkus-azure-storage-blob")
 @ApplicationScoped
 public class StorageBlobResource {
 
     @Inject
     BlobServiceClient blobServiceClient;
 
+    @POST
+    public Response uploadBlob() {
+        BlobContainerClient blobContainerClient = blobServiceClient
+                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
+        BlobClient blobClient = blobContainerClient.getBlobClient("quarkus-azure-storage-blob.txt");
+        blobClient.upload(BinaryData.fromString("Hello quarkus-azure-storage-blob at " + LocalDateTime.now()), true);
+
+        return Response.status(CREATED).build();
+    }
+
     @GET
-    public String hello() {
-        BlobContainerClient blobContainerClient = blobServiceClient.createBlobContainerIfNotExists("mycontainer");
-        BlobClient blobClient = blobContainerClient.getBlobClient("myblob");
-        blobClient.upload(BinaryData.fromString("Hello azure-storage-blob"), true);
+    public String downloadBlob() {
+        BlobContainerClient blobContainerClient = blobServiceClient
+                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
+        BlobClient blobClient = blobContainerClient.getBlobClient("quarkus-azure-storage-blob.txt");
 
         return blobClient.downloadContent().toString();
     }

@@ -15,8 +15,12 @@ import org.testcontainers.utility.DockerImageName;
 import io.quarkus.deployment.IsNormal;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.*;
+import io.quarkus.deployment.builditem.CuratedApplicationShutdownBuildItem;
+import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
+import io.quarkus.deployment.builditem.DevServicesSharedNetworkBuildItem;
+import io.quarkus.deployment.builditem.DockerStatusBuildItem;
+import io.quarkus.deployment.builditem.LaunchModeBuildItem;
 import io.quarkus.deployment.console.ConsoleInstalledBuildItem;
 import io.quarkus.deployment.console.StartupLogCompressor;
 import io.quarkus.deployment.dev.devservices.GlobalDevServicesConfig;
@@ -29,7 +33,7 @@ import io.quarkus.runtime.configuration.ConfigUtils;
 public class DevServicesStorageBlobProcessor {
 
     private static final Logger log = Logger.getLogger(DevServicesStorageBlobProcessor.class);
-    private static final String IMAGE = "mcr.microsoft.com/azure-storage/azurite:3.19.0";
+    static final String IMAGE = "mcr.microsoft.com/azure-storage/azurite:3.19.0";
     private static final int EXPOSED_PORT = 10000;
     private static final String PROTOCOL = "http";
     private static final String ACCOUNT_NAME = "devstoreaccount1";
