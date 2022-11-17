@@ -17,6 +17,138 @@ For instance, with Maven, add the following dependency to your POM file:
 </dependency>
 ----
 
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.storage.blob.BlobServiceClient` object in your application to store and read blobs.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-storage-blob \
+    --location eastus
+----
+
+Create a general-purpose storage account with the following command:
+
+[source,shell]
+----
+az storage account create \
+    --name stquarkusazurestorageblo \
+    --resource-group rg-quarkus-azure-storage-blob \
+    --location eastus \
+    --sku Standard_ZRS \
+    --encryption-services blob
+----
+
+Blobs are always uploaded into a container.
+You can organize groups of blobs in containers similar to the way you organize your files on your computer in folders.
+The following command uses your Azure AD account to authorize the operation to create the container.
+Before you create the container, assign the _Storage Blob Data Contributor_ role to yourself.
+Even if you are the account owner, you need explicit permissions to perform data operations against the storage account.
+For that, get your subscription id with:
+
+[source,shell]
+----
+az account show \
+    --query id
+----
+
+Then, assign the role to yourself with (change `<subscription>` with your subscription id):
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv | az role assignment create \
+    --role "Storage Blob Data Contributor" \
+    --assignee @- \
+    --scope "/subscriptions/<subscription>/resourceGroups/rg-quarkus-azure-storage-blob/providers/Microsoft.Storage/storageAccounts/stquarkusazurestorageblo"
+----
+
+[source,shell]
+----
+az storage container create \
+    --account-name stquarkusazurestorageblo \
+    --name container-quarkus-azure-storage-blob \
+    --auth-mode login
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the storage account you created.
+
+image::quarkus-azure-storage-blob-azure-portal1.png[alt=Azure Portal showing the blob container]
+
+=== Configure the Azure Storage Blob Client
+
+As you can see below in the _Configuration Reference_ section, this extension has several configuration options.
+But one of them is mandatory, and that is the `quarkus.azure.storage.blob.connection-string`.
+To get the connection string, execute the following Azure CLI command:
+
+[source,shell]
+----
+az storage account show-connection-string \
+    --resource-group rg-quarkus-azure-storage-blob \
+    --name stquarkusazurestorageblo \
+    --output tsv
+----
+
+Then, in the `application.properties` file, add the following property:
+
+[source,properties]
+----
+quarkus.azure.storage.blob.connection-string=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=stquarkusazurestorageblo;AccountKey=xxxxxxx==;BlobEndpoint=https://stquarkusazurestorageblo.blob.core.windows.net/;FileEndpoint=https://stquarkusazurestorageblo.file.core.windows.net/;QueueEndpoint=https://stquarkusazurestorageblo.queue.core.windows.net/;TableEndpoint=https://stquarkusazurestorageblo.table.core.windows.net/
+----
+
+=== Inject the Azure Storage Blob Client
+
+Now that your Azure environment is ready and that you have configured the extension, you can inject the `com.azure.storage.blob.BlobServiceClient` object in your application, so you can interact with Azure Blob Storage.
+
+The `uploadBlob` method first gets the container that we've created (``container-quarkus-azure-storage-blob), sets some text to a text file, and then uploads the text to the container.
+The `downloadBlob` method downloads the text file from the container and prints the text to the console.
+
+To execute this sample you can run the following cURL commands:
+
+* `curl -X POST localhost:8080/quarkus-azure-storage-blob`
+* `curl localhost:8080/quarkus-azure-storage-blob`
+
+[source,java]
+----
+@Path("/quarkus-azure-storage-blob")
+@ApplicationScoped
+public class StorageBlobResource {
+
+    @Inject
+    BlobServiceClient blobServiceClient;
+
+    @POST
+    public Response uploadBlob() {
+        BlobContainerClient blobContainerClient = blobServiceClient
+                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
+        BlobClient blobClient = blobContainerClient.getBlobClient("quarkus-azure-storage-blob.txt");
+        blobClient.upload(BinaryData.fromString("Hello quarkus-azure-storage-blob at " + LocalDateTime.now()), true);
+
+        return Response.status(CREATED).build();
+    }
+
+    @GET
+    public String downloadBlob() {
+        BlobContainerClient blobContainerClient = blobServiceClient
+                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
+        BlobClient blobClient = blobContainerClient.getBlobClient("quarkus-azure-storage-blob.txt");
+
+        return blobClient.downloadContent().toString();
+    }
+}
+----
+
+You can go back to the http://portal.azure.com/[Azure portal] and see the container and the blob that you've created.
+
+image::quarkus-azure-storage-blob-azure-portal2.png[alt=Azure Portal showing the containt of the file]
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]

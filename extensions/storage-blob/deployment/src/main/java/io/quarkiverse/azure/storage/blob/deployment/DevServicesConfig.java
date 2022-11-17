@@ -23,7 +23,7 @@ public class DevServicesConfig {
     /**
      * The container image name to use, for container based DevServices providers.
      */
-    @ConfigItem
+    @ConfigItem(defaultValue = DevServicesStorageBlobProcessor.IMAGE)
     public Optional<String> imageName;
 
     /**
@@ -86,6 +86,8 @@ public class DevServicesConfig {
                 "enabled=" + enabled +
                 ", imageName=" + imageName +
                 ", port=" + port +
+                ", shared=" + shared +
+                ", serviceName='" + serviceName + '\'' +
                 '}';
     }
 }
