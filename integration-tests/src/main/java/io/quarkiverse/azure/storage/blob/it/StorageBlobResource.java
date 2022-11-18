@@ -16,21 +16,22 @@
  */
 package io.quarkiverse.azure.storage.blob.it;
 
-import static javax.ws.rs.core.Response.Status.CREATED;
-
-import java.time.LocalDateTime;
+import com.azure.core.util.BinaryData;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
 
-import com.azure.core.util.BinaryData;
-import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobServiceClient;
+import static javax.ws.rs.core.Response.Status.CREATED;
 
 @Path("/quarkus-azure-storage-blob")
 @ApplicationScoped
@@ -50,6 +51,7 @@ public class StorageBlobResource {
     }
 
     @GET
+    @Produces(MediaType.TEXT_PLAIN)
     public String downloadBlob() {
         BlobContainerClient blobContainerClient = blobServiceClient
                 .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
