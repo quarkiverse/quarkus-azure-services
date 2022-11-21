@@ -46,3 +46,8 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B formatter:validate install -Pnative -Dquarkus.native.container-build=true
+
+      - name: Fail if there are uncommitted changes
+        shell: bash
+        run: |
+          [[ -z $(git status --porcelain) ]] || { echo 'There are uncommitted changes'; git status; exit 1; }
