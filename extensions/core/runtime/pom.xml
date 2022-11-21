@@ -39,6 +39,10 @@
             <artifactId>quarkus-netty</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-jackson-dataformat-xml</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-core</artifactId>
             <exclusions>

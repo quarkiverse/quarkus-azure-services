@@ -33,6 +33,7 @@
 
     <modules>
         <module>core</module>
+        <module>jackson-dataformat-xml</module>
         <module>http-client-vertx</module>
         <module>storage-blob</module>
     </modules>
