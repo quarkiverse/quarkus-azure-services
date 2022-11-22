@@ -24,4 +24,4 @@ metadata:
   - "azure"
   guide: "https://quarkus.io/guides/deploying-to-azure-cloud"
   categories:
-  - "integration"
+  - "cloud"

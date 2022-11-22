@@ -21,10 +21,10 @@ description: "Native support for Jackson Dataformat XML"
 metadata:
   unlisted: true
   keywords:
-  - "camel"
+  - "azure"
   - "jackson"
   - "dataformat"
   - "xml"
-  guide: "https://quarkus.io/guides/camel"
+  guide: "https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/"
   categories:
-  - "integration"
+  - "cloud"
