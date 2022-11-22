@@ -12,7 +12,7 @@
 
     <artifactId>quarkus-azure-services-integration-tests</artifactId>
     <packaging>pom</packaging>
-    <name>Quarkus Azure Services - Integration Tests</name>
+    <name>Quarkus Azure Services :: Integration Tests</name>
 
     <dependencyManagement>
         <dependencies>

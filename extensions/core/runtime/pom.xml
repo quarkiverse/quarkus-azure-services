@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-core</artifactId>
-    <name>Quarkus Azure Services - Core</name>
+    <name>Quarkus Azure Services :: Core</name>
 
     <dependencies>
         <dependency>

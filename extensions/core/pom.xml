@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-core-parent</artifactId>
-    <name>Quarkus Azure Services - Core - Parent</name>
+    <name>Quarkus Azure Services :: Core :: Parent</name>
     <packaging>pom</packaging>
 
     <modules>

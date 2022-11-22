@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>quarkus-azure-services-docs</artifactId>
-    <name>Quarkus Azure Services - Documentation</name>
+    <name>Quarkus Azure Services :: Documentation</name>
 
     <dependencyManagement>
         <dependencies>

@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>quarkus-azure-services-integration-test-blob</artifactId>
-    <name>Quarkus Azure Services - Integration Test - Blob</name>
+    <name>Quarkus Azure Services :: Integration Test :: Blob</name>
 
     <dependencies>
         <dependency>

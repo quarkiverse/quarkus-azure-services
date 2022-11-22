@@ -11,7 +11,7 @@
 
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-bom</artifactId>
-    <name>Quarkus Azure Services - BOM</name>
+    <name>Quarkus Azure Services :: BOM</name>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 

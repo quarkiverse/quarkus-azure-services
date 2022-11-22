@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-http-client-vertx</artifactId>
-    <name>Quarkus Azure Services - HTTP Client Vert.x</name>
+    <name>Quarkus Azure Services :: HTTP Client Vert.x</name>
 
     <dependencies>
         <dependency>

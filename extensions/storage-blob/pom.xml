@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-storage-blob-parent</artifactId>
-    <name>Quarkus Azure Services - Storage Blob - Parent</name>
+    <name>Quarkus Azure Services :: Storage Blob :: Parent</name>
     <packaging>pom</packaging>
 
     <modules>

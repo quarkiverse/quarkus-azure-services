@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-http-client-vertx-parent</artifactId>
-    <name>Quarkus Azure Services - HTTP Client Vert.x - Parent</name>
+    <name>Quarkus Azure Services :: HTTP Client Vert.x :: Parent</name>
     <packaging>pom</packaging>
 
     <modules>
