@@ -73,6 +73,16 @@
             </dependency>
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-jackson-dataformat-xml</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-storage-blob</artifactId>
                 <version>${project.version}</version>
             </dependency>
