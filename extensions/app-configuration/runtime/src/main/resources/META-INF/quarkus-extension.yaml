@@ -1,0 +1,14 @@
+---
+name: "Quarkus Azure App Configuration"
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
+metadata:
+  short-name: "azure-app-configuration"
+  keywords:
+    - "config"
+    - "configuration"
+    - "azure"
+    - "azure-app-configuration"
+  categories:
+    - "cloud"
+  status: "preview"
+  config: "quarkus.azure.app.configuration"

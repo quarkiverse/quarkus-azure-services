@@ -25,6 +25,7 @@ import org.jboss.jandex.DotName;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.http.HttpClientProvider;
 
+import io.netty.handler.ssl.OpenSsl;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
@@ -32,6 +33,7 @@ import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 import io.quarkus.deployment.util.ServiceUtil;
 
@@ -41,6 +43,17 @@ public class AzureCoreSupportProcessor {
     @BuildStep
     IndexDependencyBuildItem indexDependency() {
         return new IndexDependencyBuildItem("com.azure", "azure-core");
+    }
+
+    @BuildStep
+    void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
+        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(OpenSsl.class.getName()));
+        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem("io.netty.internal.tcnative.SSL"));
+        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem("io.netty.util.concurrent.GlobalEventExecutor"));
+        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(
+                "com.azure.core.http.vertx.VertxAsyncHttpClientProvider$GlobalVertxHttpClient"));
+        runtimeInitializedClasses.produce(
+                new RuntimeInitializedClassBuildItem("com.azure.core.http.vertx.VertxAsyncHttpClientBuilder$DefaultVertx"));
     }
 
     @BuildStep
