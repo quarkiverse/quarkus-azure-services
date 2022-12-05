@@ -127,4 +127,4 @@ To execute this sample you can run the following cURL commands:
 
 == Extension Configuration Reference
 
-include::includes/quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]
+include::includes/quarkus-azure-app-configuration.adoc[leveloffset=+1, opts=optional]
