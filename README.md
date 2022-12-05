@@ -5,16 +5,19 @@
 
 This repository hosts Quarkus extensions for different Azure Services. You can check the [documentation of these services](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/index.html).
 
-The following services are implemented:
+## Azure Services
 
-- [StorageBlob](./extensions/storage-blob): Support Dev Services.
+The following extensions allows you to interact with some of the Azure Services:
+
+- [Quarkus Azure App Configuration Extension](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration) is a fast, scalable parameter storage for app configuration.
+- [Quarkus Azure Blob Storage Extension](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-storage-blob.html): [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs/) is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance computing, and machine learning.
 
 ## Example applications
 
-Example applications can be found inside the integration-tests folder:
+Example applications can be found inside the [integration-tests](integration-tests) folder:
 
-- [integration-tests](integration-tests): RESTEasy endpoints using all the Azure Services extensions, to be deployed as
-  a standalone JAR and a native executable.
+- [Azure App Configuration sample](integration-tests/app-configuration): REST endpoint using the Quarkus extension to get the configuration stored in Azure App Configuration.
+- [Azure Blob Storage samples](integration-tests/storage-blob): REST endpoint using the Quarkus extension to upload and download files to/from Azure Blob Storage.
 
 ## Contributing
 

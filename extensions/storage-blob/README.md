@@ -1,3 +1,3 @@
-# Quarkus Azure Storage Blob
+# Quarkus Azure Blob Storage Extension
 
-This extension allows to inject a `com.azure.storage.blob.BlobServiceClient` object inside your Quarkus application.
+[Check the documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-storage-blob.html).

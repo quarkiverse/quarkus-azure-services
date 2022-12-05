@@ -1,0 +1,130 @@
+= Quarkus Azure App Configuration Extension
+
+https://azure.microsoft.com/products/app-configuration[Azure App Configuration] is a fast, scalable parameter storage for app configuration.
+This extension allows to inject a `io.smallrye.config.SmallRyeConfig` object inside your Quarkus application so you can access the app configuration stored in Azure.
+
+== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-app-configuration</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject  `io.smallrye.config.SmallRyeConfig` object in your application to store and read blobs.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-app-configuration \
+    --location eastus
+----
+
+Create an Azure App Configuration store with the following command:
+
+[source,shell]
+----
+az appconfig create \
+    --name appcs-quarkus-azure-app-configuration \
+    --resource-group rg-quarkus-azure-app-configuration \
+    --location eastus
+----
+
+Then create some key-value properties with the following commands:
+
+[source,shell]
+----
+az appconfig kv set --name appcs-quarkus-azure-app-configuration --yes --key myKeyOne --value "Value 1"
+az appconfig kv set --name appcs-quarkus-azure-app-configuration --yes --key myKeyTwo --value "Value 2"
+----
+
+You can list the key-value properties with the following command: 
+
+[source,shell]
+----
+az appconfig kv list --name appcs-quarkus-azure-app-configuration
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the key-value you created.
+
+image::quarkus-azure-app-configuration-portal.png[alt=Azure Portal showing the app configuration]
+
+=== Configure the Azure App Configuration Client
+
+As you can see below in the _Configuration Reference_ section, this extension has several configuration options.
+To be able to connect to the Azure App Configuration that we've just created, you must get the URL of the endpoing, it's id and secret.
+For that, execute the following Azure CLI command:
+
+[source,shell]
+----
+az appconfig credential list --name appcs-quarkus-azure-app-configuration
+----
+
+You'll get the following output:
+
+[source,json]
+----
+{
+  "connectionString": "Endpoint=https://appcs-quarkus-azure-app-configuration.azconfig.io;Id=xxxxxx;Secret=xxxxxx",
+  "id": "xxxxxx",
+  "name": "Primary",
+  "readOnly": false,
+  "value": "xxxxxx"
+}
+----
+
+Then, in the `application.properties` file, add the following property according to the output of the previous command:
+
+[source,properties]
+----
+quarkus.azure.app.configuration.endpoint=https://appcs-quarkus-azure-app-configuration.azconfig.io
+quarkus.azure.app.configuration.id=xxxxxx
+quarkus.azure.app.configuration.secret=xxxxxx
+----
+
+=== Inject the SmallRyeConfig
+
+Now that your Azure environment is ready and that you have configured the extension, you can inject the `SmallRyeConfig` object in your application, so you can interact with Azure App Configuration.
+
+[source,java]
+----
+@Path("/config")
+@Produces(MediaType.APPLICATION_JSON)
+public class ConfigResource {
+  
+  @Inject
+  SmallRyeConfig config;
+
+  @GET
+  @Path("/{name}")
+  public Response configValue(@PathParam("name") final String name) {
+      return Response.ok(config.getConfigValue(name)).build();
+  }
+}
+----
+
+To execute this sample you can run the following cURL commands:
+
+* `curl -X POST localhost:8080/config/myKeyOne`
+* `curl -X POST localhost:8080/config/myKeyTwo`
+
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]
