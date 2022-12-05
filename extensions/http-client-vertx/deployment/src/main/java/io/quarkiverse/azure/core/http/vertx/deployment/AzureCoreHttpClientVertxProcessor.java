@@ -18,23 +18,11 @@ package io.quarkiverse.azure.core.http.vertx.deployment;
 
 import com.azure.core.http.vertx.VertxProvider;
 
-import io.netty.handler.ssl.OpenSsl;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 
 public class AzureCoreHttpClientVertxProcessor {
-
-    @BuildStep
-    void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
-        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(OpenSsl.class.getName()));
-        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem("io.netty.internal.tcnative.SSL"));
-        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(
-                "com.azure.core.http.vertx.VertxAsyncHttpClientProvider$GlobalVertxHttpClient"));
-        runtimeInitializedClasses.produce(
-                new RuntimeInitializedClassBuildItem("com.azure.core.http.vertx.VertxAsyncHttpClientBuilder$DefaultVertx"));
-    }
 
     @BuildStep
     void registerServiceProviders(BuildProducer<ServiceProviderBuildItem> serviceProvider) {
