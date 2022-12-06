@@ -18,12 +18,12 @@ class AzureAppConfigurationTest {
                 .get("/config/{name}", "my.prop")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body("value", equalTo("1234"));
+                .body(equalTo("1234"));
 
         given()
                 .get("/config/{name}", "another.prop")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body("value", equalTo("5678"));
+                .body(equalTo("5678"));
     }
 }

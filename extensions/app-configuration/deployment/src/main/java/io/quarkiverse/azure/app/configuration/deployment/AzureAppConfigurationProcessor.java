@@ -13,7 +13,6 @@ import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.RunTimeConfigBuilderBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
 public class AzureAppConfigurationProcessor {
     @BuildStep
@@ -33,7 +32,6 @@ public class AzureAppConfigurationProcessor {
 
     @BuildStep
     void nativeImage(
-            BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses,
             BuildProducer<NativeImageProxyDefinitionBuildItem> nativeImageProxyDefinitions,
             BuildProducer<ReflectiveClassBuildItem> reflectiveClasses) {
 
