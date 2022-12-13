@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -20,8 +19,9 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
 
     @Override
     public Map<String, String> start() {
+        int port = 8082;
         try {
-            httpServer = HttpServer.create(new InetSocketAddress(8082), 0);
+            httpServer = HttpServer.create(new InetSocketAddress(port), 0);
             httpServer.createContext("/kv", new HttpHandler() {
                 @Override
                 public void handle(final HttpExchange exchange) throws IOException {
@@ -45,7 +45,12 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
             throw new RuntimeException(e);
         }
 
-        return Collections.emptyMap();
+        return Map.of(
+                "quarkus.azure.app.configuration.endpoint", "http://localhost:" + port,
+                /* Our server does not validate the credentials anyway */
+                "quarkus.azure.app.configuration.id", "dummy",
+                "quarkus.azure.app.configuration.secret", "aGVsbG8=" // Base64 encoded "hello"
+        );
     }
 
     @Override

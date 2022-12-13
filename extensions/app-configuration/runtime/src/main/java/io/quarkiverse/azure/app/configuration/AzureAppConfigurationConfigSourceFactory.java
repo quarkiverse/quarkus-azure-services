@@ -1,7 +1,7 @@
 package io.quarkiverse.azure.app.configuration;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -44,7 +44,7 @@ public class AzureAppConfigurationConfigSourceFactory
 
         ConfigurationClient client = clientBuilder.buildClient();
 
-        Map<String, String> properties = new HashMap<>();
+        Map<String, String> properties = new LinkedHashMap<>(); // LinkedHashMap for reproducible ordering
         PagedIterable<ConfigurationSetting> listConfigurationSettings = client.listConfigurationSettings(new SettingSelector());
         listConfigurationSettings.forEach(new Consumer<ConfigurationSetting>() {
             @Override

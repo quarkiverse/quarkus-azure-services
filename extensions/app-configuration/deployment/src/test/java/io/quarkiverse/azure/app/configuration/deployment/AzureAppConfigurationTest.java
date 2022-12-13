@@ -17,10 +17,7 @@ import io.smallrye.config.SmallRyeConfig;
 class AzureAppConfigurationTest {
     @RegisterExtension
     static final QuarkusUnitTest TEST = new QuarkusUnitTest()
-            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class))
-            .overrideConfigKey("quarkus.azure.app.configuration.endpoint", "http://localhost:8082")
-            .overrideConfigKey("quarkus.azure.app.configuration.id", "dummy")
-            .overrideConfigKey("quarkus.azure.app.configuration.secret", "aGVsbG8=");
+            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class));
 
     @Inject
     SmallRyeConfig config;
