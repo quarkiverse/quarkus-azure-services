@@ -8,6 +8,7 @@ metadata:
     - "configuration"
     - "azure"
     - "azure-app-configuration"
+  guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/
   categories:
     - "cloud"
   status: "preview"
