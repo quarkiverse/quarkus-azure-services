@@ -17,7 +17,7 @@
 
     <properties>
 
-        <azure.core.http.client.vertx.version>1.0.0-beta.2</azure.core.http.client.vertx.version>
+        <azure.core.http.client.vertx.version>1.0.0-beta.3</azure.core.http.client.vertx.version>
         <msal4j.version>1.13.3</msal4j.version><!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <netty.tcnative.version>2.0.54.Final</netty.tcnative.version>
 
