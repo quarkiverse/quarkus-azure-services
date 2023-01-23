@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-services-integration-tests</artifactId>
+        <artifactId>quarkus-azure-services-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-azure-services-integration-test-storage-blob</artifactId>
-    <name>Quarkus Azure Services :: Integration Test :: Storage Blob</name>
+    <name>Quarkus Azure Services :: Integration Test :: Azure Storage Blob</name>
 
     <dependencies>
         <dependency>

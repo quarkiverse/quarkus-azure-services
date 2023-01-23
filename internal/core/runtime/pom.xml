@@ -21,44 +21,66 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-app-configuration-parent</artifactId>
+        <artifactId>quarkus-azure-core-parent</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
-    <name>Quarkus Azure Services :: App Configuration :: Deployment</name>
+    <artifactId>quarkus-azure-core</artifactId>
+    <name>Quarkus Azure Services :: Internal :: Core :: Runtime</name>
 
     <dependencies>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-netty</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-app-configuration</artifactId>
+            <artifactId>quarkus-azure-jackson-dataformat-xml</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-core-deployment</artifactId>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-core-http-netty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- TODO: Investigate whether this can be removed https://github.com/apache/camel-quarkus/issues/4091 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-core-deployment</artifactId>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>msal4j</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
-        <!-- Test Dependencies -->
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5-internal</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc-deployment</artifactId>
-            <scope>test</scope>
+            <groupId>org.graalvm.nativeimage</groupId>
+            <artifactId>svm</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-extension-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

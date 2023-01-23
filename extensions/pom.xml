@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-extensions</artifactId>
-    <name>Quarkus Azure Services :: Extensions</name>
+    <name>Quarkus Azure Services :: Extension</name>
     <packaging>pom</packaging>
 
     <dependencyManagement>
@@ -32,10 +32,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>core</module>
-        <module>app-configuration</module>
-        <module>jackson-dataformat-xml</module>
-        <module>http-client-vertx</module>
-        <module>storage-blob</module>
+        <module>azure-app-configuration</module>
+        <module>azure-storage-blob</module>
     </modules>
 </project>

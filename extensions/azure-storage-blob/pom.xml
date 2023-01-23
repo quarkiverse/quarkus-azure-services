@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
         <artifactId>quarkus-azure-extensions</artifactId>
@@ -8,14 +8,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>quarkus-azure-jackson-dataformat-xml-parent</artifactId>
-    <name>Quarkus Azure Services :: Jackson Dataformat XML</name>
+    <artifactId>quarkus-azure-storage-blob-parent</artifactId>
+    <name>Quarkus Azure Services :: Extension :: Azure Storage Blob</name>
     <packaging>pom</packaging>
+
     <modules>
         <module>deployment</module>
         <module>runtime</module>
     </modules>
-
 </project>

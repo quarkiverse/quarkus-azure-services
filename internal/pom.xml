@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
@@ -10,9 +8,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-services-integration-test</artifactId>
+    <artifactId>quarkus-azure-internal</artifactId>
+    <name>Quarkus Azure Services :: Internal</name>
     <packaging>pom</packaging>
-    <name>Quarkus Azure Services :: Integration Test</name>
 
     <dependencyManagement>
         <dependencies>
@@ -34,8 +32,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>app-configuration</module>
-        <module>storage-blob</module>
+        <module>core</module>
+        <module>jackson-dataformat-xml</module>
+        <module>http-client-vertx</module>
     </modules>
-
 </project>

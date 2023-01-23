@@ -21,66 +21,37 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-app-configuration-parent</artifactId>
+        <artifactId>quarkus-azure-core-parent</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-app-configuration</artifactId>
-    <name>Quarkus Azure Services :: App Configuration :: Runtime</name>
+    <artifactId>quarkus-azure-core-deployment</artifactId>
+    <name>Quarkus Azure Services :: Internal :: Core :: Deployment</name>
 
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-core</artifactId>
+            <artifactId>quarkus-core-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-netty-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-data-appconfiguration</artifactId>
-            <exclusions>
-                <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-core-http-netty</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-core-http-vertx</artifactId>
-        </dependency>
-
-        <!-- Test Dependencies -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5-internal</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bootstrap-maven-plugin</artifactId>
-                <version>${quarkus.version}</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>extension-descriptor</goal>
-                        </goals>
-                        <configuration>
-                            <deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}</deployment>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <annotationProcessorPaths>
@@ -94,4 +65,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

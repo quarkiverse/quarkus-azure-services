@@ -21,30 +21,39 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-http-client-vertx-parent</artifactId>
+        <artifactId>quarkus-azure-app-configuration-parent</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
-    <name>Quarkus Azure Services :: HTTP Client Vert.x :: Deployment</name>
+    <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
+    <name>Quarkus Azure Services :: Extension :: Azure App Configuration :: Deployment</name>
 
     <dependencies>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-app-configuration</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-core-deployment</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-vertx-deployment</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-core-deployment</artifactId>
         </dependency>
+
+
+        <!-- Test Dependencies -->
         <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-http-client-vertx</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5-internal</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc-deployment</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -65,5 +74,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

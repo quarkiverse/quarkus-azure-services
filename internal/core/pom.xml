@@ -23,11 +23,11 @@
         <groupId>io.quarkiverse.azureservices</groupId>
         <artifactId>quarkus-azure-extensions</artifactId>
         <version>999-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../extensions/pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-azure-core-parent</artifactId>
-    <name>Quarkus Azure Services :: Core :: Parent</name>
+    <name>Quarkus Azure Services :: Internal :: Core</name>
     <packaging>pom</packaging>
 
     <modules>

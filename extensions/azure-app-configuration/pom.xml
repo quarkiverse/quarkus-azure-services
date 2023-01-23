@@ -26,8 +26,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-http-client-vertx-parent</artifactId>
-    <name>Quarkus Azure Services :: HTTP Client Vert.x :: Parent</name>
+    <artifactId>quarkus-azure-app-configuration-parent</artifactId>
+    <name>Quarkus Azure Services :: Extension :: Azure App Configuration</name>
     <packaging>pom</packaging>
 
     <modules>
