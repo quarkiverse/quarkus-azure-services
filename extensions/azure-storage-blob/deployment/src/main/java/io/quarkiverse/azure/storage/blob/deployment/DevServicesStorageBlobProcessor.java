@@ -32,8 +32,8 @@ import io.quarkus.runtime.configuration.ConfigUtils;
 
 public class DevServicesStorageBlobProcessor {
 
+    static final String IMAGE = "mcr.microsoft.com/azure-storage/azurite:3.21.0";
     private static final Logger log = Logger.getLogger(DevServicesStorageBlobProcessor.class);
-    static final String IMAGE = "mcr.microsoft.com/azure-storage/azurite:3.19.0";
     private static final int EXPOSED_PORT = 10000;
     private static final String PROTOCOL = "http";
     private static final String ACCOUNT_NAME = "devstoreaccount1";
