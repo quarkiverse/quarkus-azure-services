@@ -8,6 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-internal</artifactId>
     <name>Quarkus Azure Services :: Internal</name>
     <packaging>pom</packaging>

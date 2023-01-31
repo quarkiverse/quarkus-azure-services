@@ -10,6 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-docs</artifactId>
     <name>Quarkus Azure Services :: Documentation</name>
 

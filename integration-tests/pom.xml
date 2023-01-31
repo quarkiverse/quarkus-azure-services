@@ -10,9 +10,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-services-integration-test</artifactId>
-    <packaging>pom</packaging>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-integration-test</artifactId>
     <name>Quarkus Azure Services :: Integration Test</name>
+    <packaging>pom</packaging>
 
     <dependencyManagement>
         <dependencies>
@@ -34,8 +35,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>app-configuration</module>
-        <module>storage-blob</module>
+        <module>azure-app-configuration</module>
+        <module>azure-storage-blob</module>
     </modules>
 
 </project>
