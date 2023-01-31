@@ -8,6 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-extensions</artifactId>
     <name>Quarkus Azure Services :: Extension</name>
     <packaging>pom</packaging>

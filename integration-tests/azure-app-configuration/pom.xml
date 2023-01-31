@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-services-integration-test</artifactId>
+        <artifactId>quarkus-azure-integration-test</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-services-integration-test-storage-blob</artifactId>
-    <name>Quarkus Azure Services :: Integration Test :: Azure Storage Blob</name>
+    <artifactId>quarkus-azure-integration-test-app-configuration</artifactId>
+    <name>Quarkus Azure Services :: Integration Test :: Azure App Configuration</name>
 
     <dependencies>
         <dependency>
@@ -20,21 +20,8 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-storage-blob</artifactId>
+            <artifactId>quarkus-azure-app-configuration</artifactId>
         </dependency>
-        <!-- See https://github.com/quarkusio/quarkus/issues/26879
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-aot-graalvm-support</artifactId>
-            <version>1.0.0-beta.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-aot-graalvm-support-netty</artifactId>
-            <version>1.0.0-beta.3</version>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -46,6 +33,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
