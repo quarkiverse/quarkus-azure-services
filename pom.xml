@@ -35,6 +35,7 @@
         <module>docs</module>
         <module>extensions</module>
         <module>integration-tests</module>
+        <module>playback-tests</module>
         <module>internal</module>
     </modules>
 
