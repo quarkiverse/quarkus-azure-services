@@ -18,7 +18,7 @@
     <properties>
 
         <azure.core.http.client.vertx.version>1.0.0-beta.3</azure.core.http.client.vertx.version>
-        <msal4j.version>1.13.3</msal4j.version><!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
+        <msal4j.version>1.13.4</msal4j.version><!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
