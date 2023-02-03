@@ -10,7 +10,7 @@ When running the test in record mode, you need to create the Azure services that
 ```
 AZURE_TEST_MODE=RECORD 
 
-mvn test
+mvn -DAZURE_TEST_MODE=RECORD clean test
 ```
 
 ## Running the test in PlayBack Mode

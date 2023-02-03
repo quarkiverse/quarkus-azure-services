@@ -43,7 +43,8 @@ Create an Azure App Configuration store with the following command:
 az appconfig create \
     --name appcs-quarkus-azure-app-configuration \
     --resource-group rg-quarkus-azure-app-configuration \
-    --location eastus
+    --location eastus \
+    --enable-public-network true
 ----
 
 Then create some key-value properties with the following commands:
