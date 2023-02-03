@@ -9,8 +9,9 @@ import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * When executed in RECORD mode, the entire Azure environment needs to be really created. That means creating the resource group, the App Configuration and the key/values used in this test.
- * 
+ * When executed in RECORD mode, the entire Azure environment needs to be really created. That means creating the resource
+ * group, the App Configuration and the key/values used in this test.
+ *
  * az appconfig kv set --name $APP_CONFIG_NAME --yes --key my.prop --value "1234"
  * az appconfig kv set --name $APP_CONFIG_NAME --yes --key another.prop --value "5678"
  */
