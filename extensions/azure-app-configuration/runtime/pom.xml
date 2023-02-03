@@ -53,6 +53,10 @@
             <groupId>com.azure</groupId>
             <artifactId>azure-core-http-vertx</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core-http-netty</artifactId>
+        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>

@@ -1,24 +1,22 @@
 package io.quarkiverse.azure.app.configuration;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import org.eclipse.microprofile.config.spi.ConfigSource;
-
+import com.azure.core.http.HttpClient;
+import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.http.vertx.VertxAsyncHttpClientBuilder;
 import com.azure.data.appconfiguration.ConfigurationClient;
 import com.azure.data.appconfiguration.ConfigurationClientBuilder;
 import com.azure.data.appconfiguration.models.ConfigurationSetting;
 import com.azure.data.appconfiguration.models.SettingSelector;
-
 import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory.ConfigurableConfigSourceFactory;
-import io.vertx.core.Vertx;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class AzureAppConfigurationConfigSourceFactory
         implements ConfigurableConfigSourceFactory<AzureAppConfigurationConfig> {
@@ -34,11 +32,13 @@ public class AzureAppConfigurationConfigSourceFactory
 
     private Map<String, String> getAzureAppConfiguration(final AzureAppConfigurationConfig config) {
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
-        Vertx vertx = Vertx.vertx();
-        VertxAsyncHttpClientBuilder httpClientBuilder = new VertxAsyncHttpClientBuilder().vertx(vertx);
+        //Vertx vertx = Vertx.vertx();
+        //HttpClient vertxAsyncHttpClient = new VertxAsyncHttpClientBuilder().vertx(vertx).build();
+
+        HttpClient nettyAsyncHttpClient = new NettyAsyncHttpClientBuilder().build();
 
         ConfigurationClientBuilder clientBuilder = new ConfigurationClientBuilder()
-                .httpClient(httpClientBuilder.build())
+                .httpClient(nettyAsyncHttpClient)
                 .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                 .connectionString(config.connectionString());
 
@@ -53,11 +53,11 @@ public class AzureAppConfigurationConfigSourceFactory
             }
         });
 
-        try {
-            vertx.close().toCompletionStage().toCompletableFuture().get();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // TODO renove if we don't use Vertx       try {
+        //            vertx.close().toCompletionStage().toCompletableFuture().get();
+        //        } catch (Exception e) {
+        //            throw new RuntimeException(e);
+        //        }
 
         return properties;
     }
