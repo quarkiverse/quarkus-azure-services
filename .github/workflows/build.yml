@@ -22,6 +22,14 @@ on:
       - '*.txt'
       - '.all-contributorsrc'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -45,9 +53,11 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn -B formatter:validate install -Pnative -Dquarkus.native.container-build=true
+        run: mvn -B clean install -Dno-format
+
+      - name: Build with Maven (Native)
+        run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
 
       - name: Fail if there are uncommitted changes
-        shell: bash
         run: |
           [[ -z $(git status --porcelain) ]] || { echo 'There are uncommitted changes'; git status; exit 1; }
