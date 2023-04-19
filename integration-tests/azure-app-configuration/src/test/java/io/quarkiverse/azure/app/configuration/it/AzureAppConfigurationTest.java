@@ -1,7 +1,7 @@
 package io.quarkiverse.azure.app.configuration.it;
 
 import static io.restassured.RestAssured.given;
-import static javax.ws.rs.core.Response.Status.OK;
+import static jakarta.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
