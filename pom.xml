@@ -28,7 +28,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <quarkus.version>3.0.0.Final</quarkus.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
-        <enforcer-plugin.version>3.2.1</enforcer-plugin.version>
+        <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
     </properties>
 
     <modules>
