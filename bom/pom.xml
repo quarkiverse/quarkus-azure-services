@@ -44,6 +44,12 @@
                 <artifactId>azure-core-http-vertx</artifactId>
                 <version>${azure.core.http.client.vertx.version}</version>
             </dependency>
+            <!-- Needed for dependency convergence until Azure SDK is updated -->
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>${woodstox-core.version}</version>
+            </dependency>
 
             <!-- Azure Services Extensions -->
             <dependency>

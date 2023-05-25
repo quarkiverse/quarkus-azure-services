@@ -2,8 +2,8 @@ package io.quarkiverse.azure.storage.blob.deployment;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
