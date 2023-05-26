@@ -38,8 +38,8 @@ public class AzureAppConfigurationProcessor {
         nativeImageProxyDefinitions.produce(new NativeImageProxyDefinitionBuildItem(
                 List.of("com.azure.data.appconfiguration.implementation.ConfigurationClientImpl$ConfigurationService")));
 
-        reflectiveClasses.produce(new ReflectiveClassBuildItem(false, true,
+        reflectiveClasses.produce(ReflectiveClassBuildItem.builder(
                 ConfigurationSettingPage.class,
-                ConfigurationSetting.class));
+                ConfigurationSetting.class).fields().build());
     }
 }
