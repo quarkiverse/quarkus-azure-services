@@ -42,7 +42,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/JoaoBrandao"><img src="https://avatars.githubusercontent.com/u/13374459?v=4?s=100" width="100px;" alt="João Brandão"/><br /><sub><b>João Brandão</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/issues?q=author%3AJoaoBrandao" title="Bug reports">🐛</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt="Melloware"/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/issues?q=author%3Amelloware" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt="Melloware"/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/issues?q=author%3Amelloware" title="Bug reports">🐛</a> <a href="https://github.com/quarkiverse/quarkus-azure-services/pulls?q=is%3Apr+reviewed-by%3Amelloware" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
