@@ -25,6 +25,15 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "radcortez",
+      "name": "Roberto Cortez",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5796305?v=4",
+      "profile": "http://www.radcortez.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -32,5 +41,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "projectName": "quarkus-azure-services",
-  "projectOwner": "quarkiverse"
+  "projectOwner": "quarkiverse",
+  "commitType": "docs"
 }
