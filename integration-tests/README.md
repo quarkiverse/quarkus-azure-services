@@ -31,7 +31,8 @@ az group create \
 
 ### Creating Azure Storage Account
 
-Run the following commands to create an Azure Storage Account and retrieve its connection string:
+Run the following commands to create an Azure Storage Account and export its connection string as an environment
+variable.
 
 ```
 STORAGE_ACCOUNT_NAME=<unique-storage-account-name>
@@ -42,26 +43,27 @@ az storage account create \
     --sku Standard_LRS \
     --kind StorageV2
 
-STORAGE_ACCOUNT_CONNECTION_STRING=$(az storage account show-connection-string \
+export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --name ${STORAGE_ACCOUNT_NAME} \
     --query connectionString -o tsv)
-echo "The value of 'quarkus.azure.storage.blob.connection-string' is: ${STORAGE_ACCOUNT_CONNECTION_STRING}"
+echo "The value of 'quarkus.azure.storage.blob.connection-string' is: ${QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING}"
 ```
 
+The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING` will be fed into config
+property `quarkus.azure.storage.blob.connection-string` of `azure-storage-blob` extension in order to set up the
+connection to the Azure Storage Account.
+
+You can also manually copy the output of the variable `quarkus.azure.storage.blob.connection-string` and then
+update [application.properties](azure-storage-blob/src/main/resources/application.properties) by uncommenting the
+same property and setting copied value.
+
 ### Running the test
-
-Copy the output of the following variables from previous steps:
-
-* **quarkus.azure.storage.blob.connection-string**
-
-Then update [application.properties](src/main/resources/application.properties) by uncommenting the relevant properties
-and setting copied values.
 
 Finally, build the native executable and launch the test with:
 
 ```
-mvn integration-test -Dnative
+mvn integration-test -Dnative -Dquarkus.native.container-build
 ```
 
 ### Cleaning up Azure resources
