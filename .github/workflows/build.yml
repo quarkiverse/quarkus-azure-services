@@ -30,8 +30,8 @@ defaults:
   run:
     shell: bash
 
-# In order to run tests against the real Azure services, you need to create a GitHub environment "ci" and add AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID as its secrets to enable OIDC authentication with Azure.
-# See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub secrets.
+# In order to run tests against the real Azure services, you need to create a GitHub environment "ci" and add AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID as its variables to enable OIDC authentication with Azure.
+# See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub variables.
 # Besides, the uami needs to be granted the "Contributor" role on the subscription to deploy and delete Azure resources for testing.
 
 jobs:
@@ -40,9 +40,9 @@ jobs:
       id-token: write
     environment: ci
     env:
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       RESOURCE_GROUP_NAME: quarkus${{ github.run_id }}${{ github.run_number }}
       STORAGE_ACCOUNT_NAME: storage${{ github.run_id }}${{ github.run_number }}
       APP_CONFIG_NAME: appconfig${{ github.run_id }}${{ github.run_number }}
