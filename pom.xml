@@ -27,7 +27,7 @@
     <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
   </properties>
   <scm>
-    <connection>:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
+    <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
     <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</developerConnection>
     <url>https://github.com/quarkiverse/quarkus-azure-services</url>
   </scm>
