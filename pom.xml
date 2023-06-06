@@ -1,73 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>io.quarkiverse</groupId>
-        <artifactId>quarkiverse-parent</artifactId>
-        <version>14</version>
-    </parent>
-
-    <groupId>io.quarkiverse.azureservices</groupId>
-    <artifactId>quarkus-azure-services-parent</artifactId>
-    <name>Quarkus Azure Services</name>
-    <version>999-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <properties>
-
-        <azure.core.http.client.vertx.version>1.0.0-beta.8</azure.core.http.client.vertx.version>
-        <msal4j.version>1.13.8</msal4j.version><!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
-        <woodstox-core.version>6.5.1</woodstox-core.version><!-- needed for dependency convergence until Azure SDK is upgraded  -->
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.parameters>true</maven.compiler.parameters>
-        <quarkus.version>3.1.0.Final</quarkus.version>
-        <compiler-plugin.version>3.8.1</compiler-plugin.version>
-        <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
-    </properties>
-
-    <modules>
-        <module>bom</module>
-        <module>docs</module>
-        <module>extensions</module>
-        <module>integration-tests</module>
-        <module>internal</module>
-    </modules>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${compiler-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${enforcer-plugin.version}</version>
-                    <configuration>
-                        <rules>
-                            <dependencyConvergence />
-                        </rules>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-extension-maven-plugin</artifactId>
-                    <version>${quarkus.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>io.quarkus</groupId>
-                    <artifactId>quarkus-maven-plugin</artifactId>
-                    <version>${quarkus.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.quarkiverse</groupId>
+    <artifactId>quarkiverse-parent</artifactId>
+    <version>14</version>
+  </parent>
+  <groupId>io.quarkiverse.azureservices</groupId>
+  <artifactId>quarkus-azure-services-parent</artifactId>
+  <name>Quarkus Azure Services</name>
+  <version>999-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <properties>
+    <azure.core.http.client.vertx.version>1.0.0-beta.8</azure.core.http.client.vertx.version>
+    <msal4j.version>1.13.8</msal4j.version>
+    <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
+    <woodstox-core.version>6.5.1</woodstox-core.version>
+    <!-- needed for dependency convergence until Azure SDK is upgraded  -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <quarkus.version>3.1.0.Final</quarkus.version>
+    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
+  </properties>
+  <scm>
+    <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
+    <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</developerConnection>
+    <url>https://github.com/quarkiverse/quarkus-azure-services</url>
+  </scm>
+  <modules>
+    <module>bom</module>
+    <module>docs</module>
+    <module>extensions</module>
+    <module>integration-tests</module>
+    <module>internal</module>
+  </modules>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${enforcer-plugin.version}</version>
+          <configuration>
+            <rules>
+              <dependencyConvergence />
+            </rules>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-extension-maven-plugin</artifactId>
+          <version>${quarkus.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-maven-plugin</artifactId>
+          <version>${quarkus.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
