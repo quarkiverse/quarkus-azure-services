@@ -31,7 +31,8 @@ az group create \
 
 ### Creating Azure Storage Account
 
-Run the following commands to create an Azure Storage Account and retrieve its connection string:
+Run the following commands to create an Azure Storage Account and export its connection string as an environment
+variable.
 
 ```
 STORAGE_ACCOUNT_NAME=<unique-storage-account-name>
@@ -42,26 +43,68 @@ az storage account create \
     --sku Standard_LRS \
     --kind StorageV2
 
-STORAGE_ACCOUNT_CONNECTION_STRING=$(az storage account show-connection-string \
+export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --name ${STORAGE_ACCOUNT_NAME} \
     --query connectionString -o tsv)
-echo "The value of 'quarkus.azure.storage.blob.connection-string' is: ${STORAGE_ACCOUNT_CONNECTION_STRING}"
+echo "The value of 'quarkus.azure.storage.blob.connection-string' is: ${QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING}"
 ```
 
+The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING` will be fed into config
+property `quarkus.azure.storage.blob.connection-string` of `azure-storage-blob` extension in order to set up the
+connection to the Azure Storage Account.
+
+You can also manually copy the output of the variable `quarkus.azure.storage.blob.connection-string` and then
+update [application.properties](azure-storage-blob/src/main/resources/application.properties) by uncommenting the
+same property and setting copied value.
+
+### Creating Azure App Configuration
+
+Run the following commands to create an Azure App Configuration store, add a few key-value pairs, and export its
+connection info as environment variables.
+
+```
+export APP_CONFIG_NAME=<unique-app-config-name>
+az appconfig create \
+    --name "${APP_CONFIG_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --location eastus
+
+az appconfig kv set \
+    --name "${APP_CONFIG_NAME}" \
+    --key my.prop \
+    --value 1234 \
+    --yes
+az appconfig kv set \
+    --name "${APP_CONFIG_NAME}" \
+    --key another.prop \
+    --value 5678 \
+    --yes
+    
+export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
+  --resource-group "${RESOURCE_GROUP_NAME}" \
+  --name "${APP_CONFIG_NAME}" \
+  --query endpoint -o tsv)
+credential=$(az appconfig credential list \
+    --name "${APP_CONFIG_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    | jq 'map(select(.readOnly == true)) | .[0]')
+export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
+export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
+```
+
+The values of environment
+variable `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT` / `QUARKUS_AZURE_APP_CONFIGURATION_ID` / `QUARKUS_AZURE_APP_CONFIGURATION_SECRET`
+will be fed into config
+properties `quarkus.azure.app.configuration.endpoint` / `quarkus.azure.app.configuration.id` / `quarkus.azure.app.configuration.secret`
+of `azure-app-configuration` extension in order to set up the connection to the Azure App Configuration store.
+
 ### Running the test
-
-Copy the output of the following variables from previous steps:
-
-* **quarkus.azure.storage.blob.connection-string**
-
-Then update [application.properties](src/main/resources/application.properties) by uncommenting the relevant properties
-and setting copied values.
 
 Finally, build the native executable and launch the test with:
 
 ```
-mvn integration-test -Dnative
+mvn integration-test -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
 ```
 
 ### Cleaning up Azure resources

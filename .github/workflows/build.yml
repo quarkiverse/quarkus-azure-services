@@ -30,8 +30,22 @@ defaults:
   run:
     shell: bash
 
+# In order to run tests against the real Azure services, you need to create a GitHub environment "ci" and add AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID as its variables to enable OIDC authentication with Azure.
+# See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub variables.
+# Besides, the uami needs to be granted the "Contributor" role on the subscription to deploy and delete Azure resources for testing.
+
 jobs:
   build:
+    permissions:
+      id-token: write
+    environment: ci
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      RESOURCE_GROUP_NAME: quarkus${{ github.run_id }}${{ github.run_number }}
+      STORAGE_ACCOUNT_NAME: storage${{ github.run_id }}${{ github.run_number }}
+      APP_CONFIG_NAME: appconfig${{ github.run_id }}${{ github.run_number }}
     name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -57,6 +71,19 @@ jobs:
 
       - name: Build with Maven (Native)
         run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
+        if: ${{ env.AZURE_CLIENT_ID == '' || env.AZURE_TENANT_ID == '' || env.AZURE_SUBSCRIPTION_ID == '' }}
+
+      - name: Az CLI login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
+
+      - name: Build with Maven (Native) and run tests against Azure services
+        run: .github/build-with-maven-native.sh
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
 
       - name: Fail if there are uncommitted changes
         run: |
