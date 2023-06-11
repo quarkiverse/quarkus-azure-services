@@ -12,4 +12,5 @@ metadata:
   categories:
     - "cloud"
   status: "preview"
-  config: "quarkus.azure.app.configuration"
+  config: 
+    - "quarkus.azure.app.configuration."
