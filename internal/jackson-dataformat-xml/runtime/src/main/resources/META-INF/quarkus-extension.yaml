@@ -17,6 +17,7 @@
 
 ---
 name: "Quarkus Support Azure Jackson Dataformat XML"
+description: "Native support for Jackson Dataformat XML"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   unlisted: true
