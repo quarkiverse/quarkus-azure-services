@@ -16,8 +16,8 @@ The following extensions allows you to interact with some of the Azure Services:
 
 Example applications can be found inside the [integration-tests](integration-tests) folder:
 
-- [Azure App Configuration sample](integration-tests/app-configuration): REST endpoint using the Quarkus extension to get the configuration stored in Azure App Configuration.
-- [Azure Blob Storage samples](integration-tests/storage-blob): REST endpoint using the Quarkus extension to upload and download files to/from Azure Blob Storage.
+- [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension to get the configuration stored in Azure App Configuration.
+- [Azure Blob Storage samples](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to upload and download files to/from Azure Blob Storage.
 
 ## Contributing
 

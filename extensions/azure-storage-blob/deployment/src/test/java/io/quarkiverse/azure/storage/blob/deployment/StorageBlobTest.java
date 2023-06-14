@@ -1,34 +1,32 @@
 package io.quarkiverse.azure.storage.blob.deployment;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import jakarta.enterprise.inject.Instance;
-import jakarta.inject.Inject;
-
+import org.hamcrest.Matchers;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import com.azure.storage.blob.BlobServiceClient;
-
 import io.quarkus.test.QuarkusUnitTest;
 import io.quarkus.test.common.QuarkusTestResource;
+import io.restassured.RestAssured;
 
 @QuarkusTestResource(StorageBlobTestResource.class)
 public class StorageBlobTest {
 
-    @Inject
-    Instance<BlobServiceClient> blobServiceClient;
-
     @RegisterExtension
-    static final QuarkusUnitTest unitTest = new QuarkusUnitTest()
-            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class))
-            .overrideConfigKey("quarkus.azure.storage.blob.connection-string",
-                    "${quarkus.azure.storage.blob.connection-string}");
+    static QuarkusUnitTest test = new QuarkusUnitTest()
+            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class)
+                    .addAsResource(new StringAsset(
+                            "quarkus.azure.storage.blob.connection-string=${quarkus.azure.storage.blob.connection-string}"),
+                            "application.properties")
+                    .addClass(StorageBlobResource.class));
 
     @Test
     public void test() {
-        assertNotNull(blobServiceClient.get());
+        RestAssured.get("/storageblob")
+                .then()
+                .statusCode(200)
+                .body(Matchers.equalTo("samples"));
     }
 }
