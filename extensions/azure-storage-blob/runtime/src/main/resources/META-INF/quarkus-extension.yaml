@@ -1,14 +1,17 @@
+---
 name: "Quarkus Support Azure Storage Blob"
 description: "Quarkus Support for Azure Storage Blob"
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   short-name: "azure-storage-blob"
   keywords:
-    - "azure"
     - "storage"
+    - "storage-blob"
+    - "azure"
     - "azure-storage-blob"
   guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/
   categories:
     - "cloud"
   status: "preview"
-  config: "quarkus.azure.storage.blob"
-
+  config: 
+    - "quarkus.azure.storage.blob."

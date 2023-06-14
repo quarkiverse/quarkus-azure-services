@@ -1,6 +1,6 @@
 # Quarkiverse - Quarkus Azure Services
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository hosts Quarkus extensions for different Azure Services. You can check the [documentation of these services](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/index.html).
