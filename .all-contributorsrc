@@ -82,6 +82,15 @@
         "bug",
         "review"
       ]
+    },
+    {
+      "login": "edburns",
+      "name": "Ed Burns",
+      "avatar_url": "https://avatars.githubusercontent.com/u/75821?v=4",
+      "profile": "https://ridingthecrest.com/",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
