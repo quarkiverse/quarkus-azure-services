@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -9,11 +9,11 @@
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
+    
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-docs</artifactId>
     <name>Quarkus Azure Services :: Documentation</name>
-
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -32,7 +32,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <dependencies>
         <!-- Make sure the doc is built after the other artifacts -->
         <dependency>
@@ -59,20 +59,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>*</artifactId>
-                    <groupId>*</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
-
+    
     <build>
         <sourceDirectory>modules/ROOT/examples</sourceDirectory>
         <plugins>
