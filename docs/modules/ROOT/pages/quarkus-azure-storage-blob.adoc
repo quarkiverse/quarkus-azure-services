@@ -1,5 +1,7 @@
 = Quarkus Azure Blob Storage Extension
 
+include::./includes/attributes.adoc[]
+
 https://azure.microsoft.com/products/storage/blobs[Azure Blob Storage] is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance computing, and machine learning.
 This extension allows you to store and retrieve blobs from Azure Blob Storage by injecting a `com.azure.storage.blob.BlobServiceClient` object inside your Quarkus application.
 
