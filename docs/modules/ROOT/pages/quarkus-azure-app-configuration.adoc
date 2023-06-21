@@ -123,8 +123,8 @@ public class ConfigResource {
 
 To execute this sample you can run the following cURL commands:
 
-* `curl -X POST localhost:8080/config/myKeyOne`
-* `curl -X POST localhost:8080/config/myKeyTwo`
+* `curl -X GET localhost:8080/config/myKeyOne`
+* `curl -X GET localhost:8080/config/myKeyTwo`
 
 
 == Extension Configuration Reference
