@@ -2,27 +2,27 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
         <artifactId>quarkus-azure-services-parent</artifactId>
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-bom</artifactId>
     <name>Quarkus Azure Services :: BOM</name>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        
+
         <azure-sdk-bom.version>1.2.13</azure-sdk-bom.version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <!-- Azure sdk dependencies, imported as a BOM -->
@@ -33,7 +33,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>msal4j</artifactId>
@@ -51,7 +51,7 @@
                 <artifactId>woodstox-core</artifactId>
                 <version>${woodstox-core.version}</version>
             </dependency>
-            
+
             <!-- Azure Services Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
@@ -71,6 +71,16 @@
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-http-client-vertx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

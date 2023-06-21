@@ -9,11 +9,15 @@
         <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <artifactId>quarkus-azure-storage-blob-deployment</artifactId>
     <name>Quarkus Azure Services :: Extension :: Azure Storage Blob :: Deployment</name>
-    
+
     <dependencies>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc-deployment</artifactId>
@@ -24,13 +28,9 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-core-deployment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-storage-blob</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5-internal</artifactId>
@@ -72,7 +72,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
