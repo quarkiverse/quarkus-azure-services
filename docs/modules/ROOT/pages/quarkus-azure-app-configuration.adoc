@@ -2,6 +2,8 @@
 
 include::./includes/attributes.adoc[]
 
+include::./includes/support.adoc[]
+
 https://azure.microsoft.com/products/app-configuration[Azure App Configuration] is a fast, scalable parameter storage for app configuration.
 This extension allows to inject a `io.smallrye.config.SmallRyeConfig` object inside your Quarkus application so you can access the app configuration stored in Azure.
 
