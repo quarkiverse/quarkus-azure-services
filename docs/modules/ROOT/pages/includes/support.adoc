@@ -1,0 +1,2 @@
+image::Azure-A-48px-product.svg[alt=Microsoft Azure logo] Quarkus Azure Services Extensions are developed and supported by Microsoft as part of their commitment to Open Standard Enterprise Java. For more information, see https://aka.ms/java/ee[Jakarta EE on Azure].
+
