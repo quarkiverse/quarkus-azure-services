@@ -20,6 +20,7 @@ name: "Quarkus Support Azure Core HTTP Client Vert.x"
 description: "Quarkus Support Azure Core HTTP Client Vert.x"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
+  icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
   unlisted: true
   keywords:
     - "azure"

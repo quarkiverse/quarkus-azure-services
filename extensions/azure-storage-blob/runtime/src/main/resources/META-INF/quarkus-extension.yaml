@@ -3,6 +3,7 @@ name: "Quarkus Support Azure Storage Blob"
 description: "Quarkus Support for Azure Storage Blob"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
+  icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
   short-name: "azure-storage-blob"
   keywords:
     - "storage"
