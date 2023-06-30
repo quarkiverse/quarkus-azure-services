@@ -1,4 +1,4 @@
-= Quarkus Azure Services Extensions
+= image:Azure-A-48px-product.svg[alt=Microsoft Azure logo] Quarkus Azure Services Extensions
 
 include::./includes/attributes.adoc[]
 
