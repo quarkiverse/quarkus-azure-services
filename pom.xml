@@ -32,7 +32,6 @@
     <module>bom</module>
     <module>docs</module>
     <module>extensions</module>
-    <module>integration-tests</module>
     <module>internal</module>
   </modules>
   <build>
@@ -60,4 +59,18 @@
       </plugins>
     </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>it</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>integration-tests</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
