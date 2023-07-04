@@ -12,6 +12,44 @@ To successfully run this sample, you need:
 * Azure CLI and Azure subscription if the specific Azure services are required
 * Docker if you want to build the app as a native executable
 
+You also need to make sure the right version of dependencies are installed.
+
+### Use development iteration version
+
+By default, the sample depends on the development iteration version, which is `999-SNAPSHOT`. To install the development
+iteration version, you need to build it locally.
+
+```
+# Switch to the root directory of Quarkus Azure services extensions.
+# For example, if you are in the directory of quarkus-azure-services/integration-tests/azure-app-configuration
+cd ../..
+
+# Install all Quarkus Azure services extensions locally.
+mvn clean install -DskipTests
+
+# Switch back to the directory of integration-tests/azure-app-configuration
+cd integration-tests/azure-app-configuration
+```
+
+### Use release version
+
+If you want to use the release version, you need to update the version of dependencies in the `pom.xml` file.
+
+First, you need to find out the latest release version of the Quarkus Azure services extensions
+from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases), for example, `1.0.0`.
+
+Then, update the version of dependencies in the `pom.xml` file, for example:
+
+```xml
+
+<parent>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-integration-test</artifactId>
+    <version>1.0.0</version>
+    <!--        <relativePath>../pom.xml</relativePath>-->
+</parent>
+```
+
 ## Preparing the Azure services
 
 The Quarkus Azure app configuration extension needs to connect to a real Azure app configuration store, follow steps
