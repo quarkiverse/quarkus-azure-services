@@ -44,9 +44,9 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 
 <parent>
     <groupId>io.quarkiverse.azureservices</groupId>
-    <artifactId>quarkus-azure-integration-test</artifactId>
+    <artifactId>quarkus-azure-services-parent</artifactId>
     <version>1.0.0</version>
-    <!--        <relativePath>../pom.xml</relativePath>-->
+    <relativePath></relativePath>
 </parent>
 ```
 
