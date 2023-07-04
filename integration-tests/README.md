@@ -2,6 +2,23 @@
 
 This is the integration test for testing all Quarkus Azure services extensions from REST endpoints.
 
+## Installing dependencies locally in development iteration
+
+The version of Quarkus Azure services extensions in development iteration is `999-SNAPSHOT`, which is not available
+from Maven Central, you need to install them locally before running the test.
+
+```
+# Switch to the root directory of Quarkus Azure services extensions.
+# For example, if you are in the directory of quarkus-azure-services/integration-tests
+cd ..
+
+# Install all Quarkus Azure services extensions locally.
+mvn clean install -DskipTests
+
+# Switch back to the directory of integration-tests
+cd integration-tests
+```
+
 ## Running the test with Dev services
 
 Some Quarkus Azure services extensions support Dev Services, it allows to test easily.
