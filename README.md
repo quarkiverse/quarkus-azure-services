@@ -26,7 +26,7 @@ Example applications can be found inside the [integration-tests](integration-tes
 
 - [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension
   to get the configuration stored in Azure App Configuration.
-- [Azure Blob Storage samples](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to
+- [Azure Blob Storage sample](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to
   upload and download files to/from Azure Blob Storage.
 
 ## Release
