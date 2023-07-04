@@ -29,7 +29,7 @@ Example applications can be found inside the [integration-tests](integration-tes
 - [Azure Blob Storage sample](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to
   upload and download files to/from Azure Blob Storage.
 
-## Release
+## How to release a new version
 
 Follow [this wiki](https://github.com/quarkiverse/quarkiverse/wiki/Release) to release a new version of the extensions.
 You can reference the following PRs as examples:
