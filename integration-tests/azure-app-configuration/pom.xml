@@ -3,13 +3,32 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-integration-test</artifactId>
+        <artifactId>quarkus-azure-services-parent</artifactId>
         <version>999-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-azure-integration-test-app-configuration</artifactId>
     <name>Quarkus Azure Services :: Integration Test :: Azure App Configuration</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-services-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
