@@ -3,10 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.quarkiverse.azureservices</groupId>
-        <artifactId>quarkus-azure-services-parent</artifactId>
-        <version>999-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>io.quarkiverse</groupId>
+        <artifactId>quarkiverse-parent</artifactId>
+        <version>15</version>
     </parent>
 
     <groupId>io.quarkiverse.azureservices</groupId>
@@ -16,10 +15,12 @@
     <packaging>pom</packaging>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <azure-sdk-bom.version>1.2.14</azure-sdk-bom.version>
+        <azure.core.http.client.vertx.version>1.0.0-beta.9</azure.core.http.client.vertx.version>
+        <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
+        <msal4j.version>1.13.9</msal4j.version>
+        <!-- needed for dependency convergence until Azure SDK is upgraded  -->
+        <woodstox-core.version>6.5.1</woodstox-core.version>
     </properties>
 
     <dependencyManagement>
