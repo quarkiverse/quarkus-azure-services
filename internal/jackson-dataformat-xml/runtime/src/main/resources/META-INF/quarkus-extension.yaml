@@ -23,10 +23,9 @@ metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
   unlisted: true
   keywords:
-  - "azure"
-  - "jackson"
-  - "dataformat"
-  - "xml"
-  guide: "https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/"
+    - "azure"
+    - "jackson"
+    - "dataformat"
+    - "xml"
   categories:
-  - "cloud"
+    - "cloud"

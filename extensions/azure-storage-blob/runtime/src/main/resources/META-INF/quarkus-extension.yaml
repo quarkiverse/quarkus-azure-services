@@ -10,9 +10,9 @@ metadata:
     - "storage-blob"
     - "azure"
     - "azure-storage-blob"
-  guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-storage-blob.html
+  guide: https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-storage-blob.html
   categories:
     - "cloud"
   status: "preview"
-  config: 
+  config:
     - "quarkus.azure.storage.blob."
