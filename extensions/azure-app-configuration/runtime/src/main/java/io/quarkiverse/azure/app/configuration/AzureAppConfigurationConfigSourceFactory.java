@@ -1,27 +1,28 @@
 package io.quarkiverse.azure.app.configuration;
 
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.vertx.VertxAsyncHttpClientBuilder;
+import com.azure.core.util.ClientOptions;
+import com.azure.data.appconfiguration.ConfigurationClient;
+import com.azure.data.appconfiguration.ConfigurationClientBuilder;
+import com.azure.data.appconfiguration.models.ConfigurationSetting;
+import com.azure.data.appconfiguration.models.SettingSelector;
+import io.smallrye.config.ConfigSourceContext;
+import io.smallrye.config.ConfigSourceFactory.ConfigurableConfigSourceFactory;
+import io.vertx.core.Vertx;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
-
-import com.azure.core.http.policy.HttpLogDetailLevel;
-import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.http.vertx.VertxAsyncHttpClientBuilder;
-import com.azure.data.appconfiguration.ConfigurationClient;
-import com.azure.data.appconfiguration.ConfigurationClientBuilder;
-import com.azure.data.appconfiguration.models.ConfigurationSetting;
-import com.azure.data.appconfiguration.models.SettingSelector;
-
-import io.smallrye.config.ConfigSourceContext;
-import io.smallrye.config.ConfigSourceFactory.ConfigurableConfigSourceFactory;
-import io.vertx.core.Vertx;
-
 public class AzureAppConfigurationConfigSourceFactory
         implements ConfigurableConfigSourceFactory<AzureAppConfigurationConfig> {
+
+    private static final String AZURE_QUARKUS_APP_CONFIGURATION = "az-qk-app-config";
 
     @Override
     public Iterable<ConfigSource> getConfigSources(
@@ -38,6 +39,7 @@ public class AzureAppConfigurationConfigSourceFactory
         VertxAsyncHttpClientBuilder httpClientBuilder = new VertxAsyncHttpClientBuilder().vertx(vertx);
 
         ConfigurationClientBuilder clientBuilder = new ConfigurationClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId(AZURE_QUARKUS_APP_CONFIGURATION))
                 .httpClient(httpClientBuilder.build())
                 .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                 .connectionString(config.connectionString());
