@@ -1,5 +1,12 @@
 package io.quarkiverse.azure.app.configuration;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.PagedIterable;
@@ -9,15 +16,10 @@ import com.azure.data.appconfiguration.ConfigurationClient;
 import com.azure.data.appconfiguration.ConfigurationClientBuilder;
 import com.azure.data.appconfiguration.models.ConfigurationSetting;
 import com.azure.data.appconfiguration.models.SettingSelector;
+
 import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory.ConfigurableConfigSourceFactory;
 import io.vertx.core.Vertx;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class AzureAppConfigurationConfigSourceFactory
         implements ConfigurableConfigSourceFactory<AzureAppConfigurationConfig> {
