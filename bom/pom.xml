@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    
     <parent>
         <groupId>io.quarkiverse</groupId>
         <artifactId>quarkiverse-parent</artifactId>
         <version>15</version>
     </parent>
-
+    
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-bom</artifactId>
     <name>Quarkus Azure Services :: BOM</name>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
-
+    
+    <scm>
+        <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
+        <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</developerConnection>
+        <url>https://github.com/quarkiverse/quarkus-azure-services</url>
+        <tag>HEAD</tag>
+    </scm>
+    
     <properties>
         <azure-sdk-bom.version>1.2.14</azure-sdk-bom.version>
         <azure.core.http.client.vertx.version>1.0.0-beta.9</azure.core.http.client.vertx.version>
@@ -22,7 +30,7 @@
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>6.5.1</woodstox-core.version>
     </properties>
-
+    
     <dependencyManagement>
         <dependencies>
             <!-- Azure sdk dependencies, imported as a BOM -->
@@ -33,7 +41,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            
             <dependency>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>msal4j</artifactId>
@@ -51,7 +59,7 @@
                 <artifactId>woodstox-core</artifactId>
                 <version>${woodstox-core.version}</version>
             </dependency>
-
+            
             <!-- Azure Services Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
