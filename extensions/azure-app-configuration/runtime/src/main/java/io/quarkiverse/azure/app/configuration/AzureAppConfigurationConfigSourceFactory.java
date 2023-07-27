@@ -7,8 +7,6 @@ import java.util.function.Consumer;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import com.azure.core.http.policy.HttpLogDetailLevel;
-import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.vertx.VertxAsyncHttpClientBuilder;
 import com.azure.core.util.ClientOptions;
@@ -42,7 +40,6 @@ public class AzureAppConfigurationConfigSourceFactory
         ConfigurationClientBuilder clientBuilder = new ConfigurationClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_APP_CONFIGURATION))
                 .httpClient(httpClientBuilder.build())
-                .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                 .connectionString(config.connectionString());
 
         ConfigurationClient client = clientBuilder.buildClient();
