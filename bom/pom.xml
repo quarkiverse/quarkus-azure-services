@@ -60,6 +60,13 @@
                 <version>${woodstox-core.version}</version>
             </dependency>
             
+            <!-- Utilities for Azure Services Extensions -->
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-core-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
             <!-- Azure Services Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>

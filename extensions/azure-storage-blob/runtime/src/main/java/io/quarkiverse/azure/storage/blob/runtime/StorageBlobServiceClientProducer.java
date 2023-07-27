@@ -7,9 +7,9 @@ import com.azure.core.util.ClientOptions;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 
-public class StorageBlobServiceClientProducer {
+import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 
-    private static final String AZURE_QUARKUS_STORAGE_BLOB = "az-qk-storage-blob";
+public class StorageBlobServiceClientProducer {
 
     @Inject
     StorageBlobConfig storageBlobConfiguration;
@@ -17,7 +17,7 @@ public class StorageBlobServiceClientProducer {
     @Produces
     public BlobServiceClient blobServiceClient() {
         return new BlobServiceClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AZURE_QUARKUS_STORAGE_BLOB))
+                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
                 .connectionString(storageBlobConfiguration.connectionString)
                 .buildClient();
     }
