@@ -8,15 +8,15 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository hosts Quarkus extensions for different Azure Services. You can check
-the [documentation of these services](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/index.html).
+the [documentation of these services](https://docs.quarkiverse.io/quarkus-azure-services/dev/index.html).
 
 ## Azure Services
 
 The following extensions allows you to interact with some of the Azure Services:
 
-- [Quarkus Azure App Configuration Extension](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
+- [Quarkus Azure App Configuration Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
   is a fast, scalable parameter storage for app configuration.
-- [Quarkus Azure Blob Storage Extension](https://quarkiverse.github.io/quarkiverse-docs/quarkus-azure-services/dev/quarkus-azure-storage-blob.html): [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs/)
+- [Quarkus Azure Blob Storage Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-storage-blob.html): [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs/)
   is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance
   computing, and machine learning.
 

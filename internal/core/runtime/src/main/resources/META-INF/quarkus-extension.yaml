@@ -23,7 +23,6 @@ metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
   unlisted: true
   keywords:
-  - "azure"
-  guide: "https://quarkus.io/guides/deploying-to-azure-cloud"
+    - "azure"
   categories:
-  - "cloud"
+    - "cloud"

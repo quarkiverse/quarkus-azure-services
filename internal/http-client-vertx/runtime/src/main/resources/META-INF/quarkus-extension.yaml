@@ -24,6 +24,5 @@ metadata:
   unlisted: true
   keywords:
     - "azure"
-  guide: "https://quarkus.io/guides/deploying-to-azure-cloud"
   categories:
     - "cloud"
