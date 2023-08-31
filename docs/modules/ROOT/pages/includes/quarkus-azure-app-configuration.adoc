@@ -12,6 +12,7 @@ h|Default
 
 a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.endpoint]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.endpoint[quarkus.azure.app.configuration.endpoint]`
 
+
 [.description]
 --
 The endpoint of the app configuration
@@ -28,6 +29,7 @@ endif::add-copy-button-to-env-var[]
 
 a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.id]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.id[quarkus.azure.app.configuration.id]`
 
+
 [.description]
 --
 The id of the app configuration
@@ -43,6 +45,7 @@ endif::add-copy-button-to-env-var[]
 
 
 a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.secret]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.secret[quarkus.azure.app.configuration.secret]`
+
 
 [.description]
 --
