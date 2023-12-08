@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "property.with.label",
+      "label": "prod",
+      "content_type": "",
+      "value": "prodValue",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2023-11-29T17:07:33+00:00"
+    }
+  ]
+}

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
 
@@ -25,7 +27,8 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
             httpServer.createContext("/kv", new HttpHandler() {
                 @Override
                 public void handle(final HttpExchange exchange) throws IOException {
-                    URL resource = Thread.currentThread().getContextClassLoader().getResource("response.json");
+                    URL resource = getResource(exchange);
+
                     if (resource == null) {
                         exchange.sendResponseHeaders(400, 0);
                         return;
@@ -58,5 +61,41 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
         if (httpServer != null) {
             httpServer.stop(0);
         }
+    }
+
+    private static URL getResource(HttpExchange exchange) {
+        Map<String, String> params = getQueryParameters(exchange.getRequestURI().getQuery());
+        URL resource;
+
+        if (Objects.equals("prod", params.get("label"))) {
+            System.out.println("here");
+            resource = loadResource("response_prod.json");
+        } else {
+            resource = loadResource("response.json");
+        }
+
+        return resource;
+    }
+
+    private static URL loadResource(String resourceName) {
+        return Thread.currentThread().getContextClassLoader().getResource(resourceName);
+    }
+
+    private static Map<String, String> getQueryParameters(String query) {
+        if (query == null) {
+            return null;
+        }
+
+        Map<String, String> result = new HashMap<>();
+        for (String param : query.split("&")) {
+            String[] entry = param.split("=");
+            if (entry.length > 1) {
+                result.put(entry[0], entry[1]);
+            } else {
+                result.put(entry[0], "");
+            }
+        }
+
+        return result;
     }
 }
