@@ -68,7 +68,6 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
         URL resource;
 
         if (Objects.equals("prod", params.get("label"))) {
-            System.out.println("here");
             resource = loadResource("response_prod.json");
         } else {
             resource = loadResource("response.json");
