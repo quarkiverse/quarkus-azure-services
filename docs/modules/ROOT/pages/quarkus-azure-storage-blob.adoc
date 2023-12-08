@@ -154,6 +154,13 @@ You can go back to the http://portal.azure.com/[Azure portal] and see the contai
 
 image::quarkus-azure-storage-blob-azure-portal2.png[alt=Azure Portal showing the containt of the file]
 
+=== Reactive code pitfall
+
+In case you plan to use `BlobServiceClient` (that provides all other clients for interacting with Azure BlobStore), note that it cannot be used within the reactive code as it blocks the event loop due to the fact that `BlobServiceClient` is a wrapper around the `BlobServiceAsyncClient` and it uses blocking calls such as `blockingGet`.
+
+Using it in reactive code such as RestEasy Reactive or Reactive Messaging will cause indefinite hang of the application that prevents it from further functioning or shutdown.
+
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]
