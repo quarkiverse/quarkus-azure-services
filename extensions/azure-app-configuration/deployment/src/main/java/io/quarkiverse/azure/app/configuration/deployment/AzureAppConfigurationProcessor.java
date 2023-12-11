@@ -2,7 +2,8 @@ package io.quarkiverse.azure.app.configuration.deployment;
 
 import java.util.List;
 
-import com.azure.data.appconfiguration.implementation.ConfigurationSettingPage;
+import com.azure.data.appconfiguration.implementation.models.GetKeyValuesHeaders;
+import com.azure.data.appconfiguration.implementation.models.KeyValueListResult;
 import com.azure.data.appconfiguration.models.ConfigurationSetting;
 
 import io.quarkiverse.azure.app.configuration.AzureAppConfigurationConfigBuilder;
@@ -39,7 +40,7 @@ public class AzureAppConfigurationProcessor {
                 List.of("com.azure.data.appconfiguration.implementation.ConfigurationClientImpl$ConfigurationService")));
 
         reflectiveClasses.produce(ReflectiveClassBuildItem.builder(
-                ConfigurationSettingPage.class,
-                ConfigurationSetting.class).fields().build());
+                ConfigurationSetting.class, KeyValueListResult.class, GetKeyValuesHeaders.class).fields()
+                .methods().build());
     }
 }

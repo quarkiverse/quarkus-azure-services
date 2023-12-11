@@ -11,7 +11,7 @@ public class StorageBlobTestResource implements QuarkusTestResourceLifecycleMana
 
     static String accountName = "devstoreaccount1";
     static String accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
-    static String image = "mcr.microsoft.com/azure-storage/azurite:3.25.0";
+    static String image = "mcr.microsoft.com/azure-storage/azurite:3.28.0";
     static int port = 10000;
     static String protocol = "http";
 
