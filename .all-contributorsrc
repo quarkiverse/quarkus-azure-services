@@ -119,6 +119,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "mswiderski",
+      "name": "Maciej Swiderski",
+      "avatar_url": "https://avatars.githubusercontent.com/u/904474?v=4",
+      "profile": "https://automatiko.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
