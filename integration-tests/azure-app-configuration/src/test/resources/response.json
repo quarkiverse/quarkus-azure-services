@@ -3,7 +3,7 @@
     {
       "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
       "key": "another.prop",
-      "label": null,
+      "label": "prod",
       "content_type": "",
       "value": "5678",
       "tags": {},
