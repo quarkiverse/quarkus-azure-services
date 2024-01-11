@@ -1,8 +1,9 @@
 package io.quarkiverse.azure.app.configuration.it;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 import io.quarkus.test.junit.TestProfile;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 @QuarkusIntegrationTest
 @TestProfile(AzureAppConfigurationWithLabelsExternalIT.TestProfile.class)
