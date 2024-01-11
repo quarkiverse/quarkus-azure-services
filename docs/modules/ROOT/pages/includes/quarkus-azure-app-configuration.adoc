@@ -74,7 +74,7 @@ endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_APP_CONFIGURATION_LABELS+++`
 endif::add-copy-button-to-env-var[]
---|string
+--|string 
 |
 
 |===
