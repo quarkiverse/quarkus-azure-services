@@ -41,6 +41,7 @@ az appconfig kv set \
     --name "${APP_CONFIG_NAME}" \
     --key another.prop \
     --value 5678 \
+    --label prod \
     --yes
 
 # Retrieve the connection info for the app configuration store and export as environment variables

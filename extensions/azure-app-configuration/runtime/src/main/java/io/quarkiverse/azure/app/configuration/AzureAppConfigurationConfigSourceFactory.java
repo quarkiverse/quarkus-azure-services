@@ -45,7 +45,8 @@ public class AzureAppConfigurationConfigSourceFactory
         ConfigurationClient client = clientBuilder.buildClient();
 
         Map<String, String> properties = new LinkedHashMap<>(); // LinkedHashMap for reproducible ordering
-        PagedIterable<ConfigurationSetting> listConfigurationSettings = client.listConfigurationSettings(new SettingSelector());
+        PagedIterable<ConfigurationSetting> listConfigurationSettings = client
+                .listConfigurationSettings(getSettingSelector(config));
         listConfigurationSettings.forEach(new Consumer<ConfigurationSetting>() {
             @Override
             public void accept(final ConfigurationSetting configurationSetting) {
@@ -60,5 +61,12 @@ public class AzureAppConfigurationConfigSourceFactory
         }
 
         return properties;
+    }
+
+    private static SettingSelector getSettingSelector(final AzureAppConfigurationConfig config) {
+        var settingSelector = new SettingSelector();
+        config.labels().ifPresent(settingSelector::setLabelFilter);
+
+        return settingSelector;
     }
 }

@@ -89,6 +89,7 @@ az appconfig kv set \
     --name "${APP_CONFIG_NAME}" \
     --key another.prop \
     --value 5678 \
+    --label prod \
     --yes
     
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \

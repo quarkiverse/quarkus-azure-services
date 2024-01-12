@@ -9,16 +9,6 @@
       "tags": {},
       "locked": false,
       "last_modified": "2022-11-29T17:07:33+00:00"
-    },
-    {
-      "etag": "PfRxAQGXK3SYzwayAAjGF5J4ZmX-K0cUb5VxUFelzwo",
-      "key": "my.prop",
-      "label": null,
-      "content_type": "",
-      "value": "1234",
-      "tags": {},
-      "locked": false,
-      "last_modified": "2022-11-29T16:19:21+00:00"
     }
   ]
 }
