@@ -128,6 +128,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "fhavel",
+      "name": "Frantisek Havel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42615282?v=4",
+      "profile": "https://github.com/fhavel",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
