@@ -109,6 +109,16 @@
             </dependency>
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-keyvault</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-keyvault-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-storage-blob</artifactId>
                 <version>${project.version}</version>
             </dependency>
