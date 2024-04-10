@@ -9,13 +9,13 @@ set -Euo pipefail
 # Create a resource group
 az group create \
     --name "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location centralus
 
 # Create a storage account
 az storage account create \
     --name "${STORAGE_ACCOUNT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus \
+    --location centralus \
     --sku Standard_LRS \
     --kind StorageV2
 
@@ -29,7 +29,7 @@ export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-co
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location centralus
 
 # Retrieve the connection string for the app configuration store
 APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
@@ -40,9 +40,6 @@ while [ -z ${APP_CONFIG_CONNECTION_STRING} ]
 do
     echo "Failed to retrieve connection string of app config ${APP_CONFIG_NAME}, retry it in 5 seconds..."
     sleep 5
-    az appconfig show \
-        --resource-group "${RESOURCE_GROUP_NAME}" \
-        --name "${APP_CONFIG_NAME}"
     APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
         --name "${APP_CONFIG_NAME}" \
         --resource-group "${RESOURCE_GROUP_NAME}" \
