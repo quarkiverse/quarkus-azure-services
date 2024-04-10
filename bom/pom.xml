@@ -27,7 +27,7 @@
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <msal4j.version>1.14.2</msal4j.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
-        <woodstox-core.version>6.6.2</woodstox-core.version>
+        <woodstox-core.version>6.6.1</woodstox-core.version>
     </properties>
     
     <dependencyManagement>
