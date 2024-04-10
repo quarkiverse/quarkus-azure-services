@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -Euo pipefail
 
 # The following environment variables need to be configured before running the script
 # - RESOURCE_GROUP_NAME
@@ -31,14 +31,32 @@ az appconfig create \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --location eastus
 
+# Retrieve the connection string for the app configuration store
+APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
+    --name "${APP_CONFIG_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
+while [ -z ${APP_CONFIG_CONNECTION_STRING} ]
+do
+    echo "Failed to retrieve connection string of app config ${APP_CONFIG_NAME}, retry it in 5 seconds..."
+    sleep 5
+    az appconfig show \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        --name "${APP_CONFIG_NAME}"
+    APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
+        --name "${APP_CONFIG_NAME}" \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
+done
+
 # Add a few key-value pairs to the app configuration store
 az appconfig kv set \
-    --name "${APP_CONFIG_NAME}" \
+    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
     --key my.prop \
     --value 1234 \
     --yes
 az appconfig kv set \
-    --name "${APP_CONFIG_NAME}" \
+    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
     --key another.prop \
     --value 5678 \
     --label prod \
@@ -58,8 +76,3 @@ export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.v
 
 # Build native executable and run the integration tests against the Azure services
 mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
-
-# Delete the resource group
-az group delete \
-    --name "${RESOURCE_GROUP_NAME}" \
-    --yes --no-wait
