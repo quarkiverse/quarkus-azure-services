@@ -10,7 +10,7 @@ h|[[quarkus-azure-app-configuration_configuration]]link:#quarkus-azure-app-confi
 h|Type
 h|Default
 
-a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.endpoint]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.endpoint[quarkus.azure.app.configuration.endpoint]`
+a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint[quarkus.azure.app.configuration.endpoint]`
 
 
 [.description]
@@ -27,7 +27,7 @@ endif::add-copy-button-to-env-var[]
 |required icon:exclamation-circle[title=Configuration property is required]
 
 
-a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.id]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.id[quarkus.azure.app.configuration.id]`
+a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-id]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-id[quarkus.azure.app.configuration.id]`
 
 
 [.description]
@@ -44,7 +44,7 @@ endif::add-copy-button-to-env-var[]
 |required icon:exclamation-circle[title=Configuration property is required]
 
 
-a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.secret]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.secret[quarkus.azure.app.configuration.secret]`
+a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret[quarkus.azure.app.configuration.secret]`
 
 
 [.description]
@@ -61,7 +61,7 @@ endif::add-copy-button-to-env-var[]
 |required icon:exclamation-circle[title=Configuration property is required]
 
 
-a| [[quarkus-azure-app-configuration_quarkus.azure.app.configuration.labels]]`link:#quarkus-azure-app-configuration_quarkus.azure.app.configuration.labels[quarkus.azure.app.configuration.labels]`
+a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels[quarkus.azure.app.configuration.labels]`
 
 
 [.description]

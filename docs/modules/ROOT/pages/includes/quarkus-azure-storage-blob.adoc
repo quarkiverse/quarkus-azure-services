@@ -10,7 +10,7 @@ h|[[quarkus-azure-storage-blob_configuration]]link:#quarkus-azure-storage-blob_c
 h|Type
 h|Default
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.health.enabled]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.health.enabled[quarkus.azure.storage.blob.health.enabled]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-health-enabled]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-health-enabled[quarkus.azure.storage.blob.health.enabled]`
 
 
 [.description]
@@ -27,7 +27,7 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.enabled]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.enabled[quarkus.azure.storage.blob.devservices.enabled]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled[quarkus.azure.storage.blob.devservices.enabled]`
 
 
 [.description]
@@ -46,7 +46,7 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.image-name]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.image-name[quarkus.azure.storage.blob.devservices.image-name]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name[quarkus.azure.storage.blob.devservices.image-name]`
 
 
 [.description]
@@ -63,7 +63,7 @@ endif::add-copy-button-to-env-var[]
 |`mcr.microsoft.com/azure-storage/azurite:3.28.0`
 
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.port]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.port[quarkus.azure.storage.blob.devservices.port]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port[quarkus.azure.storage.blob.devservices.port]`
 
 
 [.description]
@@ -82,7 +82,7 @@ endif::add-copy-button-to-env-var[]
 |
 
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.shared]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.shared[quarkus.azure.storage.blob.devservices.shared]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-shared]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-shared[quarkus.azure.storage.blob.devservices.shared]`
 
 
 [.description]
@@ -103,7 +103,7 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.service-name]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.devservices.service-name[quarkus.azure.storage.blob.devservices.service-name]`
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name[quarkus.azure.storage.blob.devservices.service-name]`
 
 
 [.description]
@@ -122,7 +122,7 @@ endif::add-copy-button-to-env-var[]
 |`default-storage-blob`
 
 
-a| [[quarkus-azure-storage-blob_quarkus.azure.storage.blob.connection-string]]`link:#quarkus-azure-storage-blob_quarkus.azure.storage.blob.connection-string[quarkus.azure.storage.blob.connection-string]`
+a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string[quarkus.azure.storage.blob.connection-string]`
 
 
 [.description]
