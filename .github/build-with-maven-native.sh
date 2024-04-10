@@ -38,8 +38,11 @@ APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
     | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
 while [ -z ${APP_CONFIG_CONNECTION_STRING} ]
 do
-    echo "Failed to retrieve connection string of app config {APP_CONFIG_NAME}, retry it in 5 seconds..."
+    echo "Failed to retrieve connection string of app config ${APP_CONFIG_NAME}, retry it in 5 seconds..."
     sleep 5
+    az appconfig show \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        --name "${APP_CONFIG_NAME}"
     APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
         --name "${APP_CONFIG_NAME}" \
         --resource-group "${RESOURCE_GROUP_NAME}" \
