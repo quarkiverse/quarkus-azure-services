@@ -86,3 +86,9 @@ jobs:
           cd ${GITHUB_WORKSPACE}/current-repo/integration-tests
           ../.github/build-with-maven-native.sh
         if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
+
+      - name: Delete Azure resources
+        run: |
+          cd ${GITHUB_WORKSPACE}/current-repo/integration-tests
+          ../.github/delete-azure-resources.sh
+        if: ${{ always() && env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}

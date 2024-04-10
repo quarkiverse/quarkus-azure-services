@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -Euo pipefail
 
 # The following environment variables need to be configured before running the script
 # - RESOURCE_GROUP_NAME
@@ -73,8 +73,3 @@ export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.v
 
 # Build native executable and run the integration tests against the Azure services
 mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
-
-# Delete the resource group
-az group delete \
-    --name "${RESOURCE_GROUP_NAME}" \
-    --yes --no-wait
