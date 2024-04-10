@@ -31,14 +31,29 @@ az appconfig create \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --location eastus
 
+# Retrieve the connection string for the app configuration store
+APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
+    --name "${APP_CONFIG_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
+while [ -z ${APP_CONFIG_CONNECTION_STRING} ]
+do
+    echo "Failed to retrieve connection string of app config {APP_CONFIG_NAME}, retry it in 5 seconds..."
+    sleep 5
+    APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
+        --name "${APP_CONFIG_NAME}" \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
+done
+
 # Add a few key-value pairs to the app configuration store
 az appconfig kv set \
-    --name "${APP_CONFIG_NAME}" \
+    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
     --key my.prop \
     --value 1234 \
     --yes
 az appconfig kv set \
-    --name "${APP_CONFIG_NAME}" \
+    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
     --key another.prop \
     --value 5678 \
     --label prod \
