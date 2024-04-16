@@ -17,7 +17,9 @@
 package io.quarkiverse.azure.keyvault.secret.it;
 
 import jakarta.inject.Inject;
+
 import com.azure.security.keyvault.secrets.SecretClient;
+
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
@@ -27,7 +29,7 @@ public class KeyVaultSecretResource implements QuarkusApplication {
     SecretClient secretClient;
 
     @Override
-    public int run(String... args) throws Exception {   
+    public int run(String... args) throws Exception {
         System.out.println("h2url: " + secretClient.getSecret("h2url").getValue());
         return 0;
     }

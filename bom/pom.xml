@@ -69,6 +69,16 @@
             <!-- Azure Services Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-identity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-identity-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
