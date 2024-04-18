@@ -10,11 +10,8 @@ import io.quarkus.deployment.pkg.builditem.NativeImageRunnerBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
 
 public class AzureIdentityProcessor {
-    private static final String AZURE_IDENTITY_NAME = "azure-identity";
-
     @BuildStep(onlyIf = NativeOrNativeSourcesBuild.class)
     void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClass) {
-        // CRT and all types that statically init CRT
         Stream.of(
                 "com.microsoft.aad.msal4jextensions.persistence.linux.ISecurityLibrary",
                 "com.microsoft.aad.msal4jextensions.persistence.mac.ISecurityLibrary")
