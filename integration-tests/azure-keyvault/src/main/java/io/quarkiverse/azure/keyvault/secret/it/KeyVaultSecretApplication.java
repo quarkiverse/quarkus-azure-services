@@ -31,7 +31,7 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 @QuarkusMain
-public class KeyVaultSecretResource implements QuarkusApplication {
+public class KeyVaultSecretApplication implements QuarkusApplication {
 
     @Inject
     SecretClient secretClient;
