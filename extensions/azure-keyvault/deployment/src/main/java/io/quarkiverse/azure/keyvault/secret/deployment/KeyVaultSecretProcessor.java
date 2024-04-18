@@ -83,7 +83,9 @@ class KeyVaultSecretProcessor {
                 .map(c -> c.name().toString())
                 .filter(s -> s.startsWith("com.azure.security.keyvault.secrets.implementation.models."))
                 .forEach(e -> {
-                    log.infov("Add class to reflectiveHierarchyClass: " + e);
+                    if (log.isDebugEnabled()) {
+                        log.debugv("Add class to reflectiveHierarchyClass: " + e);
+                    }
                     Type jandexType = Type.create(DotName.createSimple(e), Type.Kind.CLASS);
                     reflectiveHierarchyClass.produce(new ReflectiveHierarchyBuildItem.Builder()
                             .type(jandexType)
