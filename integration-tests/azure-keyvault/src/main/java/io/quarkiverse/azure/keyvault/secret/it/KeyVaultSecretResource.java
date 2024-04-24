@@ -35,7 +35,7 @@ public class KeyVaultSecretResource {
     @Path("sync")
     @Produces(TEXT_PLAIN)
     public String testSync() {
-        LOG.info("Testing Secret Client with secret name: " + SYNC_PARAM);
+        LOG.info("Testing SecretClient by creating secret: " + SYNC_PARAM);
         //Put parameter
         secretClient.setSecret(SYNC_PARAM, TEXT);
         //Get parameter
@@ -46,7 +46,7 @@ public class KeyVaultSecretResource {
     @Path("list")
     @Produces(TEXT_PLAIN)
     public String testSyncList() {
-        LOG.info("Testing Secret Client with listing secrets: ");
+        LOG.info("Testing SecretClient by listing secrets: ");
 
         //Get secrets
         return secretClient.listPropertiesOfSecrets()
@@ -59,7 +59,7 @@ public class KeyVaultSecretResource {
     @Path("async")
     @Produces(TEXT_PLAIN)
     public String testAsync() throws ExecutionException, InterruptedException {
-        LOG.info("Testing Secret Async client with parameter: " + ASYNC_PARAM);
+        LOG.info("Testing SecretAsyncclient by creating secret: " + ASYNC_PARAM);
 
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
         secretAsyncClient.setSecret(ASYNC_PARAM, TEXT)
