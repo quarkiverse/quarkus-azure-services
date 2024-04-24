@@ -1,15 +1,6 @@
 package io.quarkiverse.azure.keyvault.secret.deployment;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.jboss.jandex.ClassInfo;
-import org.jboss.jandex.DotName;
-import org.jboss.jandex.Type;
-import org.jboss.logging.Logger;
-
 import com.azure.json.JsonSerializable;
-
 import io.quarkiverse.azure.keyvault.secret.runtime.KeyVaultSecretClientProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -21,6 +12,13 @@ import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveHierarchyBuildItem;
+import org.jboss.jandex.ClassInfo;
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.Type;
+import org.jboss.logging.Logger;
+
+import java.util.Collection;
+import java.util.List;
 
 class KeyVaultSecretProcessor {
 

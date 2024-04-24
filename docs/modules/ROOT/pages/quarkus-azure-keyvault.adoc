@@ -50,7 +50,7 @@ Create a general-purpose key vault with the following command:
 
 [source,shell]
 ----
-az keyvault create --name kvquarkusazurekeyvault0423 \
+az keyvault create --name kvquarkusazurekv0423 \
     --resource-group rg-quarkus-azure-keyvault \
     --location eastus
 ----
@@ -61,21 +61,14 @@ All secrets in your key vault are stored encrypted. The Azure Key Vault service 
 Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault.
 The following command uses your Azure AD account to authorize the operation to manage secret.
 Even if you are the key vault owner, you need explicit permissions to perform operations against secret.
-For that, get your subscription id with:
 
-[source,shell]
-----
-az account show \
-    --query id
-----
-
-Then, assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself with (change `<subscription>` with your subscription id):
+Assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself:
 
 [source,shell]
 ----
 az ad signed-in-user show --query id -o tsv \
     | az keyvault set-policy \
-    --name kvquarkusazurekeyvault0423 \
+    --name kvquarkusazurekv0423 \
     --object-id @- \
     --secret-permissions all
 ----
@@ -91,7 +84,7 @@ To get the endpoint, execute the following Azure CLI command:
 
 [source,shell]
 ----
-az keyvault show --name kvquarkusazurekeyvault0423 \
+az keyvault show --name kvquarkusazurekv0423 \
     --resource-group rg-quarkus-azure-keyvault \
     --query properties.vaultUri \
     --output tsv
@@ -101,7 +94,7 @@ Then, in the `application.properties` file, add the following property:
 
 [source,properties]
 ----
-quarkus.azure.keyvault.secret.endpoint=https://kvquarkusazurekeyvault0423.vault.azure.net/
+quarkus.azure.keyvault.secret.endpoint=https://kvquarkusazurekv0423.vault.azure.net/
 ----
 
 === Inject the Azure Key Vault Secret Client
@@ -141,7 +134,7 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
 
         String secretValue = con.readLine();
 
-        System.out.print("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
+        System.out.println("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
 
         secretClient.setSecret(new KeyVaultSecret(secretName, secretValue));
 
@@ -150,7 +143,7 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
         KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
 
         System.out.println("Your secret's value is '" + retrievedSecret.getValue() + "'.");
-        System.out.print("Deleting your secret ... ");
+        System.out.println("Deleting your secret ... ");
 
         SyncPoller<DeletedSecret, Void> deletionPoller = secretClient.beginDeleteSecret(secretName);
         deletionPoller.waitForCompletion();

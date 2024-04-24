@@ -55,7 +55,7 @@ You need to create an Azure Key Vault before runnint the sample application.
 
 ### Logging into Azure
 
-Log into Azure and create a resource group for hosting the Azure storage blob to be created.
+Log into Azure and create a resource group for hosting the Key Vault to be created.
 
 ```
 az login
@@ -67,7 +67,8 @@ az group create \
 ```
 
 ### Creating Azure Key Vault
-Run the following commands to create an Azure Storage Account and export its connection string as an environment
+
+Run the following commands to create an Azure Key Vault, set permission and export its connection string as an environment
 variable.
 
 ```
@@ -75,6 +76,12 @@ KEY_VAULT_NAME=<unique-key-vault-name>
 az keyvault create --name ${KEY_VAULT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --location eastus
+
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault set-policy \
+    --name ${KEY_VAULT_NAME} \
+    --object-id @- \
+    --secret-permissions all
 
 export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME}\
     --resource-group ${RESOURCE_GROUP_NAME}\
@@ -126,29 +133,28 @@ __  ____  __  _____   ___  __ ____  ______
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2024-04-22 05:39:41,710 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret 999-SNAPSHOT on JVM (powered by Quarkus 3.6.5) started in 1.838s. Listening on: http://0.0.0.0:8080
-2024-04-22 05:39:41,718 INFO  [io.quarkus] (main) Profile prod activated. 
-2024-04-22 05:39:41,718 INFO  [io.quarkus] (main) Installed features: [azure-keyvault-secret, cdi, smallrye-context-propagation, vertx]
-Keyvault endpoint: https://keyvaulttest0408.vault.azure.net/
-Create secret: mySecret1713764382536
-Please provide the value of your secret > 
-test
-Creating a secret called 'mySecret1713764382536' with value 'test' ... 
-2024-04-22 05:43:12,224 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential EnvironmentCredential is unavailable.
-2024-04-22 05:43:12,225 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential WorkloadIdentityCredential is unavailable.
-2024-04-22 05:43:12,442 WARN  [com.mic.aad.msa.ConfidentialClientApplication] (ForkJoinPool.commonPool-worker-1) [Correlation ID: ebb3d137-a9a0-4ab5-b836-4b926a4a7c7a] Execution of class com.microsoft.aad.msal4j.AcquireTokenByClientCredentialSupplier failed: java.util.concurrent.ExecutionException: com.azure.identity.CredentialUnavailableException: ManagedIdentityCredential authentication unavailable. Connection to IMDS endpoint cannot be established.
-2024-04-22 05:43:12,442 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential ManagedIdentityCredential is unavailable.
-2024-04-22 05:43:12,453 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential SharedTokenCacheCredential is unavailable.
-2024-04-22 05:43:12,509 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential IntelliJCredential is unavailable.
-2024-04-22 05:43:13,003 INFO  [com.azu.ide.AzureCliCredential] (main) Azure Identity => getToken() result for scopes [https://vault.azure.net/.default]: SUCCESS
-2024-04-22 05:43:13,004 INFO  [com.azu.cor.imp.AccessTokenCache] (main) {"az.sdk.message":"Acquired a new access token."}
+2024-04-24 03:04:03,835 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret 999-SNAPSHOT on JVM (powered by Quarkus 3.6.5) started in 1.853s. Listening on: http://0.0.0.0:8080
+2024-04-24 03:04:03,845 INFO  [io.quarkus] (main) Profile prod activated. 
+2024-04-24 03:04:03,845 INFO  [io.quarkus] (main) Installed features: [azure-keyvault-secret, cdi, smallrye-context-propagation, vertx]
+Keyvault endpoint: https://kvquarkusazurekv0423.vault.azure.net/
+Create secret: mySecret1713927844606
+Creating a secret called 'mySecret1713927844606' with value 'value1713927844608' ... 
+2024-04-24 03:04:06,031 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential EnvironmentCredential is unavailable.
+2024-04-24 03:04:06,032 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential WorkloadIdentityCredential is unavailable.
+2024-04-24 03:04:06,242 WARN  [com.mic.aad.msa.ConfidentialClientApplication] (ForkJoinPool.commonPool-worker-1) [Correlation ID: efba4900-f323-4f76-88b4-ffb520075923] Execution of class com.microsoft.aad.msal4j.AcquireTokenByClientCredentialSupplier failed: java.util.concurrent.ExecutionException: com.azure.identity.CredentialUnavailableException: ManagedIdentityCredential authentication unavailable. Connection to IMDS endpoint cannot be established.
+2024-04-24 03:04:06,242 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential ManagedIdentityCredential is unavailable.
+2024-04-24 03:04:06,253 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential SharedTokenCacheCredential is unavailable.
+2024-04-24 03:04:06,311 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential IntelliJCredential is unavailable.
+2024-04-24 03:04:06,813 INFO  [com.azu.ide.AzureCliCredential] (main) Azure Identity => getToken() result for scopes [https://vault.azure.net/.default]: SUCCESS
+2024-04-24 03:04:06,814 INFO  [com.azu.cor.imp.AccessTokenCache] (main) {"az.sdk.message":"Acquired a new access token."}
 done.
 Forgetting your secret.
 Your secret's value is ''.
 Retrieving your secret...
-Your secret's value is 'test'.
-Deleting your secret ... done.
-2024-04-22 05:43:16,744 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret stopped in 0.058s
+Your secret's value is 'value1713927844608'.
+Deleting your secret ... 
+done.
+2024-04-24 03:04:27,914 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret stopped in 0.065s
 ```
 
 ### Running and test the sample as a native executable
@@ -176,28 +182,28 @@ __  ____  __  _____   ___  __ ____  ______
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2024-04-22 05:46:30,042 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret 999-SNAPSHOT native (powered by Quarkus 3.6.5) started in 1.073s. Listening on: http://0.0.0.0:8080
-2024-04-22 05:46:30,050 INFO  [io.quarkus] (main) Profile prod activated. 
-2024-04-22 05:46:30,050 INFO  [io.quarkus] (main) Installed features: [azure-keyvault-secret, cdi, smallrye-context-propagation, vertx]
-Keyvault endpoint: https://keyvaulttest0408.vault.azure.net/
-Create secret: mySecret1713764790133
-Please provide the value of your secret > 
-test
-Creating a secret called 'mySecret1713764790133' with value 'test' ... 2024-04-22 05:47:03,960 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential EnvironmentCredential is unavailable.
-2024-04-22 05:47:03,960 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential WorkloadIdentityCredential is unavailable.
-2024-04-22 05:47:04,049 WARN  [com.mic.aad.msa.ConfidentialClientApplication] (ForkJoinPool.commonPool-worker-1) [Correlation ID: 76a533b6-1a51-4fc3-8280-6a1c81b5f1d0] Execution of class com.microsoft.aad.msal4j.AcquireTokenByClientCredentialSupplier failed: java.util.concurrent.ExecutionException: com.azure.identity.CredentialUnavailableException: ManagedIdentityCredential authentication unavailable. Connection to IMDS endpoint cannot be established.
-2024-04-22 05:47:04,049 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential ManagedIdentityCredential is unavailable.
-2024-04-22 05:47:04,050 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential SharedTokenCacheCredential is unavailable.
-2024-04-22 05:47:04,077 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential IntelliJCredential is unavailable.
-2024-04-22 05:47:05,397 INFO  [com.azu.ide.AzureCliCredential] (main) Azure Identity => getToken() result for scopes [https://vault.azure.net/.default]: SUCCESS
-2024-04-22 05:47:05,397 INFO  [com.azu.cor.imp.AccessTokenCache] (main) {"az.sdk.message":"Acquired a new access token."}
+2024-04-24 03:10:28,110 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret 999-SNAPSHOT native (powered by Quarkus 3.6.5) started in 1.064s. Listening on: http://0.0.0.0:8080
+2024-04-24 03:10:28,124 INFO  [io.quarkus] (main) Profile prod activated. 
+2024-04-24 03:10:28,124 INFO  [io.quarkus] (main) Installed features: [azure-keyvault-secret, cdi, smallrye-context-propagation, vertx]
+Keyvault endpoint: https://kvquarkusazurekv0423.vault.azure.net/
+Create secret: mySecret1713928228223
+Creating a secret called 'mySecret1713928228223' with value 'value1713928228223' ... 
+2024-04-24 03:10:29,383 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential EnvironmentCredential is unavailable.
+2024-04-24 03:10:29,384 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential WorkloadIdentityCredential is unavailable.
+2024-04-24 03:10:29,490 WARN  [com.mic.aad.msa.ConfidentialClientApplication] (ForkJoinPool.commonPool-worker-1) [Correlation ID: b26f3df6-0aa0-4571-b4ff-266b335cf158] Execution of class com.microsoft.aad.msal4j.AcquireTokenByClientCredentialSupplier failed: java.util.concurrent.ExecutionException: com.azure.identity.CredentialUnavailableException: ManagedIdentityCredential authentication unavailable. Connection to IMDS endpoint cannot be established.
+2024-04-24 03:10:29,491 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential ManagedIdentityCredential is unavailable.
+2024-04-24 03:10:29,492 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential SharedTokenCacheCredential is unavailable.
+2024-04-24 03:10:29,519 INFO  [com.azu.ide.ChainedTokenCredential] (main) Azure Identity => Attempted credential IntelliJCredential is unavailable.
+2024-04-24 03:10:30,186 INFO  [com.azu.ide.AzureCliCredential] (main) Azure Identity => getToken() result for scopes [https://vault.azure.net/.default]: SUCCESS
+2024-04-24 03:10:30,186 INFO  [com.azu.cor.imp.AccessTokenCache] (main) {"az.sdk.message":"Acquired a new access token."}
 done.
 Forgetting your secret.
 Your secret's value is ''.
 Retrieving your secret...
-Your secret's value is 'test'.
-Deleting your secret ... done.
-2024-04-22 05:47:11,446 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret stopped in 0.008s
+Your secret's value is 'value1713928228223'.
+Deleting your secret ... 
+done.
+2024-04-24 03:10:36,270 INFO  [io.quarkus] (main) quarkus-azure-integration-test-keyvault-secret stopped in 0.009s
 ```
 
 ## Cleaning up Azure resources

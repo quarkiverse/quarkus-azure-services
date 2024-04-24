@@ -1,19 +1,14 @@
 
 package io.quarkiverse.azure.keyvault.secret.it;
 
-import java.io.Console;
-
-import jakarta.inject.Inject;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import com.azure.core.util.polling.SyncPoller;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.models.DeletedSecret;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
-
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @QuarkusMain
 public class KeyVaultSecretApplication implements QuarkusApplication {
@@ -27,15 +22,13 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {
 
-        System.out.println("Keyvault endpoint: " + endpoint);        
-
-        Console con = System.console();
+        System.out.println("Keyvault endpoint: " + endpoint);
 
         String secretName = "mySecret" + System.currentTimeMillis();
         System.out.println("Create secret: " + secretName);
 
         String secretValue = "value" + System.currentTimeMillis();
-        System.out.print("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
+        System.out.println("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
 
         secretClient.setSecret(new KeyVaultSecret(secretName, secretValue));
 
@@ -50,7 +43,7 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
         KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
 
         System.out.println("Your secret's value is '" + retrievedSecret.getValue() + "'.");
-        System.out.print("Deleting your secret ... ");
+        System.out.println("Deleting your secret ... ");
 
         SyncPoller<DeletedSecret, Void> deletionPoller = secretClient.beginDeleteSecret(secretName);
         deletionPoller.waitForCompletion();
