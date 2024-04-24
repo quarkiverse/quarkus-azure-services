@@ -1,10 +1,13 @@
 package io.quarkiverse.azure.keyvault.secret.deployment;
 
-import com.azure.security.keyvault.secrets.SecretClient;
-import io.quarkus.test.QuarkusUnitTest;
 import jakarta.inject.Inject;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+
+import com.azure.security.keyvault.secrets.SecretClient;
+
+import io.quarkus.test.QuarkusUnitTest;
 
 public class KeyVaultSecretClientCDITest {
 
