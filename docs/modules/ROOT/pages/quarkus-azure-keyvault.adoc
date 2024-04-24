@@ -73,7 +73,11 @@ Then, assign all secret permissions(backup, delete, get, list, purge, recover, r
 
 [source,shell]
 ----
-az ad signed-in-user show --query id -o tsv | az keyvault set-policy --name myKeyVault --object-id @- --secret-permissions all
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault set-policy \
+    --name kvquarkusazurekeyvault0423 \
+    --object-id @- \
+    --secret-permissions all
 ----
 
 If you log into the http://portal.azure.com/[Azure portal], you can see the key vault you created. Select **Objects** -> **Secrets**, you will find the Secrets page.
@@ -87,9 +91,9 @@ To get the endpoint, execute the following Azure CLI command:
 
 [source,shell]
 ----
-az keyvault show --name kvquarkusazurekeyvault0423\
-    --resource-group rg-quarkus-azure-keyvault\
-    --query properties.vaultUri\
+az keyvault show --name kvquarkusazurekeyvault0423 \
+    --resource-group rg-quarkus-azure-keyvault \
+    --query properties.vaultUri \
     --output tsv
 ----
 

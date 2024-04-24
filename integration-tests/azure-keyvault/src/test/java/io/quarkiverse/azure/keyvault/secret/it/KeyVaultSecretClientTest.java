@@ -25,10 +25,10 @@ public class KeyVaultSecretClientTest {
     public void testCreateSecret() {
         System.out.print("your secret ... " + secretName);
 
-        String pswValue = "psw" + System.currentTimeMillis();
-        secretClient.setSecret(secretName, pswValue);
+        String value = "value" + System.currentTimeMillis();
+        secretClient.setSecret(secretName, value);
 
-        Assertions.assertEquals(pswValue, secretClient.getSecret(secretName).getValue());
+        Assertions.assertEquals(value, secretClient.getSecret(secretName).getValue());
     }
 
     @Test

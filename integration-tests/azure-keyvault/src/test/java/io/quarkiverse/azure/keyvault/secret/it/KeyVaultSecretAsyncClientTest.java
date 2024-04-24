@@ -24,9 +24,9 @@ public class KeyVaultSecretAsyncClientTest {
     public void testCreateSecret() throws InterruptedException {
         System.out.print("your secret ... " + secretName);
 
-        String pswValue = "psw" + System.currentTimeMillis();
-        secretAsyncClient.setSecret(secretName, pswValue)
-                .subscribe(secret -> Assertions.assertEquals(pswValue, secret.getValue()));
+        String value = "value" + System.currentTimeMillis();
+        secretAsyncClient.setSecret(secretName, value)
+                .subscribe(secret -> Assertions.assertEquals(value, secret.getValue()));
 
         Thread.currentThread().sleep(2000);
     }

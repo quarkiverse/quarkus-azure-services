@@ -34,10 +34,7 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
         String secretName = "mySecret" + System.currentTimeMillis();
         System.out.println("Create secret: " + secretName);
 
-        System.out.println("Please provide the value of your secret > ");
-
-        String secretValue = con.readLine();
-
+        String secretValue = "value" + System.currentTimeMillis();
         System.out.print("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
 
         secretClient.setSecret(new KeyVaultSecret(secretName, secretValue));
