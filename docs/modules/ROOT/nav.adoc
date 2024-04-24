@@ -1,2 +1,3 @@
 * xref:quarkus-azure-app-configuration.adoc[Quarkus Azure App Configuration Extension]
+* xref:quarkus-azure-keyvault.adoc[Quarkus Azure Key Vault Extension]
 * xref:quarkus-azure-storage-blob.adoc[Quarkus Azure Blob Storage Extension]

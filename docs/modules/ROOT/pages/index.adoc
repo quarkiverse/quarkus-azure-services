@@ -4,4 +4,6 @@ include::./includes/attributes.adoc[]
 
 include::quarkus-azure-app-configuration.adoc[leveloffset=+1, opts=optional]
 
+include::quarkus-azure-keyvault.adoc[leveloffset=+1, opts=optional]
+
 include::quarkus-azure-storage-blob.adoc[leveloffset=+1, opts=optional]

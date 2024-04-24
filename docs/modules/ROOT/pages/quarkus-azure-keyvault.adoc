@@ -1,0 +1,170 @@
+= Quarkus Azure Key Vault Extension
+
+include::./includes/attributes.adoc[]
+
+include::./includes/support.adoc[]
+
+https://azure.microsoft.com/en-us/products/key-vault[Azure Key Vault] is a cloud service for securely storing and accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, or cryptographic keys. 
+This extension allows you to create and retrieve secret from Azure Key Vault by injecting the following object inside your Quarkus application.
+
+* `com.azure.security.keyvault.secrets.SecretClient` 
+* `com.azure.security.keyvault.secrets.SecretAsyncClient` 
+
+The extension produces SecretClient and  SecretAsyncClient using https://learn.microsoft.com/java/api/overview/azure/identity-readme#defaultazurecredential[DefaultAzureCredential].
+Developers who want more control or whose scenario isn't served by the default settings should build client using other credential types.
+
+== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-keyvault</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.security.keyvault.secrets.SecretClient` or `com.azure.security.keyvault.secrets.SecretAsyncClient` object in your application to manage secret.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the `az group create` command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-keyvault \
+    --location eastus
+----
+
+Create a general-purpose key vault with the following command:
+
+[source,shell]
+----
+az keyvault create --name kvquarkusazurekeyvault0423 \
+    --resource-group rg-quarkus-azure-keyvault \
+    --location eastus
+----
+
+Key Vault provides secure storage of generic secrets, such as passwords and database connection strings.
+All secrets in your key vault are stored encrypted. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them.
+
+Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault.
+The following command uses your Azure AD account to authorize the operation to manage secret.
+Even if you are the key vault owner, you need explicit permissions to perform operations against secret.
+For that, get your subscription id with:
+
+[source,shell]
+----
+az account show \
+    --query id
+----
+
+Then, assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself with (change `<subscription>` with your subscription id):
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv | az keyvault set-policy --name myKeyVault --object-id @- --secret-permissions all
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the key vault you created. Select **Objects** -> **Secrets**, you will find the Secrets page.
+
+image::quarkus-azure-keyvault-secret-portal.png[alt=Azure Portal showing Key Vault Secrets]
+
+=== Configure the Azure Key Vault Secret Client
+
+As you can see below in the _Configuration Reference_ section, the configuration option `quarkus.azure.keyvault.secret.endpoint` is mandatory.
+To get the endpoint, execute the following Azure CLI command:
+
+[source,shell]
+----
+az keyvault show --name kvquarkusazurekeyvault0423\
+    --resource-group rg-quarkus-azure-keyvault\
+    --query properties.vaultUri\
+    --output tsv
+----
+
+Then, in the `application.properties` file, add the following property:
+
+[source,properties]
+----
+quarkus.azure.keyvault.secret.endpoint=https://kvquarkusazurekeyvault0423.vault.azure.net/
+----
+
+=== Inject the Azure Key Vault Secret Client
+
+Now that your Azure environment is ready and that you have configured the extension, you can inject the `com.azure.security.keyvault.secrets.SecretClient` object in your application, so you can interact with Azure Key Vault Secret.
+
+This is a https://quarkus.io/guides/command-mode-reference[Quarkus CLI application]. The application will:
+
+* Ask for a secret value.
+* Create a secret with name `mySecret` and set its value.
+* Retrieve and print the secret value.
+* Delete the secret.
+
+You can build and run the application in development mode using command:
+
+```
+quarkus dev
+```
+
+[source,java]
+----
+@QuarkusMain
+public class KeyVaultSecretApplication implements QuarkusApplication {
+
+    @Inject
+    SecretClient secretClient;
+
+    @Override
+    public int run(String... args) throws Exception {
+
+        Console con = System.console();
+
+        String secretName = "mySecret";
+        System.out.println("Create secret: " + secretName);
+
+        System.out.println("Please provide the value of your secret > ");
+
+        String secretValue = con.readLine();
+
+        System.out.print("Creating a secret called '" + secretName + "' with value '" + secretValue + "' ... ");
+
+        secretClient.setSecret(new KeyVaultSecret(secretName, secretValue));
+
+        System.out.println("Retrieving your secret...");
+
+        KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
+
+        System.out.println("Your secret's value is '" + retrievedSecret.getValue() + "'.");
+        System.out.print("Deleting your secret ... ");
+
+        SyncPoller<DeletedSecret, Void> deletionPoller = secretClient.beginDeleteSecret(secretName);
+        deletionPoller.waitForCompletion();
+
+        System.out.println("done.");
+        return 0;
+    }
+}
+
+----
+
+After running the application, if you log into the http://portal.azure.com/[Azure portal], you can see the key vault and the secret you created.
+As the secret is deleted, you will find the secret from **Objects** -> **Secrets** -> **Manage deleted secrets**.
+
+image::quarkus-azure-keyvault-deleted-secret-portal.png[alt=Azure Portal showing the deleted secrets]
+
+You can also inject `com.azure.security.keyvault.secrets.SecretAsyncClient` object to your application. For more usage, see https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient?view=azure-java-stable[com.azure.security.keyvault.secrets.secretasyncclient]. 
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-keyvault.adoc[leveloffset=+1, opts=optional]
