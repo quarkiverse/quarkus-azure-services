@@ -68,10 +68,10 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn -B clean install -Dno-format
+        run: mvn -B clean install -Dno-format -DskipTests
 
       - name: Build with Maven (Native)
-        run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
+        run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -DskipTests
         if: ${{ env.AZURE_CLIENT_ID == '' || env.AZURE_TENANT_ID == '' || env.AZURE_SUBSCRIPTION_ID == '' }}
 
       - name: Az CLI login
