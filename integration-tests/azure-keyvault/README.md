@@ -1,6 +1,6 @@
 # Azure Key Vault sample
 
-This is a Quarkus CLI sample application using the Quarkus Key Vault extension to create/delete secret from Azure Key Vault.
+This is a sample application using the Quarkus Key Vault extension to create secret with `SecretClient` and `SecretAsyncClient` from Azure Key Vault.
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 
 ## Preparing the Azure services
 
-You need to create an Azure Key Vault before runnint the sample application.
+You need to create an Azure Key Vault before running the sample application.
 
 ### Logging into Azure
 
@@ -68,7 +68,7 @@ az group create \
 
 ### Creating Azure Key Vault
 
-Run the following commands to create an Azure Key Vault, set permission and export its connection string as an environment
+Run the following commands to create an Azure Key Vault, set permission and export its endpoint as an environment
 variable.
 
 ```
