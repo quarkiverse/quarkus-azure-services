@@ -1,6 +1,6 @@
 ---
 name: "Quarkus Support Azure Key Vault"
-description: "Manage secrets and keys in Azure Key Vault Service"
+description: "Manage secrets in Azure Key Vault Service"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"

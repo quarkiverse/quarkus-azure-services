@@ -59,7 +59,7 @@ public class KeyVaultSecretResource {
     @Path("async")
     @Produces(TEXT_PLAIN)
     public String testAsync() throws ExecutionException, InterruptedException {
-        LOG.info("Testing SecretAsyncclient by creating secret: " + ASYNC_PARAM);
+        LOG.info("Testing SecretAsyncClient by creating secret: " + ASYNC_PARAM);
 
         CompletableFuture<String> completableFuture = new CompletableFuture<>();
         secretAsyncClient.setSecret(ASYNC_PARAM, TEXT)
