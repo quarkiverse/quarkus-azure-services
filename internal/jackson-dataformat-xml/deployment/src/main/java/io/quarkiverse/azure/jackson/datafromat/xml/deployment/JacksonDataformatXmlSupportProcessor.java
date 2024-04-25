@@ -27,7 +27,6 @@ import javax.xml.stream.XMLOutputFactory;
 
 import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
 
-import com.ctc.wstx.shaded.msv.org_isorelax.verifier.VerifierFactoryLoader;
 import com.ctc.wstx.shaded.msv.relaxng_datatype.DatatypeLibraryFactory;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -47,7 +46,6 @@ public class JacksonDataformatXmlSupportProcessor {
                 Stream.of(
                         JsonFactory.class,
                         ObjectCodec.class,
-                        VerifierFactoryLoader.class,
                         DatatypeLibraryFactory.class,
                         XMLEventFactory.class,
                         XMLInputFactory.class,
