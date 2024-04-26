@@ -3,7 +3,6 @@ package io.quarkiverse.azure.keyvault.secret.it;
 import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import jakarta.inject.Inject;
