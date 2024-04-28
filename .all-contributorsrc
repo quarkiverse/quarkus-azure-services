@@ -137,6 +137,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "galiacheng",
+      "name": "Galia Cheng",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59823457?v=4",
+      "profile": "https://github.com/galiacheng",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
