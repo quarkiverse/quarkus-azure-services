@@ -4,6 +4,7 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
 import com.azure.core.util.ClientOptions;
+import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 
@@ -20,5 +21,13 @@ public class StorageBlobServiceClientProducer {
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
                 .connectionString(storageBlobConfiguration.connectionString)
                 .buildClient();
+    }
+
+    @Produces
+    public BlobServiceAsyncClient blobServiceAsyncClient() {
+        return new BlobServiceClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
+                .connectionString(storageBlobConfiguration.connectionString)
+                .buildAsyncClient();
     }
 }
