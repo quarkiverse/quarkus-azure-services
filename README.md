@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-azure-services.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.azureservices/quarkus-azure-services-parent?color=green)](https://central.sonatype.com/artifact/io.quarkiverse.azureservices/quarkus-azure-services-parent)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository hosts Quarkus extensions for different Azure Services. You can check
@@ -69,6 +69,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://oscerd.github.io"><img src="https://avatars.githubusercontent.com/u/5106647?v=4?s=100" width="100px;" alt="Andrea Cosentino"/><br /><sub><b>Andrea Cosentino</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=oscerd" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://automatiko.io"><img src="https://avatars.githubusercontent.com/u/904474?v=4?s=100" width="100px;" alt="Maciej Swiderski"/><br /><sub><b>Maciej Swiderski</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=mswiderski" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fhavel"><img src="https://avatars.githubusercontent.com/u/42615282?v=4?s=100" width="100px;" alt="Frantisek Havel"/><br /><sub><b>Frantisek Havel</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=fhavel" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/galiacheng"><img src="https://avatars.githubusercontent.com/u/59823457?v=4?s=100" width="100px;" alt="Galia Cheng"/><br /><sub><b>Galia Cheng</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=galiacheng" title="Code">💻</a> <a href="#maintenance-galiacheng" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
