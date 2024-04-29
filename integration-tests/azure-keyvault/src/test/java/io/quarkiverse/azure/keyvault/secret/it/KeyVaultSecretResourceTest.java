@@ -3,14 +3,12 @@ package io.quarkiverse.azure.keyvault.secret.it;
 import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 
 @QuarkusTest
-@DisabledIfSystemProperty(named = "azure.test", matches = "true")
-class KeyVaultSecretResourceTest {
+public class KeyVaultSecretResourceTest {
 
     @Test
     public void testSecretClient() {
