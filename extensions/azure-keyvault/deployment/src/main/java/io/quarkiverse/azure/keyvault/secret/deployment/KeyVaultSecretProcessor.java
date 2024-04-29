@@ -22,7 +22,7 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBui
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveHierarchyBuildItem;
 
-class KeyVaultSecretProcessor {
+public class KeyVaultSecretProcessor {
 
     static final String FEATURE = "azure-keyvault-secret";
     private static final Logger log = Logger.getLogger(KeyVaultSecretProcessor.class.getName());
