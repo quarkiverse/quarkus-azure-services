@@ -21,7 +21,14 @@ import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HEAD;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -90,7 +97,7 @@ public class StorageBlobAsyncResource {
 
     @Path("/{container}/{blobName}")
     @DELETE
-    public Uni<Response> delete(
+    public Uni<Response> deleteBlob(
             @PathParam("container") String container,
             @PathParam("blobName") String blobName) {
         Mono<Void> deleteBlob = blobServiceAsyncClient.getBlobContainerAsyncClient(container)
