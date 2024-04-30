@@ -1,6 +1,6 @@
 # Quarkus Azure Services - Integration Tests
 
-This is the integration test for testing all Quarkus Azure services extensions from REST endpoints.
+This is the integration test for testing all Quarkus Azure services extensions from REST endpoints. You can also find the same AZ CLI commands to create Azure services in `.github/build-with-maven-native.sh`.
 
 ## Installing dependencies locally in development iteration
 
@@ -116,6 +116,33 @@ variable `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT` / `QUARKUS_AZURE_APP_CONFIGU
 will be fed into config
 properties `quarkus.azure.app.configuration.endpoint` / `quarkus.azure.app.configuration.id` / `quarkus.azure.app.configuration.secret`
 of `azure-app-configuration` extension in order to set up the connection to the Azure App Configuration store.
+
+### Creating Azure Key Vault
+
+Run the following commands to create an Azure Key Vault, set permission and export its connection string as an environment
+variable.  
+
+```
+export KEY_VAULT_NAME=<unique-key-vault-name>
+az keyvault create --name ${KEY_VAULT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --location eastus
+
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault set-policy \
+    --name ${KEY_VAULT_NAME} \
+    --object-id @- \
+    --secret-permissions all
+
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME}\
+    --resource-group ${RESOURCE_GROUP_NAME}\
+    --query properties.vaultUri -otsv)
+echo "The value of 'quarkus.azure.keyvault.secret.endpoint' is: ${QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT}"
+```
+
+The value of environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT` will be fed into config
+property `quarkus.azure.keyvault.secret.endpoint` of `azure-keyvault` extension in order to set up the
+connection to the Azure Key Vault.
 
 ### Running the test
 

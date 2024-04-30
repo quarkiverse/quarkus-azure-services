@@ -1,0 +1,29 @@
+
+:summaryTableId: quarkus-azure-keyvault
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[[quarkus-azure-keyvault_configuration]]link:#quarkus-azure-keyvault_configuration[Configuration property]
+
+h|Type
+h|Default
+
+a| [[quarkus-azure-keyvault_quarkus.quarkus.azure.keyvault.secret.endpoint]]`link:#quarkus-azure-keyvualt_quarkus.azure.keyvault.secret.endpoint[quarkus.azure.keyvault.secret.endpoint]`
+
+
+[.description]
+--
+The endpoint of Azure Key Vault.
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|required icon:exclamation-circle[title=Configuration property is required]
+
+|===

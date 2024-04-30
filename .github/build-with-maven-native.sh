@@ -5,6 +5,7 @@ set -Euo pipefail
 # - RESOURCE_GROUP_NAME
 # - STORAGE_ACCOUNT_NAME
 # - APP_CONFIG_NAME
+# - KEY_VAULT_NAME
 
 # Create a resource group
 az group create \
@@ -70,6 +71,27 @@ credential=$(az appconfig credential list \
     | jq 'map(select(.readOnly == true)) | .[0]')
 export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
 export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
+
+# Azure Key Vault Extension
+# The same commands used in 
+#  - integration-tests/README.md
+#  - integration-tests/azure-keyvault/README.md
+
+az keyvault create \
+    --name ${KEY_VAULT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --location eastus
+
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault set-policy \
+    --name ${KEY_VAULT_NAME} \
+    --object-id @- \
+    --secret-permissions all
+
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME}\
+    --query properties.vaultUri\
+    --output tsv)
 
 # Build native executable and run the integration tests against the Azure services
 mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
