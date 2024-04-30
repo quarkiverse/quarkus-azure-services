@@ -42,19 +42,6 @@ public class KeyVaultSecretResource {
     }
 
     @GET
-    @Path("list")
-    @Produces(TEXT_PLAIN)
-    public String testSyncList() {
-        LOG.info("Testing SecretClient by listing secrets: ");
-
-        //Get secrets
-        return secretClient.listPropertiesOfSecrets()
-                .stream()
-                .map(SecretProperties::getName)
-                .collect(Collectors.joining(","));
-    }
-
-    @GET
     @Path("async")
     @Produces(TEXT_PLAIN)
     public CompletableFuture<String> testAsync() {

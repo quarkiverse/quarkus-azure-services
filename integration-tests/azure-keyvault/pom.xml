@@ -12,7 +12,7 @@
     <name>Quarkus Azure Services :: Integration Test :: Azure Key Vault Secret</name>
 
     <properties>
-        <!-- All the test requires real azure key vault service, skip the tests if setting -Dskip.azure.test=true. -->
+        <!-- All the test requires real azure key vault service, skip the tests if setting -Dskip.azure.tests=true. -->
         <!-- Used in build pipeline. -->
         <maven.test.skip>${skip.azure.tests}</maven.test.skip>
     </properties>

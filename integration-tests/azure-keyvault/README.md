@@ -146,9 +146,6 @@ curl http://localhost:8080/keyvault/sync
 
 #Use SecretAsyncClient to create a secret and get the value:
 curl http://localhost:8080/keyvault/async
-
-#Use SecretClient to list all secret and return names:
-curl http://localhost:8080/keyvault/list
 ```
 
 Now you will 
