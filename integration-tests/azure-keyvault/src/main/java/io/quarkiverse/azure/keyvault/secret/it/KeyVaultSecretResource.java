@@ -3,7 +3,6 @@ package io.quarkiverse.azure.keyvault.secret.it;
 import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -14,7 +13,6 @@ import org.jboss.logging.Logger;
 
 import com.azure.security.keyvault.secrets.SecretAsyncClient;
 import com.azure.security.keyvault.secrets.SecretClient;
-import com.azure.security.keyvault.secrets.models.SecretProperties;
 
 @Path("/keyvault")
 public class KeyVaultSecretResource {
