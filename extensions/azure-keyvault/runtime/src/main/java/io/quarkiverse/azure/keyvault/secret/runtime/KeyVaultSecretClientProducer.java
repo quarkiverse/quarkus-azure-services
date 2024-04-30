@@ -28,7 +28,8 @@ public class KeyVaultSecretClientProducer {
     @Produces
     public SecretAsyncClient createSecretAsyncClient() {
         return new SecretClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT))
+                .clientOptions(
+                        new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT))
                 .vaultUrl(secretConfiguration.endpoint)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildAsyncClient();
