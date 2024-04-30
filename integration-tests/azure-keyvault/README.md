@@ -69,7 +69,7 @@ az group create \
 ### Creating Azure Key Vault
 
 Run the following commands to create an Azure Key Vault, set permission and export its endpoint as an environment
-variable.
+variable. You can also find the same AZ CLI commands to create Azure Key Vault services in `.github/build-with-maven-native.sh`.
 
 ```
 KEY_VAULT_NAME=<unique-key-vault-name>

@@ -1,6 +1,6 @@
 # Quarkus Azure Services - Integration Tests
 
-This is the integration test for testing all Quarkus Azure services extensions from REST endpoints.
+This is the integration test for testing all Quarkus Azure services extensions from REST endpoints. You can also find the same AZ CLI commands to create Azure services in `.github/build-with-maven-native.sh`.
 
 ## Installing dependencies locally in development iteration
 
@@ -120,7 +120,7 @@ of `azure-app-configuration` extension in order to set up the connection to the 
 ### Creating Azure Key Vault
 
 Run the following commands to create an Azure Key Vault, set permission and export its connection string as an environment
-variable.
+variable.  
 
 ```
 export KEY_VAULT_NAME=<unique-key-vault-name>

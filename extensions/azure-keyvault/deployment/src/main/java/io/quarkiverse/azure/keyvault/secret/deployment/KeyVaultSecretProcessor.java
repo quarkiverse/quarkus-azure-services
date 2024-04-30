@@ -51,20 +51,23 @@ public class KeyVaultSecretProcessor {
     void reflectiveClasses(CombinedIndexBuildItem combinedIndexBuildItem,
             BuildProducer<ReflectiveClassBuildItem> reflectiveClasses) {
 
-        String[] modelClasses = combinedIndexBuildItem
-                .getIndex()
-                .getKnownClasses()
-                .stream()
-                .map(ClassInfo::name)
-                .map(DotName::toString)
-                .filter(n -> n.startsWith("com.azure.security.keyvault.secrets.models."))
-                .sorted()
-                .toArray(String[]::new);
-        reflectiveClasses.produce(ReflectiveClassBuildItem.builder(modelClasses).methods().build());
-
+        // see https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/keyvault/azure-security-keyvault-secrets/src/main/resources/META-INF/native-image/com.azure/azure-security-keyvault-secrets/reflect-config.json
         reflectiveClasses.produce(
                 ReflectiveClassBuildItem
-                        .builder("com.azure.security.keyvault.secrets.implementation.models.DeletedSecretBundle",
+                        .builder("com.azure.security.keyvault.secrets.SecretAsyncClient",
+                                "com.azure.security.keyvault.secrets.SecretClient",
+                                "com.azure.security.keyvault.secrets.SecretClientBuilder",
+                                "com.azure.security.keyvault.secrets.SecretServiceVersion",
+                                "com.azure.security.keyvault.secrets.implementation.DeletedSecretPage",
+                                "com.azure.security.keyvault.secrets.implementation.KeyVaultCredentialPolicy",
+                                "com.azure.security.keyvault.secrets.implementation.KeyVaultErrorCodeStrings",
+                                "com.azure.security.keyvault.secrets.implementation.SecretBackup",
+                                "com.azure.security.keyvault.secrets.implementation.SecretClientImpl",
+                                "com.azure.security.keyvault.secrets.implementation.SecretPropertiesPage",
+                                "com.azure.security.keyvault.secrets.implementation.SecretRequestAttributes",
+                                "com.azure.security.keyvault.secrets.implementation.SecretRequestParameters",
+                                "com.azure.security.keyvault.secrets.implementation.SecretRestoreRequestParameters",
+                                "com.azure.security.keyvault.secrets.implementation.models.DeletedSecretBundle",
                                 "com.azure.security.keyvault.secrets.implementation.models.DeletionRecoveryLevel",
                                 "com.azure.security.keyvault.secrets.implementation.models.KeyVaultErrorException",
                                 "com.azure.security.keyvault.secrets.implementation.models.SecretsModelsUtils")

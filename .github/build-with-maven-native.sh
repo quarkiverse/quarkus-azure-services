@@ -72,6 +72,11 @@ credential=$(az appconfig credential list \
 export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
 export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
 
+# Azure Key Vault Extension
+# The same commands used in 
+#  - integration-tests/README.md
+#  - integration-tests/azure-keyvault/README.md
+
 az keyvault create \
     --name ${KEY_VAULT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
