@@ -10,6 +10,8 @@ public final class AzureQuarkusIdentifier {
 
     public static final String AZURE_QUARKUS_APP_CONFIGURATION = "az-qk-app-config";
     public static final String AZURE_QUARKUS_STORAGE_BLOB = "az-qk-storage-blob";
+    public static final String AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT= "az-qk-keyvault-secret-async-client";
+    public static final String AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT= "az-qk-keyvault-secret-sync-client";
 
     private AzureQuarkusIdentifier() {
 
