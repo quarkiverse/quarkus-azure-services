@@ -6,7 +6,6 @@ import java.util.List;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.Type;
-import org.jboss.logging.Logger;
 
 import com.azure.json.JsonSerializable;
 
@@ -22,10 +21,11 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBui
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveHierarchyBuildItem;
 
+import io.quarkus.logging.Log;
+
 public class KeyVaultSecretProcessor {
 
     static final String FEATURE = "azure-keyvault-secret";
-    private static final Logger log = Logger.getLogger(KeyVaultSecretProcessor.class.getName());
     private static final DotName JSON_SERIALIZABLE_DOT_NAME = DotName.createSimple(JsonSerializable.class.getName());
 
     @BuildStep
@@ -83,8 +83,8 @@ public class KeyVaultSecretProcessor {
                 .map(c -> c.name().toString())
                 .filter(s -> s.startsWith("com.azure.security.keyvault.secrets.implementation.models."))
                 .forEach(e -> {
-                    if (log.isDebugEnabled()) {
-                        log.debugv("Add class to reflectiveHierarchyClass: " + e);
+                    if (Log.isDebugEnabled()) {
+                        Log.debugv("Add class to reflectiveHierarchyClass: " + e);
                     }
                     Type jandexType = Type.create(DotName.createSimple(e), Type.Kind.CLASS);
                     reflectiveHierarchyClass.produce(new ReflectiveHierarchyBuildItem.Builder()
