@@ -136,7 +136,7 @@ version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 ./target/quarkus-azure-integration-test-keyvault-secret-${version}-runner
 ```
 
-## ## Testing the sample
+## Testing the sample
 
 Open a new terminal and run the following commands to test the sample:
 

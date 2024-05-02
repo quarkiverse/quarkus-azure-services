@@ -56,10 +56,9 @@ jobs:
           fi
 
       - name: Maven release ${{steps.metadata.outputs.current-version}}
-        # Skip any tests depending on real Azure serivces, e.g., azure-keyvault
         run: |
-          mvn -B release:prepare -Prelease -DreleaseVersion=${{steps.metadata.outputs.current-version}} -DdevelopmentVersion=${{steps.metadata.outputs.next-version}} -Dskip.azure.tests=true
-          mvn -B release:perform -Darguments=-DperformRelease -DperformRelease -Prelease -Dskip.azure.tests=true
+          mvn -B release:prepare -Prelease -DreleaseVersion=${{steps.metadata.outputs.current-version}} -DdevelopmentVersion=${{steps.metadata.outputs.next-version}}
+          mvn -B release:perform -Darguments=-DperformRelease -DperformRelease -Prelease
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
