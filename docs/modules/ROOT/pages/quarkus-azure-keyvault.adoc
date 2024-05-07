@@ -59,7 +59,7 @@ Key Vault provides secure storage of generic secrets, such as passwords and data
 All secrets in your key vault are stored encrypted. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them.
 
 Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault.
-The following command uses your Azure AD account to authorize the operation to manage secret.
+The following command uses your Microsoft Entra ID to authorize the operation to manage secret.
 Even if you are the key vault owner, you need explicit permissions to perform operations against secret.
 
 Assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself:

@@ -5,7 +5,9 @@ include::./includes/attributes.adoc[]
 include::./includes/support.adoc[]
 
 https://azure.microsoft.com/products/storage/blobs[Azure Blob Storage] is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance computing, and machine learning.
-This extension allows you to store and retrieve blobs from Azure Blob Storage by injecting a `com.azure.storage.blob.BlobServiceClient` object inside your Quarkus application.
+This extension allows you to store and retrieve blobs from Azure Blob Storage by injecting a `com.azure.storage.blob.BlobServiceClient` or `com.azure.storage.blob.BlobServiceAsyncClient` object inside your Quarkus application.
+
+This is a step by step guide on how to use the Quarkus Azure Blob Storage extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-storage-blob[Azure Blob Storage sample].
 
 == Installation
 
@@ -24,7 +26,7 @@ For instance, with Maven, add the following dependency to your POM file:
 
 == How to Use It
 
-Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.storage.blob.BlobServiceClient` object in your application to store and read blobs.
+Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.storage.blob.BlobServiceClient` or `com.azure.storage.blob.BlobServiceAsyncClient` object in your application to store and read blobs.
 
 === Setup your Azure Environment
 
@@ -52,40 +54,14 @@ az storage account create \
     --encryption-services blob
 ----
 
-Blobs are always uploaded into a container.
-You can organize groups of blobs in containers similar to the way you organize your files on your computer in folders.
-The following command uses your Azure AD account to authorize the operation to create the container.
-Before you create the container, assign the _Storage Blob Data Contributor_ role to yourself.
-Even if you are the account owner, you need explicit permissions to perform data operations against the storage account.
-For that, get your subscription id with:
-
-[source,shell]
-----
-az account show \
-    --query id
-----
-
-Then, assign the role to yourself with (change `<subscription>` with your subscription id):
-
-[source,shell]
-----
-az ad signed-in-user show --query id -o tsv | az role assignment create \
-    --role "Storage Blob Data Contributor" \
-    --assignee @- \
-    --scope "/subscriptions/<subscription>/resourceGroups/rg-quarkus-azure-storage-blob/providers/Microsoft.Storage/storageAccounts/stquarkusazurestorageblo"
-----
-
-[source,shell]
-----
-az storage container create \
-    --account-name stquarkusazurestorageblo \
-    --name container-quarkus-azure-storage-blob \
-    --auth-mode login
-----
-
 If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the storage account you created.
 
-image::quarkus-azure-storage-blob-azure-portal1.png[alt=Azure Portal showing the blob container]
+image::quarkus-azure-storage-blob-azure-portal1.png[alt=Azure Portal showing the Azure storage account]
+
+Blobs are always uploaded into a container.
+You can organize groups of blobs in containers similar to the way you organize your files on your computer in folders.
+This guide will use the Azure Storage Blob client to create the container if it doesn't exist.
+Alternatively, follow instructions in https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-cli#create-a-container[Create a container] if you want to create a container before uploading blobs.
 
 === Configure the Azure Storage Blob Client
 
@@ -110,9 +86,11 @@ quarkus.azure.storage.blob.connection-string=DefaultEndpointsProtocol=https;Endp
 
 === Inject the Azure Storage Blob Client
 
-Now that your Azure environment is ready and that you have configured the extension, you can inject the `com.azure.storage.blob.BlobServiceClient` object in your application, so you can interact with Azure Blob Storage.
+Now that your Azure environment is ready and that you have configured the extension, you can inject the `com.azure.storage.blob.BlobServiceClient` object in your imperative application or inject the `com.azure.storage.blob.BlobServiceAsyncClient` object in your reactive application, so you can interact with Azure Blob Storage.
 
-The `uploadBlob` method first gets the container that we've created (``container-quarkus-azure-storage-blob), sets some text to a text file, and then uploads the text to the container.
+==== Use the BlobServiceClient in an imperative application
+
+The `uploadBlob` method first creates the container `container-quarkus-azure-storage-blob`, sets some text to a text file, and then uploads the text to the container.
 The `downloadBlob` method downloads the text file from the container and prints the text to the console.
 
 To execute this sample you can run the following cURL commands:
@@ -142,7 +120,7 @@ public class StorageBlobResource {
     @GET
     public String downloadBlob() {
         BlobContainerClient blobContainerClient = blobServiceClient
-                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob");
+                .getBlobContainerClient("container-quarkus-azure-storage-blob");
         BlobClient blobClient = blobContainerClient.getBlobClient("quarkus-azure-storage-blob.txt");
 
         return blobClient.downloadContent().toString();
@@ -150,16 +128,54 @@ public class StorageBlobResource {
 }
 ----
 
-You can go back to the http://portal.azure.com/[Azure portal] and see the container and the blob that you've created.
+You can go back to the http://portal.azure.com/[Azure portal] and see the container `container-quarkus-azure-storage-blob` and the blob `quarkus-azure-storage-blob.txt` that you've created.
 
-image::quarkus-azure-storage-blob-azure-portal2.png[alt=Azure Portal showing the containt of the file]
+image::quarkus-azure-storage-blob-azure-portal2.png[alt=Azure Portal showing the content of the file uploaded with the BlobServiceClient object]
 
-=== Reactive code pitfall
+==== Use the BlobServiceAsyncClient in a reactive application
 
-In case you plan to use `BlobServiceClient` (that provides all other clients for interacting with Azure BlobStore), note that it cannot be used within the reactive code as it blocks the event loop due to the fact that `BlobServiceClient` is a wrapper around the `BlobServiceAsyncClient` and it uses blocking calls such as `blockingGet`.
+Similarly, the `uploadBlob` method first creates the container `container-quarkus-azure-storage-blob-async`, sets some text to a text file, and then uploads the text to the container.
+The `downloadBlob` method downloads the text file from the container and prints the text to the console.
 
-Using it in reactive code such as RestEasy Reactive or Reactive Messaging will cause indefinite hang of the application that prevents it from further functioning or shutdown.
+To execute this sample you can run the following cURL commands:
 
+* `curl -X POST localhost:8080/quarkus-azure-storage-blob-async`
+* `curl localhost:8080/quarkus-azure-storage-blob-async`
+
+[source,java]
+----
+@Path("/quarkus-azure-storage-blob-async")
+@ApplicationScoped
+public class StorageBlobAsyncResource {
+
+    @Inject
+    BlobServiceAsyncClient blobServiceAsyncClient;
+
+    @POST
+    public Uni<Response> uploadBlob() {
+        Mono<BlockBlobItem> blockBlobItem = blobServiceAsyncClient
+                .createBlobContainerIfNotExists("container-quarkus-azure-storage-blob-async")
+                .map(it -> it.getBlobAsyncClient("quarkus-azure-storage-blob-async.txt"))
+                .flatMap(it -> it.upload(BinaryData.fromString("Hello quarkus-azure-storage-blob-async at " + LocalDateTime.now()), true));
+
+        return Uni.createFrom().completionStage(blockBlobItem.toFuture()).map(it -> Response.status(CREATED).build());
+    }
+
+    @GET
+    public Uni<Response> downloadBlob() {
+        BlobAsyncClient blobAsyncClient = blobServiceAsyncClient.getBlobContainerAsyncClient("container-quarkus-azure-storage-blob-async")
+                .getBlobAsyncClient("quarkus-azure-storage-blob-async.txt");
+
+        return Uni.createFrom()
+                .completionStage(blobAsyncClient.downloadContent().map(it -> Response.ok().entity(it.toString()).build())
+                        .toFuture());
+    }
+}
+----
+
+You can also go back to the http://portal.azure.com/[Azure portal] and see the container `container-quarkus-azure-storage-blob-async` and the blob `quarkus-azure-storage-blob-async.txt` that you've created.
+
+image::quarkus-azure-storage-blob-azure-portal3.png[alt=Azure Portal showing the content of the file uploaded with the BlobServiceAsyncClient object]
 
 == Extension Configuration Reference
 
