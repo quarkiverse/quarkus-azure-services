@@ -8,7 +8,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-integration-test</artifactId>
     <name>Quarkus Azure Services :: Integration Test</name>
     <packaging>pom</packaging>
