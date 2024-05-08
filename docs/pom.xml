@@ -114,7 +114,7 @@
                                 </resource>
                                 <resource>
                                     <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-keyvault.adoc</include>
+                                    <include>quarkus-azure-key-vault.adoc</include>
                                     <filtering>false</filtering>
                                 </resource>
                                 <resource>
