@@ -15,13 +15,13 @@ public interface AzureAppConfigurationConfig {
     @WithDefault("true")
     boolean enabled();
 
-    /** The endpoint of the app configuration */
+    /** The endpoint of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
     Optional<String> endpoint();
 
-    /** The id of the app configuration */
+    /** The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
     Optional<String> id();
 
-    /** The secret of the app configuration */
+    /** The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
     Optional<String> secret();
 
     /** The label filter of the app configuration. Use comma as separator for multiple label names */
