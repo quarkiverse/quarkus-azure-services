@@ -16,7 +16,7 @@ The following extensions allows you to interact with some of the Azure Services:
 
 - [Quarkus Azure App Configuration Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
   is a fast, scalable parameter storage for app configuration.
-- [Quarkus Azure Key Vault Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-keyvault.html): [Azure Key Vault](https://azure.microsoft.com/products/key-vault) is a cloud service for securely storing and accessing secrets.
+- [Quarkus Azure Key Vault Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-key-vault.html): [Azure Key Vault](https://azure.microsoft.com/products/key-vault) is a cloud service for securely storing and accessing secrets.
 - [Quarkus Azure Blob Storage Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-storage-blob.html): [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs/)
   is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance
   computing, and machine learning.
