@@ -12,17 +12,17 @@ import io.quarkus.test.junit.QuarkusTest;
 public class AzureAppConfigDisabledTest {
 
     @Test
-    public void testSecretClient() {
+    public void testGetValue() {
         given()
-                .get("/azure-app-config-disabled/{name}", "my.prop")
+                .get("/quarkus-azure-app-config-disabled/{name}", "my.prop")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body(equalTo("Azure App Configuration is disabled"));
+                .body(equalTo("The value is null because the Azure App Configuration is disabled"));
 
         given()
-                .get("/azure-app-config-disabled/{name}", "another.prop")
+                .get("/quarkus-azure-app-config-disabled/{name}", "another.prop")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .body(equalTo("Azure App Configuration is disabled"));
+                .body(equalTo("The value is null because the Azure App Configuration is disabled"));
     }
 }

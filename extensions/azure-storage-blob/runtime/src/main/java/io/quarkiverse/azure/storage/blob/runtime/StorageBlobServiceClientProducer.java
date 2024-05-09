@@ -17,17 +17,29 @@ public class StorageBlobServiceClientProducer {
 
     @Produces
     public BlobServiceClient blobServiceClient() {
+        if (!storageBlobConfiguration.enabled) {
+            return null;
+        }
+
+        assert storageBlobConfiguration.connectionString.isPresent()
+                : "The connection string of Azure Storage Account must be set";
         return new BlobServiceClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
-                .connectionString(storageBlobConfiguration.connectionString)
+                .connectionString(storageBlobConfiguration.connectionString.get())
                 .buildClient();
     }
 
     @Produces
     public BlobServiceAsyncClient blobServiceAsyncClient() {
+        if (!storageBlobConfiguration.enabled) {
+            return null;
+        }
+
+        assert storageBlobConfiguration.connectionString.isPresent()
+                : "The connection string of Azure Storage Account must be set";
         return new BlobServiceClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
-                .connectionString(storageBlobConfiguration.connectionString)
+                .connectionString(storageBlobConfiguration.connectionString.get())
                 .buildAsyncClient();
     }
 }

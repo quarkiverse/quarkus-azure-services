@@ -122,12 +122,29 @@ endif::add-copy-button-to-env-var[]
 |`default-storage-blob`
 
 
+a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled[quarkus.azure.storage.blob.enabled]`
+
+
+[.description]
+--
+The flag to enable the storage blob. If set to false, the storage blob will be disabled
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_STORAGE_BLOB_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string]]`link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string[quarkus.azure.storage.blob.connection-string]`
 
 
 [.description]
 --
-The connection string of Azure Storage Account.
+The connection string of Azure Storage Account. Required if quarkus.azure.storage.blob.enabled is set to true
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING+++[]
@@ -136,6 +153,6 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING+++`
 endif::add-copy-button-to-env-var[]
 --|string 
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 |===

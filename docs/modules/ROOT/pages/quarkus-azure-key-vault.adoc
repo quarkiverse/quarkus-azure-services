@@ -164,4 +164,4 @@ You can also inject `com.azure.security.keyvault.secrets.SecretAsyncClient` obje
 
 == Extension Configuration Reference
 
-include::includes/quarkus-azure-key-vault.adoc[leveloffset=+1, opts=optional]
+include::includes/quarkus-azure-keyvault-secret.adoc[leveloffset=+1, opts=optional]

@@ -9,8 +9,8 @@ import jakarta.ws.rs.core.MediaType;
 
 import io.smallrye.config.SmallRyeConfig;
 
-@Path("/azure-app-config-disabled")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/quarkus-azure-app-config-disabled")
+@Produces(MediaType.TEXT_PLAIN)
 public class AzureAppConfigDisabledResource {
     @Inject
     SmallRyeConfig config;
@@ -18,9 +18,8 @@ public class AzureAppConfigDisabledResource {
     @GET
     @Path("/{name}")
     public String getValue(@PathParam("name") final String name) {
-        String value = config.getConfigValue(name).getValue();
-        assert value == null;
-        return "Azure App Configuration is disabled";
+        assert config.getConfigValue(name).getValue() == null : "The value should be null";
+        return "The value is null because the Azure App Configuration is disabled";
     }
 
 }

@@ -18,19 +18,29 @@ public class KeyVaultSecretClientProducer {
 
     @Produces
     public SecretClient createSecretClient() {
+        if (!secretConfiguration.enabled) {
+            return null;
+        }
+
+        assert secretConfiguration.endpoint.isPresent() : "The endpoint of Azure Key Vault Secret must be set";
         return new SecretClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint)
+                .vaultUrl(secretConfiguration.endpoint.get())
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
     }
 
     @Produces
     public SecretAsyncClient createSecretAsyncClient() {
+        if (!secretConfiguration.enabled) {
+            return null;
+        }
+
+        assert secretConfiguration.endpoint.isPresent() : "The endpoint of Azure Key Vault Secret must be set";
         return new SecretClientBuilder()
                 .clientOptions(
                         new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint)
+                .vaultUrl(secretConfiguration.endpoint.get())
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildAsyncClient();
     }
