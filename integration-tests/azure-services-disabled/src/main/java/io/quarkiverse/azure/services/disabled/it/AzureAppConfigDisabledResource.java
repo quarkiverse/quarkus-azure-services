@@ -1,11 +1,14 @@
 package io.quarkiverse.azure.services.disabled.it;
 
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import io.smallrye.config.SmallRyeConfig;
 
@@ -17,9 +20,9 @@ public class AzureAppConfigDisabledResource {
 
     @GET
     @Path("/{name}")
-    public String getValue(@PathParam("name") final String name) {
+    public Response getValue(@PathParam("name") final String name) {
         assert config.getConfigValue(name).getValue() == null : "The value should be null";
-        return "The value is null because the Azure App Configuration is disabled";
+        return Response.status(NOT_FOUND).entity("The value is null because the Azure App Configuration is disabled").build();
     }
 
 }

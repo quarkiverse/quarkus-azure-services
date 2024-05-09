@@ -1,9 +1,12 @@
 package io.quarkiverse.azure.services.disabled.it;
 
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClient;
@@ -21,15 +24,17 @@ public class StorageBlobDisabledResource {
 
     @Path("/blobServiceClient")
     @GET
-    public String getBlobServiceClient() {
+    public Response getBlobServiceClient() {
         assert blobServiceClient == null : "The BlobServiceClient should be null";
-        return "The BlobServiceClient is null because the Azure Storage Blob is disabled";
+        return Response.status(NOT_FOUND).entity("The BlobServiceClient is null because the Azure Storage Blob is disabled")
+                .build();
     }
 
     @Path("/blobServiceAsyncClient")
     @GET
-    public String getBlobServiceAsyncClient() {
+    public Response getBlobServiceAsyncClient() {
         assert blobServiceAsyncClient == null : "The BlobServiceAsyncClient should be null";
-        return "The BlobServiceAsyncClient is null because the Azure Storage Blob is disabled";
+        return Response.status(NOT_FOUND)
+                .entity("The BlobServiceAsyncClient is null because the Azure Storage Blob is disabled").build();
     }
 }

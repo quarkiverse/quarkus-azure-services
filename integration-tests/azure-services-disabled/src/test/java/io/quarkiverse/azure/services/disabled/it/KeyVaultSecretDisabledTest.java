@@ -1,7 +1,7 @@
 package io.quarkiverse.azure.services.disabled.it;
 
 import static io.restassured.RestAssured.given;
-import static jakarta.ws.rs.core.Response.Status.OK;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class KeyVaultSecretDisabledTest {
         given()
                 .get("/quarkus-azure-key-vault-secret-disabled/secretClient")
                 .then()
-                .statusCode(OK.getStatusCode())
+                .statusCode(NOT_FOUND.getStatusCode())
                 .body(equalTo("The SecretClient is null because the Azure Key Vault secret is disabled"));
     }
 
@@ -25,7 +25,7 @@ public class KeyVaultSecretDisabledTest {
         given()
                 .get("/quarkus-azure-key-vault-secret-disabled/secretAsyncClient")
                 .then()
-                .statusCode(OK.getStatusCode())
+                .statusCode(NOT_FOUND.getStatusCode())
                 .body(equalTo("The SecretAsyncClient is null because the Azure Key Vault secret is disabled"));
     }
 }

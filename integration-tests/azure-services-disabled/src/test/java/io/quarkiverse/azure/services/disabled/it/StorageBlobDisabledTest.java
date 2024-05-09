@@ -1,7 +1,7 @@
 package io.quarkiverse.azure.services.disabled.it;
 
 import static io.restassured.RestAssured.given;
-import static jakarta.ws.rs.core.Response.Status.OK;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class StorageBlobDisabledTest {
         given()
                 .get("/quarkus-azure-storage-blob-disabled/blobServiceClient")
                 .then()
-                .statusCode(OK.getStatusCode())
+                .statusCode(NOT_FOUND.getStatusCode())
                 .body(equalTo("The BlobServiceClient is null because the Azure Storage Blob is disabled"));
     }
 
@@ -25,7 +25,7 @@ public class StorageBlobDisabledTest {
         given()
                 .get("/quarkus-azure-storage-blob-disabled/blobServiceAsyncClient")
                 .then()
-                .statusCode(OK.getStatusCode())
+                .statusCode(NOT_FOUND.getStatusCode())
                 .body(equalTo("The BlobServiceAsyncClient is null because the Azure Storage Blob is disabled"));
     }
 }
