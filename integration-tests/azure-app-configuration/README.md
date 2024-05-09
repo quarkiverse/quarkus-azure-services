@@ -7,9 +7,9 @@ App Configuration.
 
 To successfully run this sample, you need:
 
-* JDK 11+ installed with JAVA_HOME configured appropriately
+* JDK 17+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.6+
-* Azure CLI and Azure subscription if the specific Azure services are required
+* Azure CLI and Azure subscription
 * Docker if you want to build the app as a native executable
 
 You also need to make sure the right version of dependencies are installed.
@@ -41,7 +41,6 @@ from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases),
 Then, update the version of dependencies in the `pom.xml` file, for example:
 
 ```xml
-
 <parent>
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-parent</artifactId>
@@ -65,20 +64,20 @@ az login
 RESOURCE_GROUP_NAME=<resource-group-name>
 az group create \
     --name ${RESOURCE_GROUP_NAME} \
-    --location eastus
+    --location centralus
 ```
 
 ### Creating Azure App Configuration store
 
 Run the following commands to create an Azure App Configuration store, add a few key-value pairs, and export its
-connection info as environment variables.
+connection info as environment variables. You can also find the same AZ CLI commands to create Azure app configuration service in `.github/build-with-maven-native.sh`.
 
 ```
 export APP_CONFIG_NAME=<unique-app-config-name>
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location centralus
 
 az appconfig kv set \
     --name "${APP_CONFIG_NAME}" \

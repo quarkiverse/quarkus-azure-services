@@ -6,9 +6,9 @@ This is a sample application using the Quarkus Key Vault extension to create sec
 
 To successfully run this sample, you need:
 
-* JDK 11+ installed with JAVA_HOME configured appropriately
+* JDK 17+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.6+
-* Azure CLI and Azure subscription if the specific Azure services are required
+* Azure CLI and Azure subscription
 * Docker if you want to build the app as a native executable
 
 You also need to make sure the right version of dependencies are installed.
@@ -40,7 +40,6 @@ from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases),
 Then, update the version of dependencies in the `pom.xml` file, for example:
 
 ```xml
-
 <parent>
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-parent</artifactId>
@@ -69,7 +68,7 @@ az group create \
 ### Creating Azure Key Vault
 
 Run the following commands to create an Azure Key Vault, set permission and export its endpoint as an environment
-variable. You can also find the same AZ CLI commands to create Azure Key Vault services in `.github/build-with-maven-native.sh`.
+variable. You can also find the same AZ CLI commands to create Azure Key Vault service in `.github/build-with-maven-native.sh`.
 
 ```
 KEY_VAULT_NAME=<unique-key-vault-name>
