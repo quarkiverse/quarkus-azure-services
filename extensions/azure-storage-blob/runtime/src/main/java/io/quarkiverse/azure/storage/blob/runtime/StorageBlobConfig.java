@@ -1,5 +1,7 @@
 package io.quarkiverse.azure.storage.blob.runtime;
 
+import java.util.Optional;
+
 import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
@@ -8,8 +10,14 @@ import io.quarkus.runtime.annotations.ConfigRoot;
 public class StorageBlobConfig {
 
     /**
-     * The connection string of Azure Storage Account.
+     * The flag to enable the storage blob. If set to false, the storage blob will be disabled
+     */
+    @ConfigItem(defaultValue = "true")
+    public boolean enabled;
+
+    /**
+     * The connection string of Azure Storage Account. Required if quarkus.azure.storage.blob.enabled is set to true
      */
     @ConfigItem
-    public String connectionString;
+    public Optional<String> connectionString;
 }

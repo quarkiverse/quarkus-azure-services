@@ -23,6 +23,13 @@ import io.vertx.core.Vertx;
 public class AzureAppConfigurationConfigSourceFactory
         implements ConfigurableConfigSourceFactory<AzureAppConfigurationConfig> {
 
+    private static SettingSelector getSettingSelector(final AzureAppConfigurationConfig config) {
+        var settingSelector = new SettingSelector();
+        config.labels().ifPresent(settingSelector::setLabelFilter);
+
+        return settingSelector;
+    }
+
     @Override
     public Iterable<ConfigSource> getConfigSources(
             final ConfigSourceContext context,
@@ -33,6 +40,11 @@ public class AzureAppConfigurationConfigSourceFactory
     }
 
     private Map<String, String> getAzureAppConfiguration(final AzureAppConfigurationConfig config) {
+        // Return an empty map if the app configuration is disabled
+        if (!config.enabled()) {
+            return Collections.emptyMap();
+        }
+
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
         Vertx vertx = Vertx.vertx();
         VertxAsyncHttpClientBuilder httpClientBuilder = new VertxAsyncHttpClientBuilder().vertx(vertx);
@@ -61,12 +73,5 @@ public class AzureAppConfigurationConfigSourceFactory
         }
 
         return properties;
-    }
-
-    private static SettingSelector getSettingSelector(final AzureAppConfigurationConfig config) {
-        var settingSelector = new SettingSelector();
-        config.labels().ifPresent(settingSelector::setLabelFilter);
-
-        return settingSelector;
     }
 }

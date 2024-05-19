@@ -2,6 +2,15 @@
 
 This is the integration test for testing all Quarkus Azure services extensions from REST endpoints. You can also find the same AZ CLI commands to create Azure services in `.github/build-with-maven-native.sh`.
 
+## Prerequisites
+
+To successfully run the integration test, you need:
+
+* JDK 17+ installed with JAVA_HOME configured appropriately
+* Apache Maven 3.8.6+
+* Azure CLI and Azure subscription
+* Docker
+
 ## Installing dependencies locally in development iteration
 
 The version of Quarkus Azure services extensions in development iteration is `999-SNAPSHOT`, which is not available
@@ -43,7 +52,7 @@ az login
 RESOURCE_GROUP_NAME=<resource-group-name>
 az group create \
     --name ${RESOURCE_GROUP_NAME} \
-    --location eastus
+    --location centralus
 ```
 
 ### Creating Azure Storage Account
@@ -56,7 +65,7 @@ STORAGE_ACCOUNT_NAME=<unique-storage-account-name>
 az storage account create \
     --name ${STORAGE_ACCOUNT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
-    --location eastus \
+    --location centralus \
     --sku Standard_LRS \
     --kind StorageV2
 
@@ -85,7 +94,7 @@ export APP_CONFIG_NAME=<unique-app-config-name>
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location centralus
 
 az appconfig kv set \
     --name "${APP_CONFIG_NAME}" \

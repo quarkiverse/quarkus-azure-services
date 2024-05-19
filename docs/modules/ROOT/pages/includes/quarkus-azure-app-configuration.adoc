@@ -10,12 +10,29 @@ h|[[quarkus-azure-app-configuration_configuration]]link:#quarkus-azure-app-confi
 h|Type
 h|Default
 
+a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-enabled]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-enabled[quarkus.azure.app.configuration.enabled]`
+
+
+[.description]
+--
+The flag to enable the app configuration. If set to false, the app configuration will be disabled
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_APP_CONFIGURATION_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_APP_CONFIGURATION_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint[quarkus.azure.app.configuration.endpoint]`
 
 
 [.description]
 --
-The endpoint of the app configuration
+The endpoint of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT+++[]
@@ -24,7 +41,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT+++`
 endif::add-copy-button-to-env-var[]
 --|string 
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-id]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-id[quarkus.azure.app.configuration.id]`
@@ -32,7 +49,7 @@ a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-id]]`link:#
 
 [.description]
 --
-The id of the app configuration
+The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_APP_CONFIGURATION_ID+++[]
@@ -41,7 +58,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_APP_CONFIGURATION_ID+++`
 endif::add-copy-button-to-env-var[]
 --|string 
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret[quarkus.azure.app.configuration.secret]`
@@ -49,7 +66,7 @@ a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret]]`li
 
 [.description]
 --
-The secret of the app configuration
+The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_APP_CONFIGURATION_SECRET+++[]
@@ -58,7 +75,7 @@ ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_APP_CONFIGURATION_SECRET+++`
 endif::add-copy-button-to-env-var[]
 --|string 
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels]]`link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels[quarkus.azure.app.configuration.labels]`

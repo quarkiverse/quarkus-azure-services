@@ -12,7 +12,11 @@ az group create \
     --name "${RESOURCE_GROUP_NAME}" \
     --location centralus
 
-# Create a storage account
+# Azure Storage Blob Extension
+# The same commands used in
+#  - integration-tests/README.md
+#  - integration-tests/azure-storage-blob/README.md
+
 az storage account create \
     --name "${STORAGE_ACCOUNT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -20,47 +24,33 @@ az storage account create \
     --sku Standard_LRS \
     --kind StorageV2
 
-# Retrieve the connection string for the storage account and export as an environment variable
 export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
   --resource-group "${RESOURCE_GROUP_NAME}" \
   --name "${STORAGE_ACCOUNT_NAME}" \
   --query connectionString -o tsv)
 
-# Create an app configuration store
+# Azure App Configuration Extension
+# The same commands used in
+#  - integration-tests/README.md
+#  - integration-tests/azure-app-configuration/README.md
+
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --location centralus
 
-# Retrieve the connection string for the app configuration store
-APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
-    --name "${APP_CONFIG_NAME}" \
-    --resource-group "${RESOURCE_GROUP_NAME}" \
-    | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
-while [ -z ${APP_CONFIG_CONNECTION_STRING} ]
-do
-    echo "Failed to retrieve connection string of app config ${APP_CONFIG_NAME}, retry it in 5 seconds..."
-    sleep 5
-    APP_CONFIG_CONNECTION_STRING=$(az appconfig credential list \
-        --name "${APP_CONFIG_NAME}" \
-        --resource-group "${RESOURCE_GROUP_NAME}" \
-        | jq -r 'map(select(.readOnly == false)) | .[0].connectionString')
-done
-
-# Add a few key-value pairs to the app configuration store
 az appconfig kv set \
-    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
+    --name "${APP_CONFIG_NAME}" \
     --key my.prop \
     --value 1234 \
     --yes
 az appconfig kv set \
-    --connection-string "${APP_CONFIG_CONNECTION_STRING}" \
+    --name "${APP_CONFIG_NAME}" \
     --key another.prop \
     --value 5678 \
     --label prod \
     --yes
 
-# Retrieve the connection info for the app configuration store and export as environment variables
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
   --resource-group "${RESOURCE_GROUP_NAME}" \
   --name "${APP_CONFIG_NAME}" \
@@ -78,18 +68,18 @@ export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.v
 #  - integration-tests/azure-keyvault/README.md
 
 az keyvault create \
-    --name ${KEY_VAULT_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME} \
+    --name "${KEY_VAULT_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
     --location eastus
 
 az ad signed-in-user show --query id -o tsv \
     | az keyvault set-policy \
-    --name ${KEY_VAULT_NAME} \
+    --name "${KEY_VAULT_NAME}" \
     --object-id @- \
     --secret-permissions all
 
-export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME}\
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_VAULT_NAME}" \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
     --query properties.vaultUri\
     --output tsv)
 
