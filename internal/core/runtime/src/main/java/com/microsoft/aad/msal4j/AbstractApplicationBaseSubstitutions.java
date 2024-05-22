@@ -21,8 +21,8 @@ import java.util.function.BooleanSupplier;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
-@TargetClass(className = "com.microsoft.aad.msal4j.AbstractClientApplicationBase", onlyWith = AbstractClientApplicationBaseSubstitutions.Msal4jIsPresent.class)
-public final class AbstractClientApplicationBaseSubstitutions {
+@TargetClass(className = "com.microsoft.aad.msal4j.AbstractApplicationBase", onlyWith = AbstractApplicationBaseSubstitutions.Msal4jIsPresent.class)
+public final class AbstractApplicationBaseSubstitutions {
 
     /**
      * Cuts out instantiation of AcquireTokenByInteractiveFlowSupplier which leads to references of classes
@@ -42,7 +42,7 @@ public final class AbstractClientApplicationBaseSubstitutions {
             supplier = new AcquireTokenByDeviceCodeFlowSupplier(PublicClientApplication.class.cast(this),
                     (DeviceCodeFlowRequest) msalRequest);
         } else if (msalRequest instanceof SilentRequest) {
-            supplier = new AcquireTokenSilentSupplier(AbstractClientApplicationBase.class.cast(this),
+            supplier = new AcquireTokenSilentSupplier(AbstractApplicationBase.class.cast(this),
                     (SilentRequest) msalRequest);
         } else if (msalRequest instanceof InteractiveRequest) {
             throw new IllegalArgumentException("InteractiveRequest is not supported on GraalVM");
@@ -52,8 +52,10 @@ public final class AbstractClientApplicationBaseSubstitutions {
         } else if (msalRequest instanceof OnBehalfOfRequest) {
             supplier = new AcquireTokenByOnBehalfOfSupplier(ConfidentialClientApplication.class.cast(this),
                     (OnBehalfOfRequest) msalRequest);
+        } else if (msalRequest instanceof ManagedIdentityRequest) {
+            supplier = new AcquireTokenByManagedIdentitySupplier(ManagedIdentityApplication.class.cast(this), msalRequest);
         } else {
-            supplier = new AcquireTokenByAuthorizationGrantSupplier(AbstractClientApplicationBase.class.cast(this), msalRequest,
+            supplier = new AcquireTokenByAuthorizationGrantSupplier(AbstractApplicationBase.class.cast(this), msalRequest,
                     null);
         }
         return supplier;
