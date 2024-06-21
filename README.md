@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-azure-services.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.azureservices/quarkus-azure-services-parent?color=green)](https://central.sonatype.com/artifact/io.quarkiverse.azureservices/quarkus-azure-services-parent)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository hosts Quarkus extensions for different Azure Services. You can check
@@ -79,6 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/galiacheng"><img src="https://avatars.githubusercontent.com/u/59823457?v=4?s=100" width="100px;" alt="Galia Cheng"/><br /><sub><b>Galia Cheng</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=galiacheng" title="Code">💻</a> <a href="#maintenance-galiacheng" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jeanbisutti"><img src="https://avatars.githubusercontent.com/u/14811066?v=4?s=100" width="100px;" alt="Jean Bisutti"/><br /><sub><b>Jean Bisutti</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=jeanbisutti" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
