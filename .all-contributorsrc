@@ -147,6 +147,15 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "jeanbisutti",
+      "name": "Jean Bisutti",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14811066?v=4",
+      "profile": "https://github.com/jeanbisutti",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
