@@ -70,7 +70,8 @@ export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.v
 az keyvault create \
     --name "${KEY_VAULT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
-    --location eastus
+    --location eastus \
+    --enable-rbac-authorization false
 
 az ad signed-in-user show --query id -o tsv \
     | az keyvault set-policy \
