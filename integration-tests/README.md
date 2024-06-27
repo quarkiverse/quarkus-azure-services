@@ -135,7 +135,8 @@ variable.
 export KEY_VAULT_NAME=<unique-key-vault-name>
 az keyvault create --name ${KEY_VAULT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
-    --location eastus
+    --location eastus \
+    --enable-rbac-authorization false
 
 az ad signed-in-user show --query id -o tsv \
     | az keyvault set-policy \

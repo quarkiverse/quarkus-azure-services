@@ -52,7 +52,8 @@ Create a general-purpose key vault with the following command:
 ----
 az keyvault create --name kvquarkusazurekv0423 \
     --resource-group rg-quarkus-azure-keyvault \
-    --location eastus
+    --location eastus \
+    --enable-rbac-authorization false
 ----
 
 Key Vault provides secure storage of generic secrets, such as passwords and database connection strings.
