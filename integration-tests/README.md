@@ -11,21 +11,20 @@ To successfully run the integration test, you need:
 * Azure CLI and Azure subscription
 * Docker
 
+You also need to clone the repository and switch to the directory of integration tests.
+
+```
+git clone https://github.com/quarkiverse/quarkus-azure-services.git
+cd quarkus-azure-services/integration-tests
+```
+
 ## Installing dependencies locally in development iteration
 
 The version of Quarkus Azure services extensions in development iteration is `999-SNAPSHOT`, which is not available
 from Maven Central, you need to install them locally before running the test.
 
 ```
-# Switch to the root directory of Quarkus Azure services extensions.
-# For example, if you are in the directory of quarkus-azure-services/integration-tests
-cd ..
-
-# Install all Quarkus Azure services extensions locally.
-mvn clean install -DskipTests
-
-# Switch back to the directory of integration-tests
-cd integration-tests
+mvn clean install -DskipTests --file ../pom.xml
 ```
 
 ## Running the test with Dev services
