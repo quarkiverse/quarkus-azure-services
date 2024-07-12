@@ -71,18 +71,16 @@ To get the connection string, execute the following Azure CLI command:
 
 [source,shell]
 ----
-az storage account show-connection-string \
+export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
     --resource-group rg-quarkus-azure-storage-blob \
     --name stquarkusazurestorageblo \
-    --output tsv
+    --output tsv)
+echo "QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING is: ${QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING}"
 ----
 
-Then, in the `application.properties` file, add the following property:
+Notice that you get the connection string and set it to environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING`, instead of setting it to property `quarkus.azure.storage.blob.connection-string` in the `application.properties` file.
 
-[source,properties]
-----
-quarkus.azure.storage.blob.connection-string=DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=stquarkusazurestorageblo;AccountKey=xxxxxxx==;BlobEndpoint=https://stquarkusazurestorageblo.blob.core.windows.net/;FileEndpoint=https://stquarkusazurestorageblo.file.core.windows.net/;QueueEndpoint=https://stquarkusazurestorageblo.queue.core.windows.net/;TableEndpoint=https://stquarkusazurestorageblo.table.core.windows.net/
-----
+Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
 
 === Inject the Azure Storage Blob Client
 
