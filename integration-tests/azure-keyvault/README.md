@@ -11,7 +11,12 @@ To successfully run this sample, you need:
 * Azure CLI and Azure subscription
 * Docker if you want to build the app as a native executable
 
-You also need to make sure the right version of dependencies are installed.
+You also need to clone the repository and switch to the directory of the sample.
+
+```
+git clone https://github.com/quarkiverse/quarkus-azure-services.git
+cd quarkus-azure-services/integration-tests/azure-keyvault
+```
 
 ### Use development iteration version
 
@@ -19,15 +24,7 @@ By default, the sample depends on the development iteration version, which is `9
 iteration version, you need to build it locally.
 
 ```
-# Switch to the root directory of Quarkus Azure services extensions.
-# For example, if you are in the directory of quarkus-azure-services/integration-tests/azure-keyvault
-cd ../..
-
-# Install all Quarkus Azure services extensions locally.
-mvn clean install -DskipTests
-
-# Switch back to the directory of integration-tests/azure-keyvault
-cd integration-tests/azure-keyvault
+mvn clean install -DskipTests --file ../../pom.xml
 ```
 
 ### Use release version
@@ -35,7 +32,7 @@ cd integration-tests/azure-keyvault
 If you want to use the release version, you need to update the version of dependencies in the `pom.xml` file.
 
 First, you need to find out the latest release version of the Quarkus Azure services extensions
-from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases), for example, `1.0.0`.
+from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases), for example, `1.0.4`.
 
 Then, update the version of dependencies in the `pom.xml` file, for example:
 
@@ -43,7 +40,7 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 <parent>
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.4</version>
     <relativePath></relativePath>
 </parent>
 ```
