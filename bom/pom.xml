@@ -11,14 +11,14 @@
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-bom</artifactId>
     <name>Quarkus Azure Services :: BOM</name>
-    <version>1.0.5</version>
+    <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <scm>
         <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
         <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</developerConnection>
         <url>https://github.com/quarkiverse/quarkus-azure-services</url>
-        <tag>1.0.5</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <properties>
