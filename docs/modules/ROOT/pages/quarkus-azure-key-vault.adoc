@@ -85,18 +85,15 @@ To get the endpoint, execute the following Azure CLI command:
 
 [source,shell]
 ----
-az keyvault show --name kvquarkusazurekv0423 \
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name kvquarkusazurekv0423 \
     --resource-group rg-quarkus-azure-keyvault \
     --query properties.vaultUri \
-    --output tsv
+    --output tsv)
 ----
 
-Then, in the `application.properties` file, add the following property:
+Notice that you get the endpoint and set it to environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT`, instead of setting it to property `quarkus.azure.keyvault.secret.endpoint` in the `application.properties` file.
 
-[source,properties]
-----
-quarkus.azure.keyvault.secret.endpoint=https://kvquarkusazurekv0423.vault.azure.net/
-----
+Although technically both approaches work, using environment variable is recommended and more flexible and secure as there's no risk of committing the endpoint to source control.
 
 === Inject the Azure Key Vault Secret Client
 
