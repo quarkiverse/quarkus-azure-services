@@ -24,7 +24,7 @@ For instance, with Maven, add the following dependency to your POM file:
 
 == How to Use It
 
-Once you have added the extension to your project, follow the next steps, so you can inject  `io.smallrye.config.SmallRyeConfig` object in your application to store and read blobs.
+Once you have added the extension to your project, follow the next steps, so you can inject `io.smallrye.config.SmallRyeConfig` object in your application to store and read blobs.
 
 === Setup your Azure Environment
 
@@ -77,30 +77,21 @@ For that, execute the following Azure CLI command:
 
 [source,shell]
 ----
-az appconfig credential list --name appcs-quarkus-azure-app-configuration
+export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
+  --resource-group rg-quarkus-azure-app-configuration \
+  --name appcs-quarkus-azure-app-configuration \
+  --query endpoint -o tsv)
+credential=$(az appconfig credential list \
+    --name appcs-quarkus-azure-app-configuration \
+    --resource-group rg-quarkus-azure-app-configuration \
+    | jq 'map(select(.readOnly == true)) | .[0]')
+export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
+export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
 ----
 
-You'll get the following output:
+Notice that you get the endpoint, id and secret and set them to environment variables `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT`, `QUARKUS_AZURE_APP_CONFIGURATION_ID` and `QUARKUS_AZURE_APP_CONFIGURATION_SECRET`, instead of setting them to properties `quarkus.azure.app.configuration.endpoint`, `quarkus.azure.app.configuration.id` and `quarkus.azure.app.configuration.secret` in the `application.properties` file.
 
-[source,json]
-----
-{
-  "connectionString": "Endpoint=https://appcs-quarkus-azure-app-configuration.azconfig.io;Id=xxxxxx;Secret=xxxxxx",
-  "id": "xxxxxx",
-  "name": "Primary",
-  "readOnly": false,
-  "value": "xxxxxx"
-}
-----
-
-Then, in the `application.properties` file, add the following property according to the output of the previous command:
-
-[source,properties]
-----
-quarkus.azure.app.configuration.endpoint=https://appcs-quarkus-azure-app-configuration.azconfig.io
-quarkus.azure.app.configuration.id=xxxxxx
-quarkus.azure.app.configuration.secret=xxxxxx
-----
+Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection credentials to source control.
 
 === Inject the SmallRyeConfig
 

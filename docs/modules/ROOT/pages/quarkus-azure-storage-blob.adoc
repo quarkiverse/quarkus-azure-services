@@ -26,7 +26,7 @@ For instance, with Maven, add the following dependency to your POM file:
 
 == How to Use It
 
-Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.storage.blob.BlobServiceClient` or `com.azure.storage.blob.BlobServiceAsyncClient` object in your application to store and read blobs.
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.storage.blob.BlobServiceClient` or `com.azure.storage.blob.BlobServiceAsyncClient` object in your application to store and read blobs.
 
 === Setup your Azure Environment
 
