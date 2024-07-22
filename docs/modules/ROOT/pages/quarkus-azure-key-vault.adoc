@@ -93,7 +93,7 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name kvquarku
 
 Notice that you get the endpoint and set it to environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT`, instead of setting it to property `quarkus.azure.keyvault.secret.endpoint` in the `application.properties` file.
 
-Although technically both approaches work, using environment variable is recommended and more flexible and secure as there's no risk of committing the endpoint to source control.
+Although technically both approaches work, using environment variable is recommended, more flexible and more secure as there's no risk of committing the endpoint to source control.
 
 === Inject the Azure Key Vault Secret Client
 
