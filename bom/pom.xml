@@ -90,16 +90,6 @@
             </dependency>
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
-                <artifactId>quarkus-azure-app-configuration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.azureservices</groupId>
-                <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-http-client-vertx</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -116,6 +106,26 @@
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-app-configuration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-cosmos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-cosmos-deployment</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
