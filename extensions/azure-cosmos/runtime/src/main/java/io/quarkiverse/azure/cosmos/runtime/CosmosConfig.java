@@ -20,4 +20,10 @@ public class CosmosConfig {
      */
     @ConfigItem
     public Optional<String> endpoint;
+
+    /**
+     * The key of Azure Cosmos DB. Optional and can be empty if the Azure Identity is used to authenticate
+     */
+    @ConfigItem
+    public Optional<String> key;
 }

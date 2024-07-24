@@ -17,29 +17,30 @@ public class CosmosClientProducer {
 
     @Produces
     public CosmosClient createCosmosClient() {
-        if (!cosmosConfiguration.enabled) {
-            return null;
-        }
-
-        assert cosmosConfiguration.endpoint.isPresent() : "The endpoint of Azure Cosmos DB must be set";
-        return new CosmosClientBuilder()
-                .userAgentSuffix(AzureQuarkusIdentifier.AZURE_QUARKUS_COSMOS)
-                .endpoint(cosmosConfiguration.endpoint.get())
-                .credential(new DefaultAzureCredentialBuilder().build())
-                .buildClient();
+        CosmosClientBuilder builder = getBuilder();
+        return null == builder ? null : builder.buildClient();
     }
 
     @Produces
     public CosmosAsyncClient createCosmosAsyncClient() {
+        CosmosClientBuilder builder = getBuilder();
+        return null == builder ? null : builder.buildAsyncClient();
+    }
+
+    private CosmosClientBuilder getBuilder() {
         if (!cosmosConfiguration.enabled) {
             return null;
         }
 
         assert cosmosConfiguration.endpoint.isPresent() : "The endpoint of Azure Cosmos DB must be set";
-        return new CosmosClientBuilder()
+        CosmosClientBuilder builder = new CosmosClientBuilder()
                 .userAgentSuffix(AzureQuarkusIdentifier.AZURE_QUARKUS_COSMOS)
-                .endpoint(cosmosConfiguration.endpoint.get())
-                .credential(new DefaultAzureCredentialBuilder().build())
-                .buildAsyncClient();
+                .endpoint(cosmosConfiguration.endpoint.get());
+        if (cosmosConfiguration.key.isPresent()) {
+            builder.key(cosmosConfiguration.key.get());
+        } else {
+            builder.credential(new DefaultAzureCredentialBuilder().build());
+        }
+        return builder;
     }
 }
