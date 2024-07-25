@@ -1,8 +1,8 @@
 package io.quarkiverse.azure.cosmos.it;
 
-import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
-
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +14,6 @@ import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosContainer;
 import com.azure.cosmos.CosmosDatabase;
 import com.azure.cosmos.models.*;
-import com.azure.cosmos.util.CosmosPagedIterable;
 
 @Path("/quarkus-azure-cosmos")
 @Produces(MediaType.TEXT_PLAIN)
@@ -32,9 +31,9 @@ public class CosmosResource {
             @PathParam("container") String container,
             Item body) {
 
-        getContainerForItem(database, container).createItem(body);
+        getContainer(database, container).upsertItem(body);
 
-        return Response.created(URI.create("/" + database + "/" + container + "/" + body.getId())).build();
+        return Response.ok(URI.create("/" + database + "/" + container + "/" + body.getId())).build();
     }
 
     @Path("/{database}/{container}/{itemId}")
@@ -44,29 +43,11 @@ public class CosmosResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        CosmosItemResponse<Item> item = getContainerForItem(database, container).readItem(itemId, new PartitionKey(itemId),
+        CosmosItemResponse<Item> item = getContainer(database, container).readItem(itemId, new PartitionKey(itemId),
                 Item.class);
 
         return Response.ok().entity(item.getItem()).build();
 
-    }
-
-    @Path("/{database}/{container}/{itemId}")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateItem(
-            @PathParam("database") String database,
-            @PathParam("container") String container,
-            @PathParam("itemId") String itemId,
-            Item body) {
-        CosmosContainer cosmosContainer = getContainerForItem(database, container);
-        CosmosItemResponse<Item> item = cosmosContainer.readItem(itemId, new PartitionKey(itemId), Item.class);
-        if (item == null) {
-            return Response.status(NOT_FOUND).build();
-        }
-
-        cosmosContainer.replaceItem(body, itemId, new PartitionKey(itemId), new CosmosItemRequestOptions());
-        return Response.ok().build();
     }
 
     @Path("/{database}/{container}/{itemId}")
@@ -75,7 +56,7 @@ public class CosmosResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        getContainerForItem(database, container).deleteItem(itemId, new PartitionKey(itemId), new CosmosItemRequestOptions());
+        getContainer(database, container).deleteItem(itemId, new PartitionKey(itemId), new CosmosItemRequestOptions());
 
         return Response.noContent().build();
     }
@@ -83,13 +64,18 @@ public class CosmosResource {
     @Path("/{database}/{container}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public CosmosPagedIterable<Item> getItems(
+    public List<Item> getItems(
             @PathParam("database") String database,
             @PathParam("container") String container) {
-        return getContainerForItem(database, container).readAllItems(new PartitionKey(Item.PARTITION_KEY), Item.class);
+        return getContainer(database, container)
+                .queryItems("SELECT * FROM Item", new CosmosQueryRequestOptions(), Item.class)
+                .streamByPage(10)
+                .map(FeedResponse::getResults)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
-    private CosmosContainer getContainerForItem(String database, String container) {
+    private CosmosContainer getContainer(String database, String container) {
         CosmosDatabaseResponse databaseResponse = cosmosClient.createDatabaseIfNotExists(database);
         CosmosDatabase cosmosDatabase = cosmosClient.getDatabase(databaseResponse.getProperties().getId());
         CosmosContainerResponse containerResponse = cosmosDatabase.createContainerIfNotExists(container, Item.PARTITION_KEY);
