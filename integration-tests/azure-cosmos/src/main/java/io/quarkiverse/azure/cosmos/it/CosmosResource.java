@@ -1,14 +1,12 @@
 package io.quarkiverse.azure.cosmos.it;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.*;
 
 import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosContainer;
@@ -16,7 +14,6 @@ import com.azure.cosmos.CosmosDatabase;
 import com.azure.cosmos.models.*;
 
 @Path("/quarkus-azure-cosmos")
-@Produces(MediaType.TEXT_PLAIN)
 @ApplicationScoped
 public class CosmosResource {
 
@@ -29,11 +26,11 @@ public class CosmosResource {
     public Response createItem(
             @PathParam("database") String database,
             @PathParam("container") String container,
-            Item body) {
+            Item body,
+            @Context UriInfo uriInfo) {
 
         getContainer(database, container).upsertItem(body);
-
-        return Response.ok(URI.create("/" + database + "/" + container + "/" + body.getId())).build();
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build();
     }
 
     @Path("/{database}/{container}/{itemId}")
