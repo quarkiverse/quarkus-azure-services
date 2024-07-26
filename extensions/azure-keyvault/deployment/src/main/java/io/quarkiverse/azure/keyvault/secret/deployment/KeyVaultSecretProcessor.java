@@ -10,13 +10,11 @@ import org.jboss.jandex.Type;
 import com.azure.json.JsonSerializable;
 
 import io.quarkiverse.azure.keyvault.secret.runtime.KeyVaultSecretClientProducer;
+import io.quarkiverse.azure.keyvault.secret.runtime.config.KeyVaultSecretConfigBuilder;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
-import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
-import io.quarkus.deployment.builditem.FeatureBuildItem;
-import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
+import io.quarkus.deployment.builditem.*;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveHierarchyBuildItem;
@@ -35,6 +33,11 @@ public class KeyVaultSecretProcessor {
     @BuildStep
     AdditionalBeanBuildItem producer() {
         return new AdditionalBeanBuildItem(KeyVaultSecretClientProducer.class);
+    }
+
+    @BuildStep
+    public void azureKeyVaultSecretConfigFactory(BuildProducer<RunTimeConfigBuilderBuildItem> runTimeConfigBuilder) {
+        runTimeConfigBuilder.produce(new RunTimeConfigBuilderBuildItem(KeyVaultSecretConfigBuilder.class.getName()));
     }
 
     @BuildStep
@@ -105,5 +108,4 @@ public class KeyVaultSecretProcessor {
         proxyDefinitions.produce(new NativeImageProxyDefinitionBuildItem(
                 List.of("com.azure.security.keyvault.secrets.implementation.SecretClientImpl$SecretClientService")));
     }
-
 }

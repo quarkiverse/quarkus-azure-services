@@ -10,6 +10,7 @@ import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
+import io.quarkiverse.azure.keyvault.secret.runtime.config.KeyVaultSecretConfig;
 
 public class KeyVaultSecretClientProducer {
 
@@ -18,29 +19,29 @@ public class KeyVaultSecretClientProducer {
 
     @Produces
     public SecretClient createSecretClient() {
-        if (!secretConfiguration.enabled) {
+        if (!secretConfiguration.enabled()) {
             return null;
         }
 
-        assert secretConfiguration.endpoint.isPresent() : "The endpoint of Azure Key Vault Secret must be set";
+        assert secretConfiguration.endpoint().isPresent() : "The endpoint of Azure Key Vault Secret must be set";
         return new SecretClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint.get())
+                .vaultUrl(secretConfiguration.endpoint().get())
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
     }
 
     @Produces
     public SecretAsyncClient createSecretAsyncClient() {
-        if (!secretConfiguration.enabled) {
+        if (!secretConfiguration.enabled()) {
             return null;
         }
 
-        assert secretConfiguration.endpoint.isPresent() : "The endpoint of Azure Key Vault Secret must be set";
+        assert secretConfiguration.endpoint().isPresent() : "The endpoint of Azure Key Vault Secret must be set";
         return new SecretClientBuilder()
                 .clientOptions(
                         new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint.get())
+                .vaultUrl(secretConfiguration.endpoint().get())
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildAsyncClient();
     }
