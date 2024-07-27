@@ -18,7 +18,7 @@ import io.quarkus.test.junit.QuarkusTest;
 class StorageBlobAsyncResourceTest {
 
     @Test
-    void shouldUploadATextfile() throws InterruptedException {
+    void azureStorageBlobAsync() throws InterruptedException {
 
         final String container = "container-quarkus-azure-storage-blob-async";
         final String blobName = "StorageBlobAsyncResourceTest-" + UUID.randomUUID() + ".txt";

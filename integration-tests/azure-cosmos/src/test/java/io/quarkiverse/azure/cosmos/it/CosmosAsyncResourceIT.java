@@ -6,5 +6,5 @@ import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
 @EnabledIfSystemProperty(named = "azure.test", matches = "true")
-public class CosmosResourceIT extends CosmosResourceTest {
+public class CosmosAsyncResourceIT extends CosmosAsyncResourceTest {
 }

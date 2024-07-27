@@ -1,7 +1,8 @@
 package io.quarkiverse.azure.cosmos.it;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -10,10 +11,10 @@ import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 @EnabledIfSystemProperty(named = "azure.test", matches = "true")
-class CosmosResourceTest {
+class CosmosAsyncResourceTest {
 
     @Test
-    void azureCosmos() {
+    void azureCosmosAsync() {
         final String database = "demodb";
         final String container = "democontainer";
         final String item = "{\"id\": \"1\", \"name\": \"dog\"}";
@@ -24,14 +25,14 @@ class CosmosResourceTest {
                 .when()
                 .body(item)
                 .header("Content-Type", "application/json")
-                .post("/quarkus-azure-cosmos/" + database + "/" + container)
+                .post("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(201);
 
         // Read item
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container + "/1")
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container + "/1")
                 .then()
                 .statusCode(200)
                 .body("id", is("1"))
@@ -40,7 +41,7 @@ class CosmosResourceTest {
         // List items
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container)
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(200)
                 .body("size()", is(1))
@@ -52,13 +53,13 @@ class CosmosResourceTest {
                 .when()
                 .body(updatedItem)
                 .header("Content-Type", "application/json")
-                .post("/quarkus-azure-cosmos/" + database + "/" + container)
+                .post("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(201);
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container + "/1")
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container + "/1")
                 .then()
                 .statusCode(200)
                 .body("id", is("1"))
@@ -66,7 +67,7 @@ class CosmosResourceTest {
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container)
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(200)
                 .body("size()", is(1))
@@ -76,19 +77,19 @@ class CosmosResourceTest {
         // Delete item
         given()
                 .when()
-                .delete("/quarkus-azure-cosmos/" + database + "/" + container + "/1")
+                .delete("/quarkus-azure-cosmos-async/" + database + "/" + container + "/1")
                 .then()
                 .statusCode(204);
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container + "/1")
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container + "/1")
                 .then()
                 .statusCode(500);
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container)
+                .get("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(200)
                 .body(is("[]"));
