@@ -34,7 +34,6 @@
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
             <artifactId>reactor-netty-http</artifactId>
-            <version>1.0.45</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

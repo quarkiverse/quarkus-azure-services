@@ -29,6 +29,7 @@
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
         <assertj-core.version>3.26.3</assertj-core.version>
+        <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
     </properties>
     
     <dependencyManagement>
@@ -58,6 +59,11 @@
                 <groupId>com.fasterxml.woodstox</groupId>
                 <artifactId>woodstox-core</artifactId>
                 <version>${woodstox-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.projectreactor.netty</groupId>
+                <artifactId>reactor-netty-http</artifactId>
+                <version>${reactor-netty-http.version}</version>
             </dependency>
             
             <!-- Utilities for Azure Services Extensions -->
