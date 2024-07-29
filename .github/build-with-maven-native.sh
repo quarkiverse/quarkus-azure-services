@@ -95,30 +95,14 @@ az cosmosdb create \
     --default-consistency-level Session \
     --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
 
-az cosmosdb sql database create \
-    -a ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    -n demodb
-
-az cosmosdb sql container create \
-    -a ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    -d demodb \
-    -n democontainer \
-    -p "/id"
-
-az ad signed-in-user show --query id -o tsv \
-    | az cosmosdb sql role assignment create \
-    --account-name ${COSMOSDB_ACCOUNT_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME} \
-    --scope "/" \
-    --principal-id @- \
-    --role-definition-id 00000000-0000-0000-0000-000000000002
-
 export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     -n ${COSMOSDB_ACCOUNT_NAME} \
     -g ${RESOURCE_GROUP_NAME} \
     --query documentEndpoint -o tsv)
+export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
+    -n ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+   --query primaryMasterKey -o tsv)
 
 # Build native executable and run the integration tests against the Azure services
 mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
