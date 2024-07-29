@@ -11,4 +11,5 @@ az appconfig purge --name "${APP_CONFIG_NAME}" --yes
 az storage account delete --name "${STORAGE_ACCOUNT_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --yes
 az keyvault delete --name "${KEY_VAULT_NAME}" --resource-group "${RESOURCE_GROUP_NAME}"
 az keyvault purge --name "${KEY_VAULT_NAME}"
+az cosmosdb delete --name "${COSMOSDB_ACCOUNT_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --yes
 az group delete --name "${RESOURCE_GROUP_NAME}" --yes
