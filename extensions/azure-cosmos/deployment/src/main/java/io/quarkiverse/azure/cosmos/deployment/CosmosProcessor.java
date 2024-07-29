@@ -63,9 +63,11 @@ public class CosmosProcessor {
         reflectiveClasses.produce(ReflectiveClassBuildItem.builder(
                 com.azure.cosmos.implementation.DatabaseAccount.class.getName(),
                 com.azure.cosmos.implementation.DocumentCollection.class.getName(),
+                com.azure.cosmos.implementation.RetryContext.class.getName(),
                 "com.azure.cosmos.implementation.ClientSideRequestStatistics$StoreResponseStatistics",
                 com.azure.cosmos.models.PartitionKeyDefinition.class.getName(),
                 com.azure.cosmos.models.PartitionKind.class.getName(),
+                com.azure.cosmos.models.UniqueKeyPolicy.class.getName(),
                 io.netty.channel.epoll.EpollSocketChannel.class.getName()).methods().build());
 
     }
