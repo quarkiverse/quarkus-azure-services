@@ -25,11 +25,6 @@ az storage account create \
     --sku Standard_LRS \
     --kind StorageV2
 
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
-  --resource-group "${RESOURCE_GROUP_NAME}" \
-  --name "${STORAGE_ACCOUNT_NAME}" \
-  --query connectionString -o tsv)
-
 # Azure App Configuration Extension
 # The same commands used in
 #  - integration-tests/README.md
@@ -52,17 +47,6 @@ az appconfig kv set \
     --label prod \
     --yes
 
-export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
-  --resource-group "${RESOURCE_GROUP_NAME}" \
-  --name "${APP_CONFIG_NAME}" \
-  --query endpoint -o tsv)
-credential=$(az appconfig credential list \
-    --name "${APP_CONFIG_NAME}" \
-    --resource-group "${RESOURCE_GROUP_NAME}" \
-    | jq 'map(select(.readOnly == true)) | .[0]')
-export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
-export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
-
 # Azure Key Vault Extension
 # The same commands used in 
 #  - integration-tests/README.md
@@ -79,11 +63,6 @@ az keyvault secret set \
     --name secret1 \
     --value mysecret
 
-export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_VAULT_NAME}" \
-    --resource-group "${RESOURCE_GROUP_NAME}" \
-    --query properties.vaultUri\
-    --output tsv)
-
 # Azure Cosmos Extension
 # The same commands used in 
 #  - integration-tests/README.md
@@ -94,15 +73,3 @@ az cosmosdb create \
     -g ${RESOURCE_GROUP_NAME} \
     --default-consistency-level Session \
     --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
-
-export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
-    -n ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    --query documentEndpoint -o tsv)
-export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
-    -n ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-   --query primaryMasterKey -o tsv)
-
-# Build native executable and run the integration tests against the Azure services
-mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -Dazure.test=true
