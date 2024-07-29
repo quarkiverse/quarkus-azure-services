@@ -17,7 +17,6 @@ az group create \
 # The same commands used in
 #  - integration-tests/README.md
 #  - integration-tests/azure-storage-blob/README.md
-
 az storage account create \
     --name "${STORAGE_ACCOUNT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -29,7 +28,6 @@ az storage account create \
 # The same commands used in
 #  - integration-tests/README.md
 #  - integration-tests/azure-app-configuration/README.md
-
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -51,7 +49,6 @@ az appconfig kv set \
 # The same commands used in 
 #  - integration-tests/README.md
 #  - integration-tests/azure-keyvault/README.md
-
 az keyvault create \
     --name "${KEY_VAULT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -67,9 +64,28 @@ az keyvault secret set \
 # The same commands used in 
 #  - integration-tests/README.md
 #  - integration-tests/azure-cosmos/README.md
-
 az cosmosdb create \
     -n ${COSMOSDB_ACCOUNT_NAME} \
     -g ${RESOURCE_GROUP_NAME} \
     --default-consistency-level Session \
     --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
+
+az cosmosdb sql database create \
+    -a ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    -n demodb
+
+az cosmosdb sql container create \
+    -a ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    -d demodb \
+    -n democontainer \
+    -p "/id"
+
+servicePrincipal=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
+az cosmosdb sql role assignment create \
+    --account-name ${COSMOSDB_ACCOUNT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --scope "/" \
+    --principal-id ${servicePrincipal} \
+    --role-definition-id 00000000-0000-0000-0000-000000000002

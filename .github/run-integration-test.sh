@@ -37,10 +37,6 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     -n ${COSMOSDB_ACCOUNT_NAME} \
     -g ${RESOURCE_GROUP_NAME} \
     --query documentEndpoint -o tsv)
-export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
-    -n ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-   --query primaryMasterKey -o tsv)
 
-# Build native executable and run the integration tests against the Azure services
+# Run the integration tests with existing native executables against the Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
