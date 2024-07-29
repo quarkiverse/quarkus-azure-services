@@ -9,6 +9,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import com.azure.security.keyvault.secrets.SecretAsyncClient;
@@ -27,6 +28,9 @@ public class KeyVaultSecretResource {
 
     @Inject
     SecretAsyncClient secretAsyncClient;
+
+    @ConfigProperty(name = "kv//secret1")
+    String secret1;
 
     @GET
     @Path("sync")
@@ -50,5 +54,12 @@ public class KeyVaultSecretResource {
                 .subscribe(secret -> completableFuture.complete(secret.getValue()));
 
         return completableFuture.toCompletableFuture();
+    }
+
+    @GET
+    @Path("getSecret")
+    @Produces(TEXT_PLAIN)
+    public String getSecret() {
+        return secret1;
     }
 }

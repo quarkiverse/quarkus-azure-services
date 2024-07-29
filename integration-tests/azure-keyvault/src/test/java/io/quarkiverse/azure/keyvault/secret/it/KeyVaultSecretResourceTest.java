@@ -21,4 +21,9 @@ public class KeyVaultSecretResourceTest {
     public void testSecretAsyncClient() {
         RestAssured.when().get("/keyvault/async").then().body(is("Quarkus Azure Key Vault Extension is awsome"));
     }
+
+    @Test
+    public void testGetSecret() {
+        RestAssured.when().get("/keyvault/getSecret").then().body(is("mysecret"));
+    }
 }
