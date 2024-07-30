@@ -38,5 +38,8 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     -g ${RESOURCE_GROUP_NAME} \
     --query documentEndpoint -o tsv)
 
-# Run the integration tests with existing native executables against the Azure services
+# Run integration test with existing native executables against Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
+
+# Run both unit test and integration test in JVM mode against Azure services
+mvn -B verify -Dazure.test=true
