@@ -12,7 +12,7 @@ import io.quarkus.test.junit.QuarkusTest;
 public class KeyVaultSecretDisabledTest {
 
     @Test
-    public void testGetBlobServiceClient() {
+    public void testGetSecretClient() {
         given()
                 .get("/quarkus-azure-key-vault-secret-disabled/secretClient")
                 .then()
@@ -21,7 +21,7 @@ public class KeyVaultSecretDisabledTest {
     }
 
     @Test
-    public void testGetBlobServiceAsyncClient() {
+    public void testGetSecretAsyncClient() {
         given()
                 .get("/quarkus-azure-key-vault-secret-disabled/secretAsyncClient")
                 .then()
