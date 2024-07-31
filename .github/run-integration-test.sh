@@ -38,6 +38,36 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     -g ${RESOURCE_GROUP_NAME} \
     --query documentEndpoint -o tsv)
 
+# Randomly authenticate to Azure Cosmos DB with key or data plane RBAC
+number=$(shuf -i 1-100 -n 1)
+if [ $((number % 2)) -eq 0 ]; then
+  # Export the key that has full access to the account including management plane and data plane operations
+  export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
+      -n ${COSMOSDB_ACCOUNT_NAME} \
+      -g ${RESOURCE_GROUP_NAME} \
+      --query primaryMasterKey -o tsv)
+else
+  # Create a database and a container beforehand as data plane operations with assigned role cannot create them
+  az cosmosdb sql database create \
+      -a ${COSMOSDB_ACCOUNT_NAME} \
+      -g ${RESOURCE_GROUP_NAME} \
+      -n demodb
+  az cosmosdb sql container create \
+      -a ${COSMOSDB_ACCOUNT_NAME} \
+      -g ${RESOURCE_GROUP_NAME} \
+      -d demodb \
+      -n democontainer \
+      -p "/id"
+
+  servicePrincipal=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
+  az cosmosdb sql role assignment create \
+      --account-name ${COSMOSDB_ACCOUNT_NAME} \
+      --resource-group ${RESOURCE_GROUP_NAME} \
+      --scope "/" \
+      --principal-id ${servicePrincipal} \
+      --role-definition-id 00000000-0000-0000-0000-000000000002
+fi
+
 # Run integration test with existing native executables against Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
 
