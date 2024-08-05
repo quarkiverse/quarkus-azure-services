@@ -86,12 +86,12 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VA
 echo "The value of 'quarkus.azure.keyvault.secret.endpoint' is: ${QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT}"
 ```
 
-Add secret `Secret1` with value `mysecret`.
+Add secret `secret1` with value `mysecret`.
 
 ```
 az keyvault secret set \
     --vault-name ${KEY_VAULT_NAME} \
-    --name Secret1 \
+    --name secret1 \
     --value mysecret
 ```
 
