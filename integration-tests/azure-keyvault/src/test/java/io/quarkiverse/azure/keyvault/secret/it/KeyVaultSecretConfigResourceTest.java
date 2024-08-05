@@ -10,15 +10,10 @@ import io.restassured.RestAssured;
 
 @QuarkusTest
 @EnabledIfSystemProperty(named = "azure.test", matches = "true")
-public class KeyVaultSecretResourceTest {
+class KeyVaultSecretConfigResourceTest {
 
     @Test
-    public void testSecretClient() {
-        RestAssured.when().get("/keyvault/sync").then().body(is("Quarkus Azure Key Vault Extension is awsome"));
-    }
-
-    @Test
-    public void testSecretAsyncClient() {
-        RestAssured.when().get("/keyvault/async").then().body(is("Quarkus Azure Key Vault Extension is awsome"));
+    void getSecret() {
+        RestAssured.when().get("/keyvaultConfig/getSecret").then().body(is("mysecret"));
     }
 }

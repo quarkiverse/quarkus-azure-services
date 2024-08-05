@@ -149,6 +149,15 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VA
 echo "The value of 'quarkus.azure.keyvault.secret.endpoint' is: ${QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT}"
 ```
 
+Add secret `secret1` with value `mysecret`.
+
+```
+az keyvault secret set \
+    --vault-name ${KEY_VAULT_NAME} \
+    --name secret1 \
+    --value mysecret
+```
+
 The value of environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT` will be fed into config
 property `quarkus.azure.keyvault.secret.endpoint` of `azure-keyvault` extension in order to set up the
 connection to the Azure Key Vault.
