@@ -10,6 +10,14 @@ public class KeyVaultSecretConfigUtil {
     private KeyVaultSecretConfigUtil() {
     }
 
+    /**
+     *
+     * @returns a {@link KeyvaultSecretIdentifier} from the specified input or <code>null</code> if the input does not start with {@link AZURE_KEYVAULT_PREFIX}.
+     *
+     * @throws IllegalArgumentException if the input cannot otherwise be parsed.
+     * 
+     */
+
     static KeyVaultSecretIdentifier getSecretIdentifier(String input, String defaultEndpoint) {
 
         if (!input.startsWith(AZURE_KEYVAULT_PREFIX)) {
