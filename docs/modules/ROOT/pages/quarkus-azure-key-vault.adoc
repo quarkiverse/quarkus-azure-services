@@ -212,6 +212,16 @@ image::quarkus-azure-keyvault-deleted-secret-portal.png[alt=Azure Portal showing
 
 You can also inject `com.azure.security.keyvault.secrets.SecretAsyncClient` object to your application. For more usage, see https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient?view=azure-java-stable[com.azure.security.keyvault.secrets.secretasyncclient]. 
 
+After the testing, for security consideration, you can rotate the policy with command:
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault delete-policy \
+    --name kvquarkusazurekv0423 \
+    --object-id @-
+----
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-keyvault-secret.adoc[leveloffset=+1, opts=optional]
