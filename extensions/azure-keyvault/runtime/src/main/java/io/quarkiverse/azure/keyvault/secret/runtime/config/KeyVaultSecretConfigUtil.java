@@ -5,7 +5,7 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 public class KeyVaultSecretConfigUtil {
     private static final String AZURE_KEYVAULT_PREFIX = "kv//";
     private static final String AZURE_KEYVAULT_ENDPOINT_PREFIX = "https://";
-    private static final String AZURE_VAULT_URL_FORMAT="https://%s.vault.azure.net/secrets/%s/%s";
+    private static final String AZURE_VAULT_URL_FORMAT = "https://%s.vault.azure.net/secrets/%s/%s";
 
     private KeyVaultSecretConfigUtil() {
     }
