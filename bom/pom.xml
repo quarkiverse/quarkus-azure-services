@@ -22,10 +22,10 @@
     </scm>
     
     <properties>
-        <azure-sdk-bom.version>1.2.25</azure-sdk-bom.version>
+        <azure-sdk-bom.version>1.2.26</azure-sdk-bom.version>
         <azure.core.http.client.vertx.version>1.0.0-beta.19</azure.core.http.client.vertx.version>
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
-        <msal4j.version>1.15.1</msal4j.version>
+        <msal4j.version>1.16.1</msal4j.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
     </properties>
