@@ -11,12 +11,22 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @Path("/keyvaultConfig")
 public class KeyVaultSecretConfigResource {
     @ConfigProperty(name = "kv//secret1")
-    String value = "mysecret";
+    String value;
+
+    @ConfigProperty(name = "kv//notExistingSecret")
+    String notExistingSecret;
 
     @GET
-    @Path("getSecret")
+    @Path("getExistingSecret")
     @Produces(TEXT_PLAIN)
-    public String getSecret() {
+    public String getExistingSecret() {
         return value;
+    }
+
+    @GET
+    @Path("getNotExistingSecret")
+    @Produces(TEXT_PLAIN)
+    public String getNotExistingSecret() {
+        return notExistingSecret;
     }
 }
