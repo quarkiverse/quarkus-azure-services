@@ -63,6 +63,14 @@ class KeyVaultSecretConfigUtilTest {
     }
 
     @Test
+    public void testShortProperty_keywordVersionTypo() {
+        String property = "kv//the-secret/version/the-version";
+
+        assertThatThrownBy(() -> KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void testShortProperty_kvSecret() {
         String property = "kv//my-kv/the-secret";
         KeyVaultSecretIdentifier secretIdentifier = KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT);
@@ -83,6 +91,14 @@ class KeyVaultSecretConfigUtilTest {
     }
 
     @Test
+    public void testLongProperty_keywordSecretTypo() {
+        String property = "kv//my-kv/secret/the-secret";
+
+        assertThatThrownBy(() -> KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void testLongProperty_kvSecret_shortVersion() {
         String property = "kv//my-kv/secrets/the-secret/3";
         KeyVaultSecretIdentifier secretIdentifier = KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT);
@@ -93,6 +109,14 @@ class KeyVaultSecretConfigUtilTest {
     }
 
     @Test
+    public void testLongProperty_kvSecret_shortVersionTypo() {
+        String property = "kv//my-kv/secret/the-secret/3";
+
+        assertThatThrownBy(() -> KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void testLongProperty_kvSecret_LongVersion() {
         String property = "kv//my-kv/secrets/the-secret/versions/3";
         KeyVaultSecretIdentifier secretIdentifier = KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT);
@@ -100,6 +124,14 @@ class KeyVaultSecretConfigUtilTest {
         assertThat(secretIdentifier.getVaultUrl()).isEqualTo(String.format(VAULT_URL_FORMAT, "my-kv"));
         assertThat(secretIdentifier.getName()).isEqualTo("the-secret");
         assertThat(secretIdentifier.getVersion()).isEqualTo("3");
+    }
+
+    @Test
+    public void testLongProperty_kvSecret_LongVersionTypo() {
+        String property = "kv//my-kv/secrets/the-secret/version/3";
+
+        assertThatThrownBy(() -> KeyVaultSecretConfigUtil.getSecretIdentifier(property, DEFAULT_ENDPOINT))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
