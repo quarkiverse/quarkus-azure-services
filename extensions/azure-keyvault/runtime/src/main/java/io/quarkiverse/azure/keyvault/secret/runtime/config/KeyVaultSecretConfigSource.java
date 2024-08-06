@@ -21,17 +21,19 @@ public class KeyVaultSecretConfigSource extends AbstractConfigSource {
 
     private final KeyVaultSecretConfig kvConfig;
 
+    private final SecretClientBuilder builder;
+
     public KeyVaultSecretConfigSource(final KeyVaultSecretConfig kvConfig) {
         super(CONFIG_SOURCE_NAME, KEYVAULT_SECRET_ORDINAL);
         this.kvConfig = kvConfig;
+
+        this.builder = new SecretClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
+                .credential(new DefaultAzureCredentialBuilder().build());
     }
 
     private static SecretClient createClient(String vaultUrl) {
-        return new SecretClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
-                .vaultUrl(vaultUrl)
-                .credential(new DefaultAzureCredentialBuilder().build())
-                .buildClient();
+        return builder.vaultUrl(vaultUrl).buildClient();
     }
 
     @Override

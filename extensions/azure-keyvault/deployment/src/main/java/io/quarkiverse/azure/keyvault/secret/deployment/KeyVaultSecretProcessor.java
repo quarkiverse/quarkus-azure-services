@@ -36,7 +36,7 @@ public class KeyVaultSecretProcessor {
     }
 
     @BuildStep
-    public void azureKeyVaultSecretConfigFactory(BuildProducer<RunTimeConfigBuilderBuildItem> runTimeConfigBuilder) {
+    void azureKeyVaultSecretConfigFactory(BuildProducer<RunTimeConfigBuilderBuildItem> runTimeConfigBuilder) {
         runTimeConfigBuilder.produce(new RunTimeConfigBuilderBuildItem(KeyVaultSecretConfigBuilder.class.getName()));
     }
 
