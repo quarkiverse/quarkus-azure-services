@@ -18,7 +18,7 @@ Developers who want more control or whose scenario isn't served by the default s
 
 == Installation
 
-Add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+Add the `io.quarkiverse.azureservices:quarkus-azure-keyvault` extension first to your build file.
 
 For instance, with Maven, add the following dependency to your POM file:
 

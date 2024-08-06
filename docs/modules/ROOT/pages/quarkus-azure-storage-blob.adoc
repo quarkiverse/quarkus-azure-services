@@ -11,7 +11,7 @@ This is a step by step guide on how to use the Quarkus Azure Blob Storage extens
 
 == Installation
 
-If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-storage-blob` extension first to your build file.
 
 For instance, with Maven, add the following dependency to your POM file:
 
