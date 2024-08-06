@@ -101,4 +101,27 @@ class KeyVaultSecretConfigUtilTest {
         assertThat(secretIdentifier.getName()).isEqualTo("the-secret");
         assertThat(secretIdentifier.getVersion()).isEqualTo("3");
     }
+
+    @Test
+    public void testGetKeyVaultDNS() {
+        String publicCloudDNS = "https://my-kv.vault.azure.net/";
+        String dns = KeyVaultSecretConfigUtil.getKeyValutDNS(publicCloudDNS);
+        assertThat(dns).isEqualTo("vault.azure.net");
+
+        String governmentCloudDNS = "https://my-kv.vault.usgovcloudapi.net";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(governmentCloudDNS);
+        assertThat(dns).isEqualTo("vault.usgovcloudapi.net");
+
+        String chinaCloudDNS = "https://my-kv.vault.azure.cn";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(chinaCloudDNS);
+        assertThat(dns).isEqualTo("vault.azure.cn");
+
+        String germanyCloudDNS = "https://my-kv.vault.microsoftazure.de";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(germanyCloudDNS);
+        assertThat(dns).isEqualTo("vault.microsoftazure.de");
+
+        String publicCloudDNSWithSubDomain = "https://my-kv.subdomain.vault.azure.net";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(publicCloudDNSWithSubDomain);
+        assertThat(dns).isEqualTo("subdomain.vault.azure.net");
+    }
 }

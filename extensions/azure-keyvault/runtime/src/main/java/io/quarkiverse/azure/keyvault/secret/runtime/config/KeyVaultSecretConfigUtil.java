@@ -5,7 +5,7 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 public class KeyVaultSecretConfigUtil {
     private static final String AZURE_KEYVAULT_PREFIX = "kv//";
     private static final String AZURE_KEYVAULT_ENDPOINT_PREFIX = "https://";
-    private static final String AZURE_VAULT_URL_FORMAT = "https://%s.vault.azure.net/secrets/%s/%s";
+    private static final String AZURE_VAULT_URL_FORMAT = "https://%s.%s/secrets/%s/%s";
 
     private KeyVaultSecretConfigUtil() {
     }
@@ -74,7 +74,7 @@ public class KeyVaultSecretConfigUtil {
         }
 
         return new KeyVaultSecretIdentifier(
-                String.format(AZURE_VAULT_URL_FORMAT, kvName, secretName, version));
+                String.format(AZURE_VAULT_URL_FORMAT, kvName, getKeyValutDNS(defaultEndpoint), secretName, version));
     }
 
     static String getAzureKeyVaultName(String endpoint) {
@@ -82,5 +82,23 @@ public class KeyVaultSecretConfigUtil {
         assert endpoint.startsWith(AZURE_KEYVAULT_ENDPOINT_PREFIX)
                 : "The endpoint of Azure Key Vault should start with https://.";
         return endpoint.substring(AZURE_KEYVAULT_ENDPOINT_PREFIX.length()).split("\\.")[0];
+    }
+
+    /**
+     * Get the domain name of the key vault from the endpoint.
+     *
+     * @param endpoint the endpoint of the key vault
+     * @return if the endpoint is empty, return "vault.azure.net"; otherwise, return the domain name of the key vault
+     *         Relevant documentation:
+     *         https://learn.microsoft.com/azure/key-vault/general/about-keys-secrets-certificates#dns-suffixes-for-object-identifiers
+     */
+    static String getKeyValutDNS(String endpoint) {
+        if (endpoint.isEmpty()) {
+            // return Azure Cloud DNS suffix
+            return "vault.azure.net";
+        }
+
+        String kvName = getAzureKeyVaultName(endpoint);
+        return endpoint.substring(kvName.length() + AZURE_KEYVAULT_ENDPOINT_PREFIX.length() + 1).split("/")[0];
     }
 }
