@@ -32,8 +32,8 @@ public class KeyVaultSecretConfigSource extends AbstractConfigSource {
                 .credential(new DefaultAzureCredentialBuilder().build());
     }
 
-    private static SecretClient createClient(String vaultUrl) {
-        return builder.vaultUrl(vaultUrl).buildClient();
+    private SecretClient createClient(String vaultUrl) {
+        return this.builder.vaultUrl(vaultUrl).buildClient();
     }
 
     @Override
