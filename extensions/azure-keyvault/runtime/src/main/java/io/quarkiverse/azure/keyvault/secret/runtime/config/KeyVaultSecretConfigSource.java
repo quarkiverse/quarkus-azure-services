@@ -13,7 +13,7 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.smallrye.config.common.AbstractConfigSource;
 
-public class KeyVaultSecretConfigSource extends AbstractConfigSource {
+class KeyVaultSecretConfigSource extends AbstractConfigSource {
     /** The ordinal is set to < 100 (which is the default) so that this config source is retrieved from last. */
     private static final int KEYVAULT_SECRET_ORDINAL = 50;
 
