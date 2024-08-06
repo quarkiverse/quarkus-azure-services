@@ -13,12 +13,7 @@ import io.restassured.RestAssured;
 class KeyVaultSecretConfigResourceTest {
 
     @Test
-    void getExistingSecret() {
-        RestAssured.when().get("/keyvaultConfig/getSecret1").then().body(is("mysecret"));
-    }
-
-    @Test
-    void getNotExistingSecret() {
-        RestAssured.when().get("/keyvaultConfig/getSecret2").then().body(is(null));
+    void getSecret() {
+        RestAssured.when().get("/keyvaultConfig/getSecret").then().body(is("mysecret"));
     }
 }

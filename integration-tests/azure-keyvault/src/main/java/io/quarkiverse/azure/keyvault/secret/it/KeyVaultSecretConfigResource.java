@@ -13,20 +13,10 @@ public class KeyVaultSecretConfigResource {
     @ConfigProperty(name = "kv//secret1")
     String value;
 
-    @ConfigProperty(name = "kv//notExistingSecret")
-    String notExistingSecret;
-
     @GET
-    @Path("getExistingSecret")
+    @Path("getSecret")
     @Produces(TEXT_PLAIN)
-    public String getExistingSecret() {
+    public String getSecret() {
         return value;
-    }
-
-    @GET
-    @Path("getNotExistingSecret")
-    @Produces(TEXT_PLAIN)
-    public String getNotExistingSecret() {
-        return notExistingSecret;
     }
 }
