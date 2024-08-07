@@ -155,5 +155,13 @@ class KeyVaultSecretConfigUtilTest {
         String publicCloudDNSWithSubDomain = "https://my-kv.subdomain.vault.azure.net";
         dns = KeyVaultSecretConfigUtil.getKeyValutDNS(publicCloudDNSWithSubDomain);
         assertThat(dns).isEqualTo("subdomain.vault.azure.net");
+
+        String invalidDNS = "https://my-kv";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(invalidDNS);
+        assertThat(dns).isEqualTo("vault.azure.net");
+
+        String invalidUri = "https://";
+        dns = KeyVaultSecretConfigUtil.getKeyValutDNS(invalidUri);
+        assertThat(dns).isEqualTo("vault.azure.net");
     }
 }

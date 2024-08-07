@@ -6,6 +6,7 @@ public class KeyVaultSecretConfigUtil {
     private static final String AZURE_KEYVAULT_PREFIX = "kv//";
     private static final String AZURE_KEYVAULT_ENDPOINT_PREFIX = "https://";
     private static final String AZURE_VAULT_URL_FORMAT = "https://%s.%s/secrets/%s/%s";
+    private static final String AZURE_CLOUD_DNS = "vault.azure.net";
 
     private KeyVaultSecretConfigUtil() {
     }
@@ -95,10 +96,12 @@ public class KeyVaultSecretConfigUtil {
     static String getKeyValutDNS(String endpoint) {
         if (endpoint.isEmpty()) {
             // return Azure Cloud DNS suffix
-            return "vault.azure.net";
+            return AZURE_CLOUD_DNS;
         }
 
         String kvName = getAzureKeyVaultName(endpoint);
-        return endpoint.substring(kvName.length() + AZURE_KEYVAULT_ENDPOINT_PREFIX.length() + 1).split("/")[0];
+        String dns = endpoint.substring(kvName.length() + AZURE_KEYVAULT_ENDPOINT_PREFIX.length()).split("/")[0];
+
+        return dns.length() > 1 ? dns.substring(1) : AZURE_CLOUD_DNS;
     }
 }
