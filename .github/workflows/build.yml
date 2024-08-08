@@ -5,22 +5,18 @@ on:
     branches:
       - "main"
     paths-ignore:
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'LICENSE'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
       - '.all-contributorsrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**/*.md'
+      - '**/*.txt'
   pull_request:
     paths-ignore:
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'LICENSE'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
       - '.all-contributorsrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**/*.md'
+      - '**/*.txt'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
