@@ -38,6 +38,7 @@ public class CosmosTestResource implements QuarkusTestResourceLifecycleManager {
 
         try {
             // Fetch the SSL certificate from the emulator
+            server.execInContainer("apt", "update");
             server.execInContainer("apt", "install", "curl", "-y");
             server.execInContainer(
                     "curl", "-k", "-o", "/tmp/cosmos_emulatorcert.pem",
