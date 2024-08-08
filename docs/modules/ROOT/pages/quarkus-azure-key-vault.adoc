@@ -62,7 +62,7 @@ az keyvault create --name kvquarkusazurekv0423 \
 Key Vault provides secure storage of generic secrets, such as passwords and database connection strings.
 All secrets in your key vault are stored encrypted. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them.
 
-The command creating kay vault has assigned all secret permissions(backup, delete, get, list, purge, recover, restore, set) to your identity:
+The command creating key vault has assigned all secret permissions(backup, delete, get, list, purge, recover, restore, set) to your signed in identity:
 
 Create a secret **secret1** with value `mysecret`.
 
