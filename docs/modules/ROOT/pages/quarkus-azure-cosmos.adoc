@@ -1,0 +1,62 @@
+= Quarkus Azure Cosmos DB Extension
+
+include::./includes/attributes.adoc[]
+
+include::./includes/support.adoc[]
+
+https://azure.microsoft.com/products/cosmos-db[Azure Cosmos DB] is a fully managed NoSQL, relational, and vector database.
+This extension allows you to do CRUD operations in Azure Cosmos DB by injecting a `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object inside your Quarkus application.
+
+This is a step by step guide on how to use the Quarkus Azure Cosmos DB extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-cosmos[Azure Cosmos DB sample].
+
+== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-cosmos` extension first to your build file.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-cosmos</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object in your application to read/write items from/to the specified database and container.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-cosmos \
+    --location westus
+----
+
+Create an Azure Cosmos DB account with the following command:
+
+[source,shell]
+----
+az cosmosdb create \
+    -n kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    --default-consistency-level Session \
+    --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the Azure Cosmos DB account you created.
+
+image::quarkus-azure-cosmos-azure-portal1.png[alt=Azure Portal showing the Azure Cosmos DB account]
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-cosmos.adoc[leveloffset=+1, opts=optional]
