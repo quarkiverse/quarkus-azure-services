@@ -73,12 +73,6 @@ az keyvault create \
     --location eastus \
     --enable-rbac-authorization false
 
-az ad signed-in-user show --query id -o tsv \
-    | az keyvault set-policy \
-    --name "${KEY_VAULT_NAME}" \
-    --object-id @- \
-    --secret-permissions all
-
 az keyvault secret set \
     --vault-name "${KEY_VAULT_NAME}" \
     --name secret1 \
