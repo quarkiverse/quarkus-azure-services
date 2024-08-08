@@ -62,20 +62,7 @@ az keyvault create --name kvquarkusazurekv0423 \
 Key Vault provides secure storage of generic secrets, such as passwords and database connection strings.
 All secrets in your key vault are stored encrypted. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them.
 
-Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault.
-The following command uses your Microsoft Entra ID to authorize the operation to manage secrets.
-Even if you are the key vault owner, you need explicit permissions to perform operations against secrets.
-
-Assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself:
-
-[source,shell]
-----
-az ad signed-in-user show --query id -o tsv \
-    | az keyvault set-policy \
-    --name kvquarkusazurekv0423 \
-    --object-id @- \
-    --secret-permissions all
-----
+The command creating kay vault has assigned all secret permissions(backup, delete, get, list, purge, recover, restore, set) to your identity:
 
 Create a secret **secret1** with value `mysecret`.
 

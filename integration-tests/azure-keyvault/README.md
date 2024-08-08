@@ -74,12 +74,6 @@ az keyvault create --name ${KEY_VAULT_NAME} \
     --location eastus \
     --enable-rbac-authorization false
 
-az ad signed-in-user show --query id -o tsv \
-    | az keyvault set-policy \
-    --name ${KEY_VAULT_NAME} \
-    --object-id @- \
-    --secret-permissions all
-
 export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME}\
     --resource-group ${RESOURCE_GROUP_NAME}\
     --query properties.vaultUri -otsv)

@@ -31,7 +31,9 @@ Example applications can be found inside the [integration-tests](integration-tes
 - [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension
   to get the configuration stored in Azure App Configuration.
 - [Azure Key Vault sample](integration-tests/azure-keyvault): REST endpoint using the Quarkus extension
-  to create secret via [SecretClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretclient) and [SecretAsyncClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient) in Azure Key Vault.
+  to:
+    - Create a secret via [SecretClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretclient) and [SecretAsyncClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient) in Azure Key Vault.
+    - Load a secret from Azure Key Vault as property using `ConfigProperty`.
 - [Azure Blob Storage sample](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to
   upload and download files to/from Azure Blob Storage.
 
