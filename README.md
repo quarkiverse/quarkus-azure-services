@@ -16,6 +16,7 @@ The following extensions allows you to interact with some of the Azure Services:
 
 - [Quarkus Azure App Configuration Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
   is a fast, scalable parameter storage for app configuration.
+- [Quarkus Azure Cosmos DB Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-cosmos.html): [Azure Cosmos DB](https://azure.microsoft.com/products/cosmos-db) is a fully managed NoSQL, relational, and vector database.
 - [Quarkus Azure Key Vault Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-key-vault.html): [Azure Key Vault](https://azure.microsoft.com/products/key-vault) is a cloud service for securely storing and accessing secrets.
 - [Quarkus Azure Blob Storage Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-storage-blob.html): [Azure Blob Storage](https://azure.microsoft.com/products/storage/blobs/)
   is a massively scalable and secure object storage for cloud-native workloads, archives, data lakes, high-performance
@@ -30,6 +31,7 @@ Example applications can be found inside the [integration-tests](integration-tes
 
 - [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension
   to get the configuration stored in Azure App Configuration.
+- [Azure Cosmos DB sample](integration-tests/azure-cosmos): REST endpoint using the Quarkus extension to support data plane CRUD operations in Azure Cosmos DB.
 - [Azure Key Vault sample](integration-tests/azure-keyvault): REST endpoint using the Quarkus extension
   to:
     - Create a secret via [SecretClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretclient) and [SecretAsyncClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient) in Azure Key Vault.
