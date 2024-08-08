@@ -86,6 +86,15 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VA
 echo "The value of 'quarkus.azure.keyvault.secret.endpoint' is: ${QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT}"
 ```
 
+Add secret `secret1` with value `mysecret`.
+
+```
+az keyvault secret set \
+    --vault-name ${KEY_VAULT_NAME} \
+    --name secret1 \
+    --value mysecret
+```
+
 The value of environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT` will be fed into config
 property `quarkus.azure.keyvault.secret.endpoint` of `azure-keyvault` extension in order to set up the
 connection to the Azure Key Vault.
@@ -93,6 +102,8 @@ connection to the Azure Key Vault.
 You can also manually copy the output of the variable `quarkus.azure.keyvault.secret.endpoint` and then
 update [application.properties](src/main/resources/application.properties) by uncommenting the
 same property and setting copied value.
+
+To access the secret, you can use the SecretClient or abtain it as a property.
 
 ## Running the sample
 
@@ -143,6 +154,9 @@ curl http://localhost:8080/keyvault/sync
 
 #Use SecretAsyncClient to create a secret and get the value:
 curl http://localhost:8080/keyvault/async
+
+#Use config property to get the value of secret1:
+curl http://localhost:8080/keyvault/getSecret
 ```
 
 Now you will 

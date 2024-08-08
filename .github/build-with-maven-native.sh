@@ -79,6 +79,11 @@ az ad signed-in-user show --query id -o tsv \
     --object-id @- \
     --secret-permissions all
 
+az keyvault secret set \
+    --vault-name "${KEY_VAULT_NAME}" \
+    --name secret1 \
+    --value mysecret
+
 export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_VAULT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --query properties.vaultUri\

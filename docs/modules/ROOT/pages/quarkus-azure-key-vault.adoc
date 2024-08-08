@@ -5,17 +5,20 @@ include::./includes/attributes.adoc[]
 include::./includes/support.adoc[]
 
 https://azure.microsoft.com/en-us/products/key-vault[Azure Key Vault] is a cloud service for securely storing and accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, or cryptographic keys. 
-This extension allows you to create and retrieve secret from Azure Key Vault by injecting the following object inside your Quarkus application.
+This extension allows you to:
 
-* `com.azure.security.keyvault.secrets.SecretClient` 
-* `com.azure.security.keyvault.secrets.SecretAsyncClient` 
+* Create and retrieve secrets from Azure Key Vault by injecting the one or both of the following objects in a Quarkus application.
+    - `com.azure.security.keyvault.secrets.SecretClient` 
+    - `com.azure.security.keyvault.secrets.SecretAsyncClient` 
+    
+* Use secrets from the key vault directly inside your `application.properties`.
 
-The extension produces SecretClient and  SecretAsyncClient using https://learn.microsoft.com/java/api/overview/azure/identity-readme#defaultazurecredential[DefaultAzureCredential].
-Developers who want more control or whose scenario isn't served by the default settings should build client using other credential types.
+The extension produces `SecretClient` and `SecretAsyncClient` using https://learn.microsoft.com/java/api/overview/azure/identity-readme#defaultazurecredential[DefaultAzureCredential].
+Developers who want more control or whose scenario isn't served by the default settings should build their clients using other credential types.
 
 == Installation
 
-If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-services` extension first to your build file.
+Add the `io.quarkiverse.azureservices:quarkus-azure-keyvault` extension first to your build file.
 
 For instance, with Maven, add the following dependency to your POM file:
 
@@ -30,7 +33,7 @@ For instance, with Maven, add the following dependency to your POM file:
 
 == How to Use It
 
-Once you have added the extension to your project, follow the next steps, so you can inject  `com.azure.security.keyvault.secrets.SecretClient` or `com.azure.security.keyvault.secrets.SecretAsyncClient` object in your application to manage secret.
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.security.keyvault.secrets.SecretClient` or `com.azure.security.keyvault.secrets.SecretAsyncClient` in your application to manage secrets.
 
 === Setup your Azure Environment
 
@@ -60,8 +63,8 @@ Key Vault provides secure storage of generic secrets, such as passwords and data
 All secrets in your key vault are stored encrypted. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them.
 
 Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault.
-The following command uses your Microsoft Entra ID to authorize the operation to manage secret.
-Even if you are the key vault owner, you need explicit permissions to perform operations against secret.
+The following command uses your Microsoft Entra ID to authorize the operation to manage secrets.
+Even if you are the key vault owner, you need explicit permissions to perform operations against secrets.
 
 Assign all secret permissions(backup, delete, get, list, purge, recover, restore, set) to yourself:
 
@@ -74,7 +77,17 @@ az ad signed-in-user show --query id -o tsv \
     --secret-permissions all
 ----
 
-If you log into the http://portal.azure.com/[Azure portal], you can see the key vault you created. Select **Objects** -> **Secrets**, you will find the Secrets page.
+Create a secret **secret1** with value `mysecret`.
+
+[source,shell]
+```
+az keyvault secret set \
+    --vault-name kvquarkusazurekv0423 \
+    --name secret1 \
+    --value mysecret
+```
+
+If you sign into the http://portal.azure.com/[Azure portal], you can see the key vault you created. Select **Objects** -> **Secrets**, you will find the Secrets page.
 
 image::quarkus-azure-keyvault-secret-portal.png[alt=Azure Portal showing Key Vault Secrets]
 
@@ -91,9 +104,43 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name kvquarku
     --output tsv)
 ----
 
-Notice that you get the endpoint and set it to environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT`, instead of setting it to property `quarkus.azure.keyvault.secret.endpoint` in the `application.properties` file.
+Notice that you get the endpoint and set it to environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT`, instead of setting it to property `quarkus.azure.keyvault.secret.endpoint` in the `application.properties` file. 
 
-Although technically both approaches work, using environment variable is recommended, more flexible and more secure as there's no risk of committing the endpoint to source control.
+Due to Quarkus implementing the MicroProfile Config specification, both approaches work. Using the environment variable is recommended, more flexible and more secure as there's no risk of committing the endpoint to source control.
+
+=== Read Secrets as Properties
+
+You can load and reference secrets from Azure Key Vault in your application.properties file by using the following syntax. A hierarchical approach is supported, similar to that found in Google Cloud Secret Manager.
+
+The syntax supports loading secrets from multiple key vault. Default key vault is configed with `quarkus.azure.keyvault.secret.endpoint`.
+[source,property]
+----
+# 1. Load secret from default key vault  - specify the secret name and use the latest version
+${kv//<secret-name>}
+
+# 2. Load secret from default key vault - specify the secret name and version
+${kv//<secret-name>/versions/<version-id>}
+
+# 3. Load secret from a specified key vault - specify key vault name, secret name, and use latest version
+${kv//<keyvault-name>/<secret-name>}
+
+# 4. Load secret from a specified key vault - specify key vault name, secret name, and use latest version
+${kv//<keyvault-name>/secrets/<secret-name>}
+
+# 5. Load secret from a specified key vault - specify key vault name, secret name, and version
+${kv//<keyvault-name>/secrets/<secret-name>/<version-id>}
+
+# 6. Load secret from a specified key vault - specify key vault name, secret name, and version
+${kv//<keyvault-name>/secret/<secret-name>/versions/<version-id>}
+----
+
+You can use this syntax to load secrets directly from `application.properties`:
+
+[source,java]
+----
+@ConfigProperty(name = "kv//secret1")
+String secret;
+----
 
 === Inject the Azure Key Vault Secret Client
 
@@ -120,8 +167,13 @@ public class KeyVaultSecretApplication implements QuarkusApplication {
     @Inject
     SecretClient secretClient;
 
+    @ConfigProperty(name = "kv//secret1")
+    String secret;
+
     @Override
     public int run(String... args) throws Exception {
+
+        System.out.println("Print secret1: " + secret);
 
         Console con = System.console();
 
@@ -159,6 +211,16 @@ As the secret is deleted, you will find the secret from **Objects** -> **Secrets
 image::quarkus-azure-keyvault-deleted-secret-portal.png[alt=Azure Portal showing the deleted secrets]
 
 You can also inject `com.azure.security.keyvault.secrets.SecretAsyncClient` object to your application. For more usage, see https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient?view=azure-java-stable[com.azure.security.keyvault.secrets.secretasyncclient]. 
+
+After the testing, for security consideration, you can rotate the policy with command:
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv \
+    | az keyvault delete-policy \
+    --name kvquarkusazurekv0423 \
+    --object-id @-
+----
 
 == Extension Configuration Reference
 
