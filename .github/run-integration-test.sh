@@ -39,7 +39,7 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     --query documentEndpoint -o tsv)
 
 # Randomly authenticate to Azure Cosmos DB with key or data plane RBAC
-number=$(shuf -i 1-100 -n 1)
+number=$(shuf -i 1-100 -n 1) && echo "random number is: $number"
 if [ $((number % 2)) -eq 0 ]; then
   # Export the key that has full access to the account including management plane and data plane operations
   export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
