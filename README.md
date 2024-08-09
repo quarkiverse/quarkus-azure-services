@@ -31,7 +31,7 @@ Example applications can be found inside the [integration-tests](integration-tes
 
 - [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension
   to get the configuration stored in Azure App Configuration.
-- [Azure Cosmos DB sample](integration-tests/azure-cosmos): REST endpoint using the Quarkus extension to support data plane CRUD operations in Azure Cosmos DB.
+- [Azure Cosmos DB sample](integration-tests/azure-cosmos): REST endpoint using the Quarkus extension to implement CRUD operations in Azure Cosmos DB.
 - [Azure Key Vault sample](integration-tests/azure-keyvault): REST endpoint using the Quarkus extension
   to:
     - Create a secret via [SecretClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretclient) and [SecretAsyncClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient) in Azure Key Vault.
