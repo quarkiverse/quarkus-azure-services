@@ -1,0 +1,63 @@
+
+:summaryTableId: quarkus-azure-cosmos
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[[quarkus-azure-cosmos_configuration]]link:#quarkus-azure-cosmos_configuration[Configuration property]
+
+h|Type
+h|Default
+
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]]`link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[quarkus.azure.cosmos.enabled]`
+
+
+[.description]
+--
+The flag to enable the cosmos. If set to false, the cosmos will be disabled
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`true`
+
+
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint]]`link:#quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint[quarkus.azure.cosmos.endpoint]`
+
+
+[.description]
+--
+The endpoint of Azure Cosmos DB. Required if quarkus.azure.cosmos.enabled is set to true
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_ENDPOINT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_ENDPOINT+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]]`link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[quarkus.azure.cosmos.key]`
+
+
+[.description]
+--
+The key of Azure Cosmos DB. Optional and can be empty if the Azure Identity is used to authenticate
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_KEY+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_KEY+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|
+
+|===

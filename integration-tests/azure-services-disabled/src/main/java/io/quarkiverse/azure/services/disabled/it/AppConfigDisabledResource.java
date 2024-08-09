@@ -14,7 +14,7 @@ import io.smallrye.config.SmallRyeConfig;
 
 @Path("/quarkus-azure-app-config-disabled")
 @Produces(MediaType.TEXT_PLAIN)
-public class AzureAppConfigDisabledResource {
+public class AppConfigDisabledResource {
     @Inject
     SmallRyeConfig config;
 

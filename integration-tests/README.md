@@ -89,7 +89,7 @@ Run the following commands to create an Azure App Configuration store, add a few
 connection info as environment variables.
 
 ```
-export APP_CONFIG_NAME=<unique-app-config-name>
+APP_CONFIG_NAME=<unique-app-config-name>
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -131,7 +131,7 @@ Run the following commands to create an Azure Key Vault, set permission and expo
 variable.  
 
 ```
-export KEY_VAULT_NAME=<unique-key-vault-name>
+KEY_VAULT_NAME=<unique-key-vault-name>
 az keyvault create --name ${KEY_VAULT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --location eastus \
@@ -155,6 +155,57 @@ az keyvault secret set \
 The value of environment variable `QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT` will be fed into config
 property `quarkus.azure.keyvault.secret.endpoint` of `azure-keyvault` extension in order to set up the
 connection to the Azure Key Vault.
+
+### Creating Azure Azure Cosmos DB account
+
+Run the following commands to create an Azure Cosmos DB account, and export its endpoint as an environment variable.
+
+```
+COSMOSDB_ACCOUNT_NAME=<unique-cosmosdb-account-name>
+az cosmosdb create \
+    -n ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    --default-consistency-level Session \
+    --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
+
+export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
+    -n ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    --query documentEndpoint -o tsv)
+echo "The value of 'quarkus.azure.cosmos.endpoint' is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
+```
+
+The value of environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` will be fed into config
+property `quarkus.azure.cosmos.endpoint` of `azure-cosmos` extension in order to set up the
+connection to the Azure Cosmos DB.
+
+Assign the `Cosmos DB Built-in Data Contributor` role to the signed-in user, so that the sample application can do data plane CRUD operations.
+
+```
+az ad signed-in-user show --query id -o tsv \
+    | az cosmosdb sql role assignment create \
+    --account-name ${COSMOSDB_ACCOUNT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --scope "/" \
+    --principal-id @- \
+    --role-definition-id 00000000-0000-0000-0000-000000000002
+```
+
+However, you cannot use any Azure Cosmos DB data plane SDK to authenticate management operations with a Microsoft Entra identity, so you need to create database and container manually.
+The following commands create a database `demodb` and a container `democontainer` using Azure CLI.
+
+```
+az cosmosdb sql database create \
+    -a ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    -n demodb
+az cosmosdb sql container create \
+    -a ${COSMOSDB_ACCOUNT_NAME} \
+    -g ${RESOURCE_GROUP_NAME} \
+    -d demodb \
+    -n democontainer \
+    -p "/id"
+```
 
 ### Running the test
 

@@ -91,11 +91,6 @@ Now that your Azure environment is ready and that you have configured the extens
 The `uploadBlob` method first creates the container `container-quarkus-azure-storage-blob`, sets some text to a text file, and then uploads the text to the container.
 The `downloadBlob` method downloads the text file from the container and prints the text to the console.
 
-To execute this sample you can run the following cURL commands:
-
-* `curl -X POST localhost:8080/quarkus-azure-storage-blob`
-* `curl localhost:8080/quarkus-azure-storage-blob`
-
 [source,java]
 ----
 @Path("/quarkus-azure-storage-blob")
@@ -126,19 +121,19 @@ public class StorageBlobResource {
 }
 ----
 
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl -X POST localhost:8080/quarkus-azure-storage-blob`
+* `curl localhost:8080/quarkus-azure-storage-blob`
+
 You can go back to the http://portal.azure.com/[Azure portal] and see the container `container-quarkus-azure-storage-blob` and the blob `quarkus-azure-storage-blob.txt` that you've created.
 
 image::quarkus-azure-storage-blob-azure-portal2.png[alt=Azure Portal showing the content of the file uploaded with the BlobServiceClient object]
 
 ==== Use the BlobServiceAsyncClient in a reactive application
 
-Similarly, the `uploadBlob` method first creates the container `container-quarkus-azure-storage-blob-async`, sets some text to a text file, and then uploads the text to the container.
-The `downloadBlob` method downloads the text file from the container and prints the text to the console.
-
-To execute this sample you can run the following cURL commands:
-
-* `curl -X POST localhost:8080/quarkus-azure-storage-blob-async`
-* `curl localhost:8080/quarkus-azure-storage-blob-async`
+Similarly, the `uploadBlob` method first asynchronously creates the container `container-quarkus-azure-storage-blob-async`, sets some text to a text file, and then uploads the text to the container.
+The `downloadBlob` method asynchronously downloads the text file from the container and prints the text to the console.
 
 [source,java]
 ----
@@ -170,6 +165,11 @@ public class StorageBlobAsyncResource {
     }
 }
 ----
+
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl -X POST localhost:8080/quarkus-azure-storage-blob-async`
+* `curl localhost:8080/quarkus-azure-storage-blob-async`
 
 You can also go back to the http://portal.azure.com/[Azure portal] and see the container `container-quarkus-azure-storage-blob-async` and the blob `quarkus-azure-storage-blob-async.txt` that you've created.
 

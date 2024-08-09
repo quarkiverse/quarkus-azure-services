@@ -18,7 +18,7 @@ import io.quarkus.test.junit.QuarkusTest;
 class StorageBlobResourceTest {
 
     @Test
-    void shouldUploadATextfile() {
+    void azureStorageBlob() {
 
         final String container = "container-quarkus-azure-storage-blob";
         final String blobName = "StorageBlobResourceTest-" + UUID.randomUUID().toString() + ".txt";

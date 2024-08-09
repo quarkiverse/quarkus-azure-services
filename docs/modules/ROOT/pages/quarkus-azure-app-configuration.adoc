@@ -114,7 +114,7 @@ public class ConfigResource {
 }
 ----
 
-To execute this sample you can run the following cURL commands:
+To test this sample you can run the following cURL commands after the application is started:
 
 * `curl -X GET localhost:8080/config/myKeyOne`
 * `curl -X GET localhost:8080/config/myKeyTwo`

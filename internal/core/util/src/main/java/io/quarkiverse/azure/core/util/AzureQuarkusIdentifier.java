@@ -13,6 +13,7 @@ public final class AzureQuarkusIdentifier {
     public static final String AZURE_QUARKUS_STORAGE_BLOB = "az-qk-storage-blob";
     public static final String AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT = "az-qk-kv-secret-async";
     public static final String AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT = "az-qk-kv-secret-sync";
+    public static final String AZURE_QUARKUS_COSMOS = "az-qk-cosmos";
 
     private AzureQuarkusIdentifier() {
 

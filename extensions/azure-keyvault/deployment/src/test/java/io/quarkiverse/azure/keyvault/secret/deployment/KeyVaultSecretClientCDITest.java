@@ -21,6 +21,6 @@ public class KeyVaultSecretClientCDITest {
 
     @Test
     public void test() {
-        // Application should start with az login.
+        // should finish with success
     }
 }

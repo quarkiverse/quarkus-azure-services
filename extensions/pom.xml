@@ -14,6 +14,7 @@
 
     <modules>
         <module>azure-app-configuration</module>
+        <module>azure-cosmos</module>
         <module>azure-keyvault</module>
         <module>azure-storage-blob</module>
     </modules>
