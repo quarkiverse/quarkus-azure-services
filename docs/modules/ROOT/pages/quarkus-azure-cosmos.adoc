@@ -132,7 +132,7 @@ public class CosmosResource {
             Item body,
             @Context UriInfo uriInfo) {
 
-        getContainer(database, container).upsertItem(body);
+        cosmosClient.getDatabase(database).getContainer(container).upsertItem(body);
         return Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build();
     }
 
@@ -143,7 +143,7 @@ public class CosmosResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        CosmosItemResponse<Item> item = getContainer(database, container).readItem(itemId, new PartitionKey(itemId),
+        CosmosItemResponse<Item> item = cosmosClient.getDatabase(database).getContainer(container).readItem(itemId, new PartitionKey(itemId),
                 Item.class);
 
         return Response.ok().entity(item.getItem()).build();
@@ -182,8 +182,7 @@ public class CosmosAsyncResource {
             Item body,
             @Context UriInfo uriInfo) {
 
-        Mono<CosmosItemResponse<Item>> response = getContainer(database, container)
-                .flatMap(cosmosAsyncContainer -> cosmosAsyncContainer.upsertItem(body));
+        Mono<CosmosItemResponse<Item>> response = cosmosAsyncClient.getDatabase(database).getContainer(container).upsertItem(body);
         return Uni.createFrom().completionStage(response.toFuture())
                 .map(it -> Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build());
     }
@@ -195,8 +194,7 @@ public class CosmosAsyncResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        Mono<CosmosItemResponse<Item>> item = getContainer(database, container)
-                .flatMap(cosmosAsyncContainer -> cosmosAsyncContainer.readItem(itemId, new PartitionKey(itemId), Item.class));
+        Mono<CosmosItemResponse<Item>> item = cosmosAsyncClient.getDatabase(database).getContainer(container).readItem(itemId, new PartitionKey(itemId), Item.class);
         return Uni.createFrom().completionStage(item.toFuture())
                 .map(it -> Response.ok().entity(it.getItem()).build());
 
