@@ -3,7 +3,6 @@ package io.quarkiverse.azure.cosmos.deployment;
 import jakarta.inject.Inject;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -25,11 +24,7 @@ public class CosmosClientCDITest {
 
     @RegisterExtension
     static final QuarkusUnitTest config = new QuarkusUnitTest()
-            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class)
-                    .addAsResource(new StringAsset(
-                            "quarkus.azure.cosmos.endpoint=${quarkus.azure.cosmos.endpoint}\n" +
-                                    "quarkus.azure.cosmos.key=${quarkus.azure.cosmos.key}"),
-                            "application.properties"));
+            .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class));
 
     @Test
     public void test() {

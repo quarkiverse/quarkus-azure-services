@@ -17,29 +17,25 @@ public class StorageBlobServiceClientProducer {
 
     @Produces
     public BlobServiceClient blobServiceClient() {
-        if (!storageBlobConfiguration.enabled) {
-            return null;
-        }
-
-        assert storageBlobConfiguration.connectionString.isPresent()
-                : "The connection string of Azure Storage Account must be set";
-        return new BlobServiceClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
-                .connectionString(storageBlobConfiguration.connectionString.get())
-                .buildClient();
+        BlobServiceClientBuilder builder = getBuilder();
+        return null == builder ? null : builder.buildClient();
     }
 
     @Produces
     public BlobServiceAsyncClient blobServiceAsyncClient() {
-        if (!storageBlobConfiguration.enabled) {
+        BlobServiceClientBuilder builder = getBuilder();
+        return null == builder ? null : builder.buildAsyncClient();
+    }
+
+    private BlobServiceClientBuilder getBuilder() {
+        if (!storageBlobConfiguration.enabled()) {
             return null;
         }
 
-        assert storageBlobConfiguration.connectionString.isPresent()
+        assert storageBlobConfiguration.connectionString().isPresent()
                 : "The connection string of Azure Storage Account must be set";
         return new BlobServiceClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
-                .connectionString(storageBlobConfiguration.connectionString.get())
-                .buildAsyncClient();
+                .connectionString(storageBlobConfiguration.connectionString().get());
     }
 }

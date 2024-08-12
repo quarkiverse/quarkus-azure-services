@@ -28,16 +28,16 @@ public class CosmosClientProducer {
     }
 
     private CosmosClientBuilder getBuilder() {
-        if (!cosmosConfiguration.enabled) {
+        if (!cosmosConfiguration.enabled()) {
             return null;
         }
 
-        assert cosmosConfiguration.endpoint.isPresent() : "The endpoint of Azure Cosmos DB must be set";
+        assert cosmosConfiguration.endpoint().isPresent() : "The endpoint of Azure Cosmos DB must be set";
         CosmosClientBuilder builder = new CosmosClientBuilder()
                 .userAgentSuffix(AzureQuarkusIdentifier.AZURE_QUARKUS_COSMOS)
-                .endpoint(cosmosConfiguration.endpoint.get());
-        if (cosmosConfiguration.key.isPresent()) {
-            builder.key(cosmosConfiguration.key.get());
+                .endpoint(cosmosConfiguration.endpoint().get());
+        if (cosmosConfiguration.key().isPresent()) {
+            builder.key(cosmosConfiguration.key().get());
         } else {
             builder.credential(new DefaultAzureCredentialBuilder().build());
         }
