@@ -32,7 +32,7 @@ public class CosmosAsyncResource {
             Item body,
             @Context UriInfo uriInfo) {
 
-        Mono<CosmosItemResponse<Item>> response = getContainer(database, container)
+        Mono<CosmosItemResponse<Item>> response = getContainer(database, container, true)
                 .flatMap(cosmosAsyncContainer -> cosmosAsyncContainer.upsertItem(body));
         return Uni.createFrom().completionStage(response.toFuture())
                 .map(it -> Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build());
@@ -45,7 +45,7 @@ public class CosmosAsyncResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        Mono<CosmosItemResponse<Item>> item = getContainer(database, container)
+        Mono<CosmosItemResponse<Item>> item = getContainer(database, container, false)
                 .flatMap(cosmosAsyncContainer -> cosmosAsyncContainer.readItem(itemId, new PartitionKey(itemId), Item.class));
         return Uni.createFrom().completionStage(item.toFuture())
                 .map(it -> Response.ok().entity(it.getItem()).build());
@@ -58,7 +58,7 @@ public class CosmosAsyncResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        Mono<CosmosItemResponse<Object>> response = getContainer(database, container)
+        Mono<CosmosItemResponse<Object>> response = getContainer(database, container, false)
                 .flatMap(cosmosAsyncContainer -> cosmosAsyncContainer.deleteItem(itemId, new PartitionKey(itemId),
                         new CosmosItemRequestOptions()));
         return Uni.createFrom().completionStage(response.toFuture())
@@ -71,7 +71,7 @@ public class CosmosAsyncResource {
     public Multi<Item> getItems(
             @PathParam("database") String database,
             @PathParam("container") String container) {
-        Flux<Item> items = getContainer(database, container)
+        Flux<Item> items = getContainer(database, container, false)
                 .map(cosmosAsyncContainer -> cosmosAsyncContainer
                         .queryItems("SELECT * FROM Item", new CosmosQueryRequestOptions(), Item.class)
                         .byPage(10)
@@ -84,7 +84,11 @@ public class CosmosAsyncResource {
         });
     }
 
-    private Mono<CosmosAsyncContainer> getContainer(String database, String container) {
+    private Mono<CosmosAsyncContainer> getContainer(String database, String container, boolean createIfNotExists) {
+        if (!createIfNotExists) {
+            return Mono.just(cosmosAsyncClient.getDatabase(database).getContainer(container));
+        }
+
         return cosmosAsyncClient.createDatabaseIfNotExists(database)
                 .map(CosmosDatabaseResponse::getProperties)
                 .map(CosmosDatabaseProperties::getId)

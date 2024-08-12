@@ -29,7 +29,7 @@ public class CosmosResource {
             Item body,
             @Context UriInfo uriInfo) {
 
-        getContainer(database, container).upsertItem(body);
+        getContainer(database, container, true).upsertItem(body);
         return Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build();
     }
 
@@ -40,7 +40,7 @@ public class CosmosResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        CosmosItemResponse<Item> item = getContainer(database, container).readItem(itemId, new PartitionKey(itemId),
+        CosmosItemResponse<Item> item = getContainer(database, container, false).readItem(itemId, new PartitionKey(itemId),
                 Item.class);
 
         return Response.ok().entity(item.getItem()).build();
@@ -53,7 +53,7 @@ public class CosmosResource {
             @PathParam("database") String database,
             @PathParam("container") String container,
             @PathParam("itemId") String itemId) {
-        getContainer(database, container).deleteItem(itemId, new PartitionKey(itemId), new CosmosItemRequestOptions());
+        getContainer(database, container, false).deleteItem(itemId, new PartitionKey(itemId), new CosmosItemRequestOptions());
 
         return Response.noContent().build();
     }
@@ -64,7 +64,7 @@ public class CosmosResource {
     public List<Item> getItems(
             @PathParam("database") String database,
             @PathParam("container") String container) {
-        return getContainer(database, container)
+        return getContainer(database, container, false)
                 .queryItems("SELECT * FROM Item", new CosmosQueryRequestOptions(), Item.class)
                 .streamByPage(10)
                 .map(FeedResponse::getResults)
@@ -72,7 +72,10 @@ public class CosmosResource {
                 .collect(Collectors.toList());
     }
 
-    private CosmosContainer getContainer(String database, String container) {
+    private CosmosContainer getContainer(String database, String container, boolean createIfNotExists) {
+        if (!createIfNotExists) {
+            return cosmosClient.getDatabase(database).getContainer(container);
+        }
         CosmosDatabaseResponse databaseResponse = cosmosClient.createDatabaseIfNotExists(database);
         CosmosDatabase cosmosDatabase = cosmosClient.getDatabase(databaseResponse.getProperties().getId());
         CosmosContainerResponse containerResponse = cosmosDatabase.createContainerIfNotExists(container, Item.PARTITION_KEY);
