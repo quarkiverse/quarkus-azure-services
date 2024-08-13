@@ -11,9 +11,9 @@ import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClient;
 
 import io.quarkus.test.QuarkusUnitTest;
-import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.common.WithTestResource;
 
-@QuarkusTestResource(CosmosTestResource.class)
+@WithTestResource(CosmosTestResource.class)
 public class CosmosClientCDITest {
 
     @Inject
