@@ -92,8 +92,7 @@ public class KeyVaultSecretProcessor {
                         Log.debugv("Add class to reflectiveHierarchyClass: " + e);
                     }
                     Type jandexType = Type.create(DotName.createSimple(e), Type.Kind.CLASS);
-                    reflectiveHierarchyClass.produce(new ReflectiveHierarchyBuildItem.Builder()
-                            .type(jandexType)
+                    reflectiveHierarchyClass.produce(ReflectiveHierarchyBuildItem.builder(jandexType)
                             .source(getClass().getSimpleName() + " > " + jandexType.name().toString())
                             .build());
                 });
