@@ -1,6 +1,6 @@
 First thing first.
 For this sample to work, you need to have an Azure account as well as Azure CLI installed.
-The Azure CLI is available to install in Windows, macOS and Linux environments.
+The Azure CLI is available to install in Windows, macOS and GNU/Linux environments.
 https://learn.microsoft.com/cli/azure/install-azure-cli[Checkout the installation guide].
 Then, you need an https://azure.microsoft.com/free[Azure subscription] and log into it by using the `az login` command.
 You can run `az version` to find the version and `az upgrade` to upgrade to the latest version.
