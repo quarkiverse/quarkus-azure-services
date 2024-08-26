@@ -69,7 +69,7 @@ jobs:
 
       - name: Build with Maven (Native)
         run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
-
+      # Login immediately before each invocation to avoid timeouts
       - name: Az CLI login
         uses: azure/login@v1
         with:
@@ -82,6 +82,7 @@ jobs:
         run: .github/create-azure-resources.sh
         if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
 
+      # Login immediately before each invocation to avoid timeouts
       - name: Az CLI login
         uses: azure/login@v1
         with:
@@ -96,6 +97,7 @@ jobs:
           ../.github/run-integration-test.sh
         if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
 
+      # Login immediately before each invocation to avoid timeouts
       # Fix error: Client assertion is not within its valid time range.
       - name: Az CLI login
         uses: azure/login@v1

@@ -5,13 +5,13 @@ include::./includes/attributes.adoc[]
 include::./includes/support.adoc[]
 
 https://azure.microsoft.com/products/cosmos-db[Azure Cosmos DB] is a fully managed NoSQL, relational, and vector database.
-This extension allows you to do CRUD operations in Azure Cosmos DB by injecting a `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object inside your Quarkus application.
+This extension allows you to do the full set of data manipulations supported by Azure Cosmos DB by injecting a `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object inside your Quarkus application.
 
 This is a step by step guide on how to use the Quarkus Azure Cosmos DB extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-cosmos[Azure Cosmos DB sample].
 
 == Installation
 
-If you want to use this extension, you need to add the `io.quarkiverse.azureservices:quarkus-azure-cosmos` extension first to your build file.
+Add a dependncy on `io.quarkiverse.azureservices:quarkus-azure-cosmos`.
 
 For instance, with Maven, add the following dependency to your POM file:
 
@@ -101,13 +101,13 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
 echo "QUARKUS_AZURE_COSMOS_ENDPOINT is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
 ----
 
-Notice that you get the connection string and set it to environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT`, instead of setting it to property `quarkus.azure.cosmos.endpoint` in the `application.properties` file.
+Because Quarkus implements the [MicroProfile Config specification](https://microprofile.io/project/eclipse/microprofile-config), the value of the  environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is read as if the property `quarkus.azure.cosmos.endpoint` were set in the `application.properties` file.
 
 Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
 
 === Inject the Azure Cosmos DB Client
 
-Now that your Azure environment is ready and you have configured the extension, you can inject the `com.azure.cosmos.CosmosClient` object in your imperative application or inject the `com.azure.cosmos.CosmosAsyncClient` object in your reactive application, so you can interact with Azure Cosmos DB.
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.cosmos.CosmosClient` object in your imperative application or `@Inject` the `com.azure.cosmos.CosmosAsyncClient` object in your reactive application, so you can interact with Azure Cosmos DB. For complete API see [the Azure SDK for Java Reference Documentation](https://javadoc.io/doc/com.azure/azure-cosmos/latest/).
 
 ==== Use the CosmosClient in an imperative application
 
@@ -163,7 +163,7 @@ image::quarkus-azure-cosmos-azure-portal2.png[alt=Azure Portal showing the conte
 ==== Use the CosmosAsyncClient in a reactive application
 
 Similarly, the `createItem` method first asynchronously creates the item with request payload in the specified database and container of the Azure Cosmos DB account.
-The `getItem` method asynchronously reads the item with the id from the specified database and container of the Azure Cosmos DB account.
+The `getItem` method asynchronously reads the item with the id from the specified database and container of the Azure Cosmos DB account. The sample makes heavy use of Project Reactor. For more information see [Reactor Reference Guide](https://projectreactor.io/docs/core/release/reference/).
 
 [source,java]
 ----

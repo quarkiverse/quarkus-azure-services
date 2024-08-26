@@ -7,12 +7,11 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-This repository hosts Quarkus extensions for different Azure Services. You can check
-the [documentation of these services](https://docs.quarkiverse.io/quarkus-azure-services/dev/index.html).
+This repository hosts Quarkus extensions for a selection of popular Azure Services. The official documentation of these services is in Quarkiverse at [Quarkus Azure Services](https://docs.quarkiverse.io/quarkus-azure-services/dev/index.html). Each extension is functionally independent of the others, but they can be used together.
 
 ## Azure Services
 
-The following extensions allows you to interact with some of the Azure Services:
+Here's the current selection of Quarkus Azure Services:
 
 - [Quarkus Azure App Configuration Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
   is a fast, scalable parameter storage for app configuration.
@@ -23,7 +22,7 @@ The following extensions allows you to interact with some of the Azure Services:
   computing, and machine learning.
 
 ## Azure Services outside this repository
-- [Quarkus Opentelemetry Exporter for Microsoft Azure](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html) to enable the [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) telemetry for Quarkus native applications
+- [Quarkus Opentelemetry Exporter for Microsoft Azure](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html) enables [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) telemetry for Quarkus native applications
 
 ## Example applications
 
