@@ -17,7 +17,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.parameters>true</maven.compiler.parameters>
-    <quarkus.version>3.13.1</quarkus.version>
+    <quarkus.version>3.14.0</quarkus.version>
   </properties>
   <scm>
     <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>
@@ -69,6 +69,11 @@
         <plugin>
           <groupId>io.quarkus</groupId>
           <artifactId>quarkus-maven-plugin</artifactId>
+          <version>${quarkus.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-config-doc-maven-plugin</artifactId>
           <version>${quarkus.version}</version>
         </plugin>
       </plugins>

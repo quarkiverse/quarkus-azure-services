@@ -211,4 +211,4 @@ az ad signed-in-user show --query id -o tsv \
 
 == Extension Configuration Reference
 
-include::includes/quarkus-azure-keyvault-secret.adoc[leveloffset=+1, opts=optional]
+include::includes/quarkus-azure-keyvault.adoc[leveloffset=+1, opts=optional]
