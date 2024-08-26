@@ -6,11 +6,11 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.common.WithTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-@QuarkusTestResource(AzureAppConfigurationResource.class)
+@WithTestResource(AzureAppConfigurationResource.class)
 class AzureAppConfigurationTest {
     @Test
     void azureAppConfiguration() {

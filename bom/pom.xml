@@ -23,11 +23,13 @@
     
     <properties>
         <azure-sdk-bom.version>1.2.26</azure-sdk-bom.version>
-        <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <msal4j.version>1.16.1</msal4j.version>
+        <!-- @sync com.azure:azure-cosmos:${azure-cosmos.version} dep:com.azure:azure-core-http-netty dep:io.projectreactor.netty:reactor-netty-http -->
+        <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
+        <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
         <assertj-core.version>3.26.3</assertj-core.version>
     </properties>
     
@@ -58,6 +60,11 @@
                 <groupId>com.fasterxml.woodstox</groupId>
                 <artifactId>woodstox-core</artifactId>
                 <version>${woodstox-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.projectreactor.netty</groupId>
+                <artifactId>reactor-netty-http</artifactId>
+                <version>${reactor-netty-http.version}</version>
             </dependency>
             
             <!-- Utilities for Azure Services Extensions -->
@@ -90,16 +97,6 @@
             </dependency>
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
-                <artifactId>quarkus-azure-app-configuration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.azureservices</groupId>
-                <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-http-client-vertx</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -116,6 +113,26 @@
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-app-configuration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-cosmos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-cosmos-deployment</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

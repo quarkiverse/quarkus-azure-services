@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkus.test.QuarkusUnitTest;
-import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.common.WithTestResource;
 import io.smallrye.config.SmallRyeConfig;
 
-@QuarkusTestResource(AzureAppConfigurationResource.class)
+@WithTestResource(AzureAppConfigurationResource.class)
 class AzureAppConfigurationTest {
     @RegisterExtension
     static final QuarkusUnitTest TEST = new QuarkusUnitTest()

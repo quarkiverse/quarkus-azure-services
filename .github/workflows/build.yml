@@ -5,22 +5,18 @@ on:
     branches:
       - "main"
     paths-ignore:
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'LICENSE'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
       - '.all-contributorsrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**/*.md'
+      - '**/*.txt'
   pull_request:
     paths-ignore:
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'LICENSE'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
       - '.all-contributorsrc'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**/*.md'
+      - '**/*.txt'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,6 +43,7 @@ jobs:
       STORAGE_ACCOUNT_NAME: storage${{ github.run_id }}${{ github.run_number }}
       APP_CONFIG_NAME: appconfig${{ github.run_id }}${{ github.run_number }}
       KEY_VAULT_NAME: kv${{ github.run_id }}${{ github.run_number }}
+      COSMOSDB_ACCOUNT_NAME: cosmos${{ github.run_id }}${{ github.run_number }}
     name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -72,8 +69,7 @@ jobs:
 
       - name: Build with Maven (Native)
         run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
-        if: ${{ env.AZURE_CLIENT_ID == '' || env.AZURE_TENANT_ID == '' || env.AZURE_SUBSCRIPTION_ID == '' }}
-
+      # Login immediately before each invocation to avoid timeouts
       - name: Az CLI login
         uses: azure/login@v1
         with:
@@ -82,10 +78,26 @@ jobs:
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
         if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
 
-      - name: Build with Maven (Native) and run tests against Azure services
-        run: .github/build-with-maven-native.sh
+      - name: Create Azure resources
+        run: .github/create-azure-resources.sh
         if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
 
+      # Login immediately before each invocation to avoid timeouts
+      - name: Az CLI login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
+
+      - name: Run tests against Azure services
+        run: |
+          cd integration-tests
+          ../.github/run-integration-test.sh
+        if: ${{ env.AZURE_CLIENT_ID != '' && env.AZURE_TENANT_ID != '' && env.AZURE_SUBSCRIPTION_ID != '' }}
+
+      # Login immediately before each invocation to avoid timeouts
       # Fix error: Client assertion is not within its valid time range.
       - name: Az CLI login
         uses: azure/login@v1

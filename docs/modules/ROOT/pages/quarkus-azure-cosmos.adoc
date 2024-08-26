@@ -1,0 +1,216 @@
+= Quarkus Azure Cosmos DB Extension
+
+include::./includes/attributes.adoc[]
+
+include::./includes/support.adoc[]
+
+https://azure.microsoft.com/products/cosmos-db[Azure Cosmos DB] is a fully managed NoSQL, relational, and vector database.
+This extension allows you to do the full set of data manipulations supported by Azure Cosmos DB by injecting a `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object inside your Quarkus application.
+
+This is a step by step guide on how to use the Quarkus Azure Cosmos DB extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-cosmos[Azure Cosmos DB sample].
+
+== Installation
+
+Add a dependncy on `io.quarkiverse.azureservices:quarkus-azure-cosmos`.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-cosmos</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.cosmos.CosmosClient` or `com.azure.cosmos.CosmosAsyncClient` object in your application to read/write items from/to the specified database and container.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-cosmos \
+    --location westus
+----
+
+Create an Azure Cosmos DB account with the following command:
+
+[source,shell]
+----
+az cosmosdb create \
+    -n kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    --default-consistency-level Session \
+    --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the Azure Cosmos DB account you created.
+
+image::quarkus-azure-cosmos-azure-portal1.png[alt=Azure Portal showing the Azure Cosmos DB account]
+
+Next, assign the `Cosmos DB Built-in Data Contributor` role to the signed-in user, so that the sample application can do data plane CRUD operations.
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv \
+    | az cosmosdb sql role assignment create \
+    --account-name kvquarkusazurecosmos080824 \
+    --resource-group rg-quarkus-azure-cosmos \
+    --scope "/" \
+    --principal-id @- \
+    --role-definition-id 00000000-0000-0000-0000-000000000002
+----
+
+Notice that you cannot use any Azure Cosmos DB data plane SDK to authenticate management operations with a Microsoft Entra identity, you need to create database and container manually.
+Run the following commands to create a database `demodb` and a container `democontainer` using Azure CLI.
+
+[source,shell]
+----
+az cosmosdb sql database create \
+    -a kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    -n demodb
+az cosmosdb sql container create \
+    -a kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    -d demodb \
+    -n democontainer \
+    -p "/id"
+----
+
+=== Configure the Azure Cosmos DB Client
+
+As you can see below in the _Extension Configuration Reference_ section, the property `quarkus.azure.cosmos.endpoint` is required if the extension is enabled.
+To get the endpoint of the Azure Cosmos DB account, execute the following Azure CLI command:
+
+[source,shell]
+----
+export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
+    -n kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    --query documentEndpoint -o tsv)
+echo "QUARKUS_AZURE_COSMOS_ENDPOINT is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
+----
+
+Because Quarkus implements the [MicroProfile Config specification](https://microprofile.io/project/eclipse/microprofile-config), the value of the  environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is read as if the property `quarkus.azure.cosmos.endpoint` were set in the `application.properties` file.
+
+Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
+
+=== Inject the Azure Cosmos DB Client
+
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.cosmos.CosmosClient` object in your imperative application or `@Inject` the `com.azure.cosmos.CosmosAsyncClient` object in your reactive application, so you can interact with Azure Cosmos DB. For complete API see [the Azure SDK for Java Reference Documentation](https://javadoc.io/doc/com.azure/azure-cosmos/latest/).
+
+==== Use the CosmosClient in an imperative application
+
+The `createItem` method first creates the item with request payload in the specified database and container of the Azure Cosmos DB account.
+The `getItem` method reads the item with the id from the specified database and container of the Azure Cosmos DB account.
+
+[source,java]
+----
+@Path("/quarkus-azure-cosmos")
+@ApplicationScoped
+public class CosmosResource {
+
+    @Inject
+    CosmosClient cosmosClient;
+
+    @Path("/{database}/{container}")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createItem(
+            @PathParam("database") String database,
+            @PathParam("container") String container,
+            Item body,
+            @Context UriInfo uriInfo) {
+
+        cosmosClient.getDatabase(database).getContainer(container).upsertItem(body);
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build();
+    }
+
+    @Path("/{database}/{container}/{itemId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItem(
+            @PathParam("database") String database,
+            @PathParam("container") String container,
+            @PathParam("itemId") String itemId) {
+        CosmosItemResponse<Item> item = cosmosClient.getDatabase(database).getContainer(container).readItem(itemId, new PartitionKey(itemId),
+                Item.class);
+
+        return Response.ok().entity(item.getItem()).build();
+    }
+}
+----
+
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X POST -d '{"id": "1", "name": "sync-item"}' -H "Content-Type: application/json"`
+* `curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X GET`
+
+You can go back to the http://portal.azure.com/[Azure portal], open **Data Explorer** of the Azure Cosmos DB account, and see the item that you've created.
+
+image::quarkus-azure-cosmos-azure-portal2.png[alt=Azure Portal showing the content of item created with the CosmosClient object]
+
+==== Use the CosmosAsyncClient in a reactive application
+
+Similarly, the `createItem` method first asynchronously creates the item with request payload in the specified database and container of the Azure Cosmos DB account.
+The `getItem` method asynchronously reads the item with the id from the specified database and container of the Azure Cosmos DB account. The sample makes heavy use of Project Reactor. For more information see [Reactor Reference Guide](https://projectreactor.io/docs/core/release/reference/).
+
+[source,java]
+----
+@Path("/quarkus-azure-cosmos-async")
+@ApplicationScoped
+public class CosmosAsyncResource {
+
+    @Inject
+    CosmosAsyncClient cosmosAsyncClient;
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Uni<Response> createItem(
+            @PathParam("database") String database,
+            @PathParam("container") String container,
+            Item body,
+            @Context UriInfo uriInfo) {
+
+        Mono<CosmosItemResponse<Item>> response = cosmosAsyncClient.getDatabase(database).getContainer(container).upsertItem(body);
+        return Uni.createFrom().completionStage(response.toFuture())
+                .map(it -> Response.created(uriInfo.getAbsolutePathBuilder().path(body.getId()).build()).build());
+    }
+
+    @Path("/{database}/{container}/{itemId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<Response> getItem(
+            @PathParam("database") String database,
+            @PathParam("container") String container,
+            @PathParam("itemId") String itemId) {
+        Mono<CosmosItemResponse<Item>> item = cosmosAsyncClient.getDatabase(database).getContainer(container).readItem(itemId, new PartitionKey(itemId), Item.class);
+        return Uni.createFrom().completionStage(item.toFuture())
+                .map(it -> Response.ok().entity(it.getItem()).build());
+
+    }
+}
+----
+
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X POST -d '{"id": "2", "name": "async-item"}' -H "Content-Type: application/json"`
+* `curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/2 -X GET`
+
+You can go back to the http://portal.azure.com/[Azure portal], open **Data Explorer** of the Azure Cosmos DB account, and see the item that you've created.
+
+image::quarkus-azure-cosmos-azure-portal3.png[alt=Azure Portal showing the content of item created with the CosmosAsyncClient object]
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-cosmos.adoc[leveloffset=+1, opts=optional]

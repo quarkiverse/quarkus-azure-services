@@ -15,7 +15,7 @@
         <!-- Make sure the doc is built after the other artifacts -->
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-core-deployment</artifactId>
+            <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <exclusions>
@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-storage-blob-deployment</artifactId>
+            <artifactId>quarkus-azure-cosmos-deployment</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <exclusions>
@@ -51,7 +51,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
+            <artifactId>quarkus-azure-storage-blob-deployment</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <exclusions>
@@ -109,6 +109,11 @@
                                 <resource>
                                     <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
                                     <include>quarkus-azure-app-configuration.adoc</include>
+                                    <filtering>false</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
+                                    <include>quarkus-azure-cosmos.adoc</include>
                                     <filtering>false</filtering>
                                 </resource>
                                 <resource>

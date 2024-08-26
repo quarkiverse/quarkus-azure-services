@@ -131,7 +131,7 @@ followed [Preparing the Azure services](#preparing-the-azure-services) to create
 
 ```
 # Build the native executable using the Docker.
-mvn package -Dnative
+mvn package -Dnative -Dquarkus.native.container-build
 
 # Run the native executable.
 version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)

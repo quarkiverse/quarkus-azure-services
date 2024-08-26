@@ -142,7 +142,7 @@ public class DevServicesStorageBlobProcessor {
             return null;
         }
 
-        if (!dockerStatusBuildItem.isDockerAvailable()) {
+        if (!dockerStatusBuildItem.isContainerRuntimeAvailable()) {
             log.warn(
                     "Please configure quarkus.azure.storage.blob.connection-string for Azure storage blob client or get a working docker instance");
             return null;

@@ -3,6 +3,6 @@ package io.quarkiverse.azure.services.disabled.it;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-public class AzureAppConfigDisabledIT extends AzureAppConfigDisabledTest {
+public class AppConfigDisabledIT extends AppConfigDisabledTest {
 
 }

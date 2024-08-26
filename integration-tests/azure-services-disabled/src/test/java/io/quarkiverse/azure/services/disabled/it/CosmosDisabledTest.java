@@ -9,20 +9,23 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class AzureAppConfigDisabledTest {
+public class CosmosDisabledTest {
 
     @Test
-    public void testGetValue() {
+    public void testGetCosmosClient() {
         given()
-                .get("/quarkus-azure-app-config-disabled/{name}", "my.prop")
+                .get("/quarkus-azure-cosmos-disabled/cosmosClient")
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode())
-                .body(equalTo("The value is null because the Azure App Configuration is disabled"));
+                .body(equalTo("The CosmosClient is null because the Azure Cosmos DB is disabled"));
+    }
 
+    @Test
+    public void testGetSecretAsyncClient() {
         given()
-                .get("/quarkus-azure-app-config-disabled/{name}", "another.prop")
+                .get("/quarkus-azure-cosmos-disabled/cosmosAsyncClient")
                 .then()
                 .statusCode(NOT_FOUND.getStatusCode())
-                .body(equalTo("The value is null because the Azure App Configuration is disabled"));
+                .body(equalTo("The CosmosAsyncClient is null because the Azure Cosmos DB is disabled"));
     }
 }
