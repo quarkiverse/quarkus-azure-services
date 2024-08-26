@@ -1,0 +1,48 @@
+:summaryTableId: quarkus-azure-keyvault_quarkus-azure
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[.header-title]##Configuration property##
+h|Type
+h|Default
+
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-enabled]] [.property-path]##`quarkus.azure.keyvault.secret.enabled`##
+
+[.description]
+--
+The flag to enable the key vault secret. If set to false, the key vault secret will be disabled
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_KEYVAULT_SECRET_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_KEYVAULT_SECRET_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-endpoint]] [.property-path]##`quarkus.azure.keyvault.secret.endpoint`##
+
+[.description]
+--
+The endpoint of Azure Key Vault Secret. Required if quarkus.azure.keyvault.secret.enabled is set to true
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+|===
+
+
+:!summaryTableId:
