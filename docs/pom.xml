@@ -95,6 +95,14 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-config-doc-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <targetDirectory>${project.basedir}/modules/ROOT/pages/includes/</targetDirectory>
+                   </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
@@ -106,26 +114,6 @@
                         <configuration>
                             <outputDirectory>${project.basedir}/modules/ROOT/pages/includes/</outputDirectory>
                             <resources>
-                                <resource>
-                                    <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-app-configuration.adoc</include>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-cosmos.adoc</include>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-keyvault-secret.adoc</include>
-                                    <filtering>false</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>${project.basedir}/../target/asciidoc/generated/config/</directory>
-                                    <include>quarkus-azure-storage-blob.adoc</include>
-                                    <filtering>false</filtering>
-                                </resource>
                                 <resource>
                                     <directory>${project.basedir}/templates/includes</directory>
                                     <include>attributes.adoc</include>
