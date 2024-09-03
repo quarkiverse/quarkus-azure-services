@@ -26,7 +26,7 @@
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <msal4j.version>1.16.2</msal4j.version>
         <!-- @sync com.azure:azure-cosmos:${azure-cosmos.version} dep:com.azure:azure-core-http-netty dep:io.projectreactor.netty:reactor-netty-http -->
-        <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
+        <reactor-netty-http.version>1.1.22</reactor-netty-http.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
         <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
