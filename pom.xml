@@ -27,7 +27,6 @@
   </scm>
   <modules>
     <module>bom</module>
-    <module>docs</module>
     <module>extensions</module>
     <module>internal</module>
   </modules>
@@ -80,6 +79,18 @@
     </pluginManagement>
   </build>
   <profiles>
+    <profile>
+      <id>docs</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>docs</module>
+      </modules>
+    </profile>
     <profile>
       <id>it</id>
       <activation>
