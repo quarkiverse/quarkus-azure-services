@@ -29,7 +29,7 @@
         <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
-        <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
+        <azure.core.http.client.vertx.version>1.0.0-beta.22</azure.core.http.client.vertx.version>
         <assertj-core.version>3.26.3</assertj-core.version>
     </properties>
     
