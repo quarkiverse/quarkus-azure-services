@@ -59,7 +59,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_IMAGE_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`mcr.microsoft.com/azure-storage/azurite:3.31.0`
+|`mcr.microsoft.com/azure-storage/azurite:3.32.0`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port[`quarkus.azure.storage.blob.devservices.port`]##
 
