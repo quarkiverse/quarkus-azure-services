@@ -29,6 +29,8 @@
         <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
         <!-- needed for dependency convergence until Azure SDK is upgraded  -->
         <woodstox-core.version>7.0.0</woodstox-core.version>
+        <!-- needed for dependency convergence  -->
+        <json-smart.version>2.5.1</json-smart.version>
         <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
         <assertj-core.version>3.26.3</assertj-core.version>
     </properties>
@@ -60,6 +62,12 @@
                 <groupId>com.fasterxml.woodstox</groupId>
                 <artifactId>woodstox-core</artifactId>
                 <version>${woodstox-core.version}</version>
+            </dependency>
+            <!-- Needed for dependency convergence -->
+            <dependency>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>${json-smart.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.projectreactor.netty</groupId>
