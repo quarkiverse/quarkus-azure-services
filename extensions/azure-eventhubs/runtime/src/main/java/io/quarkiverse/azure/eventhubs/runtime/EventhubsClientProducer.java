@@ -35,7 +35,7 @@ public class EventhubsClientProducer {
 
         return null == builder ? null
                 : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
-                        .buildConsumerClient();
+                .buildConsumerClient();
     }
 
     @Produces
@@ -44,7 +44,7 @@ public class EventhubsClientProducer {
 
         return null == builder ? null
                 : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
-                        .buildAsyncConsumerClient();
+                .buildAsyncConsumerClient();
     }
 
     private EventHubClientBuilder getBuilder() {
