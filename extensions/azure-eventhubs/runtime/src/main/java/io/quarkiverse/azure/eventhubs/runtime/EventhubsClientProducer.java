@@ -1,13 +1,14 @@
 package io.quarkiverse.azure.eventhubs.runtime;
 
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
 import com.azure.messaging.eventhubs.EventHubConsumerAsyncClient;
 import com.azure.messaging.eventhubs.EventHubConsumerClient;
 import com.azure.messaging.eventhubs.EventHubProducerAsyncClient;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
-import jakarta.enterprise.inject.Produces;
-import jakarta.inject.Inject;
-import com.azure.identity.DefaultAzureCredentialBuilder;
 
 public class EventhubsClientProducer {
 
@@ -32,16 +33,18 @@ public class EventhubsClientProducer {
     public EventHubConsumerClient createEventHubConsumerClient() {
         EventHubClientBuilder builder = getBuilder();
 
-        return null == builder ? null : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
-                .buildConsumerClient();
+        return null == builder ? null
+                : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
+                        .buildConsumerClient();
     }
 
     @Produces
     public EventHubConsumerAsyncClient createEventhubClient() {
         EventHubClientBuilder builder = getBuilder();
 
-        return null == builder ? null : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
-                .buildAsyncConsumerClient();
+        return null == builder ? null
+                : builder.consumerGroup(EventHubClientBuilder.DEFAULT_CONSUMER_GROUP_NAME)
+                        .buildAsyncConsumerClient();
     }
 
     private EventHubClientBuilder getBuilder() {

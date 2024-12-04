@@ -7,7 +7,6 @@ import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 
-
 public class EventhubsProcessor {
 
     static final String FEATURE = "azure-eventhubs";
