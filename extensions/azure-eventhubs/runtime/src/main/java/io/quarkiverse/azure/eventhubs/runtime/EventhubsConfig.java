@@ -1,7 +1,5 @@
 package io.quarkiverse.azure.eventhubs.runtime;
 
-import java.util.Optional;
-
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
@@ -16,11 +14,6 @@ public interface EventhubsConfig {
      */
     @WithDefault("true")
     boolean enabled();
-
-    /**
-     * The endpoint of Azure Eventhubs. Required if quarkus.azure.eventhubs.enabled is set to true
-     */
-    Optional<String> endpoint();
 
     /**
      * The fully qualified namespace of Azure Eventhubs. Required if quarkus.azure.eventhubs.enabled is set to true

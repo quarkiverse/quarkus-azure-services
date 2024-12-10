@@ -24,23 +24,6 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-endpoint]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-endpoint[`quarkus.azure.eventhubs.endpoint`]##
-
-[.description]
---
-The endpoint of Azure Eventhubs. Required if quarkus.azure.eventhubs.enabled is set to true
-
-
-ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_ENDPOINT+++[]
-endif::add-copy-button-to-env-var[]
-ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_ENDPOINT+++`
-endif::add-copy-button-to-env-var[]
---
-|string
-|
-
 a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-fully-qualified-namespace]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-fully-qualified-namespace[`quarkus.azure.eventhubs.fully-qualified-namespace`]##
 
 [.description]
