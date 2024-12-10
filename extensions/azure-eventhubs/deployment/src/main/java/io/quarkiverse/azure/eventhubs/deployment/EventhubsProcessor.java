@@ -1,11 +1,14 @@
 package io.quarkiverse.azure.eventhubs.deployment;
 
+import java.util.stream.Stream;
 import io.quarkiverse.azure.eventhubs.runtime.EventhubsClientProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
+import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
 public class EventhubsProcessor {
 
@@ -31,4 +34,12 @@ public class EventhubsProcessor {
         return new IndexDependencyBuildItem("com.azure", "azure-eventhubs");
     }
 
+    @BuildStep
+    void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
+        Stream.of(
+                "reactor.netty.tcp.TcpClientSecure"
+                )
+                .map(RuntimeInitializedClassBuildItem::new)
+                .forEach(runtimeInitializedClasses::produce);
+    }
 }
