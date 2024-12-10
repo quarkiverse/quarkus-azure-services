@@ -12,11 +12,22 @@ import io.quarkus.test.junit.QuarkusTest;
 class EventHubsResourceTest {
 
     @Test
-    void eventhubs() {
+    void publishEvents() {
         // Read item
         given()
                 .when()
                 .get("/quarkus-azure-eventhubs/publishEvents")
+                .then()
+                .statusCode(204);
+
+    }
+
+    @Test
+    void consumeEvents() {
+        // Read item
+        given()
+                .when()
+                .get("/quarkus-azure-eventhubs/consumeEvents")
                 .then()
                 .statusCode(204);
 
