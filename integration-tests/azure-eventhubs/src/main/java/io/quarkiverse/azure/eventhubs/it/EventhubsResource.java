@@ -69,16 +69,14 @@ public class EventhubsResource {
 
         LOGGER.info("Receiving message using Event Hub consumer client.");
         String PARTITION_ID = "0";
-        // Reads events from partition '0' and returns the first 2 received .
+        // Reads events from partition '0' and returns the first 2 received.
         IterableStream<PartitionEvent> events = consumer.receiveFromPartition(PARTITION_ID, 2,
                 EventPosition.earliest());
 
-        Long lastSequenceNumber = -1L;
         for (PartitionEvent partitionEvent : events) {
             // For each event, perform some sort of processing.
-            LOGGER.info("Message received: " + partitionEvent.getData().getBodyAsString());
-            LOGGER.info("SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
+            LOGGER.info("Message Body received: " + partitionEvent.getData().getBodyAsString());
+            LOGGER.info("Message SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
         }
     }
-
 }
