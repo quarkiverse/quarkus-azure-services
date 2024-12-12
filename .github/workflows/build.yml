@@ -44,6 +44,8 @@ jobs:
       APP_CONFIG_NAME: appconfig${{ github.run_id }}${{ github.run_number }}
       KEY_VAULT_NAME: kv${{ github.run_id }}${{ github.run_number }}
       COSMOSDB_ACCOUNT_NAME: cosmos${{ github.run_id }}${{ github.run_number }}
+      EVENTHUBS_NAMESPACE_NAME: eventhubs-ns-${{ github.run_id }}-${{ github.run_number }}
+      EVENTHUBS_NAME: eventhubs-${{ github.run_id }}-${{ github.run_number }}
     name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false

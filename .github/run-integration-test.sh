@@ -68,6 +68,25 @@ else
       --role-definition-id 00000000-0000-0000-0000-000000000002
 fi
 
+# Azure Eventhubs Extension
+az eventhubs namespace create \
+    --name ${EVENTHUB_NAMESPACE_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+az eventhubs eventhub create \
+    --name ${EVENTHUB_NAME} \
+    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+
+## Assign the Azure Event Hubs Data Owner to the service principal
+servicePrincipal=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].objectId' -o tsv)
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee-object-id ${servicePrincipal} \
+    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUB_NAMESPACE_NAME}/eventhubs/${EVENTHUB_NAME}"
+
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME=${EVENTHUBS_NAME}
+
 # Run integration test with existing native executables against Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
 

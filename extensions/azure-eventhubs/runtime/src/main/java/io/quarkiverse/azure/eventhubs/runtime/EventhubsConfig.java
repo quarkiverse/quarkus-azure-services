@@ -18,7 +18,7 @@ public interface EventhubsConfig {
     /**
      * The fully qualified namespace of Azure Eventhubs. Required if quarkus.azure.eventhubs.enabled is set to true
      */
-    String fullyQualifiedNamespace();
+    String namespace();
 
     /**
      * The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
