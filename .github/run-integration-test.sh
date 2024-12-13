@@ -69,16 +69,6 @@ else
 fi
 
 # Azure Eventhubs Extension
-az eventhubs namespace create \
-    --name ${EVENTHUB_NAMESPACE_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME}
-az eventhubs eventhub create \
-    --name ${EVENTHUB_NAME} \
-    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME}
-
-## Assign the Azure Event Hubs Data Owner to the service principal
-servicePrincipal=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].objectId' -o tsv)
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
     --assignee-object-id ${servicePrincipal} \
