@@ -77,4 +77,5 @@ az eventhubs namespace create \
 az eventhubs eventhub create \
     --name ${EVENTHUB_NAME} \
     --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
-    --resource-group ${RESOURCE_GROUP_NAME}
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --partition-count 2
