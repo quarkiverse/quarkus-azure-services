@@ -3,6 +3,7 @@ package io.quarkiverse.azure.eventhubs.it;
 import java.util.Arrays;
 import java.util.List;
 
+import com.azure.messaging.eventhubs.models.SendOptions;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -78,5 +79,7 @@ public class EventhubsResource {
             LOGGER.info("Message Body received: " + partitionEvent.getData().getBodyAsString());
             LOGGER.info("Message SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
         }
+
+        producer.close();
     }
 }

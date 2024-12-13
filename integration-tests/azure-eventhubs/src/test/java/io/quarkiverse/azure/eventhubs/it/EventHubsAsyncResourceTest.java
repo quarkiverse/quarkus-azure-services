@@ -13,13 +13,12 @@ class EventHubsAsyncResourceTest {
 
     @Test
     void publishEvents() {
-        // Read item
+        // publish events
         given()
                 .when()
                 .get("/quarkus-azure-eventhubs-async/publishEvents")
                 .then()
                 .statusCode(204);
-
     }
 
     @Test
@@ -30,6 +29,5 @@ class EventHubsAsyncResourceTest {
                 .get("/quarkus-azure-eventhubs-async/consumeEvents")
                 .then()
                 .statusCode(204);
-
     }
 }
