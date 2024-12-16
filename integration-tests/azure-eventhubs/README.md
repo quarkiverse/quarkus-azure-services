@@ -1,6 +1,6 @@
 # Azure Eventhubs sample
 
-This is a sample about implementing REST endpoints using the Quarkus extension to read/write data stored in Azure Cosmos DB. Though the sample uses a relational style usage pattern, the full functionality of Cosmos DB is enabled by the Quarkus extension.
+This is a sample about implementing REST endpoints using the Quarkus extension to send/receive data to/from Azure Eventhubs.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ You also need to clone the repository and switch to the directory of the sample.
 
 ```
 git clone https://github.com/quarkiverse/quarkus-azure-services.git
-cd quarkus-azure-services/integration-tests/azure-cosmos
+cd quarkus-azure-services/integration-tests/azure-eventhubs
 ```
 
 ### Use development iteration version
@@ -68,55 +68,36 @@ az group create \
 Run the following commands to create an Azure Cosmos DB account, and export its endpoint as an environment variable.
 
 ```
-COSMOSDB_ACCOUNT_NAME=<unique-cosmosdb-account-name>
-az cosmosdb create \
-    -n ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    --default-consistency-level Session \
-    --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
-
-export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
-    -n ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    --query documentEndpoint -o tsv)
-echo "The value of 'quarkus.azure.cosmos.endpoint' is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
-```
-
-The value of environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` will be read by Quarkus as the value of config
-property `quarkus.azure.cosmos.endpoint` of `azure-cosmos` extension in order to set up the
-connection to the Azure Cosmos DB.
-
-Assign the `Cosmos DB Built-in Data Contributor` role to the signed-in user as a Microsoft Entra identity, so that the sample application can do data plane CRUD operations.
-
-```
-az ad signed-in-user show --query id -o tsv \
-    | az cosmosdb sql role assignment create \
-    --account-name ${COSMOSDB_ACCOUNT_NAME} \
+EVENTHUB_NAMESPACE_NAME=<unique-eventhub-namespace-name>
+EVENTHUB_NAME=<unique-eventhub-name>
+# Azure Eventhubs Extension
+az eventhubs namespace create \
+    --name ${EVENTHUB_NAMESPACE_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+az eventhubs eventhub create \
+    --name ${EVENTHUB_NAME} \
+    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
-    --scope "/" \
-    --principal-id @- \
-    --role-definition-id 00000000-0000-0000-0000-000000000002
-```
+    --partition-count 2
 
-You cannot use any Azure Cosmos DB data plane SDK to authenticate management operations with a Microsoft Entra identity, so you need to create database and container manually.
-The following commands create a database `demodb` and a container `democontainer` using Azure CLI.
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
+export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
 
 ```
-az cosmosdb sql database create \
-    -a ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    -n demodb
-az cosmosdb sql container create \
-    -a ${COSMOSDB_ACCOUNT_NAME} \
-    -g ${RESOURCE_GROUP_NAME} \
-    -d demodb \
-    -n democontainer \
-    -p "/id"
+
+Assign the `Azure Event Hubs Data Owner` role to the signed-in user as a Microsoft Entra identity, so that the sample application can do data plane operations.
+
 ```
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee-object-id ${servicePrincipal} \
+    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUB_NAMESPACE_NAME}/eventhubs/${EVENTHUB_NAME}"
+```
+
 
 ## Running the sample
 
-You have different choices to run the sample. Make sure you have followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services. Select an option and proceed to [Testing the sample](#testing-the-sample). For any choice, make sure the environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is defined correctly in the environment before starting Quarkus.
+You have different choices to run the sample. Make sure you have followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services. Select an option and proceed to [Testing the sample](#testing-the-sample). For any choice, make sure the environment variable `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME` are defined correctly in the environment before starting Quarkus.
 
 ### Running the sample in development mode
 
@@ -148,7 +129,7 @@ mvn package -Dnative -Dquarkus.native.container-build
 
 # Run the native executable.
 version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-./target/quarkus-azure-integration-test-cosmos-${version}-runner
+./target/quarkus-azure-integration-test-eventhubs-${version}-runner
 ```
 
 ## Testing the sample
@@ -156,59 +137,17 @@ version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 Open a new terminal and run the following commands to test the sample:
 
 ```
-# Create an item {"id": "1", "name": "dog"} in Azure Cosmos DB database demodb and container democontainer.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X POST -d '{"id": "1", "name": "dog"}' -H "Content-Type: application/json"
+# Send a message to the Azure Event Hubs with Sync API.
+curl http://localhost:8080/quarkus-azure-eventhubs/publishEvents -X GET
 
-# Read the item from Azure Cosmos DB database demodb and container democontainer. You should see {"id":"1","name":"dog"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X GET
+# Receive messages from the Azure Event Hubs with Sync API.
+curl http://localhost:8080/quarkus-azure-eventhubs/receiveEvents -X GET
 
-# List items from Azure Cosmos DB database demodb and container democontainer. You should see [{"id":"1","name":"dog"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
+# Send a message to the Azure Event Hubs with Async API.
+curl http://localhost:8080/quarkus-azure-eventhubs-async -X GET
 
-# Update the item {"id": "1", "name": "dog"} to {"id": "1", "name": "cat"} in Azure Cosmos DB database demodb and container democontainer.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X POST -d '{"id": "1", "name": "cat"}' -H "Content-Type: application/json"
-
-# Read the updated item from Azure Cosmos DB database demodb and container democontainer. You should see {"id":"1","name":"cat"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X GET
-
-# List items again from Azure Cosmos DB database demodb and container democontainer. You should see [{"id":"1","name":"cat"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
-
-# Delete the item from Azure Cosmos DB database demodb and container democontainer.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X DELETE
-
-# Read the deleted item from Azure Cosmos DB database demodb and container democontainer. You should see HTTP status code 500 in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X DELETE -w "%{http_code}" -s -o /dev/null
-
-# List items again from Azure Cosmos DB database demodb and container democontainer. You should see [] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
-
-# Do the same operations, but with the async API. Create an item {"id": "1", "name": "dog"} in Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X POST -d '{"id": "1", "name": "dog"}' -H "Content-Type: application/json"
-
-# Read the item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see {"id":"1","name":"dog"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X GET
-
-# List items from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [{"id":"1","name":"dog"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
-
-# Update the item {"id": "1", "name": "dog"} to {"id": "1", "name": "cat"} in Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X POST -d '{"id": "1", "name": "cat"}' -H "Content-Type: application/json"
-
-# Read the updated item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see {"id":"1","name":"cat"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X GET
-
-# List items again from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [{"id":"1","name":"cat"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
-
-# Delete the item from Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X DELETE
-
-# Read the deleted item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see HTTP status code 500 in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X DELETE -w "%{http_code}" -s -o /dev/null
-
-# List items again from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
+# Receive messages from the Azure Event Hubs with Async API.
+curl http://localhost:8080/quarkus-azure-eventhubs-async -X GET
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
