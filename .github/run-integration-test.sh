@@ -75,7 +75,7 @@ az role assignment create \
     --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUB_NAMESPACE_NAME}/eventhubs/${EVENTHUB_NAME}"
 
 export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
-export QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME=${EVENTHUBS_NAME}
+export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
 
 # Run integration test with existing native executables against Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
