@@ -48,11 +48,11 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 
 ## Preparing the Azure services
 
-You need to create an Azure Cosmos DB account before running the sample application.
+You need to create an Azure Eventhub namespace before running the sample application.
 
 ### Logging into Azure
 
-Log into Azure and create a resource group for hosting the Azure Cosmos DB account to be created.
+Log into Azure and create a resource group for hosting the Azure Eventhub namespace to be created.
 
 ```
 az login
@@ -63,9 +63,9 @@ az group create \
     --location westus
 ```
 
-### Creating Azure Azure Cosmos DB account
+### Creating Azure Eventhubs resources
 
-Run the following commands to create an Azure Cosmos DB account, and export its endpoint as an environment variable.
+Run the following commands to create an Azure eventhub namespace and an eventhub within the namespace, and export the environment variables to be used in the sample application.
 
 ```
 EVENTHUB_NAMESPACE_NAME=<unique-eventhub-namespace-name>
