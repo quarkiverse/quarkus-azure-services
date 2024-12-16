@@ -2,17 +2,18 @@ package io.quarkiverse.azure.eventhubs.it;
 
 import java.util.List;
 
-import com.azure.messaging.eventhubs.models.SendOptions;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.azure.messaging.eventhubs.*;
 import com.azure.messaging.eventhubs.models.EventPosition;
 import com.azure.messaging.eventhubs.models.PartitionContext;
-
+import com.azure.messaging.eventhubs.models.SendOptions;
 
 @Path("/quarkus-azure-eventhubs-async")
 @ApplicationScoped
@@ -27,7 +28,7 @@ public class EventhubsAsyncResource {
 
     @Path("/publishEvents")
     @GET
-    public void publishEvents() {
+    public void publishEvents() throws InterruptedException {
         List<EventData> allEvents = List.of(new EventData("Foo-Asyn"), new EventData("Bar-Asyn"));
         // Creating a batch without options set, will allow for automatic routing of events to any partition.
         producer.send(allEvents, new SendOptions().setPartitionId("1"))
@@ -36,16 +37,18 @@ public class EventhubsAsyncResource {
                 }, error -> {
                     LOGGER.error("Error occurred while sending events: {}", error);
                 });
+        // Wait for the send to complete.
+        Thread.sleep(1000);
+
     }
 
     @Path("/consumeEvents")
     @GET
-    public void consumeEvents() {
+    public void consumeEvents() throws InterruptedException {
 
         String partitionId = "1";
-        EventPosition startingPosition = EventPosition.fromOffset(2L);
 
-        consumer.receiveFromPartition(partitionId, startingPosition)
+        consumer.receiveFromPartition(partitionId, EventPosition.earliest())
                 .subscribe(partitionEvent -> {
                     PartitionContext partitionContext = partitionEvent.getPartitionContext();
                     EventData event = partitionEvent.getData();
@@ -58,5 +61,8 @@ public class EventhubsAsyncResource {
                 }, () -> {
                     LOGGER.info("Completed receiving events.");
                 });
+        // Wait for the receive to complete.
+        Thread.sleep(5000);
+
     }
 }

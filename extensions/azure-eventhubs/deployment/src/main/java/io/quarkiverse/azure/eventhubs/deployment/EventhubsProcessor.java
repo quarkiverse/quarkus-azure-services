@@ -1,6 +1,7 @@
 package io.quarkiverse.azure.eventhubs.deployment;
 
 import java.util.stream.Stream;
+
 import io.quarkiverse.azure.eventhubs.runtime.EventhubsClientProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -38,10 +39,9 @@ public class EventhubsProcessor {
     void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
         Stream.of(
                 "reactor.netty.tcp.TcpClientSecure",
-                        "com.azure.messaging.eventhubs.PartitionBasedLoadBalancer",
-                        "com.microsoft.azure.proton.transport.proxy.impl.DigestProxyChallengeProcessorImpl",
-                        "com.microsoft.azure.proton.transport.ws.impl.Utils"
-                )
+                "com.azure.messaging.eventhubs.PartitionBasedLoadBalancer",
+                "com.microsoft.azure.proton.transport.proxy.impl.DigestProxyChallengeProcessorImpl",
+                "com.microsoft.azure.proton.transport.ws.impl.Utils")
                 .map(RuntimeInitializedClassBuildItem::new)
                 .forEach(runtimeInitializedClasses::produce);
     }

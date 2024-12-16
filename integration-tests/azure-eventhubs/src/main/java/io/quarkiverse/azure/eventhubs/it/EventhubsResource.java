@@ -8,10 +8,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.azure.core.util.IterableStream;
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventDataBatch;
@@ -38,25 +36,7 @@ public class EventhubsResource {
         List<EventData> allEvents = Arrays.asList(new EventData("Foo"), new EventData("Bar"));
         EventDataBatch eventDataBatch = producer.createBatch();
 
-        for (EventData eventData : allEvents) {
-            // try to add the event from the array to the batch
-            if (!eventDataBatch.tryAdd(eventData)) {
-                // if the batch is full, send it and then create a new batch
-                producer.send(eventDataBatch);
-                eventDataBatch = producer.createBatch();
-
-                // Try to add that event that couldn't fit before.
-                if (!eventDataBatch.tryAdd(eventData)) {
-                    throw new IllegalArgumentException("Event is too large for an empty batch. Max size: "
-                            + eventDataBatch.getMaxSizeInBytes());
-                }
-            }
-        }
-
-        // send the last batch of remaining events
-        if (eventDataBatch.getCount() > 0) {
-            producer.send(eventDataBatch);
-        }
+        producer.send(allEvents, new SendOptions().setPartitionId("0"));
 
         // Clients are expected to be long-lived objects.
         // Dispose of the producer to close any underlying resources when we are finished with it.
