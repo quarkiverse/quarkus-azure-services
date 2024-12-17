@@ -1,5 +1,16 @@
 package io.quarkiverse.azure.eventhubs.it;
 
+import java.util.Arrays;
+import java.util.List;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.azure.core.util.IterableStream;
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventDataBatch;
@@ -8,15 +19,6 @@ import com.azure.messaging.eventhubs.EventHubProducerClient;
 import com.azure.messaging.eventhubs.models.EventPosition;
 import com.azure.messaging.eventhubs.models.PartitionEvent;
 import com.azure.messaging.eventhubs.models.SendOptions;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Path("/quarkus-azure-eventhubs")
 @ApplicationScoped
