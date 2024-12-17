@@ -22,13 +22,13 @@
     </scm>
     
     <properties>
-        <azure-sdk-bom.version>1.2.27</azure-sdk-bom.version>
+        <azure-sdk-bom.version>1.2.30</azure-sdk-bom.version>
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
-        <msal4j.version>1.16.2</msal4j.version>
+        <msal4j.version>1.17.2</msal4j.version>
         <!-- @sync com.azure:azure-cosmos:${azure-cosmos.version} dep:com.azure:azure-core-http-netty dep:io.projectreactor.netty:reactor-netty-http -->
-        <reactor-netty-http.version>1.0.45</reactor-netty-http.version>
-        <!-- needed for dependency convergence until Azure SDK is upgraded  -->
-        <woodstox-core.version>7.0.0</woodstox-core.version>
+        <reactor-netty-http.version>1.0.48</reactor-netty-http.version>
+        <!-- needed for dependency convergence  -->
+        <json-smart.version>2.5.1</json-smart.version>
         <azure.core.http.client.vertx.version>1.0.0-beta.20</azure.core.http.client.vertx.version>
         <assertj-core.version>3.26.3</assertj-core.version>
     </properties>
@@ -55,11 +55,11 @@
                 <artifactId>azure-core-http-vertx</artifactId>
                 <version>${azure.core.http.client.vertx.version}</version>
             </dependency>
-            <!-- Needed for dependency convergence until Azure SDK is updated -->
+            <!-- Needed for dependency convergence -->
             <dependency>
-                <groupId>com.fasterxml.woodstox</groupId>
-                <artifactId>woodstox-core</artifactId>
-                <version>${woodstox-core.version}</version>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>${json-smart.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.projectreactor.netty</groupId>
