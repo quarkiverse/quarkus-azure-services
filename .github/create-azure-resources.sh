@@ -74,6 +74,7 @@ az cosmosdb create \
 az eventhubs namespace create \
     --name ${EVENTHUB_NAMESPACE_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME}
+
 az eventhubs eventhub create \
     --name ${EVENTHUB_NAME} \
     --namespace-name ${EVENTHUB_NAMESPACE_NAME} \

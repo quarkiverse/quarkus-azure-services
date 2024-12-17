@@ -1,0 +1,100 @@
+= Quarkus Azure Event Hubs Extension
+
+include::./includes/attributes.adoc[]
+
+include::./includes/support.adoc[]
+
+[https://azure.microsoft.com/products/event-hubs] is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. This extension allows you to produce and consume events from Azure Event Hubs by injecting a `com.azure.messaging.eventhubs.EventHubProducerClient` or `com.azure.messaging.eventhubs.EventHubConsumerClient` object inside your Quarkus application.
+
+This is a step by step guide on how to use the Quarkus Azure Event Hubs extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-eventhubs[Azure Event Hubs sample].
+
+== Installation
+
+Add a dependncy on `io.quarkiverse.azureservices:quarkus-azure-eventhubs`.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-eventhubs</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.messaging.eventhubs.EventHubProducerClient` or `com.azure.messaging.eventhubs.EventHubConsumerClient` object in your application to produce and consume events from Azure Event Hubs.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-eventhubs \
+    --location westus
+----
+
+Create an Azure Event Hubs namespace with the following command:
+
+[source,shell]
+----
+az eventhubs namespace create \
+    --name ehnamespace20241217 \
+    --resource-group rg-quarkus-azure-eventhubs
+az eventhubs eventhub create \
+    --name eventhub1217 \
+    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
+    --resource-group rg-quarkus-azure-eventhubs \
+    --partition-count 2
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the Azure Event Hubs namespace you created.
+
+
+Next, assign the `Azure Event Hubs Data Owner` role to the signed-in user, so that the sample application can do data plane operations.
+
+[source,shell]
+----
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee-object-id ${OBJECT_ID} \
+    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/rg-quarkus-azure-eventhubs/providers/Microsoft.EventHub/namespaces/ehnamespace20241217"
+----
+
+- Replace `${OBJECT_ID}` with the object ID of the signed-in user.
+- Replace `${AZURE_SUBSCRIPTION_ID}` with the Azure subscription ID.
+
+=== Configure the Azure Event Hubs Extension
+
+As you can see below in the _Extension Configuration Reference_ section, the property `quarkus.azure.eventhubs.namespace` and `quarkus.azure.eventhubs.event-hub-name` are required.
+Execute the following Azure CLI command to export the environment variables so that the extension can read the values.
+
+[source,shell]
+----
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
+export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
+
+----
+
+Because Quarkus implements the https://microprofile.io/project/eclipse/microprofile-config[MicroProfile Config specification], the value of the environment variables `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME` is read as if the properties `quarkus.azure.eventhubs.namespace` and `quarkus.azure.eventhubs.event-hub-name` were set in the `application.properties` file.
+
+Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
+
+=== Inject the Azure Event Hubs Client
+
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.messaging.eventhubs.EventHubProducerClient` object in your imperative application or `@Inject` the `com.azure.messaging.eventhubs.EventHubConsumerClient` object in your reactive application, so you can interact with Azure Event Hubs. For complete API see https://javadoc.io/doc/com.azure/azure-messaging-eventhubs/latest/index.html[the Azure SDK for Java Reference Documentation].
+
+==== Use the EventHubProducerClient and EventHubConsumerClient in a Quarkus application
+
+
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-eventhubs.adoc[leveloffset=+1, opts=optional]
