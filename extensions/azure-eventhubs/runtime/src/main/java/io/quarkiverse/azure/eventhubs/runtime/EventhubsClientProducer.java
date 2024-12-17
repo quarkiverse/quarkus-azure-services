@@ -13,10 +13,14 @@ import com.azure.messaging.eventhubs.EventHubProducerClient;
 public class EventhubsClientProducer {
 
     @Inject
-    EventhubsConfig eventhubsConfiguration;
+    EventhubsConfig eventhubsConfig;
 
     @Produces
     public EventHubProducerClient createEventHubProducerClient() {
+        if (!eventhubsConfig.enabled()) {
+            return null;
+        }
+
         EventHubClientBuilder builder = getBuilder();
 
         return null == builder ? null : builder.buildProducerClient();
@@ -24,6 +28,10 @@ public class EventhubsClientProducer {
 
     @Produces
     public EventHubProducerAsyncClient createEventHubProducerAsyncClient() {
+        if (!eventhubsConfig.enabled()) {
+            return null;
+        }
+
         EventHubClientBuilder builder = getBuilder();
 
         return null == builder ? null : builder.buildAsyncProducerClient();
@@ -31,6 +39,10 @@ public class EventhubsClientProducer {
 
     @Produces
     public EventHubConsumerClient createEventHubConsumerClient() {
+        if (!eventhubsConfig.enabled()) {
+            return null;
+        }
+
         EventHubClientBuilder builder = getBuilder();
 
         return null == builder ? null
@@ -40,6 +52,10 @@ public class EventhubsClientProducer {
 
     @Produces
     public EventHubConsumerAsyncClient createEventhubClient() {
+        if (!eventhubsConfig.enabled()) {
+            return null;
+        }
+
         EventHubClientBuilder builder = getBuilder();
 
         return null == builder ? null
@@ -48,15 +64,15 @@ public class EventhubsClientProducer {
     }
 
     private EventHubClientBuilder getBuilder() {
-        if (!eventhubsConfiguration.enabled()) {
+        if (!eventhubsConfig.enabled()) {
             return null;
         }
 
         // @TOOD
 
         EventHubClientBuilder builder = new EventHubClientBuilder()
-                .credential(eventhubsConfiguration.namespace() + ".servicebus.windows.net",
-                        eventhubsConfiguration.eventHubName(),
+                .credential(eventhubsConfig.namespace() + ".servicebus.windows.net",
+                        eventhubsConfig.eventHubName(),
                         new DefaultAzureCredentialBuilder().build());
         return builder;
     }
