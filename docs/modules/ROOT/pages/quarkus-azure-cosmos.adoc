@@ -101,13 +101,13 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
 echo "QUARKUS_AZURE_COSMOS_ENDPOINT is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
 ----
 
-Because Quarkus implements the [MicroProfile Config specification](https://microprofile.io/project/eclipse/microprofile-config), the value of the  environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is read as if the property `quarkus.azure.cosmos.endpoint` were set in the `application.properties` file.
+Because Quarkus implements the https://microprofile.io/project/eclipse/microprofile-config[MicroProfile Config specification], the value of the  environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is read as if the property `quarkus.azure.cosmos.endpoint` were set in the `application.properties` file.
 
 Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
 
 === Inject the Azure Cosmos DB Client
 
-Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.cosmos.CosmosClient` object in your imperative application or `@Inject` the `com.azure.cosmos.CosmosAsyncClient` object in your reactive application, so you can interact with Azure Cosmos DB. For complete API see [the Azure SDK for Java Reference Documentation](https://javadoc.io/doc/com.azure/azure-cosmos/latest/).
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.cosmos.CosmosClient` object in your imperative application or `@Inject` the `com.azure.cosmos.CosmosAsyncClient` object in your reactive application, so you can interact with Azure Cosmos DB. For complete API see https://javadoc.io/doc/com.azure/azure-cosmos/latest/[the Azure SDK for Java Reference Documentation].
 
 ==== Use the CosmosClient in an imperative application
 
@@ -163,7 +163,7 @@ image::quarkus-azure-cosmos-azure-portal2.png[alt=Azure Portal showing the conte
 ==== Use the CosmosAsyncClient in a reactive application
 
 Similarly, the `createItem` method first asynchronously creates the item with request payload in the specified database and container of the Azure Cosmos DB account.
-The `getItem` method asynchronously reads the item with the id from the specified database and container of the Azure Cosmos DB account. The sample makes heavy use of Project Reactor. For more information see [Reactor Reference Guide](https://projectreactor.io/docs/core/release/reference/).
+The `getItem` method asynchronously reads the item with the id from the specified database and container of the Azure Cosmos DB account. The sample makes heavy use of Project Reactor. For more information see https://projectreactor.io/docs/core/release/reference/[Reactor Reference Guide].
 
 [source,java]
 ----
