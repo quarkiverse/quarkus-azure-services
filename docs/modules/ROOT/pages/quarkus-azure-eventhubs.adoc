@@ -4,9 +4,9 @@ include::./includes/attributes.adoc[]
 
 include::./includes/support.adoc[]
 
-https://azure.microsoft.com/products/event-hubs[Azure Event Hubs] is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. This extension allows you to produce and consume events from Azure Event Hubs by injecting a `com.azure.messaging.eventhubs.EventHubProducerClient` or `com.azure.messaging.eventhubs.EventHubConsumerClient` object inside your Quarkus application.
+https://azure.microsoft.com/products/event-hubs[Azure Event Hubs] is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. This extension allows you to produce and consume events from Azure Event Hubs by injecting `com.azure.messaging.eventhubs.EventHubProducerClient`, `com.azure.messaging.eventhubs.EventHubConsumerClient`, `com.azure.messaging.eventhubs.EventHubProducerAsyncClient`, and `com.azure.messaging.eventhubs.EventHubConsumerAsyncClient` objects in your Quarkus application.
 
-This is a step by step guide on how to use the Quarkus Azure Event Hubs extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-eventhubs[Azure Event Hubs sample].
+This is a step by step guide on how to use the Quarkus Azure Event Hubs extension wity sync clients. . If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-eventhubs[Azure Event Hubs sample].
 
 == Installation
 
