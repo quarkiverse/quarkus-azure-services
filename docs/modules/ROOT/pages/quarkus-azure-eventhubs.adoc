@@ -4,7 +4,7 @@ include::./includes/attributes.adoc[]
 
 include::./includes/support.adoc[]
 
-[https://azure.microsoft.com/products/event-hubs] is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. This extension allows you to produce and consume events from Azure Event Hubs by injecting a `com.azure.messaging.eventhubs.EventHubProducerClient` or `com.azure.messaging.eventhubs.EventHubConsumerClient` object inside your Quarkus application.
+https://azure.microsoft.com/products/event-hubs[Azure Event Hubs] is a big data streaming platform and event ingestion service. It can receive and process millions of events per second. This extension allows you to produce and consume events from Azure Event Hubs by injecting a `com.azure.messaging.eventhubs.EventHubProducerClient` or `com.azure.messaging.eventhubs.EventHubConsumerClient` object inside your Quarkus application.
 
 This is a step by step guide on how to use the Quarkus Azure Event Hubs extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-eventhubs[Azure Event Hubs sample].
 
@@ -93,6 +93,58 @@ Now that your Azure environment is ready and you have configured the extension, 
 
 ==== Use the EventHubProducerClient and EventHubConsumerClient in a Quarkus application
 
+[source,java]
+----
+@Path("/quarkus-azure-eventhubs")
+@ApplicationScoped
+public class EventhubsResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventhubsResource.class);
+
+    @Inject
+    EventHubProducerClient producer;
+
+    @Inject
+    EventHubConsumerClient consumer;
+
+    @Path("/publishEvents")
+    @GET
+    public void publishEvents() {
+        List<EventData> allEvents = Arrays.asList(new EventData("Foo"), new EventData("Bar"));
+        producer.send(allEvents, new SendOptions().setPartitionId("0"));
+    }
+
+    @Path("/consumeEvents")
+    @GET
+    public void consumeEvents() {
+
+        LOGGER.info("Receiving message using Event Hub consumer client.");
+        String PARTITION_ID = "0";
+        // Reads events from partition '0' and returns the first 2 received.
+        IterableStream<PartitionEvent> events = consumer.receiveFromPartition(PARTITION_ID, 2,
+                EventPosition.earliest());
+
+        for (PartitionEvent partitionEvent : events) {
+            // For each event, perform some sort of processing.
+            LOGGER.info("Message Body received: " + partitionEvent.getData().getBodyAsString());
+            LOGGER.info("Message SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
+        }
+    }
+}
+----
+
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl http://localhost:8080/quarkus-azure-eventhubs/publishEvents -X GET`
+* `curl http://localhost:8080/quarkus-azure-eventhubs/consumeEvents -X GET`
+
+You should see similar output in the logs:
+
+```
+Message Body received: Foo
+Message SequenceNumber is: 0
+Message Body received: Bar
+Message SequenceNumber is: 1
+```
 
 
 == Extension Configuration Reference

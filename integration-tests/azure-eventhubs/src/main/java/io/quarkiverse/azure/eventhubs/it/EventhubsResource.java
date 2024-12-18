@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.azure.core.util.IterableStream;
 import com.azure.messaging.eventhubs.EventData;
-import com.azure.messaging.eventhubs.EventDataBatch;
 import com.azure.messaging.eventhubs.EventHubConsumerClient;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
 import com.azure.messaging.eventhubs.models.EventPosition;
@@ -34,12 +33,8 @@ public class EventhubsResource {
     @Path("/publishEvents")
     @GET
     public void publishEvents() {
-
         List<EventData> allEvents = Arrays.asList(new EventData("Foo"), new EventData("Bar"));
-        EventDataBatch eventDataBatch = producer.createBatch();
-
         producer.send(allEvents, new SendOptions().setPartitionId("0"));
-
     }
 
     @Path("/consumeEvents")
@@ -57,6 +52,5 @@ public class EventhubsResource {
             LOGGER.info("Message Body received: " + partitionEvent.getData().getBodyAsString());
             LOGGER.info("Message SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
         }
-
     }
 }
