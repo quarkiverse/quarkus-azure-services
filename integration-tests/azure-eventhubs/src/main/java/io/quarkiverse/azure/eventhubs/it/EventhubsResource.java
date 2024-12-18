@@ -40,10 +40,6 @@ public class EventhubsResource {
 
         producer.send(allEvents, new SendOptions().setPartitionId("0"));
 
-        // Clients are expected to be long-lived objects.
-        // Dispose of the producer to close any underlying resources when we are finished with it.
-        producer.close();
-
     }
 
     @Path("/consumeEvents")
@@ -62,6 +58,5 @@ public class EventhubsResource {
             LOGGER.info("Message SequenceNumber is: " + partitionEvent.getData().getSequenceNumber());
         }
 
-        producer.close();
     }
 }

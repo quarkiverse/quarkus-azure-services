@@ -40,7 +40,7 @@ public class EventhubsAsyncResource {
                     LOGGER.error("Error occurred while sending events: {}", error);
                 });
         // Wait for the send to complete.
-        Thread.sleep(1000);
+        Thread.sleep(5000);
 
     }
 
