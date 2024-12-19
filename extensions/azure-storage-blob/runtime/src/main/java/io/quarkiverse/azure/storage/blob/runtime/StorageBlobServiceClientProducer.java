@@ -4,6 +4,7 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
 import com.azure.core.util.ClientOptions;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
@@ -32,10 +33,17 @@ public class StorageBlobServiceClientProducer {
             return null;
         }
 
-        assert storageBlobConfiguration.connectionString().isPresent()
-                : "The connection string of Azure Storage Account must be set";
-        return new BlobServiceClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB))
-                .connectionString(storageBlobConfiguration.connectionString().get());
+        if (storageBlobConfiguration.endpoint().isEmpty() && storageBlobConfiguration.connectionString().isEmpty()) {
+            throw new IllegalArgumentException("The endpoint or connection string of Azure Storage blob must be set");
+        }
+
+        BlobServiceClientBuilder builder = new BlobServiceClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_STORAGE_BLOB));
+        if (storageBlobConfiguration.connectionString().isPresent()) {
+            return builder.connectionString(storageBlobConfiguration.connectionString().get());
+        } else {
+            return builder.endpoint(storageBlobConfiguration.endpoint().get())
+                    .credential(new DefaultAzureCredentialBuilder().build());
+        }
     }
 }
