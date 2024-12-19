@@ -8,11 +8,35 @@ set -Euo pipefail
 # - KEY_VAULT_NAME
 # - COSMOSDB_ACCOUNT_NAME
 
+number=$(shuf -i 1-100 -n 1) && echo "random number is: $number"
+
 # Azure Storage Blob Extension
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
-  --resource-group "${RESOURCE_GROUP_NAME}" \
-  --name "${STORAGE_ACCOUNT_NAME}" \
-  --query connectionString -o tsv)
+# Randomly authenticate to Azure Storage Blob with Microsoft Entra ID or connection string
+if [ $((number % 2)) -eq 0 ]; then
+  # Export the connection string that has full access to the account
+  export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --name "${STORAGE_ACCOUNT_NAME}" \
+    --query connectionString -o tsv)
+else
+  # Export the endpoint of azure storage blob
+  export QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT=$(az storage account show \
+      --resource-group $RESOURCE_GROUP_NAME \
+      --name $STORAGE_ACCOUNT_NAME \
+      --query 'primaryEndpoints.blob' \
+      --output tsv)
+  # Retrieve the storage account resource ID
+  STORAGE_ACCOUNT_RESOURCE_ID=$(az storage account show \
+      --resource-group $RESOURCE_GROUP_NAME \
+      --name $STORAGE_ACCOUNT_NAME \
+      --query 'id' \
+      --output tsv)
+  # Assign the "Storage Blob Data Contributor" role to the current signed-in identity
+  az role assignment create \
+      --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
+      --role "Storage Blob Data Contributor" \
+      --scope $STORAGE_ACCOUNT_RESOURCE_ID
+fi
 
 # Azure App Configuration Extension
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
@@ -39,7 +63,6 @@ export QUARKUS_AZURE_COSMOS_ENDPOINT=$(az cosmosdb show \
     --query documentEndpoint -o tsv)
 
 # Randomly authenticate to Azure Cosmos DB with key or data plane RBAC
-number=$(shuf -i 1-100 -n 1) && echo "random number is: $number"
 if [ $((number % 2)) -eq 0 ]; then
   # Export the key that has full access to the account including management plane and data plane operations
   export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
