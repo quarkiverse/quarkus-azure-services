@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-integration-test-eventhubs</artifactId>
-    <name>Quarkus Azure Services :: Integration Test :: Azure EventHubs</name>
+    <name>Quarkus Azure Services :: Integration Test :: Azure Event Hubs</name>
 
     <dependencies>
         <dependency>

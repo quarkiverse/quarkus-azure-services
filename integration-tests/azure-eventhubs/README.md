@@ -1,6 +1,6 @@
-# Azure Eventhubs sample
+# Azure Event Hubs sample
 
-This is a sample about implementing REST endpoints using the Quarkus extension to send/receive data to/from Azure Eventhubs.
+This is a sample about implementing REST endpoints using the Quarkus extension to send/receive data to/from Azure Event Hubs.
 
 ## Prerequisites
 
@@ -63,14 +63,14 @@ az group create \
     --location westus
 ```
 
-### Creating Azure Eventhubs resources
+### Creating Azure Event Hubs resources
 
 Run the following commands to create an Azure eventhub namespace and an eventhub within the namespace, and export the environment variables to be used in the sample application.
 
 ```
 EVENTHUB_NAMESPACE_NAME=<unique-eventhub-namespace-name>
 EVENTHUB_NAME=<unique-eventhub-name>
-# Azure Eventhubs Extension
+# Azure Event Hubs Extension
 az eventhubs namespace create \
     --name ${EVENTHUB_NAMESPACE_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME}

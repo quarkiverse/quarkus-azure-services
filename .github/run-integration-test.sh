@@ -68,7 +68,7 @@ else
       --role-definition-id 00000000-0000-0000-0000-000000000002
 fi
 
-# Azure Eventhubs Extension
+# Azure Event Hubs Extension
 OBJECT_ID=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \

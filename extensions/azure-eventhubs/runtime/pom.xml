@@ -9,8 +9,8 @@
     </parent>
 
     <artifactId>quarkus-azure-eventhubs</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Eventhubs :: Runtime</name>
-    <description>Interacts with Azure Eventhubs through the Azure SDK for Java</description>
+    <name>Quarkus Azure Services :: Extension :: Azure Event Hubs :: Runtime</name>
+    <description>Interacts with Azure Event Hubs through the Azure SDK for Java</description>
 
     <dependencies>
         <dependency>

@@ -70,7 +70,7 @@ az cosmosdb create \
     --default-consistency-level Session \
     --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
 
-# Azure Eventhubs Extension
+# Azure Event Hubs Extension
 az eventhubs namespace create \
     --name ${EVENTHUB_NAMESPACE_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME}

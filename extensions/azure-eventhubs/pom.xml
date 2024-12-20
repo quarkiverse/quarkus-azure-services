@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-eventhubs-parent</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Eventhubs</name>
+    <name>Quarkus Azure Services :: Extension :: Azure Event Hubs</name>
     <packaging>pom</packaging>
 
     <modules>
