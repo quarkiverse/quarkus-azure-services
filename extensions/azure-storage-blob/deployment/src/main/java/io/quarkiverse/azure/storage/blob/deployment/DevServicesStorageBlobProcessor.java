@@ -38,7 +38,8 @@ public class DevServicesStorageBlobProcessor {
     private static final String PROTOCOL = "http";
     private static final String ACCOUNT_NAME = "devstoreaccount1";
     private static final String ACCOUNT_KEY = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
-    private static final String CONFIG_KEY = "quarkus.azure.storage.blob.connection-string";
+    private static final String CONFIG_KEY_CONNECTION_STRING = "quarkus.azure.storage.blob.connection-string";
+    private static final String CONFIG_KEY_ENDPOINT = "quarkus.azure.storage.blob.endpoint";
 
     /**
      * Label to add to shared Dev Services for Azurite storage blob service running in containers.
@@ -136,7 +137,8 @@ public class DevServicesStorageBlobProcessor {
             return null;
         }
 
-        boolean needToStart = !ConfigUtils.isPropertyPresent(CONFIG_KEY);
+        boolean needToStart = !ConfigUtils.isPropertyPresent(CONFIG_KEY_CONNECTION_STRING)
+                && !ConfigUtils.isPropertyPresent(CONFIG_KEY_ENDPOINT);
         if (!needToStart) {
             log.info("Not starting devservice for Azure storage blob client as host has been provided");
             return null;
@@ -158,14 +160,15 @@ public class DevServicesStorageBlobProcessor {
             timeout.ifPresent(azuriteContainer::withStartupTimeout);
             azuriteContainer.start();
             return new RunningDevService(StorageBlobProcessor.FEATURE, azuriteContainer.getContainerId(),
-                    azuriteContainer::close, CONFIG_KEY,
+                    azuriteContainer::close, CONFIG_KEY_CONNECTION_STRING,
                     getConnectionString(azuriteContainer.getHost(), azuriteContainer.getPort()));
         };
 
         return containerLocator.locateContainer(devServicesConfig.serviceName, devServicesConfig.shared, launchMode)
                 .map(containerAddress -> {
                     return new RunningDevService(StorageBlobProcessor.FEATURE, containerAddress.getId(),
-                            null, CONFIG_KEY, getConnectionString(containerAddress.getHost(), containerAddress.getPort()));
+                            null, CONFIG_KEY_CONNECTION_STRING,
+                            getConnectionString(containerAddress.getHost(), containerAddress.getPort()));
                 })
                 .orElseGet(storageBlobServerSupplier);
     }
