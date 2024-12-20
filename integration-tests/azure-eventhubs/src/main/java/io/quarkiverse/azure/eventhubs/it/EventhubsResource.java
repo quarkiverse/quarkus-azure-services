@@ -30,16 +30,16 @@ public class EventhubsResource {
     @Inject
     EventHubConsumerClient consumer;
 
-    @Path("/publishEvents")
+    @Path("/sendEvents")
     @GET
-    public void publishEvents() {
+    public void sendEvents() {
         List<EventData> allEvents = Arrays.asList(new EventData("Foo"), new EventData("Bar"));
         producer.send(allEvents, new SendOptions().setPartitionId("0"));
     }
 
-    @Path("/consumeEvents")
+    @Path("/receiveEvents")
     @GET
-    public void consumeEvents() {
+    public void receiveEvents() {
 
         LOGGER.info("Receiving message using Event Hub consumer client.");
         String PARTITION_ID = "0";

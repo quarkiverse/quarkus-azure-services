@@ -17,11 +17,11 @@ class EventHubsResourceTest {
 
     @Test
     @Order(1)
-    void publishEvents() {
+    void sendEvents() {
         // Read item
         given()
                 .when()
-                .get("/quarkus-azure-eventhubs/publishEvents")
+                .get("/quarkus-azure-eventhubs/sendEvents")
                 .then()
                 .statusCode(204);
 
@@ -29,11 +29,11 @@ class EventHubsResourceTest {
 
     @Test
     @Order(2)
-    void consumeEvents() {
+    void receiveEvents() {
         // Read item
         given()
                 .when()
-                .get("/quarkus-azure-eventhubs/consumeEvents")
+                .get("/quarkus-azure-eventhubs/receiveEvents")
                 .then()
                 .statusCode(204);
 

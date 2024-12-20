@@ -138,16 +138,16 @@ Open a new terminal and run the following commands to test the sample:
 
 ```
 # Send a message to the Azure Event Hubs with Sync API.
-curl http://localhost:8080/quarkus-azure-eventhubs/publishEvents -X GET
+curl http://localhost:8080/quarkus-azure-eventhubs/sendEvents -X GET
 
 # Receive messages from the Azure Event Hubs with Sync API.
 curl http://localhost:8080/quarkus-azure-eventhubs/receiveEvents -X GET
 
 # Send a message to the Azure Event Hubs with Async API.
-curl http://localhost:8080/quarkus-azure-eventhubs-async -X GET
+curl http://localhost:8080/quarkus-azure-eventhubs-async/sendEvents -X GET
 
 # Receive messages from the Azure Event Hubs with Async API.
-curl http://localhost:8080/quarkus-azure-eventhubs-async -X GET
+curl http://localhost:8080/quarkus-azure-eventhubs-async/receiveEvents -X GET
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.

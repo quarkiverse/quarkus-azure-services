@@ -28,9 +28,9 @@ public class EventhubsAsyncResource {
     @Inject
     EventHubConsumerAsyncClient consumer;
 
-    @Path("/publishEvents")
+    @Path("/sendEvents")
     @GET
-    public void publishEvents() throws InterruptedException {
+    public void sendEvents() throws InterruptedException {
         List<EventData> allEvents = List.of(new EventData("Foo-Asyn"), new EventData("Bar-Asyn"));
         // Creating a batch without options set, will allow for automatic routing of events to any partition.
         producer.send(allEvents, new SendOptions().setPartitionId("1"))
@@ -44,9 +44,9 @@ public class EventhubsAsyncResource {
 
     }
 
-    @Path("/consumeEvents")
+    @Path("/receiveEvents")
     @GET
-    public void consumeEvents() throws InterruptedException {
+    public void receiveEvents() throws InterruptedException {
 
         String partitionId = "1";
 

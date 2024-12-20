@@ -17,22 +17,22 @@ class EventHubsAsyncResourceTest {
 
     @Order(1)
     @Test
-    void publishEvents() {
+    void sendEvents() {
         // publish events
         given()
                 .when()
-                .get("/quarkus-azure-eventhubs-async/publishEvents")
+                .get("/quarkus-azure-eventhubs-async/sendEvents")
                 .then()
                 .statusCode(204);
     }
 
     @Order(2)
     @Test
-    void consumeEvents() {
+    void receiveEvents() {
         // Read item
         given()
                 .when()
-                .get("/quarkus-azure-eventhubs-async/consumeEvents")
+                .get("/quarkus-azure-eventhubs-async/receiveEvents")
                 .then()
                 .statusCode(204);
     }
