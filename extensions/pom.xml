@@ -17,5 +17,6 @@
         <module>azure-cosmos</module>
         <module>azure-keyvault</module>
         <module>azure-storage-blob</module>
+        <module>azure-eventhubs</module>
     </modules>
 </project>
