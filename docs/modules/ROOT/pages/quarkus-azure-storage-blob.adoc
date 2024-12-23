@@ -65,9 +65,47 @@ Alternatively, follow instructions in https://learn.microsoft.com/azure/storage/
 
 === Configure the Azure Storage Blob Client
 
-As you can see below in the _Configuration Reference_ section, this extension has several configuration options.
-But one of them is mandatory, and that is the `quarkus.azure.storage.blob.connection-string`.
-To get the connection string, execute the following Azure CLI command:
+As you can see below in the _Configuration Reference_ section, either the property `quarkus.azure.storage.blob.endpoint` or the property `quarkus.azure.storage.blob.connection-string` is required if the extension is enabled.
+
+You have two options to authenticate to Azure Storage Blob, either with Microsoft Entra ID or connection string. The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
+
+==== Authenticating to Azure Storage Blob with Microsoft Entra ID
+
+You can authenticate to Azure Storage Blob with Microsoft Entra ID. Run the following commands to assign the `Storage Blob Data Contributor` role to the signed-in user as a Microsoft Entra identity.
+
+[source,shell]
+----
+# Retrieve the storage account resource ID
+STORAGE_ACCOUNT_RESOURCE_ID=$(az storage account show \
+    --resource-group rg-quarkus-azure-storage-blob \
+    --name stquarkusazurestorageblo \
+    --query 'id' \
+    --output tsv)
+# Assign the "Storage Blob Data Contributor" role to the current signed-in identity
+az role assignment create \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
+    --role "Storage Blob Data Contributor" \
+    --scope $STORAGE_ACCOUNT_RESOURCE_ID
+----
+
+Then, export Azure Storage Blob endpoint as an environment variable.
+
+[source,shell]
+----
+export QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT=$(az storage account show \
+    --resource-group rg-quarkus-azure-storage-blob \
+    --name stquarkusazurestorageblo \
+    --query 'primaryEndpoints.blob' \
+    --output tsv)
+echo "QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT is: ${QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT}"
+----
+
+The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT` will be read by Quarkus as the value of config
+property `quarkus.azure.storage.blob.endpoint` in order to set up the connection to the Azure Storage Blob.
+
+==== Authenticating to Azure Storage Blob with connection string
+
+You can also authenticate to Azure Storage Blob with connection string. Run the following commands to export the Azure Storage Blob connection string as an environment variable.
 
 [source,shell]
 ----
@@ -77,6 +115,9 @@ export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-co
     --output tsv)
 echo "QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING is: ${QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING}"
 ----
+
+The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING` will be fed into config
+property `quarkus.azure.storage.blob.connection-string` in order to set up the connection to the Azure Storage Blob.
 
 Notice that you get the connection string and set it to environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING`, instead of setting it to property `quarkus.azure.storage.blob.connection-string` in the `application.properties` file.
 
