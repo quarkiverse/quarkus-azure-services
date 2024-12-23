@@ -8,8 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
 import com.azure.core.util.IterableStream;
 import com.azure.messaging.eventhubs.EventData;
@@ -22,7 +21,7 @@ import com.azure.messaging.eventhubs.models.SendOptions;
 @Path("/quarkus-azure-eventhubs")
 @ApplicationScoped
 public class EventhubsResource {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventhubsResource.class);
+    private static final Logger LOGGER = Logger.getLogger(EventhubsResource.class);
 
     @Inject
     EventHubProducerClient producer;

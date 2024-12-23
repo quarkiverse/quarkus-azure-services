@@ -7,8 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jboss.logging.Logger;
 
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventHubConsumerAsyncClient;
@@ -20,7 +19,7 @@ import com.azure.messaging.eventhubs.models.SendOptions;
 @Path("/quarkus-azure-eventhubs-async")
 @ApplicationScoped
 public class EventhubsAsyncResource {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventhubsAsyncResource.class);
+    private static final Logger LOGGER = Logger.getLogger(EventhubsAsyncResource.class);
 
     @Inject
     EventHubProducerAsyncClient producer;
@@ -55,8 +54,8 @@ public class EventhubsAsyncResource {
                     PartitionContext partitionContext = partitionEvent.getPartitionContext();
                     EventData event = partitionEvent.getData();
 
-                    LOGGER.info("Received event from partition '{}'", partitionContext.getPartitionId());
-                    LOGGER.info("Contents of event: {}", event.getBodyAsString());
+                    LOGGER.info("Received event from partition " + partitionContext.getPartitionId());
+                    LOGGER.info("Contents of event: " + event.getBodyAsString());
                 }, error -> {
                     // This is a terminal signal.  No more events will be received from the same Flux object.
                     LOGGER.error("Error occurred while consuming events: {}", error);
