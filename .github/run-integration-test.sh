@@ -73,10 +73,10 @@ OBJECT_ID=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
     --assignee-object-id ${OBJECT_ID} \
-    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUB_NAMESPACE_NAME}"
+    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUBS_NAMESPACE}"
 
-export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
-export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME=${EVENTHUBS_EVENTHUBNAME}
 
 # Run integration test with existing native executables against Azure services
 mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true

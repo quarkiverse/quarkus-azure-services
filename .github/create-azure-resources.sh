@@ -7,8 +7,8 @@ set -Euo pipefail
 # - APP_CONFIG_NAME
 # - KEY_VAULT_NAME
 # - COSMOSDB_ACCOUNT_NAME
-# - EVENTHUB_NAMESPACE_NAME
-# - EVENTHUB_NAME
+# - EVENTHUBS_NAMESPACE
+# - EVENTHUBS_EVENTHUBNAME
 
 # Create a resource group
 az group create \
@@ -74,11 +74,11 @@ az cosmosdb create \
 
 # Azure Event Hubs Extension
 az eventhubs namespace create \
-    --name ${EVENTHUB_NAMESPACE_NAME} \
+    --name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME}
 
 az eventhubs eventhub create \
-    --name ${EVENTHUB_NAME} \
-    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
+    --name ${EVENTHUBS_EVENTHUBNAME} \
+    --namespace-name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --partition-count 2

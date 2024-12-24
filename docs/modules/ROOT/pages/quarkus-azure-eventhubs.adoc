@@ -50,7 +50,7 @@ az eventhubs namespace create \
     --resource-group rg-quarkus-azure-eventhubs
 az eventhubs eventhub create \
     --name eventhub1217 \
-    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
+    --namespace-name ${EVENTHUBS_NAMESPACE} \
     --resource-group rg-quarkus-azure-eventhubs \
     --partition-count 2
 ----
@@ -78,12 +78,12 @@ Execute the following Azure CLI command to export the environment variables so t
 
 [source,shell]
 ----
-export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
-export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME=${EVENTHUBS_EVENTHUBNAME}
 
 ----
 
-Because Quarkus implements the https://microprofile.io/project/eclipse/microprofile-config[MicroProfile Config specification], the value of the environment variables `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME` is read as if the properties `quarkus.azure.eventhubs.namespace` and `quarkus.azure.eventhubs.event-hub-name` were set in the `application.properties` file.
+Because Quarkus implements the https://microprofile.io/project/eclipse/microprofile-config[MicroProfile Config specification], the value of the environment variables `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME` is read as if the properties `quarkus.azure.eventhubs.namespace` and `quarkus.azure.eventhubs.event-hub-name` were set in the `application.properties` file.
 
 Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
 

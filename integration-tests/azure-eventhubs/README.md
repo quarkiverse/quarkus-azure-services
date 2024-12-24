@@ -68,20 +68,20 @@ az group create \
 Run the following commands to create an Azure eventhub namespace and an eventhub within the namespace, and export the environment variables to be used in the sample application.
 
 ```
-EVENTHUB_NAMESPACE_NAME=<unique-eventhub-namespace-name>
-EVENTHUB_NAME=<unique-eventhub-name>
+EVENTHUBS_NAMESPACE=<unique-eventhub-namespace-name>
+EVENTHUBS_EVENTHUBNAME=<unique-eventhub-name>
 # Azure Event Hubs Extension
 az eventhubs namespace create \
-    --name ${EVENTHUB_NAMESPACE_NAME} \
+    --name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME}
 az eventhubs eventhub create \
-    --name ${EVENTHUB_NAME} \
-    --namespace-name ${EVENTHUB_NAMESPACE_NAME} \
+    --name ${EVENTHUBS_EVENTHUBNAME} \
+    --namespace-name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --partition-count 2
 
-export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUB_NAMESPACE_NAME}
-export QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME=${EVENTHUB_NAME}
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME=${EVENTHUBS_EVENTHUBNAME}
 
 ```
 
@@ -91,13 +91,13 @@ Assign the `Azure Event Hubs Data Owner` role to the signed-in user as a Microso
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
     --assignee-object-id ${servicePrincipal} \
-    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUB_NAMESPACE_NAME}/eventhubs/${EVENTHUB_NAME}"
+    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUBS_NAMESPACE}/eventhubs/${EVENTHUBS_EVENTHUBNAME}"
 ```
 
 
 ## Running the sample
 
-You have different choices to run the sample. Make sure you have followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services. Select an option and proceed to [Testing the sample](#testing-the-sample). For any choice, make sure the environment variable `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME` are defined correctly in the environment before starting Quarkus.
+You have different choices to run the sample. Make sure you have followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services. Select an option and proceed to [Testing the sample](#testing-the-sample). For any choice, make sure the environment variable `QUARKUS_AZURE_EVENTHUBS_NAMESPACE` and `QUARKUS_AZURE_EVENTHUBS_EVENTHUBNAME` are defined correctly in the environment before starting Quarkus.
 
 ### Running the sample in development mode
 
