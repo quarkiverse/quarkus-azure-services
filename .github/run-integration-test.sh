@@ -37,20 +37,12 @@ AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string
     --query connectionString -o tsv)
 
 # Run integration test with existing native executables against Azure services
-export QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT=${AZURE_STORAGE_BLOB_ENDPOINT}
-unset QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING
-mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
-unset QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT
-mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
+mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
 
 # Run both unit test and integration test in JVM mode against Azure services
-export QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT=${AZURE_STORAGE_BLOB_ENDPOINT}
-unset QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING
-mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
-unset QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT
-mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true
+mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
+mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
 
 # Azure App Configuration Extension
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
@@ -137,12 +129,7 @@ AZURE_COSMOS_KEY=$(az cosmosdb keys list \
     -g ${RESOURCE_GROUP_NAME} \
     --query primaryMasterKey -o tsv)
 
-unset QUARKUS_AZURE_COSMOS_KEY
 mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-export QUARKUS_AZURE_COSMOS_KEY=${AZURE_COSMOS_KEY}
-mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-
-unset QUARKUS_AZURE_COSMOS_KEY
+mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
 mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true
-export QUARKUS_AZURE_COSMOS_KEY=${AZURE_COSMOS_KEY}
-mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true
+mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
