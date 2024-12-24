@@ -15,6 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-eventhubs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
         </dependency>
         <dependency>
@@ -33,19 +37,8 @@
         <!-- Test dependencies -->
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-devservices-common</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5-internal</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-eventhubs</artifactId>
-            <version>999-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>    
 

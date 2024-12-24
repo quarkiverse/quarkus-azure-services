@@ -68,10 +68,10 @@ public class EventhubsClientProducer {
             return null;
         }
 
-        // @TOOD
-
         EventHubClientBuilder builder = new EventHubClientBuilder()
-                .credential(eventhubsConfig.namespace() + ".servicebus.windows.net",
+                .credential(eventhubsConfig.namespace()
+                        + "."
+                        + eventhubsConfig.domainName(),
                         eventhubsConfig.eventHubName(),
                         new DefaultAzureCredentialBuilder().build());
         return builder;

@@ -7,6 +7,8 @@ set -Euo pipefail
 # - APP_CONFIG_NAME
 # - KEY_VAULT_NAME
 # - COSMOSDB_ACCOUNT_NAME
+# - EVENTHUB_NAMESPACE_NAME
+# - EVENTHUB_NAME
 
 # Create a resource group
 az group create \

@@ -9,7 +9,6 @@ metadata:
     - "azure"
     - "eventhubs"
     - "azure-eventhubs"
-# @TOOD
   guide: "https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-eventhubs.html"
   categories:
     - "cloud"

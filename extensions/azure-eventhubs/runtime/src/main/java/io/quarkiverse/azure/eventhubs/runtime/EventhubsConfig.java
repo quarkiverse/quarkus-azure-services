@@ -16,9 +16,15 @@ public interface EventhubsConfig {
     boolean enabled();
 
     /**
-     * The fully qualified namespace of Azure Event Hubs. Required if quarkus.azure.eventhubs.enabled is set to true
+     * The namespace of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
      */
     String namespace();
+
+    /**
+     * The domain name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
+     */
+    @WithDefault("servicebus.windows.net")
+    String domainName();
 
     /**
      * The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
