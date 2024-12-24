@@ -72,7 +72,7 @@ public class EventhubsClientProducer {
                 .credential(eventhubsConfig.namespace()
                         + "."
                         + eventhubsConfig.domainName(),
-                        eventhubsConfig.eventHubName(),
+                        eventhubsConfig.eventhubName(),
                         new DefaultAzureCredentialBuilder().build());
         return builder;
     }

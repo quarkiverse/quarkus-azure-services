@@ -29,5 +29,5 @@ public interface EventhubsConfig {
     /**
      * The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
      */
-    String eventHubName();
+    String eventhubName();
 }

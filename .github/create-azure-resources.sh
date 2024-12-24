@@ -8,7 +8,7 @@ set -Euo pipefail
 # - KEY_VAULT_NAME
 # - COSMOSDB_ACCOUNT_NAME
 # - EVENTHUBS_NAMESPACE
-# - EVENTHUBS_EVENTHUBNAME
+# - EVENTHUBS_EVENTHUB_NAME
 
 # Create a resource group
 az group create \
@@ -78,7 +78,7 @@ az eventhubs namespace create \
     --resource-group ${RESOURCE_GROUP_NAME}
 
 az eventhubs eventhub create \
-    --name ${EVENTHUBS_EVENTHUBNAME} \
+    --name ${EVENTHUBS_EVENTHUB_NAME} \
     --namespace-name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --partition-count 2

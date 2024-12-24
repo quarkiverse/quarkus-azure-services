@@ -58,7 +58,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`servicebus.windows.net`
 
-a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-event-hub-name]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-event-hub-name[`quarkus.azure.eventhubs.event-hub-name`]##
+a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-eventhub-name]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-eventhub-name[`quarkus.azure.eventhubs.eventhub-name`]##
 
 [.description]
 --
@@ -66,10 +66,10 @@ The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to
 
 
 ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME+++[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME+++[]
 endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_EVENT_HUB_NAME+++`
+Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
