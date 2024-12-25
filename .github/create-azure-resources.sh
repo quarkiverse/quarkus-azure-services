@@ -7,6 +7,8 @@ set -Euo pipefail
 # - APP_CONFIG_NAME
 # - KEY_VAULT_NAME
 # - COSMOSDB_ACCOUNT_NAME
+# - EVENTHUBS_NAMESPACE
+# - EVENTHUBS_EVENTHUB_NAME
 
 # Create a resource group
 az group create \
@@ -69,3 +71,14 @@ az cosmosdb create \
     -g ${RESOURCE_GROUP_NAME} \
     --default-consistency-level Session \
     --locations regionName='West US' failoverPriority=0 isZoneRedundant=False
+
+# Azure Event Hubs Extension
+az eventhubs namespace create \
+    --name ${EVENTHUBS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+
+az eventhubs eventhub create \
+    --name ${EVENTHUBS_EVENTHUB_NAME} \
+    --namespace-name ${EVENTHUBS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --partition-count 2

@@ -1,0 +1,79 @@
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[.header-title]##Configuration property##
+h|Type
+h|Default
+
+a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-enabled]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-enabled[`quarkus.azure.eventhubs.enabled`]##
+
+[.description]
+--
+The flag to enable the eventhubs. If set to false, the eventhubs will be disabled
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-namespace]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-namespace[`quarkus.azure.eventhubs.namespace`]##
+
+[.description]
+--
+The namespace of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_NAMESPACE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_NAMESPACE+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|required icon:exclamation-circle[title=Configuration property is required]
+
+a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-domain-name]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-domain-name[`quarkus.azure.eventhubs.domain-name`]##
+
+[.description]
+--
+The domain name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_DOMAIN_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_DOMAIN_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`servicebus.windows.net`
+
+a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-eventhub-name]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-eventhub-name[`quarkus.azure.eventhubs.eventhub-name`]##
+
+[.description]
+--
+The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|required icon:exclamation-circle[title=Configuration property is required]
+
+|===
+

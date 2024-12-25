@@ -1,0 +1,17 @@
+---
+name: "Quarkus Support Azure Event Hubs"
+description: "Interacts with Azure Event Hubs through the Azure SDK for Java"
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
+metadata:
+  icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
+  short-name: "azure-eventhubs"
+  keywords:
+    - "azure"
+    - "eventhubs"
+    - "azure-eventhubs"
+  guide: "https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-eventhubs.html"
+  categories:
+    - "cloud"
+  status: "preview"
+  config:
+    - "quarkus.azure.eventhubs."
