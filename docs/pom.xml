@@ -39,6 +39,18 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-eventhubs-deployment</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-keyvault-deployment</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
