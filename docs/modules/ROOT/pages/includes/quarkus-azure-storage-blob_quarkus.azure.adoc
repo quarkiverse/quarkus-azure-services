@@ -136,11 +136,28 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
+a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint[`quarkus.azure.storage.blob.endpoint`]##
+
+[.description]
+--
+The endpoint of Azure Storage Blob. Required if quarkus.azure.storage.blob.enabled is set to true and quarkus.azure.storage.blob.connection-string is not set
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string[`quarkus.azure.storage.blob.connection-string`]##
 
 [.description]
 --
-The connection string of Azure Storage Account. Required if quarkus.azure.storage.blob.enabled is set to true
+The connection string of Azure Storage Blob. Required if quarkus.azure.storage.blob.enabled is set to true and quarkus.azure.storage.blob.endpoint is not set
 
 
 ifdef::add-copy-button-to-env-var[]

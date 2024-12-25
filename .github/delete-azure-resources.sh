@@ -4,6 +4,7 @@
 # - RESOURCE_GROUP_NAME
 # - APP_CONFIG_NAME
 # - KEY_VAULT_NAME
+# - EVENTHUBS_NAMESPACE
 
 az appconfig delete --name "${APP_CONFIG_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --yes
 az appconfig purge --name "${APP_CONFIG_NAME}" --yes

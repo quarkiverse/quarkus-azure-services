@@ -18,7 +18,14 @@ public interface StorageBlobConfig {
     boolean enabled();
 
     /**
-     * The connection string of Azure Storage Account. Required if quarkus.azure.storage.blob.enabled is set to true
+     * The endpoint of Azure Storage Blob. Required if quarkus.azure.storage.blob.enabled is set to true and
+     * quarkus.azure.storage.blob.connection-string is not set
+     */
+    Optional<String> endpoint();
+
+    /**
+     * The connection string of Azure Storage Blob. Required if quarkus.azure.storage.blob.enabled is set to true and
+     * quarkus.azure.storage.blob.endpoint is not set
      */
     Optional<String> connectionString();
 }

@@ -57,20 +57,6 @@ If you log into the http://portal.azure.com/[Azure portal], you can see the reso
 
 image::quarkus-azure-cosmos-azure-portal1.png[alt=Azure Portal showing the Azure Cosmos DB account]
 
-Next, assign the `Cosmos DB Built-in Data Contributor` role to the signed-in user, so that the sample application can do data plane CRUD operations.
-
-[source,shell]
-----
-az ad signed-in-user show --query id -o tsv \
-    | az cosmosdb sql role assignment create \
-    --account-name kvquarkusazurecosmos080824 \
-    --resource-group rg-quarkus-azure-cosmos \
-    --scope "/" \
-    --principal-id @- \
-    --role-definition-id 00000000-0000-0000-0000-000000000002
-----
-
-Notice that you cannot use any Azure Cosmos DB data plane SDK to authenticate management operations with a Microsoft Entra identity, you need to create database and container manually.
 Run the following commands to create a database `demodb` and a container `democontainer` using Azure CLI.
 
 [source,shell]
@@ -103,7 +89,42 @@ echo "QUARKUS_AZURE_COSMOS_ENDPOINT is: ${QUARKUS_AZURE_COSMOS_ENDPOINT}"
 
 Because Quarkus implements the https://microprofile.io/project/eclipse/microprofile-config[MicroProfile Config specification], the value of the  environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is read as if the property `quarkus.azure.cosmos.endpoint` were set in the `application.properties` file.
 
-Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection string to source control.
+Although technically both approaches work, using environment variable is recommended as it won't hardcode the configuration in the source code, making it easier to switch between environments and to avoid committing sensitive information to source control.
+
+You have two options to authenticate to Azure Cosmos DB, either with Microsoft Entra ID or key-based authentication. The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
+
+==== Authenticating to Azure Cosmos DB with Microsoft Entra ID
+
+You can authenticate to Azure Cosmos DB with Microsoft Entra ID. Run the following commands to assign the `Cosmos DB Built-in Data Contributor` role to the signed-in user as a Microsoft Entra identity.
+
+[source,shell]
+----
+az ad signed-in-user show --query id -o tsv \
+    | az cosmosdb sql role assignment create \
+    --account-name kvquarkusazurecosmos080824 \
+    --resource-group rg-quarkus-azure-cosmos \
+    --scope "/" \
+    --principal-id @- \
+    --role-definition-id 00000000-0000-0000-0000-000000000002
+----
+
+Notice that you cannot use any Azure Cosmos DB data plane SDK to authenticate management operations with a Microsoft Entra identity, that's why you created database and container manually before.
+
+==== Authenticating to Azure Cosmos DB with key-based authentication
+
+You can also authenticate to Azure Cosmos DB with key-based authentication. Run the following commands to export the key of the Azure Cosmos DB account as an environment variable.
+
+[source,shell]
+----
+export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
+    -n kvquarkusazurecosmos080824 \
+    -g rg-quarkus-azure-cosmos \
+    --query primaryMasterKey -o tsv)
+----
+
+The value of environment variable `QUARKUS_AZURE_COSMOS_KEY` will be read by Quarkus as the value of config property `quarkus.azure.cosmos.key` of `azure-cosmos` extension in order to set up the connection to the Azure Cosmos DB.
+
+Notice that you do not need to create a database and container manually if you use key-based authentication, because it has full access to the Azure Cosmos DB account. The database and container were created before because the sample code assumes that they exist.
 
 === Inject the Azure Cosmos DB Client
 
