@@ -70,12 +70,9 @@ EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
     --output tsv)
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
-    --assignee-object-id ${OBJECT_ID} \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
     --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
 ----
-
-- Replace `${OBJECT_ID}` with the object ID of the signed-in user.
-- Replace `${AZURE_SUBSCRIPTION_ID}` with the Azure subscription ID.
 
 === Configure the Azure Event Hubs Extension
 

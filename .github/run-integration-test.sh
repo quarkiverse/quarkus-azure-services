@@ -110,7 +110,7 @@ EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
 # Assign the "Azure Event Hubs Data Owner" role to the current signed-in identity
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
-    --assignee-object-id ${OBJECT_ID} \
+    --assignee ${OBJECT_ID} \
     --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
 export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
 export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}

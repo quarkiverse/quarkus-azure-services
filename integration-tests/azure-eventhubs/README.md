@@ -96,7 +96,7 @@ EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
     --output tsv)
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
-    --assignee-object-id ${servicePrincipal} \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
     --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
 ```
 
