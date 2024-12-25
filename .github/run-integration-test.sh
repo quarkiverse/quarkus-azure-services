@@ -116,3 +116,7 @@ export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
 export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
 mvn -f azure-eventhubs/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
 mvn -f azure-eventhubs/pom.xml -B verify -Dazure.test=true
+
+# Test azure-services-disabled
+mvn -f azure-services-disabled/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-services-disabled/pom.xml -B verify -Dazure.test=true

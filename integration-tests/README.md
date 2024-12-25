@@ -207,6 +207,42 @@ az cosmosdb sql container create \
     -p "/id"
 ```
 
+### Creating Azure Event Hubs resources
+
+Run the following commands to create an Azure eventhub namespace and an eventhub within the namespace, and export the environment variables to be used in the sample application.
+
+```
+EVENTHUBS_NAMESPACE=<unique-eventhub-namespace-name>
+EVENTHUBS_EVENTHUB_NAME=<unique-eventhub-name>
+# Azure Event Hubs Extension
+az eventhubs namespace create \
+    --name ${EVENTHUBS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+az eventhubs eventhub create \
+    --name ${EVENTHUBS_EVENTHUB_NAME} \
+    --namespace-name ${EVENTHUBS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --partition-count 2
+
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
+```
+
+Assign the `Azure Event Hubs Data Owner` role to the signed-in user as a Microsoft Entra identity, so that the sample application can do data plane operations.
+
+```
+EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --namespace-name $EVENTHUBS_NAMESPACE \
+    --name $EVENTHUBS_EVENTHUB_NAME \
+    --query 'id' \
+    --output tsv)
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
+    --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
+```
+
 ### Running the test
 
 Finally, build the native executable and launch the test with:
