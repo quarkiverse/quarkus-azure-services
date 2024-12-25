@@ -1,5 +1,7 @@
 package io.quarkiverse.azure.eventhubs.runtime;
 
+import java.util.Optional;
+
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
@@ -18,16 +20,16 @@ public interface EventhubsConfig {
     /**
      * The namespace of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
      */
-    String namespace();
+    Optional<String> namespace();
 
     /**
      * The domain name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
      */
     @WithDefault("servicebus.windows.net")
-    String domainName();
+    Optional<String> domainName();
 
     /**
      * The name of the event hub. Required if quarkus.azure.eventhubs.enabled is set to true
      */
-    String eventhubName();
+    Optional<String> eventhubName();
 }

@@ -68,11 +68,14 @@ public class EventhubsClientProducer {
             return null;
         }
 
+        assert eventhubsConfig.namespace().isPresent() : "The namespace of Azure Event Hubs must be set";
+        assert eventhubsConfig.domainName().isPresent() : "The domain name of Azure Event Hubs must be set";
+        assert eventhubsConfig.eventhubName().isPresent() : "The event hub name of Azure Event Hubs must be set";
         EventHubClientBuilder builder = new EventHubClientBuilder()
-                .credential(eventhubsConfig.namespace()
+                .credential(eventhubsConfig.namespace().get()
                         + "."
-                        + eventhubsConfig.domainName(),
-                        eventhubsConfig.eventhubName(),
+                        + eventhubsConfig.domainName().get(),
+                        eventhubsConfig.eventhubName().get(),
                         new DefaultAzureCredentialBuilder().build());
         return builder;
     }
