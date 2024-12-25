@@ -88,10 +88,16 @@ export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
 Assign the `Azure Event Hubs Data Owner` role to the signed-in user as a Microsoft Entra identity, so that the sample application can do data plane operations.
 
 ```
+EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --namespace-name $EVENTHUBS_NAMESPACE \
+    --name $EVENTHUBS_EVENTHUB_NAME \
+    --query 'id' \
+    --output tsv)
 az role assignment create \
     --role "Azure Event Hubs Data Owner" \
     --assignee-object-id ${servicePrincipal} \
-    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUBS_NAMESPACE}/eventhubs/${EVENTHUBS_EVENTHUB_NAME}"
+    --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
 ```
 
 

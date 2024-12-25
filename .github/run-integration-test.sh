@@ -25,9 +25,9 @@ STORAGE_ACCOUNT_RESOURCE_ID=$(az storage account show \
     --query 'id' \
     --output tsv)
 # Assign the "Storage Blob Data Contributor" role to the current signed-in identity
-servicePrincipal=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
+OBJECT_ID=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
 az role assignment create \
-    --assignee ${servicePrincipal} \
+    --assignee ${OBJECT_ID} \
     --role "Storage Blob Data Contributor" \
     --scope $STORAGE_ACCOUNT_RESOURCE_ID
 # Get the connection string that has full access to the account
@@ -35,11 +35,9 @@ AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --name "${STORAGE_ACCOUNT_NAME}" \
     --query connectionString -o tsv)
-
 # Run integration test with existing native executables against Azure services
 mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
 mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
-
 # Run both unit test and integration test in JVM mode against Azure services
 mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
 mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
@@ -89,47 +87,32 @@ az cosmosdb sql role assignment create \
     --account-name ${COSMOSDB_ACCOUNT_NAME} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --scope "/" \
-    --principal-id ${servicePrincipal} \
+    --principal-id ${OBJECT_ID} \
     --role-definition-id 00000000-0000-0000-0000-000000000002
-
-# Azure Event Hubs Extension
-OBJECT_ID=$(az ad sp list --filter "appId eq '$AZURE_CLIENT_ID'" --query '[0].id' -o tsv)
-az role assignment create \
-    --role "Azure Event Hubs Data Owner" \
-    --assignee-object-id ${OBJECT_ID} \
-    --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP_NAME}/providers/Microsoft.EventHub/namespaces/${EVENTHUBS_NAMESPACE}"
-
-export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
-export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
-
-# Run integration test with existing native executables against Azure services
-mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-
-# Run both unit test and integration test in JVM mode against Azure services
-mvn -B verify -Dazure.test=true
-
-# Run integration test again for Azure Storage Blob Extension by using connection string for authentication
-# Export the connection string that has full access to the account
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
---resource-group "${RESOURCE_GROUP_NAME}" \
---name "${STORAGE_ACCOUNT_NAME}" \
---query connectionString -o tsv)
-# Unset the endpoint environment variable
-unset QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT
-cd azure-storage-blob
-mvn -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -B verify -Dazure.test=true
-
-# Run integration test again for Azure Cosmos Extension by using key for authentication
-# Export the key that has full access to the account including management plane and data plane operations
-export QUARKUS_AZURE_COSMOS_KEY=$(az cosmosdb keys list \
 # Get the key that has full access to the account including management plane and data plane operations
 AZURE_COSMOS_KEY=$(az cosmosdb keys list \
     -n ${COSMOSDB_ACCOUNT_NAME} \
     -g ${RESOURCE_GROUP_NAME} \
     --query primaryMasterKey -o tsv)
-
 mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
 mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
 mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true
 mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
+
+# Azure Event Hubs Extension
+# Retrieve the event hub resource ID
+EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --namespace-name $EVENTHUBS_NAMESPACE \
+    --name $EVENTHUBS_EVENTHUB_NAME \
+    --query 'id' \
+    --output tsv)
+# Assign the "Azure Event Hubs Data Owner" role to the current signed-in identity
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee-object-id ${OBJECT_ID} \
+    --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
+mvn -f azure-eventhubs/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-eventhubs/pom.xml -B verify -Dazure.test=true
