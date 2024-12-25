@@ -51,7 +51,8 @@ public class EventHubsDisabledResource {
     @GET
     public Response getEventHubProducerAsyncClient() {
         assert eventHubProducerAsyncClient == null : "The EventHubProducerAsyncClient should be null";
-        return Response.status(NOT_FOUND).entity("The EventHubProducerAsyncClient is null because the Azure Event Hubs is disabled")
+        return Response.status(NOT_FOUND)
+                .entity("The EventHubProducerAsyncClient is null because the Azure Event Hubs is disabled")
                 .build();
     }
 
@@ -59,7 +60,8 @@ public class EventHubsDisabledResource {
     @GET
     public Response getEventHubConsumerAsyncClient() {
         assert eventHubConsumerAsyncClient == null : "The EventHubConsumerAsyncClient should be null";
-        return Response.status(NOT_FOUND).entity("The EventHubConsumerAsyncClient is null because the Azure Event Hubs is disabled")
+        return Response.status(NOT_FOUND)
+                .entity("The EventHubConsumerAsyncClient is null because the Azure Event Hubs is disabled")
                 .build();
     }
 }
