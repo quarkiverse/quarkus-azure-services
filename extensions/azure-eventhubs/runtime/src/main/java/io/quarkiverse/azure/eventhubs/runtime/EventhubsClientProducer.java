@@ -3,12 +3,15 @@ package io.quarkiverse.azure.eventhubs.runtime;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
+import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
 import com.azure.messaging.eventhubs.EventHubConsumerAsyncClient;
 import com.azure.messaging.eventhubs.EventHubConsumerClient;
 import com.azure.messaging.eventhubs.EventHubProducerAsyncClient;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
+
+import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 
 public class EventhubsClientProducer {
 
@@ -71,12 +74,12 @@ public class EventhubsClientProducer {
         assert eventhubsConfig.namespace().isPresent() : "The namespace of Azure Event Hubs must be set";
         assert eventhubsConfig.domainName().isPresent() : "The domain name of Azure Event Hubs must be set";
         assert eventhubsConfig.eventhubName().isPresent() : "The event hub name of Azure Event Hubs must be set";
-        EventHubClientBuilder builder = new EventHubClientBuilder()
+        return new EventHubClientBuilder()
+                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_EVENTHUBS))
                 .credential(eventhubsConfig.namespace().get()
                         + "."
                         + eventhubsConfig.domainName().get(),
                         eventhubsConfig.eventhubName().get(),
                         new DefaultAzureCredentialBuilder().build());
-        return builder;
     }
 }
