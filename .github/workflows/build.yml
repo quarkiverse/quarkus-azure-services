@@ -1,4 +1,4 @@
-name: Build and Integration Test
+name: Build
 
 on:
   push:

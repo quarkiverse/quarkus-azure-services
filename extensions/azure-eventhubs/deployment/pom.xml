@@ -15,10 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-eventhubs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
         </dependency>
         <dependency>

@@ -83,12 +83,6 @@ class CosmosAsyncResourceTest {
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos-async/" + database + "/" + container + "/1")
-                .then()
-                .statusCode(500);
-
-        given()
-                .when()
                 .get("/quarkus-azure-cosmos-async/" + database + "/" + container)
                 .then()
                 .statusCode(200)

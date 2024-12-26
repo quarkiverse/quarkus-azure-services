@@ -39,7 +39,7 @@ Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_NAMESPACE+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 a| [[quarkus-azure-eventhubs_quarkus-azure-eventhubs-domain-name]] [.property-path]##link:#quarkus-azure-eventhubs_quarkus-azure-eventhubs-domain-name[`quarkus.azure.eventhubs.domain-name`]##
 
@@ -73,7 +73,7 @@ Environment variable: `+++QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|required icon:exclamation-circle[title=Configuration property is required]
+|
 
 |===
 

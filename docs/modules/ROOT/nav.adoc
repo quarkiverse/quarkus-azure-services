@@ -1,4 +1,5 @@
 * xref:quarkus-azure-app-configuration.adoc[Quarkus Azure App Configuration Extension]
 * xref:quarkus-azure-cosmos.adoc[Quarkus Azure Cosmos DB Extension]
+* xref:quarkus-azure-eventhubs.adoc[Quarkus Azure Event Hubs Extension]
 * xref:quarkus-azure-key-vault.adoc[Quarkus Azure Key Vault Extension]
 * xref:quarkus-azure-storage-blob.adoc[Quarkus Azure Blob Storage Extension]

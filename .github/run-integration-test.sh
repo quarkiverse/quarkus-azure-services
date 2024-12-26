@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Euo pipefail
+set -Eeuo pipefail
 
 # The following environment variables need to be configured before running the script
 # - RESOURCE_GROUP_NAME
@@ -36,11 +36,11 @@ AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string
     --name "${STORAGE_ACCOUNT_NAME}" \
     --query connectionString -o tsv)
 # Run integration test with existing native executables against Azure services
-mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
-mvn -f azure-storage-blob/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
+mvn -f azure-storage-blob/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
+mvn -f azure-storage-blob/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
 # Run both unit test and integration test in JVM mode against Azure services
-mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
-mvn -f azure-storage-blob/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
+mvn -f azure-storage-blob/pom.xml verify -Dazure.test=true -Dquarkus.azure.storage.blob.endpoint=${AZURE_STORAGE_BLOB_ENDPOINT}
+mvn -f azure-storage-blob/pom.xml verify -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
 
 # Azure App Configuration Extension
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
@@ -53,16 +53,16 @@ credential=$(az appconfig credential list \
     | jq 'map(select(.readOnly == true)) | .[0]')
 export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
 export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
-mvn -f azure-app-configuration/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-app-configuration/pom.xml -B verify -Dazure.test=true
+mvn -f azure-app-configuration/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-app-configuration/pom.xml verify -Dazure.test=true
 
 # Azure Key Vault Extension
 export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_VAULT_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --query properties.vaultUri\
     --output tsv)
-mvn -f azure-keyvault/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-keyvault/pom.xml -B verify -Dazure.test=true
+mvn -f azure-keyvault/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-keyvault/pom.xml verify -Dazure.test=true
 
 # Azure Cosmos Extension
 # Authenticate to Azure Cosmos DB with Microsoft Entra ID and key
@@ -94,10 +94,10 @@ AZURE_COSMOS_KEY=$(az cosmosdb keys list \
     -n ${COSMOSDB_ACCOUNT_NAME} \
     -g ${RESOURCE_GROUP_NAME} \
     --query primaryMasterKey -o tsv)
-mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-cosmos/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
-mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true
-mvn -f azure-cosmos/pom.xml -B verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
+mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
+mvn -f azure-cosmos/pom.xml verify -Dazure.test=true
+mvn -f azure-cosmos/pom.xml verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
 
 # Azure Event Hubs Extension
 # Retrieve the event hub resource ID
@@ -114,5 +114,9 @@ az role assignment create \
     --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
 export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
 export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
-mvn -f azure-eventhubs/pom.xml -B test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-eventhubs/pom.xml -B verify -Dazure.test=true
+mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
+
+# Test azure-services-disabled
+mvn -f azure-services-disabled/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-services-disabled/pom.xml verify -Dazure.test=true

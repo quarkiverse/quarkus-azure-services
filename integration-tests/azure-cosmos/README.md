@@ -196,9 +196,6 @@ curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
 # Delete the item from Azure Cosmos DB database demodb and container democontainer.
 curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X DELETE
 
-# Read the deleted item from Azure Cosmos DB database demodb and container democontainer. You should see HTTP status code 500 in the response.
-curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X DELETE -w "%{http_code}" -s -o /dev/null
-
 # List items again from Azure Cosmos DB database demodb and container democontainer. You should see [] in the response.
 curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
 
@@ -222,9 +219,6 @@ curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GE
 
 # Delete the item from Azure Cosmos DB database demodb and container democontainer using the async API.
 curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X DELETE
-
-# Read the deleted item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see HTTP status code 500 in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X DELETE -w "%{http_code}" -s -o /dev/null
 
 # List items again from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [] in the response.
 curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET

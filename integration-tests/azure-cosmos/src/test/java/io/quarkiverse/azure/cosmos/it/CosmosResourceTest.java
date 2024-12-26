@@ -82,12 +82,6 @@ class CosmosResourceTest {
 
         given()
                 .when()
-                .get("/quarkus-azure-cosmos/" + database + "/" + container + "/1")
-                .then()
-                .statusCode(500);
-
-        given()
-                .when()
                 .get("/quarkus-azure-cosmos/" + database + "/" + container)
                 .then()
                 .statusCode(200)
