@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Euo pipefail
+set -Eeuo pipefail
 
 # The following environment variables need to be configured before running the script
 # - RESOURCE_GROUP_NAME
