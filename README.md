@@ -46,8 +46,7 @@ Example applications can be found inside the [integration-tests](integration-tes
 Follow [this wiki](https://github.com/quarkiverse/quarkiverse/wiki/Release) to release a new version of the extensions.
 You can reference the following PRs as examples:
 
-* Release a new version: https://github.com/quarkiverse/quarkus-azure-services/pull/133
-* Create a new GitHub release based on the tag the release pipeline created, for example, [1.0.0](https://github.com/quarkiverse/quarkus-azure-services/releases/tag/1.0.0).
+* Release a new version: https://github.com/quarkiverse/quarkus-azure-services/pull/316.
 * Register new extensions in catalog: https://github.com/quarkusio/quarkus-extension-catalog/pull/64.
   See [Publish your extension in registry.quarkus.io](https://quarkus.io/guides/writing-extensions#publish-your-extension-in-registry-quarkus-io)
   for more information.
