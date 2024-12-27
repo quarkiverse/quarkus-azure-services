@@ -195,6 +195,7 @@ public class CosmosAsyncResource {
     @Inject
     CosmosAsyncClient cosmosAsyncClient;
 
+    @Path("/{database}/{container}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Uni<Response> createItem(
