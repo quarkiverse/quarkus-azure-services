@@ -10,6 +10,10 @@ set -Eeuo pipefail
 # - EVENTHUBS_NAMESPACE
 # - EVENTHUBS_EVENTHUB_NAME
 
+# Test azure-services-disabled
+mvn -f azure-services-disabled/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-services-disabled/pom.xml verify -Dazure.test=true
+
 # Azure Storage Blob Extension
 # Authenticate to Azure Storage Blob with Microsoft Entra ID and connection string
 # Get the endpoint of azure storage blob
@@ -64,6 +68,24 @@ export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_V
 mvn -f azure-keyvault/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
 mvn -f azure-keyvault/pom.xml verify -Dazure.test=true
 
+# Azure Event Hubs Extension
+# Retrieve the event hub resource ID
+EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --namespace-name $EVENTHUBS_NAMESPACE \
+    --name $EVENTHUBS_EVENTHUB_NAME \
+    --query 'id' \
+    --output tsv)
+# Assign the "Azure Event Hubs Data Owner" role to the current signed-in identity
+az role assignment create \
+    --role "Azure Event Hubs Data Owner" \
+    --assignee ${OBJECT_ID} \
+    --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
+export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
+export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
+mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
+
 # Azure Cosmos Extension
 # Authenticate to Azure Cosmos DB with Microsoft Entra ID and key
 # Export the endpoint of azure cosmos db
@@ -98,25 +120,3 @@ mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Daz
 mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
 mvn -f azure-cosmos/pom.xml verify -Dazure.test=true
 mvn -f azure-cosmos/pom.xml verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
-
-# Azure Event Hubs Extension
-# Retrieve the event hub resource ID
-EVENTHUBS_EVENTHUB_RESOURCE_ID=$(az eventhubs eventhub show \
-    --resource-group $RESOURCE_GROUP_NAME \
-    --namespace-name $EVENTHUBS_NAMESPACE \
-    --name $EVENTHUBS_EVENTHUB_NAME \
-    --query 'id' \
-    --output tsv)
-# Assign the "Azure Event Hubs Data Owner" role to the current signed-in identity
-az role assignment create \
-    --role "Azure Event Hubs Data Owner" \
-    --assignee ${OBJECT_ID} \
-    --scope $EVENTHUBS_EVENTHUB_RESOURCE_ID
-export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
-export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
-mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
-
-# Test azure-services-disabled
-mvn -f azure-services-disabled/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
-mvn -f azure-services-disabled/pom.xml verify -Dazure.test=true
