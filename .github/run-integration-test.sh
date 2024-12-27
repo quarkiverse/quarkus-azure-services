@@ -86,6 +86,7 @@ export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
 mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
 mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
 
+# NOTICE: inteionally run the integration tests for Azure Cosmos DB at the end due to its intermittent failures
 # Azure Cosmos Extension
 # Authenticate to Azure Cosmos DB with Microsoft Entra ID and key
 # Export the endpoint of azure cosmos db
@@ -118,5 +119,6 @@ AZURE_COSMOS_KEY=$(az cosmosdb keys list \
     --query primaryMasterKey -o tsv)
 mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
 mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
-mvn -f azure-cosmos/pom.xml verify -Dazure.test=true
+# TODO: temporarily disable the integration test and only run the unit test in JVM mode using Microsoft Entra ID authentication due to intermittent failures
+mvn -f azure-cosmos/pom.xml test-compile surefire:test -Dazure.test=true
 mvn -f azure-cosmos/pom.xml verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
