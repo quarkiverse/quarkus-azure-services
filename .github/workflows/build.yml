@@ -28,7 +28,7 @@ defaults:
 
 # In order to run tests against the real Azure services, you need to create a GitHub environment "ci" and add AZURE_CLIENT_ID / AZURE_TENANT_ID / AZURE_SUBSCRIPTION_ID as its variables to enable OIDC authentication with Azure.
 # See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub variables.
-# Besides, the uami needs to be granted the "Contributor" role on the subscription to deploy and delete Azure resources for testing.
+# Besides, the uami needs to be granted the "Contributor" and "User Access Administrator" roles on the subscription to grant necessary permissions, deploy and delete Azure resources for testing.
 
 jobs:
   build:
