@@ -67,12 +67,12 @@ The command creating key vault has assigned all secret permissions(backup, delet
 Create a secret **secret1** with value `mysecret`.
 
 [source,shell]
-```
+----
 az keyvault secret set \
     --vault-name kvquarkusazurekv0423 \
     --name secret1 \
     --value mysecret
-```
+----
 
 If you sign into the http://portal.azure.com/[Azure portal], you can see the key vault you created. Select **Objects** -> **Secrets**, you will find the Secrets page.
 
@@ -142,9 +142,10 @@ This is a https://quarkus.io/guides/command-mode-reference[Quarkus CLI applicati
 
 You can build and run the application in development mode using command:
 
-```
+[source,shell]
+----
 quarkus dev
-```
+----
 
 [source,java]
 ----
