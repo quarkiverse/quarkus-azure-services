@@ -150,7 +150,7 @@ curl http://localhost:8080/keyvault/sync
 curl http://localhost:8080/keyvault/async
 
 #Use config property to get the value of secret1:
-curl http://localhost:8080/keyvault/getSecret
+curl http://localhost:8080/keyvaultConfig/getSecret
 ```
 
 Now you will 
