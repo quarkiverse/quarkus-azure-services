@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
-            <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
+            <artifactId>quarkus-azure-core-deployment</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.azureservices</groupId>
@@ -36,7 +36,7 @@
             <artifactId>quarkus-junit5-internal</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>    
+    </dependencies>
 
     <build>
         <plugins>
