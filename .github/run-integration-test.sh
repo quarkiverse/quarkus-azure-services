@@ -122,3 +122,17 @@ mvn -f azure-cosmos/pom.xml test-compile failsafe:integration-test -Dnative -Daz
 # TODO: temporarily disable the integration test and only run the unit test in JVM mode using Microsoft Entra ID authentication due to intermittent failures
 mvn -f azure-cosmos/pom.xml test-compile surefire:test -Dazure.test=true
 mvn -f azure-cosmos/pom.xml verify -Dazure.test=true -Dquarkus.azure.cosmos.key=${AZURE_COSMOS_KEY}
+
+# Test azure-services-together
+# QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT is required as an environment variable but already set in the previous test
+# Set connection string of Azure Storage Blob as a secret in Azure Key Vault
+az keyvault secret set \
+    --vault-name ${KEY_VAULT_NAME} \
+    --name secret-azure-storage-blob-conn-string \
+    --value "$AZURE_STORAGE_BLOB_CONNECTION_STRING"
+# Retrieve the connection string of Azure Storage Blob from Azure Key Vault as a configuration property for azure-storage-blob extension
+export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=\${kv//secret-azure-storage-blob-conn-string}
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENABLED=true
+export QUARKUS_AZURE_STORAGE_BLOB_ENABLED=true
+mvn -f azure-services-together/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-services-together/pom.xml verify -Dazure.test=true
