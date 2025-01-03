@@ -115,7 +115,7 @@ You have different choices to run the sample.
 First, you can launch the sample in `dev` mode.
 
 ```
-mvn -Djvm.args="-Dvertx.disableDnsResolver=true" quarkus:dev
+mvn quarkus:dev
 ```
 
 ### Running the sample in JVM mode
@@ -127,7 +127,7 @@ You can also run the sample in JVM mode.
 mvn package
 
 # Run the generated jar file.
-java -Dvertx.disableDnsResolver=true -jar ./target/quarkus-app/quarkus-run.jar
+java -jar ./target/quarkus-app/quarkus-run.jar
 ```
 
 ### Running the sample as a native executable
