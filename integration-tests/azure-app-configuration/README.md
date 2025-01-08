@@ -10,7 +10,7 @@ To successfully run this sample, you need:
 * JDK 17+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.6+
 * Azure CLI and Azure subscription
-* Docker if you want to build the app as a native executable
+* Docker
 
 You also need to clone the repository and switch to the directory of the sample.
 
@@ -107,19 +107,19 @@ of `azure-app-configuration` extension in order to set up the connection to the 
 
 ## Running the sample
 
-You have different choices to run the sample.
+You have different choices to run the sample. For each choice, follow [Testing the sample](#testing-the-sample) to test the sample and try the next choice.
 
 ### Running the sample in development mode
 
-First, you can launch the sample in `dev` mode.
+First, launch the sample in `dev` mode.
 
 ```
 mvn quarkus:dev
 ```
 
-### Running the sample in JVM mode
+### Running and test the sample in JVM mode
 
-You can also run the sample in JVM mode.
+Next, run the sample in JVM mode. 
 
 ```
 # Build the package.
@@ -129,9 +129,9 @@ mvn package
 java -jar ./target/quarkus-app/quarkus-run.jar
 ```
 
-### Running the sample as a native executable
+### Running and test the sample as a native executable
 
-You can even run the sample as a native executable. Make sure you have installed Docker.
+Finally, run the sample as a native executable.
 
 ```
 # Build the native executable using the Docker.

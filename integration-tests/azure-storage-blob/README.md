@@ -132,20 +132,19 @@ property `quarkus.azure.storage.blob.connection-string` of `azure-storage-blob` 
 
 ## Running the sample
 
-You have different choices to run the sample.
+You have different choices to run the sample. For each choice, follow [Testing the sample](#testing-the-sample) to test the sample and try the next choice.
 
 ### Running the sample in development mode
 
-First, you can launch the sample in `dev` mode.
+First, launch the sample in `dev` mode.
 
 ```
 mvn quarkus:dev
 ```
 
-### Running the sample in JVM mode
+### Running and test the sample in JVM mode
 
-You can also run the sample in JVM mode. Make sure you have
-followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services.
+Next, run the sample in JVM mode. 
 
 ```
 # Build the package.
@@ -155,10 +154,9 @@ mvn package
 java -jar ./target/quarkus-app/quarkus-run.jar
 ```
 
-### Running the sample as a native executable
+### Running and test the sample as a native executable
 
-You can even run the sample as a native executable. Make sure you have installed Docker and
-followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services.
+Finally, run the sample as a native executable.
 
 ```
 # Build the native executable using the Docker.
