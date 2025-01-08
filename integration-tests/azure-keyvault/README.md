@@ -64,8 +64,7 @@ az group create \
 
 ### Creating Azure Key Vault
 
-Run the following commands to create an Azure Key Vault, set permission and export its endpoint as an environment
-variable. You can also find the same AZ CLI commands to create Azure Key Vault service in `.github/build-with-maven-native.sh`.
+Run the following commands to create an Azure Key Vault and export its endpoint as an environment variable.
 
 ```
 KEY_VAULT_NAME=<unique-key-vault-name>
@@ -153,9 +152,23 @@ curl http://localhost:8080/keyvault/async
 curl http://localhost:8080/keyvaultConfig/getSecret
 ```
 
-Now you will 
-
 Press `Ctrl + C` to stop the sample once you complete the try and test.
+
+## Run tests
+
+Besides running the sample and testing it manually, you can also run the tests to verify the sample.
+
+> **NOTE:** Make sure you executed all previous steps before running the tests.
+
+Run the following command to run the tests:
+
+```
+# Run the integration tests in native mode
+mvn test-compile failsafe:integration-test -Dnative -Dazure.test=true
+
+# Run the unit tests and integration tests in JVM mode
+mvn verify -Dazure.test=true
+```
 
 ## Cleaning up Azure resources
 

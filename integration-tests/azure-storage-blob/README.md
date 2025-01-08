@@ -68,8 +68,7 @@ az group create \
 
 ### Creating Azure Storage Account
 
-Run the following commands to create an Azure Storage Account and export its connection string as an environment
-variable. You can also find the same AZ CLI commands to create Azure Storage Account service in `.github/build-with-maven-native.sh`.
+Run the following commands to create an Azure Storage Account.
 
 ```
 STORAGE_ACCOUNT_NAME=<unique-storage-account-name>
@@ -201,6 +200,22 @@ curl http://localhost:8080/quarkus-azure-storage-blob-async/testcontainer-async/
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
+
+## Run tests
+
+Besides running the sample and testing it manually, you can also run the tests to verify the sample.
+
+> **NOTE:** Make sure you executed all previous steps before running the tests.
+
+Run the following command to run the tests:
+
+```
+# Run the integration tests in native mode
+mvn test-compile failsafe:integration-test -Dnative -Dazure.test=true
+
+# Run the unit tests and integration tests in JVM mode
+mvn verify -Dazure.test=true
+```
 
 ## Cleaning up Azure resources
 

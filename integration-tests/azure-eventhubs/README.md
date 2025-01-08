@@ -156,6 +156,22 @@ curl http://localhost:8080/quarkus-azure-eventhubs-async/receiveEvents -X GET
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
 
+## Run tests
+
+Besides running the sample and testing it manually, you can also run the tests to verify the sample.
+
+> **NOTE:** Make sure you executed all previous steps before running the tests.
+
+Run the following command to run the tests:
+
+```
+# Run the integration tests in native mode
+mvn test-compile failsafe:integration-test -Dnative -Dazure.test=true
+
+# Run the unit tests and integration tests in JVM mode
+mvn verify -Dazure.test=true
+```
+
 ## Cleaning up Azure resources
 
 Run the following command to clean up the Azure resources if you created before:
