@@ -14,6 +14,7 @@ import com.azure.data.appconfiguration.ConfigurationClient;
 import com.azure.data.appconfiguration.ConfigurationClientBuilder;
 import com.azure.data.appconfiguration.models.ConfigurationSetting;
 import com.azure.data.appconfiguration.models.SettingSelector;
+import com.azure.identity.DefaultAzureCredentialBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.smallrye.config.ConfigSourceContext;
@@ -44,6 +45,7 @@ public class AzureAppConfigurationConfigSourceFactory
         if (!config.enabled()) {
             return Collections.emptyMap();
         }
+        assert config.endpoint().isPresent() : "The endpoint of the app configuration must be set";
 
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
         Vertx vertx = Vertx.vertx();
@@ -51,9 +53,12 @@ public class AzureAppConfigurationConfigSourceFactory
 
         ConfigurationClientBuilder clientBuilder = new ConfigurationClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_APP_CONFIGURATION))
-                .httpClient(httpClientBuilder.build())
-                .connectionString(config.connectionString());
-
+                .httpClient(httpClientBuilder.build());
+        if (!config.connectionString().isEmpty()) {
+            clientBuilder.connectionString(config.connectionString());
+        } else {
+            clientBuilder.endpoint(config.endpoint().get()).credential(new DefaultAzureCredentialBuilder().build());
+        }
         ConfigurationClient client = clientBuilder.buildClient();
 
         Map<String, String> properties = new LinkedHashMap<>(); // LinkedHashMap for reproducible ordering
