@@ -9,7 +9,7 @@ To successfully run this sample, you need:
 * JDK 17+ installed with JAVA_HOME configured appropriately
 * Apache Maven 3.8.6+
 * Azure CLI and Azure subscription
-* Docker if you want to build the app as a native executable
+* Docker
 
 You also need to clone the repository and switch to the directory of the sample.
 
@@ -135,11 +135,11 @@ You do not need to create a database and container manually if you use key-based
 
 ## Running the sample
 
-You have different choices to run the sample. Make sure you have followed [Preparing the Azure services](#preparing-the-azure-services) to create the required Azure services. Select an option and proceed to [Testing the sample](#testing-the-sample). For any choice, make sure the environment variable `QUARKUS_AZURE_COSMOS_ENDPOINT` is defined correctly in the environment before starting Quarkus.
+You have different choices to run the sample. For each choice, follow [Testing the sample](#testing-the-sample) to test the sample and try the next choice.
 
 ### Running the sample in development mode
 
-First, you can launch the sample in `dev` mode.
+First, launch the sample in `dev` mode.
 
 ```
 mvn quarkus:dev
@@ -147,7 +147,7 @@ mvn quarkus:dev
 
 ### Running and test the sample in JVM mode
 
-You can also run the sample in JVM mode. 
+Next, run the sample in JVM mode. 
 
 ```
 # Build the package.
@@ -159,7 +159,7 @@ java -jar ./target/quarkus-app/quarkus-run.jar
 
 ### Running and test the sample as a native executable
 
-You can even run the sample as a native executable. Make sure you have installed Docker.
+Finally, run the sample as a native executable.
 
 ```
 # Build the native executable using the Docker.
@@ -225,6 +225,22 @@ curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GE
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
+
+## Run tests
+
+Besides running the sample and testing it manually, you can also run the tests to verify the sample.
+
+> **NOTE:** Make sure you executed all previous steps before running the tests.
+
+Run the following command to run the tests:
+
+```
+# Run the integration tests in native mode
+mvn test-compile failsafe:integration-test -Dnative -Dazure.test=true
+
+# Run the unit tests and integration tests in JVM mode
+mvn verify -Dazure.test=true
+```
 
 ## Cleaning up Azure resources
 

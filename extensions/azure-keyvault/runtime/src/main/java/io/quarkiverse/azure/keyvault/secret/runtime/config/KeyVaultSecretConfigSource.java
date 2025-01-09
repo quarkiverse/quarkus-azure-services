@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import com.azure.core.http.vertx.VertxHttpClientBuilder;
 import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.secrets.SecretClient;
@@ -12,6 +13,7 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.smallrye.config.common.AbstractConfigSource;
+import io.vertx.core.Vertx;
 
 class KeyVaultSecretConfigSource extends AbstractConfigSource {
     /** The ordinal is set to < 100 (which is the default) so that this config source is retrieved from last. */
@@ -32,8 +34,20 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
                 .credential(new DefaultAzureCredentialBuilder().build());
     }
 
-    private SecretClient createClient(String vaultUrl) {
-        return this.builder.vaultUrl(vaultUrl).buildClient();
+    private SecretClient createClient(String vaultUrl, Vertx vertx) {
+        return this.builder.vaultUrl(vaultUrl).httpClient(new VertxHttpClientBuilder().vertx(vertx).build()).buildClient();
+    }
+
+    private Vertx createVertx() {
+        return Vertx.vertx();
+    }
+
+    private void closeVertx(Vertx vertx) {
+        try {
+            vertx.close().toCompletionStage().toCompletableFuture().get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -55,11 +69,16 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
             return null;
         }
 
-        SecretClient client = createClient(secretIdentifier.getVaultUrl());
+        Vertx vertx = createVertx();
+        SecretClient client = createClient(secretIdentifier.getVaultUrl(), vertx);
+        String secretValue;
         if (secretIdentifier.getVersion().equals("latest")) {
-            return client.getSecret(secretIdentifier.getName()).getValue();
+            secretValue = client.getSecret(secretIdentifier.getName()).getValue();
+        } else {
+            secretValue = client.getSecret(secretIdentifier.getName(), secretIdentifier.getVersion()).getValue();
         }
 
-        return client.getSecret(secretIdentifier.getName(), secretIdentifier.getVersion()).getValue();
+        closeVertx(vertx);
+        return secretValue;
     }
 }

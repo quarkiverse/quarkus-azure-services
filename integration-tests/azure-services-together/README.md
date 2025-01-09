@@ -1,7 +1,8 @@
-# Azure Blob Storage sample
+# Quarkus extensions for Azure services sample
 
-This is a sample about implementing REST endpoints using the Quarkus Azure storage blob extension to upload and download
-files to/from Azure Blob Storage.
+This is a sample about using multiple Quarkus extensions for Azure services together.
+
+> **NOTE:** Currently, the sample only demonstrates the integration of Quarkus Azure storage blob extension with Quarkus Azure Key Vault extension. More Quarkus Azure services extensions will be added in the future.
 
 ## Prerequisites
 
@@ -16,7 +17,7 @@ You also need to clone the repository and switch to the directory of the sample.
 
 ```
 git clone https://github.com/quarkiverse/quarkus-azure-services.git
-cd quarkus-azure-services/integration-tests/azure-storage-blob
+cd quarkus-azure-services/integration-tests/azure-services-together
 ```
 
 ### Use development iteration version
@@ -48,10 +49,7 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 
 ## Preparing the Azure services
 
-The Quarkus Azure storage blob extension supports **Dev Services**, it allows to run the sample without the real Azure
-storage blob created and configured in the `dev` or `test` modes, you can go
-to [Running the sample in development mode](#running-the-sample-in-development-mode) and have a try. However, if you
-want to run the sample in JVM mode or as a native executable, you need to prepare the Azure storage blob first.
+You need to create an Azure Blob Storage and an Azure Key Vault before running the sample application.
 
 ### Logging into Azure
 
@@ -68,7 +66,7 @@ az group create \
 
 ### Creating Azure Storage Account
 
-Run the following commands to create an Azure Storage Account.
+Run the following commands to create an Azure Storage Account and retrieve its connection string. 
 
 ```
 STORAGE_ACCOUNT_NAME=<unique-storage-account-name>
@@ -78,57 +76,61 @@ az storage account create \
     --location eastus \
     --sku Standard_LRS \
     --kind StorageV2
-```
 
-You have two options to authenticate to Azure Storage Blob, either with Microsoft Entra ID or with connection string. The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
-
-#### Authenticating to Azure Storage Blob with Microsoft Entra ID
-
-You can authenticate to Azure Storage Blob with Microsoft Entra ID. Run the following commands to assign the `Storage Blob Data Contributor` role to the signed-in user as a Microsoft Entra identity.
-
-```
-# Retrieve the storage account resource ID
-STORAGE_ACCOUNT_RESOURCE_ID=$(az storage account show \
-    --resource-group $RESOURCE_GROUP_NAME \
-    --name $STORAGE_ACCOUNT_NAME \
-    --query 'id' \
-    --output tsv)
-# Assign the "Storage Blob Data Contributor" role to the current signed-in identity
-az role assignment create \
-    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
-    --role "Storage Blob Data Contributor" \
-    --scope $STORAGE_ACCOUNT_RESOURCE_ID
-```
-
-Then, export Azure Storage Blob endpoint as an environment variable.
-
-```
-export QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT=$(az storage account show \
-    --resource-group $RESOURCE_GROUP_NAME \
-    --name $STORAGE_ACCOUNT_NAME \
-    --query 'primaryEndpoints.blob' \
-    --output tsv)
-echo "The value of 'quarkus.azure.storage.blob.endpoint' is: ${QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT}"
-```
-
-The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_ENDPOINT` will be read by Quarkus as the value of config
-property `quarkus.azure.storage.blob.endpoint` of `azure-storage-blob` extension in order to set up the
-connection to the Azure Storage Blob.
-
-#### Authenticating to Azure Storage Blob with connection string
-
-You can also authenticate to Azure Storage Blob with connection string. Run the following commands to export the Azure Storage Blob connection string as an environment variable.
-
-```
-export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
+AZURE_STORAGE_BLOB_CONNECTION_STRING=$(az storage account show-connection-string \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --name ${STORAGE_ACCOUNT_NAME} \
     --query connectionString -o tsv)
-echo "The value of 'quarkus.azure.storage.blob.connection-string' is: ${QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING}"
 ```
 
-The value of environment variable `QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING` will be fed into config
-property `quarkus.azure.storage.blob.connection-string` of `azure-storage-blob` extension in order to set up the connection to the Azure Storage Blob.
+You have two options to authenticate to Azure Storage Blob, either with Microsoft Entra ID or with connection string. 
+In this sample, you use the 2nd option where the connection string of Azure Storage Blob is stored as a secret in the Azure Key Vault, and it's retrieved as a configuration property using the Azure Key Vault extension later.
+
+### Creating Azure Key Vault
+
+Run the following commands to create an Azure Key Vault and export its endpoint as an environment variable.
+
+```
+KEY_VAULT_NAME=<unique-key-vault-name>
+az keyvault create --name ${KEY_VAULT_NAME} \
+    --resource-group ${RESOURCE_GROUP_NAME} \
+    --location eastus \
+    --enable-rbac-authorization false
+```
+
+Add secret `secret-azure-storage-blob-conn-string` with value of the connection string of Azure Storage Blob `AZURE_STORAGE_BLOB_CONNECTION_STRING`.
+
+```
+az keyvault secret set \
+    --vault-name ${KEY_VAULT_NAME} \
+    --name secret-azure-storage-blob-conn-string \
+    --value "$AZURE_STORAGE_BLOB_CONNECTION_STRING"
+```
+
+### Exporting environment variables
+
+Run the following commands to export the necessary environment variables to sucessfully run the sample.
+
+```
+# Enable the Quarkus Azure Key Vault and Azure Storage Blob extensions
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENABLED=true
+export QUARKUS_AZURE_STORAGE_BLOB_ENABLED=true
+
+# Export the Azure Key Vault endpoint
+export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name ${KEY_VAULT_NAME}\
+    --resource-group ${RESOURCE_GROUP_NAME}\
+    --query properties.vaultUri -otsv)
+
+# Export the Azure Storage Blob connection string which is stored as a secret in the Azure Key Vault
+export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=\${kv//secret-azure-storage-blob-conn-string}
+```
+
+These environment variables will be used to configure the Quarkus Azure Key Vault and Azure Storage Blob extensions, for the following configurations:
+
+* `quarkus.azure.keyvault.secret.enabled` - Enable / disable the Azure Key Vault extension.
+* `quarkus.azure.keyvault.secret.endpoint` - The endpoint of the Azure Key Vault.
+* `quarkus.azure.storage.blob.enabled` - Enable / disable the Azure Storage Blob extension.
+* `quarkus.azure.storage.blob.connection-string` - The connection string of the Azure Storage Blob.
 
 ## Running the sample
 
@@ -164,7 +166,7 @@ mvn package -Dnative -Dquarkus.native.container-build
 
 # Run the native executable.
 version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-./target/quarkus-azure-integration-test-storage-blob-${version}-runner
+./target/quarkus-azure-integration-test-services-together-${version}-runner
 ```
 
 ## Testing the sample
@@ -173,28 +175,28 @@ Open a new terminal and run the following commands to test the sample:
 
 ```
 # Upload a blob with "Hello Quarkus Azure Storage Blob!" to Azure Blob Storage.
-curl http://localhost:8080/quarkus-azure-storage-blob/testcontainer/testblob -X POST -d 'Hello Quarkus Azure Storage Blob!' -H "Content-Type: text/plain"
+curl http://localhost:8080/quarkus-services-azure-storage-blob/testcontainer/testblob -X POST -d 'Hello Quarkus Azure Storage Blob!' -H "Content-Type: text/plain"
 
 # Download the blob from Azure Blob Storage. You should see "Hello Quarkus Azure Storage Blob!" in the response.
-curl http://localhost:8080/quarkus-azure-storage-blob/testcontainer/testblob -X GET
+curl http://localhost:8080/quarkus-services-azure-storage-blob/testcontainer/testblob -X GET
 
 # Delete the blob from Azure Blob Storage.
-curl http://localhost:8080/quarkus-azure-storage-blob/testcontainer/testblob -X DELETE
+curl http://localhost:8080/quarkus-services-azure-storage-blob/testcontainer/testblob -X DELETE
 
 # Download the blob from Azure Blob Storage again. You should see "404 Not Found" in the response.
-curl http://localhost:8080/quarkus-azure-storage-blob/testcontainer/testblob -X GET -I
+curl http://localhost:8080/quarkus-services-azure-storage-blob/testcontainer/testblob -X GET -I
 
 # Upload a blob with "Hello Quarkus Azure Storage Blob Async!" to Azure Blob Storage using the async API.
-curl http://localhost:8080/quarkus-azure-storage-blob-async/testcontainer-async/testblob-async -X POST -d 'Hello Quarkus Azure Storage Blob Async!' -H "Content-Type: text/plain"
+curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontainer-async/testblob-async -X POST -d 'Hello Quarkus Azure Storage Blob Async!' -H "Content-Type: text/plain"
 
 # Download the blob from Azure Blob Storage using the async API. You should see "Hello Quarkus Azure Storage Blob Async!" in the response.
-curl http://localhost:8080/quarkus-azure-storage-blob-async/testcontainer-async/testblob-async -X GET
+curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontainer-async/testblob-async -X GET
 
 # Delete the blob from Azure Blob Storage using the async API.
-curl http://localhost:8080/quarkus-azure-storage-blob-async/testcontainer-async/testblob-async -X DELETE
+curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontainer-async/testblob-async -X DELETE
 
 # Download the blob from Azure Blob Storage again using the async API. You should see "404 Not Found" in the response.
-curl http://localhost:8080/quarkus-azure-storage-blob-async/testcontainer-async/testblob-async -X HEAD -I
+curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontainer-async/testblob-async -X HEAD -I
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
