@@ -47,18 +47,36 @@ mvn -f azure-storage-blob/pom.xml verify -Dazure.test=true -Dquarkus.azure.stora
 mvn -f azure-storage-blob/pom.xml verify -Dazure.test=true -Dquarkus.azure.storage.blob.connection-string=${AZURE_STORAGE_BLOB_CONNECTION_STRING}
 
 # Azure App Configuration Extension
+# Authenticate to Azure App Configuration with Microsoft Entra ID and access keys
+# Export the endpoint of azure app configuration
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     --name "${APP_CONFIG_NAME}" \
     --query endpoint -o tsv)
+# Retrieve the app configuration resource ID
+APP_CONFIGURATION_RESOURCE_ID=$(az appconfig show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name "${APP_CONFIG_NAME}" \
+    --query 'id' \
+    --output tsv)
+# Assign the "App Configuration Data Reader" role to the current signed-in identity
+az role assignment create \
+    --assignee ${OBJECT_ID} \
+    --role "App Configuration Data Reader" \
+    --scope $APP_CONFIGURATION_RESOURCE_ID
+# Get the access keys (id and secret) that has full access to the app configuration store
 credential=$(az appconfig credential list \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
     | jq 'map(select(.readOnly == true)) | .[0]')
-export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
-export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
+AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
+AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
 mvn -f azure-app-configuration/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn -f azure-app-configuration/pom.xml test-compile failsafe:integration-test -Dnative -Dazure.test=true \
+    -Dquarkus.azure.app.configuration.id=${AZURE_APP_CONFIGURATION_ID} -Dquarkus.azure.app.configuration.secret=${AZURE_APP_CONFIGURATION_SECRET}
 mvn -f azure-app-configuration/pom.xml verify -Dazure.test=true
+mvn -f azure-app-configuration/pom.xml verify -Dazure.test=true \
+    -Dquarkus.azure.app.configuration.id=${AZURE_APP_CONFIGURATION_ID} -Dquarkus.azure.app.configuration.secret=${AZURE_APP_CONFIGURATION_SECRET}
 
 # Azure Key Vault Extension
 export QUARKUS_AZURE_KEYVAULT_SECRET_ENDPOINT=$(az keyvault show --name "${KEY_VAULT_NAME}" \
