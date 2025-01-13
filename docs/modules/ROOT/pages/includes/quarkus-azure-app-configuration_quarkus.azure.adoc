@@ -45,7 +45,7 @@ a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-id]] [.prop
 
 [.description]
 --
-The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true
+The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true and access keys are used for authentication
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -62,7 +62,7 @@ a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret]] [.
 
 [.description]
 --
-The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true
+The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true and access keys are used for authentication
 
 
 ifdef::add-copy-button-to-env-var[]

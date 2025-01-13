@@ -88,7 +88,7 @@ In this sample, you use the 2nd option where the connection string of Azure Stor
 
 ### Creating Azure Key Vault
 
-Run the following commands to create an Azure Key Vault and export its endpoint as an environment variable.
+Run the following commands to create an Azure Key Vault.
 
 ```
 KEY_VAULT_NAME=<unique-key-vault-name>
@@ -128,8 +128,8 @@ export QUARKUS_AZURE_STORAGE_BLOB_CONNECTION_STRING=\${kv//secret-azure-storage-
 These environment variables will be used to configure the Quarkus Azure Key Vault and Azure Storage Blob extensions, for the following configurations:
 
 * `quarkus.azure.keyvault.secret.enabled` - Enable / disable the Azure Key Vault extension.
-* `quarkus.azure.keyvault.secret.endpoint` - The endpoint of the Azure Key Vault.
 * `quarkus.azure.storage.blob.enabled` - Enable / disable the Azure Storage Blob extension.
+* `quarkus.azure.keyvault.secret.endpoint` - The endpoint of the Azure Key Vault.
 * `quarkus.azure.storage.blob.connection-string` - The connection string of the Azure Storage Blob.
 
 ## Running the sample

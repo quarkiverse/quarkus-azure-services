@@ -66,10 +66,10 @@ az group create \
 
 ### Creating Azure App Configuration store
 
-Run the following commands to create an Azure App Configuration store, add a few key-value pairs, and export its connection info as environment variables.
+Run the following commands to create an Azure App Configuration store, add a few key-value pairs, and export its endpoint as environment variable.
 
 ```
-export APP_CONFIG_NAME=<unique-app-config-name>
+APP_CONFIG_NAME=<unique-app-config-name>
 az appconfig create \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -91,6 +91,35 @@ export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
   --resource-group "${RESOURCE_GROUP_NAME}" \
   --name "${APP_CONFIG_NAME}" \
   --query endpoint -o tsv)
+```
+
+The values of environment variable `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT` will be fed into config property `quarkus.azure.app.configuration.endpoint` of `azure-app-configuration` extension in order to set up the connection to the Azure App Configuration store.
+
+You have two options to authenticate to Azure App Configuration,, either with Microsoft Entra ID or with access keys. The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
+
+#### Authenticating to Azure App Configuration with Microsoft Entra ID
+
+You can authenticate to Azure App Configuration with Microsoft Entra ID. Run the following commands to assign the `App Configuration Data Reader` role to the signed-in user as a Microsoft Entra identity.
+
+```
+# Retrieve the app configuration resource ID
+APP_CONFIGURATION_RESOURCE_ID=$(az appconfig show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name "${APP_CONFIG_NAME}" \
+    --query 'id' \
+    --output tsv)
+# Assign the "App Configuration Data Reader" role to the current signed-in identity
+az role assignment create \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
+    --role "App Configuration Data Reader" \
+    --scope $APP_CONFIGURATION_RESOURCE_ID
+```
+
+#### Authenticating to Azure App Configuration with access keys
+
+You can also authenticate to Azure App Configuration with access keys. Run the following commands to export the Azure App Configuration access keys as environment variables.
+
+```
 credential=$(az appconfig credential list \
     --name "${APP_CONFIG_NAME}" \
     --resource-group "${RESOURCE_GROUP_NAME}" \
@@ -99,11 +128,7 @@ export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
 export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
 ```
 
-The values of environment
-variable `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT` / `QUARKUS_AZURE_APP_CONFIGURATION_ID` / `QUARKUS_AZURE_APP_CONFIGURATION_SECRET`
-will be fed into config
-properties `quarkus.azure.app.configuration.endpoint` / `quarkus.azure.app.configuration.id` / `quarkus.azure.app.configuration.secret`
-of `azure-app-configuration` extension in order to set up the connection to the Azure App Configuration store.
+The values of environment variable `QUARKUS_AZURE_APP_CONFIGURATION_ID` and `QUARKUS_AZURE_APP_CONFIGURATION_SECRET` will be fed into config properties `quarkus.azure.app.configuration.id` and `quarkus.azure.app.configuration.secret` of `azure-app-configuration` extension in order to set up the connection to the Azure App Configuration store.
 
 ## Running the sample
 

@@ -71,8 +71,8 @@ image::quarkus-azure-app-configuration-portal.png[alt=Azure Portal showing the a
 
 === Configure the Azure App Configuration Client
 
-As you can see below in the _Configuration Reference_ section, this extension has several configuration options.
-To be able to connect to the Azure App Configuration that we've just created, you must get the URL of the endpoing, it's id and secret.
+As you can see below in the _Configuration Reference_ section, the property `quarkus.azure.app.configuration.endpoint` is required if the extension is enabled.
+
 For that, execute the following Azure CLI command:
 
 [source,shell]
@@ -81,6 +81,39 @@ export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
   --resource-group rg-quarkus-azure-app-configuration \
   --name appcs-quarkus-azure-app-configuration \
   --query endpoint -o tsv)
+----
+
+Notice that you get the endpoint and set it to environment variable `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT`, instead of setting it to property `quarkus.azure.app.configuration.endpoint` in the `application.properties` file.
+Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection information to source control.
+
+To be able to connect to the Azure App Configuration that you've just created, you have two options to authenticate to Azure App Configuration, either with Microsoft Entra ID or access keys. 
+The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
+
+==== Authenticating to Azure App Configuration with Microsoft Entra ID
+
+You can authenticate to Azure App Configuration with Microsoft Entra ID. Run the following commands to assign the `App Configuration Data Reader` role to the signed-in user as a Microsoft Entra identity.
+
+[source,shell]
+----
+# Retrieve the app configuration resource ID
+APP_CONFIGURATION_RESOURCE_ID=$(az appconfig show \
+    --resource-group rg-quarkus-azure-app-configuration \
+    --name appcs-quarkus-azure-app-configuration \
+    --query 'id' \
+    --output tsv)
+# Assign the "App Configuration Data Reader" role to the current signed-in identity
+az role assignment create \
+    --assignee $(az ad signed-in-user show --query 'id' --output tsv) \
+    --role "App Configuration Data Reader" \
+    --scope $APP_CONFIGURATION_RESOURCE_ID
+----
+
+==== Authenticating to Azure App Configuration with access keys
+
+You can also authenticate to Azure App Configuration with access keys. Run the following commands to export the Azure App Configuration access keys as environment variables.
+
+[source,shell]
+----
 credential=$(az appconfig credential list \
     --name appcs-quarkus-azure-app-configuration \
     --resource-group rg-quarkus-azure-app-configuration \
@@ -89,9 +122,8 @@ export QUARKUS_AZURE_APP_CONFIGURATION_ID=$(echo "${credential}" | jq -r '.id')
 export QUARKUS_AZURE_APP_CONFIGURATION_SECRET=$(echo "${credential}" | jq -r '.value')
 ----
 
-Notice that you get the endpoint, id and secret and set them to environment variables `QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT`, `QUARKUS_AZURE_APP_CONFIGURATION_ID` and `QUARKUS_AZURE_APP_CONFIGURATION_SECRET`, instead of setting them to properties `quarkus.azure.app.configuration.endpoint`, `quarkus.azure.app.configuration.id` and `quarkus.azure.app.configuration.secret` in the `application.properties` file.
-
-Although technically both approaches work, using environment variable is recommended and more secure as there's no risk of committing the connection credentials to source control.
+Notice that you get the id and secret and set them to environment variables `QUARKUS_AZURE_APP_CONFIGURATION_ID` and `QUARKUS_AZURE_APP_CONFIGURATION_SECRET`, 
+instead of setting them to properties `quarkus.azure.app.configuration.id` and `quarkus.azure.app.configuration.secret` in the `application.properties` file, with the similar reasons as mentioned above.
 
 === Inject the SmallRyeConfig
 

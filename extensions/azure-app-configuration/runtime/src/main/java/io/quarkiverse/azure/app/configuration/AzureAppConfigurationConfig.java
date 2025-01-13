@@ -18,10 +18,16 @@ public interface AzureAppConfigurationConfig {
     /** The endpoint of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
     Optional<String> endpoint();
 
-    /** The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
+    /**
+     * The id of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true and access keys are
+     * used for authentication
+     */
     Optional<String> id();
 
-    /** The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true */
+    /**
+     * The secret of the app configuration. Required if quarkus.azure.app.configuration.enabled is set to true and access keys
+     * are used for authentication
+     */
     Optional<String> secret();
 
     /** The label filter of the app configuration. Use comma as separator for multiple label names */
@@ -29,13 +35,14 @@ public interface AzureAppConfigurationConfig {
 
     /** The connection string */
     default String connectionString() {
-        if (enabled()) {
-            assert endpoint().isPresent() : "The endpoint of the app configuration must be set";
-            assert id().isPresent() : "The id of the app configuration must be set";
-            assert secret().isPresent() : "The secret of the app configuration must be set";
-            return "Endpoint=" + endpoint().get() + ";Id=" + id().get() + ";Secret=" + secret().get();
-        } else {
-            return null;
+        if (!enabled()) {
+            return "";
         }
+        assert endpoint().isPresent() : "The endpoint of the app configuration must be set";
+
+        if (id().isEmpty() || secret().isEmpty()) {
+            return "";
+        }
+        return "Endpoint=" + endpoint().get() + ";Id=" + id().get() + ";Secret=" + secret().get();
     }
 }
