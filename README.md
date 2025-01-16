@@ -8,9 +8,9 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-This repository hosts Quarkus extensions for a selection of popular Azure Services and a few common extensions that are used by the Azure services extensions or can be used independently.
+This repository hosts Quarkus extensions for a selection of popular Azure Services and a few common extensions that are used by the Azure services extensions or can be used independently. All extensions support native executable build.
 
-The official documentation of these services is in Quarkiverse at [Quarkus Azure Services](https://docs.quarkiverse.io/quarkus-azure-services/dev/index.html). Each extension is functionally independent of the others, but they can be used together.
+The official documentation of extensions for Azure services is in Quarkiverse at [Quarkus Azure Services Extensions](https://docs.quarkiverse.io/quarkus-azure-services/dev/index.html). Each extension is functionally independent of the others, but they can be used together.
 
 ## Azure Services
 
@@ -33,10 +33,10 @@ Here's the current selection of Quarkus Azure Services:
 
 Besides extensions for specific Azure services, there are some common extensions that are used by the Azure services extensions or can be used independently as well:
 
-* [Azure Identity Extension](common/azure-identity): This extension provides a way to authenticate with Azure services using the [azure-identity](https://mvnrepository.com/artifact/com.azure/azure-identity) library. It supports native executable build.
-* [Azure Core HTTP Vert.x](common/http-client-vertx): This extension provides the Vert.x HTTP client plugin using the [azure-core-http-vertx](https://mvnrepository.com/artifact/com.azure/azure-core-http-vertx) library. It supports native executable build.
-* [Azure Core Extension](common/core): This extension provides core types for Azure Java clients using the [azure-core](https://mvnrepository.com/artifact/com.azure/azure-core) library. It supports native executable build.
-* [Jackson Dataformat XML Extension](common/jackson-dataformat-xml): This extension provides a data format extension for Jackson to offer alternative support for serializing POJOs as XML and deserializing XML as pojos using the [jackson-dataformat-xml](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml) library. It supports native executable build.
+* [Azure Identity Extension](common/azure-identity): This extension provides a way to authenticate with Azure services using the [azure-identity](https://mvnrepository.com/artifact/com.azure/azure-identity) library.
+* [Azure Core HTTP Vert.x](common/http-client-vertx): This extension provides the Vert.x HTTP client plugin using the [azure-core-http-vertx](https://mvnrepository.com/artifact/com.azure/azure-core-http-vertx) library.
+* [Azure Core Extension](common/core): This extension provides core types for Azure Java clients using the [azure-core](https://mvnrepository.com/artifact/com.azure/azure-core) library.
+* [Jackson Dataformat XML Extension](common/jackson-dataformat-xml): This extension provides a data format extension for Jackson to offer alternative support for serializing POJOs as XML and deserializing XML as pojos using the [jackson-dataformat-xml](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml) library.
 
 ## Example applications
 
