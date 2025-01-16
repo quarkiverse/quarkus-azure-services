@@ -1,6 +1,7 @@
 # Quarkiverse - Quarkus Azure Services
 
 [![Build](https://github.com/quarkiverse/quarkus-azure-services/workflows/Build/badge.svg)](https://github.com/quarkiverse/quarkus-azure-services/actions?query=workflow%3ABuild)
+[![Quarkus ecosystem CI](https://github.com/quarkiverse/quarkus-azure-services/workflows/Quarkus%20ecosystem%20CI/badge.svg)](https://github.com/quarkiverse/quarkus-azure-services/actions?query=workflow%3AQuarkus%20ecosystem%20CI)
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-azure-services.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.azureservices/quarkus-azure-services-parent?color=green)](https://central.sonatype.com/artifact/io.quarkiverse.azureservices/quarkus-azure-services-parent)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
