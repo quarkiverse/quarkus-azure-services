@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
-    <name>Quarkus Azure Services :: Internal :: Jackson Dataformat XML :: Deployment</name>
+    <name>Quarkus Azure Services :: Common :: Jackson Dataformat XML :: Deployment</name>
 
     <dependencies>
         <dependency>

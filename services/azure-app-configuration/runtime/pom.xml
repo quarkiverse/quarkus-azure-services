@@ -27,7 +27,7 @@
     </parent>
     
     <artifactId>quarkus-azure-app-configuration</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure App Configuration :: Runtime</name>
+    <name>Quarkus Azure Services :: Service :: Azure App Configuration :: Runtime</name>
     
     <dependencies>
         <dependency>

@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
-    <name>Quarkus Azure Services :: Internal :: HTTP Client Vert.x :: Deployment</name>
+    <name>Quarkus Azure Services :: Common :: HTTP Client Vert.x :: Deployment</name>
 
     <dependencies>
         <dependency>

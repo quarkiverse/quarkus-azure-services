@@ -5,11 +5,11 @@
         <groupId>io.quarkiverse.azureservices</groupId>
         <artifactId>quarkus-azure-extensions</artifactId>
         <version>999-SNAPSHOT</version>
-        <relativePath>../../extensions/pom.xml</relativePath>
+        <relativePath>../../services/pom.xml</relativePath>
     </parent>
     
     <artifactId>quarkus-azure-identity-parent</artifactId>
-    <name>Quarkus Azure Services :: Internal :: Azure Identity</name>
+    <name>Quarkus Azure Services :: Common :: Azure Identity</name>
     <packaging>pom</packaging>
     
     <modules>

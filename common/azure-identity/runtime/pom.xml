@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-identity</artifactId>
-    <name>Quarkus Azure Services :: Internal :: Azure Identity :: Runtime</name>
+    <name>Quarkus Azure Services :: Common :: Azure Identity :: Runtime</name>
 
     <dependencies>
         <dependency>

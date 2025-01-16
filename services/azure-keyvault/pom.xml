@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-keyvault-parent</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Key Vault</name>
+    <name>Quarkus Azure Services :: Service :: Azure Key Vault</name>
     <packaging>pom</packaging>
 
     <modules>

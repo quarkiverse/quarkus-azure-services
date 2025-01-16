@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-app-configuration-parent</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure App Configuration</name>
+    <name>Quarkus Azure Services :: Service :: Azure App Configuration</name>
     <packaging>pom</packaging>
 
     <modules>

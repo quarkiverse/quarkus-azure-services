@@ -9,6 +9,6 @@
     </parent>
     
     <artifactId>quarkus-azure-core-util</artifactId>
-    <name>Quarkus Azure Services :: Internal :: Core :: Util</name>
+    <name>Quarkus Azure Services :: Common :: Core :: Util</name>
 
 </project>

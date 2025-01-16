@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-cosmos-deployment</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Cosmos DB :: Deployment</name>
+    <name>Quarkus Azure Services :: Service :: Azure Cosmos DB :: Deployment</name>
     <description>Interacts with Azure Cosmos DB through the Azure SDK for Java</description>
 
     <dependencies>

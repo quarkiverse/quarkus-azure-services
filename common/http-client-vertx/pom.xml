@@ -23,11 +23,11 @@
         <groupId>io.quarkiverse.azureservices</groupId>
         <artifactId>quarkus-azure-extensions</artifactId>
         <version>999-SNAPSHOT</version>
-        <relativePath>../../extensions/pom.xml</relativePath>
+        <relativePath>../../services/pom.xml</relativePath>
     </parent>
 
     <artifactId>quarkus-azure-http-client-vertx-parent</artifactId>
-    <name>Quarkus Azure Services :: Internal :: HTTP Client Vert.x</name>
+    <name>Quarkus Azure Services :: Common :: HTTP Client Vert.x</name>
     <packaging>pom</packaging>
 
     <modules>

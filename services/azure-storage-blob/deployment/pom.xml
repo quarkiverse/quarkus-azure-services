@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-storage-blob-deployment</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Storage Blob :: Deployment</name>
+    <name>Quarkus Azure Services :: Service :: Azure Storage Blob :: Deployment</name>
 
     <dependencies>
         <dependency>

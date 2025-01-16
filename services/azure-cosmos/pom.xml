@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-cosmos-parent</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Cosmos DB</name>
+    <name>Quarkus Azure Services :: Service :: Azure Cosmos DB</name>
     <packaging>pom</packaging>
 
     <modules>

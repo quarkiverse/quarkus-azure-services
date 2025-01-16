@@ -27,8 +27,8 @@
   </scm>
   <modules>
     <module>bom</module>
-    <module>extensions</module>
-    <module>internal</module>
+    <module>services</module>
+    <module>common</module>
   </modules>
   <dependencyManagement>
     <dependencies>

@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-eventhubs-deployment</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Event Hubs :: Deployment</name>
+    <name>Quarkus Azure Services :: Service :: Azure Event Hubs :: Deployment</name>
     <description>Interacts with Azure Event Hubs through the Azure SDK for Java</description>
 
     <dependencies>

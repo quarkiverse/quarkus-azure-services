@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-keyvault</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure Key Vault :: Runtime</name>
+    <name>Quarkus Azure Services :: Service :: Azure Key Vault :: Runtime</name>
     <description>Manage secrets in Azure Key Vault Service</description>
 
     <dependencies>

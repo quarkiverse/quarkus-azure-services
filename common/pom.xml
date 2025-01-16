@@ -8,8 +8,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>quarkus-azure-internal</artifactId>
-    <name>Quarkus Azure Services :: Internal</name>
+    <artifactId>quarkus-azure-common</artifactId>
+    <name>Quarkus Azure Services :: Common</name>
     <packaging>pom</packaging>
 
     <modules>

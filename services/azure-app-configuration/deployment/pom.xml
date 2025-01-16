@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>quarkus-azure-app-configuration-deployment</artifactId>
-    <name>Quarkus Azure Services :: Extension :: Azure App Configuration :: Deployment</name>
+    <name>Quarkus Azure Services :: Service :: Azure App Configuration :: Deployment</name>
 
     <dependencies>
         <dependency>

@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-azure-extensions</artifactId>
-    <name>Quarkus Azure Services :: Extension</name>
+    <name>Quarkus Azure Services :: Extensions</name>
     <packaging>pom</packaging>
 
     <modules>
