@@ -3,7 +3,6 @@ package io.quarkiverse.azure.cosmos.runtime;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
-import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.identity.DefaultAzureCredentialBuilder;
@@ -19,12 +18,6 @@ public class CosmosClientProducer {
     public CosmosClient createCosmosClient() {
         CosmosClientBuilder builder = getBuilder();
         return null == builder ? null : builder.buildClient();
-    }
-
-    @Produces
-    public CosmosAsyncClient createCosmosAsyncClient() {
-        CosmosClientBuilder builder = getBuilder();
-        return null == builder ? null : builder.buildAsyncClient();
     }
 
     private CosmosClientBuilder getBuilder() {

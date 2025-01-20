@@ -198,30 +198,6 @@ curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer/1 -X DELETE
 
 # List items again from Azure Cosmos DB database demodb and container democontainer. You should see [] in the response.
 curl http://localhost:8080/quarkus-azure-cosmos/demodb/democontainer -X GET
-
-# Do the same operations, but with the async API. Create an item {"id": "1", "name": "dog"} in Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X POST -d '{"id": "1", "name": "dog"}' -H "Content-Type: application/json"
-
-# Read the item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see {"id":"1","name":"dog"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X GET
-
-# List items from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [{"id":"1","name":"dog"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
-
-# Update the item {"id": "1", "name": "dog"} to {"id": "1", "name": "cat"} in Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X POST -d '{"id": "1", "name": "cat"}' -H "Content-Type: application/json"
-
-# Read the updated item from Azure Cosmos DB database demodb and container democontainer using the async API. You should see {"id":"1","name":"cat"} in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X GET
-
-# List items again from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [{"id":"1","name":"cat"}] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
-
-# Delete the item from Azure Cosmos DB database demodb and container democontainer using the async API.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer/1 -X DELETE
-
-# List items again from Azure Cosmos DB database demodb and container democontainer using the async API. You should see [] in the response.
-curl http://localhost:8080/quarkus-azure-cosmos-async/demodb/democontainer -X GET
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.

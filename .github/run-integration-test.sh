@@ -104,7 +104,6 @@ export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
 mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true
 mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
 
-# NOTICE: inteionally run the integration tests for Azure Cosmos DB at the end due to its intermittent failures
 # Azure Cosmos Extension
 # Authenticate to Azure Cosmos DB with Microsoft Entra ID and key
 # Export the endpoint of azure cosmos db
