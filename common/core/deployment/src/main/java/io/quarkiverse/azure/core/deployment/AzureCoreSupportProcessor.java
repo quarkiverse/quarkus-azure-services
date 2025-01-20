@@ -65,6 +65,7 @@ public class AzureCoreSupportProcessor {
                 com.azure.core.http.HttpHeaderName.class).build());
 
         reflectiveClasses.produce(ReflectiveClassBuildItem.builder(
+                "com.microsoft.aad.msal4j.ManagedIdentityResponse",
                 "com.microsoft.aad.msal4j.AadInstanceDiscoveryResponse",
                 "com.microsoft.aad.msal4j.InstanceDiscoveryMetadataEntry").fields().build());
 
