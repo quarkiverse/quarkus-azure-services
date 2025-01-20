@@ -19,13 +19,4 @@ public class CosmosDisabledTest {
                 .statusCode(NOT_FOUND.getStatusCode())
                 .body(equalTo("The CosmosClient is null because the Azure Cosmos DB is disabled"));
     }
-
-    @Test
-    public void testGetSecretAsyncClient() {
-        given()
-                .get("/quarkus-azure-cosmos-disabled/cosmosAsyncClient")
-                .then()
-                .statusCode(NOT_FOUND.getStatusCode())
-                .body(equalTo("The CosmosAsyncClient is null because the Azure Cosmos DB is disabled"));
-    }
 }

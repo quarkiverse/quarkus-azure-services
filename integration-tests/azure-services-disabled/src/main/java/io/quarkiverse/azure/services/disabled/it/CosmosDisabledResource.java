@@ -10,7 +10,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.azure.cosmos.CosmosAsyncClient;
 import com.azure.cosmos.CosmosClient;
 
 @Path("/quarkus-azure-cosmos-disabled")
@@ -21,22 +20,11 @@ public class CosmosDisabledResource {
     @Inject
     CosmosClient cosmosClient;
 
-    @Inject
-    CosmosAsyncClient cosmosAsyncClient;
-
     @Path("/cosmosClient")
     @GET
     public Response getCosmosClient() {
         assert cosmosClient == null : "The CosmosClient should be null";
         return Response.status(NOT_FOUND).entity("The CosmosClient is null because the Azure Cosmos DB is disabled")
-                .build();
-    }
-
-    @Path("/cosmosAsyncClient")
-    @GET
-    public Response getCosmosAsyncClient() {
-        assert cosmosAsyncClient == null : "The CosmosAsyncClient should be null";
-        return Response.status(NOT_FOUND).entity("The CosmosAsyncClient is null because the Azure Cosmos DB is disabled")
                 .build();
     }
 }
