@@ -16,7 +16,7 @@ public class KeyVaultSecretResourceTest {
     public void testKeyVaultSecret() {
         final String value = "mysecret";
 
-        // Create secret and read it back using SecretClient
+        // Read secret value from secret client
         given()
                 .when().get("/quarkus-services-azure-key-vault/getSecretBySecretClient")
                 .then()
