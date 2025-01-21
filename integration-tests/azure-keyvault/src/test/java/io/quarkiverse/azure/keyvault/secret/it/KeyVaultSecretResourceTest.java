@@ -14,11 +14,11 @@ public class KeyVaultSecretResourceTest {
 
     @Test
     public void testSecretClient() {
-        RestAssured.when().get("/keyvault/sync").then().body(is("Quarkus Azure Key Vault Extension is awsome"));
+        RestAssured.when().get("/keyvault/sync").then().body(is("Quarkus Azure Key Vault Extension is awesome"));
     }
 
     @Test
     public void testSecretAsyncClient() {
-        RestAssured.when().get("/keyvault/async").then().body(is("Quarkus Azure Key Vault Extension is awsome"));
+        RestAssured.when().get("/keyvault/async").then().body(is("Quarkus Azure Key Vault Extension is awesome"));
     }
 }

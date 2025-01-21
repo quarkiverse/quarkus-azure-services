@@ -18,7 +18,7 @@ import com.azure.security.keyvault.secrets.SecretClient;
 public class KeyVaultSecretResource {
     private static final Logger LOG = Logger.getLogger(KeyVaultSecretResource.class);
 
-    public final static String TEXT = "Quarkus Azure Key Vault Extension is awsome";
+    public final static String TEXT = "Quarkus Azure Key Vault Extension is awesome";
     private static final String SYNC_PARAM = "synkv" + System.currentTimeMillis();
     private static final String ASYNC_PARAM = "asynckv" + System.currentTimeMillis();
 
