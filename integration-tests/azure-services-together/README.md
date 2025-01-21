@@ -107,6 +107,15 @@ az keyvault secret set \
     --value "$AZURE_STORAGE_BLOB_CONNECTION_STRING"
 ```
 
+Add secret `secret1` with value `mysecret`.
+
+```
+az keyvault secret set \
+    --vault-name ${KEY_VAULT_NAME} \
+    --name secret1 \
+    --value mysecret
+```
+
 ### Exporting environment variables
 
 Run the following commands to export the necessary environment variables to sucessfully run the sample.
@@ -197,6 +206,12 @@ curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontain
 
 # Download the blob from Azure Blob Storage again using the async API. You should see "404 Not Found" in the response.
 curl http://localhost:8080/quarkus-services-azure-storage-blob-async/testcontainer-async/testblob-async -X HEAD -I
+
+# Get the secret "secret1" from Azure Key Vault using the secret client. You should see "mysecret" in the response.
+curl http://localhost:8080/quarkus-services-azure-key-vault/getSecretBySecretClient -X GET
+
+# Get the secret "secret1" from Azure Key Vault using the configuration property. You should see "mysecret" in the response.
+curl http://localhost:8080/quarkus-services-azure-key-vault/getSecretByConfigProperty -X GET
 ```
 
 Press `Ctrl + C` to stop the sample once you complete the try and test.
