@@ -24,6 +24,16 @@
             <groupId>io.quarkiverse.azureservices</groupId>
             <artifactId>quarkus-azure-storage-blob</artifactId>
         </dependency>
+        <!-- Test compatibility with opentelemetry extension using logging exporter -->
+        <!-- Inspired by issue https://github.com/quarkiverse/quarkus-azure-services/issues/335 -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-opentelemetry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-logging</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
