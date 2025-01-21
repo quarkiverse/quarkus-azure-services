@@ -166,7 +166,7 @@ Run the following command to run the tests:
 
 ```
 # Run the integration tests in native mode
-mvn test-compile failsafe:integration-test -Dnative -Dazure.test=true
+mvn test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true
 
 # Run the unit tests and integration tests in JVM mode
 mvn verify -Dazure.test=true
