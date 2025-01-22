@@ -62,7 +62,6 @@ public class EventhubsAsyncResource {
                     LOGGER.info("Event Body is:: " + event.getBodyAsString());
                     LOGGER.info("SequenceNumber is:: " + sequenceNumber);
 
-
                 }, error -> {
                     // This is a terminal signal.  No more events will be received from the same Flux object.
                     LOGGER.error("Error occurred while consuming events: {}", error);
