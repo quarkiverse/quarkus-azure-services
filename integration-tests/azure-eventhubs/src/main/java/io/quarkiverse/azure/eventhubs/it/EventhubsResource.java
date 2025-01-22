@@ -46,6 +46,11 @@ public class EventhubsResource {
         IterableStream<PartitionEvent> events = consumer.receiveFromPartition(PARTITION_ID, 2,
                 EventPosition.earliest());
 
+        // Verify that the first message is Foo, and the second message is Bar.
+        List<PartitionEvent> eventlist = events.stream().toList();
+        assert eventlist.get(0).getData().getBodyAsString().equals("Foo");
+        assert eventlist.get(1).getData().getBodyAsString().equals("Bar");
+
         for (PartitionEvent partitionEvent : events) {
             // For each event, perform some sort of processing.
             LOGGER.info("Message Body received: " + partitionEvent.getData().getBodyAsString());

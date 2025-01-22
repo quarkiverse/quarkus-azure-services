@@ -30,7 +30,7 @@ public class EventhubsAsyncResource {
     @Path("/sendEvents")
     @GET
     public void sendEvents() throws InterruptedException {
-        List<EventData> allEvents = List.of(new EventData("Foo-Asyn"), new EventData("Bar-Asyn"));
+        List<EventData> allEvents = List.of(new EventData("Foobar-Asyn-1"), new EventData("Foobar-Asyn-2"));
         // Creating a batch without options set, will allow for automatic routing of events to any partition.
         producer.send(allEvents, new SendOptions().setPartitionId("1"))
                 .subscribe(unused -> {
@@ -49,13 +49,20 @@ public class EventhubsAsyncResource {
 
         String partitionId = "1";
 
+        // Reads events from partition '1' and returns the first 2 received.
+
         consumer.receiveFromPartition(partitionId, EventPosition.earliest())
                 .subscribe(partitionEvent -> {
                     PartitionContext partitionContext = partitionEvent.getPartitionContext();
                     EventData event = partitionEvent.getData();
 
-                    LOGGER.info("Received event from partition " + partitionContext.getPartitionId());
-                    LOGGER.info("Contents of event: " + event.getBodyAsString());
+                    Long sequenceNumber = event.getSequenceNumber();
+                    assert event.getBodyAsString().equals("Foobar-Asyn-" + sequenceNumber);
+                    LOGGER.info("Received event from partition:: " + partitionContext.getPartitionId());
+                    LOGGER.info("Event Body is:: " + event.getBodyAsString());
+                    LOGGER.info("SequenceNumber is:: " + sequenceNumber);
+
+
                 }, error -> {
                     // This is a terminal signal.  No more events will be received from the same Flux object.
                     LOGGER.error("Error occurred while consuming events: {}", error);
