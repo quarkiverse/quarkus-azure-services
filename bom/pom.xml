@@ -75,7 +75,7 @@
                 <version>${project.version}</version>
             </dependency>
             
-            <!-- Azure Services Extensions -->
+            <!-- Common Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-identity</artifactId>
@@ -84,6 +84,16 @@
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-identity-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-identity-extensions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-identity-extensions-deployment</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -116,6 +126,7 @@
                 <artifactId>quarkus-azure-jackson-dataformat-xml-deployment</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- Azure Services Extensions -->
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-app-configuration</artifactId>
