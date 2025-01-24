@@ -8,6 +8,10 @@ h|Type
 h|Default
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[`quarkus.azure.cosmos.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -25,6 +29,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint[`quarkus.azure.cosmos.endpoint`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.endpoint+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -42,6 +50,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[`quarkus.azure.cosmos.key`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.key+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --

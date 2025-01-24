@@ -8,6 +8,10 @@ h|Type
 h|Default
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-health-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-health-enabled[`quarkus.azure.storage.blob.health.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.health.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -25,6 +29,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled[`quarkus.azure.storage.blob.devservices.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -44,6 +52,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name[`quarkus.azure.storage.blob.devservices.image-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.image-name+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -61,6 +73,10 @@ endif::add-copy-button-to-env-var[]
 |`mcr.microsoft.com/azure-storage/azurite:3.33.0`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port[`quarkus.azure.storage.blob.devservices.port`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.port+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -80,6 +96,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-shared]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-shared[`quarkus.azure.storage.blob.devservices.shared`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.shared+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -101,6 +121,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name[`quarkus.azure.storage.blob.devservices.service-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.service-name+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -120,6 +144,10 @@ endif::add-copy-button-to-env-var[]
 |`default-storage-blob`
 
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled[`quarkus.azure.storage.blob.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -137,6 +165,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint[`quarkus.azure.storage.blob.endpoint`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.endpoint+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -154,6 +186,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-connection-string[`quarkus.azure.storage.blob.connection-string`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.connection-string+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
