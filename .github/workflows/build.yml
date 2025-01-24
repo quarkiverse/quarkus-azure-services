@@ -71,8 +71,6 @@ jobs:
 
       - name: Build with Maven (Native)
         run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       # Login immediately before each invocation to avoid timeouts
       - name: Az CLI login
         uses: azure/login@v1
