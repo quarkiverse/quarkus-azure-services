@@ -8,6 +8,10 @@ h|Type
 h|Default
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-enabled]] [.property-path]##link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-enabled[`quarkus.azure.app.configuration.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.app.configuration.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -25,6 +29,10 @@ endif::add-copy-button-to-env-var[]
 |`true`
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint]] [.property-path]##link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-endpoint[`quarkus.azure.app.configuration.endpoint`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.app.configuration.endpoint+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -42,6 +50,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-id]] [.property-path]##link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-id[`quarkus.azure.app.configuration.id`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.app.configuration.id+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -59,6 +71,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret]] [.property-path]##link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-secret[`quarkus.azure.app.configuration.secret`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.app.configuration.secret+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
@@ -76,6 +92,10 @@ endif::add-copy-button-to-env-var[]
 |
 
 a| [[quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels]] [.property-path]##link:#quarkus-azure-app-configuration_quarkus-azure-app-configuration-labels[`quarkus.azure.app.configuration.labels`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.app.configuration.labels+++[]
+endif::add-copy-button-to-config-props[]
+
 
 [.description]
 --
