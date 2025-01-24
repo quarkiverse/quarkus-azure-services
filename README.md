@@ -11,7 +11,7 @@ This repository hosts Quarkus extensions for a selection of popular Azure Servic
 
 ## Azure Services
 
-Here's the current selection of Quarkus Azure Services:  
+Here's the current selection of Quarkus Azure Services:
 
 - [Quarkus Azure App Configuration Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html): [Azure App Configuration](https://azure.microsoft.com/products/app-configuration)
   is a fast, scalable parameter storage for app configuration.
