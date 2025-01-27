@@ -1,4 +1,4 @@
-package io.quarkiverse.azure.identity.deployment;
+package io.quarkiverse.azure.identity.extensions.deployment;
 
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
