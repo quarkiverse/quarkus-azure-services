@@ -1,28 +1,23 @@
 package io.quarkiverse.azure.storage.blob.deployment;
 
-import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigRoot;
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithDefault;
+import io.smallrye.config.WithName;
 
-@ConfigRoot(name = "azure.storage.blob")
-public class StorageBlobBuildTimeConfig {
+@ConfigRoot
+@ConfigMapping(prefix = "quarkus.azure.storage.blob")
+public interface StorageBlobBuildTimeConfig {
 
     /**
      * Whether a health check is published in case the smallrye-health extension is present.
      */
-    @ConfigItem(name = "health.enabled", defaultValue = "true")
-    public boolean healthEnabled;
+    @WithName("health.enabled")
+    @WithDefault("true")
+    boolean healthEnabled();
 
     /**
      * Dev Services configuration.
      */
-    @ConfigItem
-    public DevServicesConfig devservices;
-
-    @Override
-    public String toString() {
-        return "StorageBlobBuildTimeConfig{" +
-                "healthEnabled=" + healthEnabled +
-                ", devservices=" + devservices +
-                '}';
-    }
+    StorageBlobDevServicesConfig devservices();
 }
