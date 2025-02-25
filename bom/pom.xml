@@ -30,7 +30,7 @@
         <!-- @sync com.microsoft.azure:msal4j:${msal4j.version} dep:com.nimbusds:oauth2-oidc-sdk dep:net.minidev:json-smart com.microsoft.azure:msal4j:${msal4j.version} dep:net.minidev:json-smart -->
         <json-smart.version>2.5.2</json-smart.version>
         <!-- @sync com.azure:azure-core-http-vertx:${azure.core.http.client.vertx.version} dep:com.azure:azure-core com.azure:azure-sdk-bom:${azure-sdk-bom.version} managedDep:com.azure:azure-core -->
-        <azure.core.http.client.vertx.version>1.0.0-beta.24</azure.core.http.client.vertx.version>
+        <azure.core.http.client.vertx.version>1.0.2</azure.core.http.client.vertx.version>
         <assertj-core.version>3.27.3</assertj-core.version>
     </properties>
     
