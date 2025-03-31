@@ -42,16 +42,16 @@ public class DevServicesCosmosProcessor {
     private static final ContainerLocator containerLocator = new ContainerLocator(DEV_SERVICE_LABEL,
             CosmosContainer.EXPOSED_PORT);
 
-    @BuildStep(onlyIfNot = IsNormal.class, onlyIf = {DevServicesConfig.Enabled.class})
+    @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class })
     public void startCosmosDBContainer(BuildProducer<DevServicesResultBuildItem> devConfig,
-                                       LaunchModeBuildItem launchMode,
-                                       DockerStatusBuildItem dockerStatusBuildItem,
-                                       List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
-                                       CosmosBuildTimeConfig buildTimeConfig,
-                                       Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
-                                       CuratedApplicationShutdownBuildItem closeBuildItem,
-                                       LoggingSetupBuildItem loggingSetupBuildItem,
-                                       DevServicesConfig devServicesConfig) {
+            LaunchModeBuildItem launchMode,
+            DockerStatusBuildItem dockerStatusBuildItem,
+            List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
+            CosmosBuildTimeConfig buildTimeConfig,
+            Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
+            CuratedApplicationShutdownBuildItem closeBuildItem,
+            LoggingSetupBuildItem loggingSetupBuildItem,
+            DevServicesConfig devServicesConfig) {
 
         CosmosDevServicesConfig cosmosDevServicesConfig = buildTimeConfig.devservices();
 
@@ -115,10 +115,10 @@ public class DevServicesCosmosProcessor {
     }
 
     private RunningDevService startContainer(DockerStatusBuildItem dockerStatusBuildItem,
-                                             CosmosDevServicesConfig cosmosDevServicesConfig,
-                                             LaunchMode launchMode,
-                                             boolean useSharedNetwork,
-                                             Optional<Duration> timeout) {
+            CosmosDevServicesConfig cosmosDevServicesConfig,
+            LaunchMode launchMode,
+            boolean useSharedNetwork,
+            Optional<Duration> timeout) {
         if (!cosmosDevServicesConfig.enabled()) {
             log.info("Cosmos Dev Services is disabled");
             return null;
@@ -201,8 +201,8 @@ public class DevServicesCosmosProcessor {
          *
          * @return predefined emulator key
          * @see <a href=
-         * "https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21#authenticate-requests">Azure
-         * Cosmos DB Documents</a>
+         *      "https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21#authenticate-requests">Azure
+         *      Cosmos DB Documents</a>
          */
         static String getKey() {
             return "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
