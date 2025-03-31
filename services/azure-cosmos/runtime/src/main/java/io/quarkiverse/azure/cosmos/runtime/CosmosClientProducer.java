@@ -20,12 +20,16 @@ public class CosmosClientProducer {
     public CosmosClient createCosmosClient() {
         CosmosClientBuilder builder = getBuilder();
 
-        String emulatorMode = Objects.requireNonNullElse(
-                System.getProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED"), "false");
-        if (emulatorMode.equals("true")) {
-            builder = builder.gatewayMode();
+        if (builder == null) {
+            return null;
+        } else {
+            String emulatorMode = Objects.requireNonNullElse(
+                    System.getProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED"), "false");
+            if (emulatorMode.equals("true")) {
+                builder = builder.gatewayMode();
+            }
+            return builder.buildClient();
         }
-        return null == builder ? null : builder.buildClient();
     }
 
     private CosmosClientBuilder getBuilder() {
