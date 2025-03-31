@@ -26,7 +26,7 @@
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <msal4j.version>1.19.1</msal4j.version>
         <!-- @sync com.azure:azure-cosmos:${azure-cosmos.version} dep:com.azure:azure-core-http-netty dep:io.projectreactor.netty:reactor-netty-http -->
-        <reactor-netty-http.version>1.0.48</reactor-netty-http.version>
+        <reactor-netty-http.version>1.2.4</reactor-netty-http.version>
         <!-- @sync com.microsoft.azure:msal4j:${msal4j.version} dep:com.nimbusds:oauth2-oidc-sdk dep:net.minidev:json-smart com.microsoft.azure:msal4j:${msal4j.version} dep:net.minidev:json-smart -->
         <json-smart.version>2.5.2</json-smart.version>
         <!-- @sync com.azure:azure-core-http-vertx:${azure.core.http.client.vertx.version} dep:com.azure:azure-core com.azure:azure-sdk-bom:${azure-sdk-bom.version} managedDep:com.azure:azure-core -->
