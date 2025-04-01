@@ -13,7 +13,7 @@ public interface CosmosDevServicesConfig {
     boolean enabled();
 
     /**
-     * Indicates if the azurite instance managed by Quarkus Dev Services is shared.
+     * Indicates if the Cosmos instance managed by Quarkus Dev Services is shared.
      * When shared, Quarkus looks for running containers using label-based service discovery.
      * If a matching container is found, it is used, and so a second one is not started.
      * Otherwise, Dev Services for Azure Storage Blob starts a new container.

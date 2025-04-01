@@ -1,7 +1,5 @@
 package io.quarkiverse.azure.cosmos.runtime;
 
-import java.util.Objects;
-
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
@@ -19,17 +17,7 @@ public class CosmosClientProducer {
     @Produces
     public CosmosClient createCosmosClient() {
         CosmosClientBuilder builder = getBuilder();
-
-        if (builder == null) {
-            return null;
-        } else {
-            String emulatorMode = Objects.requireNonNullElse(
-                    System.getProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED"), "false");
-            if (emulatorMode.equals("true")) {
-                builder = builder.gatewayMode();
-            }
-            return builder.buildClient();
-        }
+        return null == builder ? null : builder.buildClient();
     }
 
     private CosmosClientBuilder getBuilder() {
@@ -45,6 +33,9 @@ public class CosmosClientProducer {
             builder.key(cosmosConfiguration.key().get());
         } else {
             builder.credential(new DefaultAzureCredentialBuilder().build());
+        }
+        if (cosmosConfiguration.defaultGatewayMode()) {
+            builder.gatewayMode();
         }
         return builder;
     }

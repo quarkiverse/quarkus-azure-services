@@ -35,6 +35,7 @@ public class DevServicesCosmosProcessor {
     private static final String DEV_SERVICE_LABEL = "quarkus-dev-service-azure-cosmos";
     static final String CONFIG_KEY_COSMOS_ENDPOINT = "quarkus.azure.cosmos.endpoint";
     static final String CONFIG_KEY_COSMOS_KEY = "quarkus.azure.cosmos.key";
+    static final String CONFIG_KEY_DEFAULT_GATEWAY_MODE = "quarkus.azure.cosmos.default-gateway-mode";
     private static volatile CosmosDevServicesConfig capturedDevServicesConfiguration;
     private static volatile boolean first = true;
     private static volatile RunningDevService devService;
@@ -114,7 +115,8 @@ public class DevServicesCosmosProcessor {
         }
     }
 
-    private RunningDevService startContainer(DockerStatusBuildItem dockerStatusBuildItem,
+    private RunningDevService startContainer(
+            DockerStatusBuildItem dockerStatusBuildItem,
             CosmosDevServicesConfig cosmosDevServicesConfig,
             LaunchMode launchMode,
             boolean useSharedNetwork,
@@ -125,7 +127,13 @@ public class DevServicesCosmosProcessor {
         }
 
         if (isCosmosConfigured()) {
-            log.info("Cosmos Dev Services is not starting because the endpoint and key are configured");
+            log.info("Cosmos Dev Services is not starting because the endpoint is configured");
+            return null;
+        }
+
+        if (!ConfigUtils.getFirstOptionalValue(List.of("quarkus.azure.cosmos.enabled"), boolean.class)
+                .orElse(true)) {
+            log.info("Cosmos Dev Services is not starting because Cosmos config is explicitly disabled.");
             return null;
         }
 
@@ -135,7 +143,8 @@ public class DevServicesCosmosProcessor {
             return null;
         }
 
-        // At this point, we know we need to use the emulator, so set the property that allows the client to
+        // At this point, we know we need to use the emulator, so set the property that
+        // allows the client to
         // connect w/o SSL cert validation when used with the emulator
         System.setProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED", "true");
 
@@ -148,19 +157,22 @@ public class DevServicesCosmosProcessor {
                     container.getContainerId(),
                     container::close,
                     Map.of(CONFIG_KEY_COSMOS_ENDPOINT, container.getEndpoint(),
-                            CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey()));
+                            CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
+                            CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
 
         };
         return containerLocator
                 .locateContainer(cosmosDevServicesConfig.serviceName(), cosmosDevServicesConfig.shared(), launchMode)
                 .map(containerAddress -> {
-                    String endpoint = CosmosContainer.getEndpoint(containerAddress.getHost(), containerAddress.getPort());
+                    String endpoint = CosmosContainer.getEndpoint(containerAddress.getHost(),
+                            containerAddress.getPort());
                     return new RunningDevService(
                             CosmosProcessor.FEATURE,
                             containerAddress.getId(),
                             null,
                             Map.of(CONFIG_KEY_COSMOS_ENDPOINT, endpoint,
-                                    CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey()));
+                                    CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
+                                    CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
                 })
                 .orElseGet(cosmosServerSupplier);
 
