@@ -7,6 +7,75 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled[`quarkus.azure.cosmos.devservices.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.devservices.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+If Dev Services for Azure Cosmos DB has been explicitly enabled or disabled.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_DEVSERVICES_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared[`quarkus.azure.cosmos.devservices.shared`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.devservices.shared+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Indicates if the Cosmos instance managed by Quarkus Dev Services is shared. When shared, Quarkus looks for running containers using label-based service discovery. If a matching container is found, it is used, and so a second one is not started. Otherwise, Dev Services for Azure Storage Blob starts a new container.
+
+The discovery uses the `quarkus-dev-service-azure-cosmos` label. The value is configured using the `service-name` property.
+
+Container sharing is only used in dev mode.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SHARED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SHARED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name[`quarkus.azure.cosmos.devservices.service-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.devservices.service-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The value of the `quarkus-dev-service-azure-cosmos` label attached to the started container. This property is used when `shared` is set to `true`. In this case, before starting a container, Dev Services for Azure Storage Blob looks for a container with the `quarkus-dev-service-azure-cosmos` label set to the configured value. If found, it will use this container instead of starting a new one. Otherwise it starts a new container with the `quarkus-dev-service-azure-cosmos` label set to the specified value.
+
+This property is used when you need multiple shared azurite instances.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SERVICE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SERVICE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`default-cosmos`
+
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[`quarkus.azure.cosmos.enabled`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.enabled+++[]
@@ -48,6 +117,27 @@ endif::add-copy-button-to-env-var[]
 --
 |string
 |
+
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode[`quarkus.azure.cosmos.default-gateway-mode`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.cosmos.default-gateway-mode+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether to use the default GATEWAY mode. If set to true, the default gateway mode will be used.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_COSMOS_DEFAULT_GATEWAY_MODE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_COSMOS_DEFAULT_GATEWAY_MODE+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`false`
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[`quarkus.azure.cosmos.key`]##
 ifdef::add-copy-button-to-config-props[]

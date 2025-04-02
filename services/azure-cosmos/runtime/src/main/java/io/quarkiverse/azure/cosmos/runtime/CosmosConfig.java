@@ -23,6 +23,12 @@ public interface CosmosConfig {
     Optional<String> endpoint();
 
     /**
+     * Whether to use the default GATEWAY mode. If set to true, the default gateway mode will be used.
+     */
+    @WithDefault("false")
+    boolean defaultGatewayMode();
+
+    /**
      * The key of Azure Cosmos DB. Optional and can be empty if the Azure Identity is used to authenticate
      */
     Optional<String> key();

@@ -34,6 +34,9 @@ public class CosmosClientProducer {
         } else {
             builder.credential(new DefaultAzureCredentialBuilder().build());
         }
+        if (cosmosConfiguration.defaultGatewayMode()) {
+            builder.gatewayMode();
+        }
         return builder;
     }
 }
