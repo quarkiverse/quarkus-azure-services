@@ -61,6 +61,7 @@ The following matrix shows the compatibility of the extensions with Quarkus vers
 
 | Quarkus Azure services Version | Quarkus Version | Java Version |
 |--------------------------------|------------------|-----------------|
+| [1.1.4](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.4/pom.xml#L12) | [3.21.3](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.4/pom.xml#L20) | [Java 17](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.4/pom.xml#L17-L18) |
 | [1.1.3](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.3/pom.xml#L12) | [3.21.0](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.3/pom.xml#L20) | [Java 17](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.3/pom.xml#L17-L18) |
 | [1.1.2](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.2/pom.xml#L12) | [3.19.0](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.2/pom.xml#L20) | [Java 17](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.2/pom.xml#L17-L18) |
 | [1.1.1](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.1/pom.xml#L12) | [3.17.7](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.1/pom.xml#L20) | [Java 17](https://github.com/quarkiverse/quarkus-azure-services/blob/1.1.1/pom.xml#L17-L18) |
