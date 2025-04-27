@@ -25,7 +25,7 @@ public class AzureIdentityProcessor {
             NativeImageRunnerBuildItem nativeImageRunnerFactory) {
 
         // load native resources.
-        // https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/aot/azure-aot-graalvm-support/src/main/resources/META-INF/native-image/net.java.dev.jna/jna/resource-config.json
+        // https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/core/azure-core/src/main/resources/META-INF/native-image/com.azure/azure-core/resource-config.json
         String dir = "QMETA-INF/services";
         String hotspotLibName = "jdk.vm.ci.hotspot.HotSpotJVMCIBackendFactory";
         String jvmCiServiceLocatorLibName = "jdk.vm.ci.services.JVMCIServiceLocator";
