@@ -158,6 +158,16 @@
             </dependency>
             <dependency>
                 <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-servicebus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
+                <artifactId>quarkus-azure-servicebus-deployment</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.azureservices</groupId>
                 <artifactId>quarkus-azure-storage-blob</artifactId>
                 <version>${project.version}</version>
             </dependency>

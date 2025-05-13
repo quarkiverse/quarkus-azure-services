@@ -1,0 +1,17 @@
+---
+name: "Quarkus Support Azure Service Bus"
+description: "Interacts with Azure Service Bus through the Azure SDK for Java"
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
+metadata:
+  icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
+  short-name: "azure-servicebus"
+  keywords:
+    - "azure"
+    - "servicebus"
+    - "azure-servicebus"
+  guide: "https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-servicebus.html"
+  categories:
+    - "cloud"
+  status: "preview"
+  config:
+    - "quarkus.azure.servicebus."
