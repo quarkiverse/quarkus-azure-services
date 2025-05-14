@@ -18,5 +18,6 @@
         <module>azure-keyvault</module>
         <module>azure-storage-blob</module>
         <module>azure-eventhubs</module>
+        <module>azure-servicebus</module>
     </modules>
 </project>
