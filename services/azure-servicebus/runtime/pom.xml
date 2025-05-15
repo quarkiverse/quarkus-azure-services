@@ -14,6 +14,24 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-http-client-vertx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-identity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-messaging-servicebus</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-core-http-netty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
