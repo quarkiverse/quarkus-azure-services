@@ -18,6 +18,10 @@
             <artifactId>quarkus-azure-http-client-vertx-deployment</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-identity-deployment</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc-deployment</artifactId>
         </dependency>

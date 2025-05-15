@@ -18,6 +18,10 @@
             <artifactId>quarkus-azure-http-client-vertx</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.azureservices</groupId>
+            <artifactId>quarkus-azure-identity</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-messaging-servicebus</artifactId>
             <exclusions>
