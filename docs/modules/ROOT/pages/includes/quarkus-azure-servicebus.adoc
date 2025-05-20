@@ -1,0 +1,95 @@
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[.header-title]##Configuration property##
+h|Type
+h|Default
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`quarkus.azure.servicebus.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The flag to enable the extension. If set to false, the CDI producers will be disabled.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string[`quarkus.azure.servicebus.connection-string`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.connection-string+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Connect to the Service Bus using this connection string. If set, authentication is handled by the SAS key in the connection string. Otherwise, a DefaultAzureCredentialBuilder will be used for authentication, and namespace and domain have to be configured.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_CONNECTION_STRING+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_CONNECTION_STRING+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-namespace]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-namespace[`quarkus.azure.servicebus.namespace`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.namespace+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The namespace of the Service Bus.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_NAMESPACE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_NAMESPACE+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name[`quarkus.azure.servicebus.domain-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.domain-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The domain name of the Service Bus.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DOMAIN_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DOMAIN_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`servicebus.windows.net`
+
+|===
+
