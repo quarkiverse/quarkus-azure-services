@@ -10,6 +10,7 @@ import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
+import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class StorageBlobServiceClientProducer {
 
@@ -34,7 +35,7 @@ public class StorageBlobServiceClientProducer {
         }
 
         if (storageBlobConfiguration.endpoint().isEmpty() && storageBlobConfiguration.connectionString().isEmpty()) {
-            throw new IllegalArgumentException("The endpoint or connection string of Azure Storage blob must be set");
+            throw new ConfigurationException("The endpoint or connection string of Azure Storage blob must be set");
         }
 
         BlobServiceClientBuilder builder = new BlobServiceClientBuilder()

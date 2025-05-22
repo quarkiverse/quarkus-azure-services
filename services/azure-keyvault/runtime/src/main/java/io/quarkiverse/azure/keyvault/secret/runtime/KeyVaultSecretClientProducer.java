@@ -11,6 +11,7 @@ import com.azure.security.keyvault.secrets.SecretClientBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.quarkiverse.azure.keyvault.secret.runtime.config.KeyVaultSecretConfig;
+import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class KeyVaultSecretClientProducer {
 
@@ -23,10 +24,11 @@ public class KeyVaultSecretClientProducer {
             return null;
         }
 
-        assert secretConfiguration.endpoint().isPresent() : "The endpoint of Azure Key Vault Secret must be set";
+        String endpoint = secretConfiguration.endpoint()
+                .orElseThrow(() -> new ConfigurationException("The endpoint of Azure Key Vault Secret must be set"));
         return new SecretClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint().get())
+                .vaultUrl(endpoint)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
     }
@@ -37,11 +39,12 @@ public class KeyVaultSecretClientProducer {
             return null;
         }
 
-        assert secretConfiguration.endpoint().isPresent() : "The endpoint of Azure Key Vault Secret must be set";
+        String endpoint = secretConfiguration.endpoint()
+                .orElseThrow(() -> new ConfigurationException("The endpoint of Azure Key Vault Secret must be set"));
         return new SecretClientBuilder()
                 .clientOptions(
                         new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_ASYNC_CLIENT))
-                .vaultUrl(secretConfiguration.endpoint().get())
+                .vaultUrl(endpoint)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildAsyncClient();
     }

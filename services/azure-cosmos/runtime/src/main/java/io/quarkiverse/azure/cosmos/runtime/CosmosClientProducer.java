@@ -8,6 +8,7 @@ import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
+import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class CosmosClientProducer {
 
@@ -25,10 +26,11 @@ public class CosmosClientProducer {
             return null;
         }
 
-        assert cosmosConfiguration.endpoint().isPresent() : "The endpoint of Azure Cosmos DB must be set";
+        String endpoint = cosmosConfiguration.endpoint()
+                .orElseThrow(() -> new ConfigurationException("The endpoint of Azure Cosmos DB must be set"));
         CosmosClientBuilder builder = new CosmosClientBuilder()
                 .userAgentSuffix(AzureQuarkusIdentifier.AZURE_QUARKUS_COSMOS)
-                .endpoint(cosmosConfiguration.endpoint().get());
+                .endpoint(endpoint);
         if (cosmosConfiguration.key().isPresent()) {
             builder.key(cosmosConfiguration.key().get());
         } else {

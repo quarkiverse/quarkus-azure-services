@@ -12,6 +12,7 @@ import com.azure.messaging.eventhubs.EventHubProducerAsyncClient;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
+import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class EventhubsClientProducer {
 
@@ -71,15 +72,16 @@ public class EventhubsClientProducer {
             return null;
         }
 
-        assert eventhubsConfig.namespace().isPresent() : "The namespace of Azure Event Hubs must be set";
-        assert eventhubsConfig.domainName().isPresent() : "The domain name of Azure Event Hubs must be set";
-        assert eventhubsConfig.eventhubName().isPresent() : "The event hub name of Azure Event Hubs must be set";
+        String namespace = eventhubsConfig.namespace()
+                .orElseThrow(() -> new ConfigurationException("The namespace of Azure Event Hubs must be set"));
+        String domainName = eventhubsConfig.domainName()
+                .orElseThrow(() -> new ConfigurationException("The domain name of Azure Event Hubs must be set"));
+        String eventhubName = eventhubsConfig.eventhubName()
+                .orElseThrow(() -> new ConfigurationException("The event hub name of Azure Event Hubs must be set"));
         return new EventHubClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_EVENTHUBS))
-                .credential(eventhubsConfig.namespace().get()
-                        + "."
-                        + eventhubsConfig.domainName().get(),
-                        eventhubsConfig.eventhubName().get(),
+                .credential(namespace + "." + domainName,
+                        eventhubName,
                         new DefaultAzureCredentialBuilder().build());
     }
 }

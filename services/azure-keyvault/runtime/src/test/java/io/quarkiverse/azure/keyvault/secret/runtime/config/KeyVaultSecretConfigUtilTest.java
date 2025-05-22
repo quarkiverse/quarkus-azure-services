@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 
+import io.quarkus.runtime.configuration.ConfigurationException;
+
 class KeyVaultSecretConfigUtilTest {
 
     private static final String DEFAULT_ENDPOINT = "https://contoso.vault.azure.net/";
@@ -16,13 +18,13 @@ class KeyVaultSecretConfigUtilTest {
 
     @Test
     public void testInvalidEndPoint() {
-        assertThrows(AssertionError.class, () -> KeyVaultSecretConfigUtil.getAzureKeyVaultName(INVALID_ENDPOINT),
+        assertThrows(ConfigurationException.class, () -> KeyVaultSecretConfigUtil.getAzureKeyVaultName(INVALID_ENDPOINT),
                 "The endpoint of Azure Key Vault should start with https://.");
     }
 
     @Test
     public void testEmptyEndPoint() {
-        assertThrows(AssertionError.class, () -> KeyVaultSecretConfigUtil.getAzureKeyVaultName(""),
+        assertThrows(ConfigurationException.class, () -> KeyVaultSecretConfigUtil.getAzureKeyVaultName(""),
                 "The endpoint of Azure Key Vault should be set.");
     }
 
