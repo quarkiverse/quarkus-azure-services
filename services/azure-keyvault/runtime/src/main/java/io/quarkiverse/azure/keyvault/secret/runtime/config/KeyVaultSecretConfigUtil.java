@@ -2,6 +2,8 @@ package io.quarkiverse.azure.keyvault.secret.runtime.config;
 
 import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 
+import io.quarkus.runtime.configuration.ConfigurationException;
+
 public class KeyVaultSecretConfigUtil {
     private static final String AZURE_KEYVAULT_PREFIX = "kv//";
     private static final String AZURE_KEYVAULT_ENDPOINT_PREFIX = "https://";
@@ -79,9 +81,12 @@ public class KeyVaultSecretConfigUtil {
     }
 
     static String getAzureKeyVaultName(String endpoint) {
-        assert !endpoint.isEmpty() : "The endpoint of Azure Key Vault should be set.";
-        assert endpoint.startsWith(AZURE_KEYVAULT_ENDPOINT_PREFIX)
-                : "The endpoint of Azure Key Vault should start with https://.";
+        if (endpoint.isEmpty()) {
+            throw new ConfigurationException("The endpoint of Azure Key Vault should be set.");
+        }
+        if (!endpoint.startsWith(AZURE_KEYVAULT_ENDPOINT_PREFIX)) {
+            throw new ConfigurationException("The endpoint of Azure Key Vault should start with https://.");
+        }
         return endpoint.substring(AZURE_KEYVAULT_ENDPOINT_PREFIX.length()).split("\\.")[0];
     }
 

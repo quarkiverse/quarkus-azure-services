@@ -17,6 +17,7 @@ import com.azure.data.appconfiguration.models.SettingSelector;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
+import io.quarkus.runtime.configuration.ConfigurationException;
 import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory.ConfigurableConfigSourceFactory;
 import io.vertx.core.Vertx;
@@ -45,7 +46,8 @@ public class AzureAppConfigurationConfigSourceFactory
         if (!config.enabled()) {
             return Collections.emptyMap();
         }
-        assert config.endpoint().isPresent() : "The endpoint of the app configuration must be set";
+        String endpoint = config.endpoint()
+                .orElseThrow(() -> new ConfigurationException("The endpoint of the app configuration must be set"));
 
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
         Vertx vertx = Vertx.vertx();
@@ -57,7 +59,7 @@ public class AzureAppConfigurationConfigSourceFactory
         if (!config.connectionString().isEmpty()) {
             clientBuilder.connectionString(config.connectionString());
         } else {
-            clientBuilder.endpoint(config.endpoint().get()).credential(new DefaultAzureCredentialBuilder().build());
+            clientBuilder.endpoint(endpoint).credential(new DefaultAzureCredentialBuilder().build());
         }
         ConfigurationClient client = clientBuilder.buildClient();
 

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
+import io.quarkus.runtime.configuration.ConfigurationException;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 
@@ -38,11 +39,12 @@ public interface AzureAppConfigurationConfig {
         if (!enabled()) {
             return "";
         }
-        assert endpoint().isPresent() : "The endpoint of the app configuration must be set";
+        String endpoint = endpoint()
+                .orElseThrow(() -> new ConfigurationException("The endpoint of the app configuration must be set"));
 
         if (id().isEmpty() || secret().isEmpty()) {
             return "";
         }
-        return "Endpoint=" + endpoint().get() + ";Id=" + id().get() + ";Secret=" + secret().get();
+        return "Endpoint=" + endpoint + ";Id=" + id().get() + ";Secret=" + secret().get();
     }
 }
