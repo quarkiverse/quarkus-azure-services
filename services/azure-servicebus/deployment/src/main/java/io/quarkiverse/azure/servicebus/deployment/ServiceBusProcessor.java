@@ -1,9 +1,15 @@
+package io.quarkiverse.azure.servicebus.deployment;
+
 import java.util.stream.Stream;
 
+import io.quarkiverse.azure.servicebus.runtime.ServiceBusBuildTimeConfig;
+import io.quarkiverse.azure.servicebus.runtime.ServiceBusClientProducer;
+import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
+import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
 public class ServiceBusProcessor {
@@ -16,8 +22,21 @@ public class ServiceBusProcessor {
     }
 
     @BuildStep
+    AdditionalBeanBuildItem producer(ServiceBusBuildTimeConfig config) {
+        if (config.enabled()) {
+            return new AdditionalBeanBuildItem(ServiceBusClientProducer.class);
+        }
+        return null;
+    }
+
+    @BuildStep
     ExtensionSslNativeSupportBuildItem activateSslNativeSupport() {
         return new ExtensionSslNativeSupportBuildItem(FEATURE);
+    }
+
+    @BuildStep
+    IndexDependencyBuildItem indexDependency() {
+        return new IndexDependencyBuildItem("com.azure", "azure-messaging-servicebus");
     }
 
     @BuildStep
