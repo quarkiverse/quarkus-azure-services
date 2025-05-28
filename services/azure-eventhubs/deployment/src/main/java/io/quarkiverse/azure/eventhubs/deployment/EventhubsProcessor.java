@@ -32,7 +32,6 @@ public class EventhubsProcessor {
     @BuildStep
     void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
         Stream.of(
-                "reactor.netty.tcp.TcpClientSecure",
                 "com.azure.messaging.eventhubs.PartitionBasedLoadBalancer",
                 "com.microsoft.azure.proton.transport.proxy.impl.DigestProxyChallengeProcessorImpl",
                 "com.microsoft.azure.proton.transport.ws.impl.Utils")
