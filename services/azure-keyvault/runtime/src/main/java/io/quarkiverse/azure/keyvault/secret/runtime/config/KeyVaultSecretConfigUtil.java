@@ -82,10 +82,12 @@ public class KeyVaultSecretConfigUtil {
 
     static String getAzureKeyVaultName(String endpoint) {
         if (endpoint.isEmpty()) {
-            throw new ConfigurationException("The endpoint of Azure Key Vault should be set.");
+            throw new ConfigurationException(
+                    "The endpoint of Azure Key Vault (quarkus.azure.keyvault.secret.endpoint) should be set.");
         }
         if (!endpoint.startsWith(AZURE_KEYVAULT_ENDPOINT_PREFIX)) {
-            throw new ConfigurationException("The endpoint of Azure Key Vault should start with https://.");
+            throw new ConfigurationException(
+                    "The endpoint of Azure Key Vault (quarkus.azure.keyvault.secret.endpoint) should start with https://.");
         }
         return endpoint.substring(AZURE_KEYVAULT_ENDPOINT_PREFIX.length()).split("\\.")[0];
     }

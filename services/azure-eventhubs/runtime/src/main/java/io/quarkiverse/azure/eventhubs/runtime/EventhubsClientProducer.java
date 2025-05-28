@@ -73,11 +73,14 @@ public class EventhubsClientProducer {
         }
 
         String namespace = eventhubsConfig.namespace()
-                .orElseThrow(() -> new ConfigurationException("The namespace of Azure Event Hubs must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The namespace of Azure Event Hubs (quarkus.azure.eventhubs.namespace) must be set"));
         String domainName = eventhubsConfig.domainName()
-                .orElseThrow(() -> new ConfigurationException("The domain name of Azure Event Hubs must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The domain name of Azure Event Hubs (quarkus.azure.eventhubs.domain-name) must be set"));
         String eventhubName = eventhubsConfig.eventhubName()
-                .orElseThrow(() -> new ConfigurationException("The event hub name of Azure Event Hubs must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The event hub name of Azure Event Hubs (quarkus.azure.eventhubs.eventhub-name) must be set"));
         return new EventHubClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_EVENTHUBS))
                 .credential(namespace + "." + domainName,

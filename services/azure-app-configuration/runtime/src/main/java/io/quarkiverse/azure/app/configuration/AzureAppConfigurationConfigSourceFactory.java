@@ -47,7 +47,8 @@ public class AzureAppConfigurationConfigSourceFactory
             return Collections.emptyMap();
         }
         String endpoint = config.endpoint()
-                .orElseThrow(() -> new ConfigurationException("The endpoint of the app configuration must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The endpoint of the app configuration (quarkus.azure.app.configuration.endpoint) must be set"));
 
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
         Vertx vertx = Vertx.vertx();
