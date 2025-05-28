@@ -22,7 +22,7 @@
     </scm>
     
     <properties>
-        <azure-sdk-bom.version>1.2.34</azure-sdk-bom.version>
+        <azure-sdk-bom.version>1.2.35</azure-sdk-bom.version>
         <!-- @sync com.azure:azure-identity:${azure-identity.version} dep:com.microsoft.azure:msal4j -->
         <msal4j.version>1.19.1</msal4j.version>
         <!-- @sync com.azure:azure-cosmos:${azure-cosmos.version} dep:com.azure:azure-core-http-netty dep:io.projectreactor.netty:reactor-netty-http -->
