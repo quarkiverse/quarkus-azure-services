@@ -24,6 +24,9 @@ class DisabledDeploymentTest {
 
     @Test
     void disabledCdiProducersLetDeploymentFail() {
-
+        // serviceBusClientBuilder is expected to be null
+        if (serviceBusClientBuilder != null) {
+            throw new AssertionError("ServiceBusClientBuilder should not be available when the extension is disabled.");
+        }
     }
 }
