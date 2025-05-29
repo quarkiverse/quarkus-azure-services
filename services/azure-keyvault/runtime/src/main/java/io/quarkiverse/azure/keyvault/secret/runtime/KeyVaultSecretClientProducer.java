@@ -25,7 +25,8 @@ public class KeyVaultSecretClientProducer {
         }
 
         String endpoint = secretConfiguration.endpoint()
-                .orElseThrow(() -> new ConfigurationException("The endpoint of Azure Key Vault Secret must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The endpoint of Azure Key Vault Secret (quarkus.azure.keyvault.secret.endpoint) must be set"));
         return new SecretClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
                 .vaultUrl(endpoint)

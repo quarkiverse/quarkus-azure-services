@@ -40,7 +40,8 @@ public interface AzureAppConfigurationConfig {
             return "";
         }
         String endpoint = endpoint()
-                .orElseThrow(() -> new ConfigurationException("The endpoint of the app configuration must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The endpoint of the app configuration (quarkus.azure.app.configuration.endpoint) must be set"));
 
         if (id().isEmpty() || secret().isEmpty()) {
             return "";

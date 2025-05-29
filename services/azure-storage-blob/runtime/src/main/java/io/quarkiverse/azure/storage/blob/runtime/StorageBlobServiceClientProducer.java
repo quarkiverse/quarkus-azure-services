@@ -35,7 +35,8 @@ public class StorageBlobServiceClientProducer {
         }
 
         if (storageBlobConfiguration.endpoint().isEmpty() && storageBlobConfiguration.connectionString().isEmpty()) {
-            throw new ConfigurationException("The endpoint or connection string of Azure Storage blob must be set");
+            throw new ConfigurationException(
+                    "The endpoint (quarkus.azure.storage.blob.endpoint) or connection string (quarkus.azure.storage.blob.connection-string) of Azure Storage blob must be set");
         }
 
         BlobServiceClientBuilder builder = new BlobServiceClientBuilder()

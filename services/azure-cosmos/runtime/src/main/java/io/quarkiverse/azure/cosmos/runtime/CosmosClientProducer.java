@@ -27,7 +27,8 @@ public class CosmosClientProducer {
         }
 
         String endpoint = cosmosConfiguration.endpoint()
-                .orElseThrow(() -> new ConfigurationException("The endpoint of Azure Cosmos DB must be set"));
+                .orElseThrow(() -> new ConfigurationException(
+                        "The endpoint of Azure Cosmos DB (quarkus.azure.cosmos.endpoint) must be set"));
         CosmosClientBuilder builder = new CosmosClientBuilder()
                 .userAgentSuffix(AzureQuarkusIdentifier.AZURE_QUARKUS_COSMOS)
                 .endpoint(endpoint);
