@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+import com.azure.core.http.HttpClient;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.vertx.VertxHttpClientBuilder;
 import com.azure.core.util.ClientOptions;
@@ -52,15 +53,15 @@ public class AzureAppConfigurationConfigSourceFactory
 
         // We cannot use the Quarkus Vert.x instance, because the configuration executes before starting Vert.x
         Vertx vertx = Vertx.vertx();
-        VertxHttpClientBuilder httpClientBuilder = new VertxHttpClientBuilder().vertx(vertx);
+        HttpClient httpClient = new VertxHttpClientBuilder().vertx(vertx).build();
 
         ConfigurationClientBuilder clientBuilder = new ConfigurationClientBuilder()
                 .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_APP_CONFIGURATION))
-                .httpClient(httpClientBuilder.build());
+                .httpClient(httpClient);
         if (!config.connectionString().isEmpty()) {
             clientBuilder.connectionString(config.connectionString());
         } else {
-            clientBuilder.endpoint(endpoint).credential(new DefaultAzureCredentialBuilder().build());
+            clientBuilder.endpoint(endpoint).credential(new DefaultAzureCredentialBuilder().httpClient(httpClient).build());
         }
         ConfigurationClient client = clientBuilder.buildClient();
 
