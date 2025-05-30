@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import com.azure.core.http.HttpClient;
 import com.azure.core.http.vertx.VertxHttpClientBuilder;
 import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredentialBuilder;
@@ -30,12 +31,15 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
         this.kvConfig = kvConfig;
 
         this.builder = new SecretClientBuilder()
-                .clientOptions(new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT))
-                .credential(new DefaultAzureCredentialBuilder().build());
+                .clientOptions(
+                        new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT));
     }
 
     private SecretClient createClient(String vaultUrl, Vertx vertx) {
-        return this.builder.vaultUrl(vaultUrl).httpClient(new VertxHttpClientBuilder().vertx(vertx).build()).buildClient();
+        HttpClient httpClient = new VertxHttpClientBuilder().vertx(vertx).build();
+        return this.builder
+                .credential(new DefaultAzureCredentialBuilder().httpClient(httpClient).build())
+                .vaultUrl(vaultUrl).httpClient(httpClient).buildClient();
     }
 
     private Vertx createVertx() {

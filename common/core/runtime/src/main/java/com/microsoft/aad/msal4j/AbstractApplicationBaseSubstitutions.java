@@ -53,7 +53,8 @@ public final class AbstractApplicationBaseSubstitutions {
             supplier = new AcquireTokenByOnBehalfOfSupplier(ConfidentialClientApplication.class.cast(this),
                     (OnBehalfOfRequest) msalRequest);
         } else if (msalRequest instanceof ManagedIdentityRequest) {
-            supplier = new AcquireTokenByManagedIdentitySupplier(ManagedIdentityApplication.class.cast(this), msalRequest);
+            supplier = new AcquireTokenByManagedIdentitySupplier(ManagedIdentityApplication.class.cast(this),
+                    (ManagedIdentityRequest) msalRequest);
         } else {
             supplier = new AcquireTokenByAuthorizationGrantSupplier(AbstractApplicationBase.class.cast(this), msalRequest,
                     null);
