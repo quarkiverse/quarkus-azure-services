@@ -9,6 +9,7 @@ set -Eeuo pipefail
 # - COSMOSDB_ACCOUNT_NAME
 # - EVENTHUBS_NAMESPACE
 # - EVENTHUBS_EVENTHUB_NAME
+# - SERVICEBUS_NAMESPACE
 
 # Test azure-services-disabled
 mvn -f azure-services-disabled/pom.xml test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true
@@ -103,6 +104,30 @@ export QUARKUS_AZURE_EVENTHUBS_NAMESPACE=${EVENTHUBS_NAMESPACE}
 export QUARKUS_AZURE_EVENTHUBS_EVENTHUB_NAME=${EVENTHUBS_EVENTHUB_NAME}
 mvn -f azure-eventhubs/pom.xml test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true
 mvn -f azure-eventhubs/pom.xml verify -Dazure.test=true
+
+# Azure Service Bus Extension
+# Authenticate to Azure Service Bus with Microsoft Entra ID and connection string
+# Retrieve the service bus resource ID
+SERVICEBUS_RESOURCE_ID=$(az servicebus namespace show \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name $SERVICEBUS_NAMESPACE \
+    --query 'id' \
+    --output tsv)
+# Assign the "Azure Service Bus Data Owner" role to the current signed-in identity
+az role assignment create \
+    --role "Azure Service Bus Data Owner" \
+    --assignee ${OBJECT_ID} \
+    --scope $SERVICEBUS_RESOURCE_ID
+# Retrieve the connection string that has full access to the service bus namespace
+AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorization-rule keys list \
+    --resource-group "${RESOURCE_GROUP_NAME}" \
+    --namespace-name "${SERVICEBUS_NAMESPACE}" \
+    --name RootManageSharedAccessKey \
+    --query primaryConnectionString -o tsv)
+mvn -f azure-servicebus/pom.xml test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true -Dquarkus.azure.servicebus.namespace=${SERVICEBUS_NAMESPACE}
+mvn -f azure-servicebus/pom.xml test-compile failsafe:integration-test failsafe:verify -Dnative -Dazure.test=true -Dquarkus.azure.servicebus.connection-string=${AZURE_SERVICEBUS_CONNECTION_STRING}
+mvn -f azure-servicebus/pom.xml verify -Dazure.test=true -Dquarkus.azure.servicebus.namespace=${SERVICEBUS_NAMESPACE}
+mvn -f azure-servicebus/pom.xml verify -Dazure.test=true -Dquarkus.azure.servicebus.connection-string=${AZURE_SERVICEBUS_CONNECTION_STRING}
 
 # Azure Cosmos Extension
 # Authenticate to Azure Cosmos DB with Microsoft Entra ID and key

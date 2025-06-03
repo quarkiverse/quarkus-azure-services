@@ -9,6 +9,7 @@ set -Eeuo pipefail
 # - COSMOSDB_ACCOUNT_NAME
 # - EVENTHUBS_NAMESPACE
 # - EVENTHUBS_EVENTHUB_NAME
+# - SERVICEBUS_NAMESPACE
 
 # Create a resource group
 az group create \
@@ -82,3 +83,13 @@ az eventhubs eventhub create \
     --namespace-name ${EVENTHUBS_NAMESPACE} \
     --resource-group ${RESOURCE_GROUP_NAME} \
     --partition-count 2
+
+# Azure Service Bus Extension
+az servicebus namespace create \
+    --name ${SERVICEBUS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME}
+
+az servicebus queue create \
+    --name test-queue \
+    --namespace-name ${SERVICEBUS_NAMESPACE} \
+    --resource-group ${RESOURCE_GROUP_NAME}
