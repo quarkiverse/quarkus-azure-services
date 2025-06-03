@@ -24,6 +24,9 @@ class EnabledDeploymentTest {
 
     @Test
     void cdiProducerWorks() {
-
+        // serviceBusClientBuilder should be available when the extension is enabled
+        if (serviceBusClientBuilder == null) {
+            throw new AssertionError("ServiceBusClientBuilder should be available when the extension is enabled.");
+        }
     }
 }
