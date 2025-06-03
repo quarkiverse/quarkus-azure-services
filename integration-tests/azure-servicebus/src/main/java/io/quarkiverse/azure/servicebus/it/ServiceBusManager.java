@@ -71,7 +71,6 @@ public class ServiceBusManager {
         LOG.info("Cleaning up Azure Service Bus clients");
 
         if (processorClient != null) {
-            processorClient.stop();
             processorClient.close();
         }
 
