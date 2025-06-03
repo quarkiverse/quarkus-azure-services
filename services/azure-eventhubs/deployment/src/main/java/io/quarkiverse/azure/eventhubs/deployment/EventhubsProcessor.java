@@ -8,7 +8,6 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
-import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
 public class EventhubsProcessor {
@@ -31,14 +30,8 @@ public class EventhubsProcessor {
     }
 
     @BuildStep
-    IndexDependencyBuildItem indexDependency() {
-        return new IndexDependencyBuildItem("com.azure", "azure-eventhubs");
-    }
-
-    @BuildStep
     void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
         Stream.of(
-                "reactor.netty.tcp.TcpClientSecure",
                 "com.azure.messaging.eventhubs.PartitionBasedLoadBalancer",
                 "com.microsoft.azure.proton.transport.proxy.impl.DigestProxyChallengeProcessorImpl",
                 "com.microsoft.azure.proton.transport.ws.impl.Utils")

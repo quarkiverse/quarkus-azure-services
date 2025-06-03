@@ -8,7 +8,6 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
-import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 
@@ -29,11 +28,6 @@ public class CosmosProcessor {
     @BuildStep
     ExtensionSslNativeSupportBuildItem activateSslNativeSupport() {
         return new ExtensionSslNativeSupportBuildItem(FEATURE);
-    }
-
-    @BuildStep
-    IndexDependencyBuildItem indexDependency() {
-        return new IndexDependencyBuildItem("com.azure", "azure-cosmos");
     }
 
     @BuildStep
@@ -66,6 +60,7 @@ public class CosmosProcessor {
                 com.azure.cosmos.implementation.RetryContext.class.getName(),
                 com.azure.cosmos.implementation.circuitBreaker.PartitionLevelCircuitBreakerConfig.class.getName(),
                 "com.azure.cosmos.implementation.ClientSideRequestStatistics$StoreResponseStatistics",
+                "com.azure.cosmos.implementation.routing.PartitionKeyInternal$PartitionKeyInternalJsonSerializer",
                 com.azure.cosmos.models.PartitionKeyDefinition.class.getName(),
                 com.azure.cosmos.models.PartitionKind.class.getName(),
                 com.azure.cosmos.models.UniqueKeyPolicy.class.getName(),
