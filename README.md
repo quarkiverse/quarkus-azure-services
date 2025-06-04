@@ -25,6 +25,8 @@ Here's the current selection of Quarkus Azure Services:
   computing, and machine learning.
 - [Quarkus Azure Event Hubs Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-eventhubs.html): [Azure Event Hubs](https://azure.microsoft.com/products/event-hubs)
   is a big data streaming platform and event ingestion service. It can receive and process millions of events per second.
+- [Quarkus Azure Service Bus Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-servicebus.html): [Azure Service Bus](https://azure.microsoft.com/products/service-bus)
+  is a fully managed enterprise message broker with message queues and publish-subscribe topics.
 
 ## Azure Services outside this repository
 - [Quarkus Opentelemetry Exporter for Microsoft Azure](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html) enables [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) telemetry for Quarkus native applications
