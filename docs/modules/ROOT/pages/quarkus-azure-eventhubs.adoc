@@ -10,7 +10,7 @@ This is a step by step guide on how to use the Quarkus Azure Event Hubs extensio
 
 == Installation
 
-Add a dependncy on `io.quarkiverse.azureservices:quarkus-azure-eventhubs`.
+Add a dependency on `io.quarkiverse.azureservices:quarkus-azure-eventhubs`.
 
 For instance, with Maven, add the following dependency to your POM file:
 
@@ -92,7 +92,7 @@ Although technically both approaches work, using environment variable is recomme
 
 === Inject the Azure Event Hubs Client
 
-Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.messaging.eventhubs.EventHubProducerClient` object in your imperative application or `@Inject` the `com.azure.messaging.eventhubs.EventHubConsumerClient` object in your reactive application, so you can interact with Azure Event Hubs. For complete API see https://javadoc.io/doc/com.azure/azure-messaging-eventhubs/latest/index.html[the Azure SDK for Java Reference Documentation].
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.messaging.eventhubs.EventHubProducerClient` object in your imperative application or `@Inject` the `com.azure.messaging.eventhubs.EventHubConsumerClient` object in your reactive application, so you can interact with Azure Event Hubs. For complete API see the https://javadoc.io/doc/com.azure/azure-messaging-eventhubs/latest/index.html[Azure SDK for Java Reference Documentation].
 
 ==== Use the EventHubProducerClient and EventHubConsumerClient in a Quarkus application
 
