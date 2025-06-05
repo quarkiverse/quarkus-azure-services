@@ -5,7 +5,7 @@ include::./includes/attributes.adoc[]
 include::./includes/support.adoc[]
 
 https://azure.microsoft.com/products/service-bus[Azure Service Bus] is a fully managed enterprise message broker with message queues and publish-subscribe topics. Service Bus is used to decouple applications and services from each other. 
-This extension allows you to produce and consume messages from Azure Service Bus by creating Service Bus clients with injected `com.azure.messaging.servicebus.ServiceBusClientBuilder` object in your Quarkus application.
+This extension allows you to produce and consume messages from Azure Service Bus by creating Service Bus clients with injected `com.azure.messaging.servicebus.ServiceBusClientBuilder` objects in your Quarkus application.
 
 This is a step by step guide on how to use the Quarkus Azure Service Bus extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-servicebus[Azure Service Bus sample].
 
