@@ -1,0 +1,261 @@
+= Quarkus Azure Service Bus Extension
+
+include::./includes/attributes.adoc[]
+
+include::./includes/support.adoc[]
+
+https://azure.microsoft.com/products/service-bus[Azure Service Bus] is a fully managed enterprise message broker with message queues and publish-subscribe topics. Service Bus is used to decouple applications and services from each other. 
+This extension allows you to produce and consume messages from Azure Service Bus by creating Service Bus clients with injected `com.azure.messaging.servicebus.ServiceBusClientBuilder` objects in your Quarkus application.
+
+This is a step by step guide on how to use the Quarkus Azure Service Bus extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-servicebus[Azure Service Bus sample].
+
+== Installation
+
+Add a dependency on `io.quarkiverse.azureservices:quarkus-azure-servicebus`.
+
+For instance, with Maven, add the following dependency to your POM file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.azureservices</groupId>
+    <artifactId>quarkus-azure-servicebus</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== How to Use It
+
+Once you have added the extension to your project, follow the next steps, so you can inject `com.azure.messaging.servicebus.ServiceBusClientBuilder` object in your application to create clients for producing and consuming messages from Azure Service Bus.
+
+=== Setup your Azure Environment
+
+include::includes/azure-setup-environment.adoc[]
+
+Create an Azure resource group with the az group create command.
+A resource group is a logical container into which Azure resources are deployed and managed.
+
+[source,shell]
+----
+az group create \
+    --name rg-quarkus-azure-servicebus \
+    --location westus
+----
+
+Create an Azure Service Bus namespace and a queue with the following commands:
+
+[source,shell]
+----
+az servicebus namespace create \
+    --name sbnamespace20250604 \
+    --resource-group rg-quarkus-azure-servicebus
+
+az servicebus queue create \
+    --name test-queue \
+    --namespace-name sbnamespace20250604 \
+    --resource-group rg-quarkus-azure-servicebus
+----
+
+If you log into the http://portal.azure.com/[Azure portal], you can see the resource group and the Azure Service Bus namespace you created.
+
+=== Configure the Azure Service Bus Client Builder
+
+As you can see below in the _Extension Configuration Reference_ section, either the property `quarkus.azure.servicebus.namespace` or the property `quarkus.azure.servicebus.connection-string` is required if the extension is enabled.
+
+You have two options to authenticate to Azure Service Bus, either with Microsoft Entra ID or connection string. The following sections describe how to authenticate with both options. For optimal security, it is recommended to use Microsoft Entra ID for authentication.
+
+==== Authenticating to Azure Service Bus with Microsoft Entra ID
+
+You can authenticate to Azure Service Bus with Microsoft Entra ID. Run the following commands to assign the `Azure Service Bus Data Owner` role to the signed-in user as a Microsoft Entra identity.
+
+[source,shell]
+----
+SERVICEBUS_RESOURCE_ID=$(az servicebus namespace show \
+    --resource-group rg-quarkus-azure-servicebus \
+    --name sbnamespace20250604 \
+    --query 'id' \
+    --output tsv)
+OBJECT_ID=$(az ad signed-in-user show --query id -o tsv)
+
+az role assignment create \
+    --role "Azure Service Bus Data Owner" \
+    --assignee ${OBJECT_ID} \
+    --scope $SERVICEBUS_RESOURCE_ID
+----
+
+Run the following commands to export the namespace of the Azure Service Bus as an environment variable.
+
+[source,shell]
+----
+export QUARKUS_AZURE_SERVICEBUS_NAMESPACE=sbnamespace20250604
+----
+
+The value of environment variable `QUARKUS_AZURE_SERVICEBUS_NAMESPACE` will be read by Quarkus as the value of config property `quarkus.azure.servicebus.namespace` of `azure-servicebus` extension in order to set up the connection to the Azure Service Bus.
+
+==== Authenticating to Azure Service Bus with connection string
+
+You can also authenticate to Azure Service Bus with connection string. Run the following commands to export the connection string of the Azure Service Bus as an environment variable.
+
+[source,shell]
+----
+export QUARKUS_AZURE_SERVICEBUS_CONNECTION_STRING=$(az servicebus namespace authorization-rule keys list \
+    --resource-group rg-quarkus-azure-servicebus \
+    --namespace-name sbnamespace20250604 \
+    --name RootManageSharedAccessKey \
+    --query primaryConnectionString -o tsv)
+----
+
+The value of environment variable `QUARKUS_AZURE_SERVICEBUS_CONNECTION_STRING` will be read by Quarkus as the value of config property `quarkus.azure.servicebus.connection-string` of `azure-servicebus` extension in order to set up the connection to the Azure Service Bus.
+
+=== Inject the Azure Service Bus Client Builder
+
+Now that your Azure environment is ready and you have configured the extension, you can `@Inject` the `com.azure.messaging.servicebus.ServiceBusClientBuilder` object in your application, so you can create clients to interact with Azure Servie Bus.
+For complete API see the https://javadoc.io/doc/com.azure/azure-messaging-servicebus/latest/index.html[Azure SDK for Java Reference Documentation].
+
+==== Use the ServiceBusClientBuilder to create clients
+
+[source,java]
+----
+@ApplicationScoped
+public class ServiceBusManager {
+
+    private static final Logger LOG = Logger.getLogger(ServiceBusManager.class);
+
+    @ConfigProperty(name = "quarkus.azure.servicebus.queue-name", defaultValue = "test-queue")
+    private String queueName;
+
+    @Inject
+    private ServiceBusClientBuilder clientBuilder;
+
+    private ServiceBusSenderClient senderClient;
+    private ServiceBusProcessorClient processorClient;
+
+    // Thread-safe list to store received messages for testing
+    private final List<String> receivedMessages = new CopyOnWriteArrayList<>();
+
+    @PostConstruct
+    void initialize() {
+        LOG.info("Initializing Azure Service Bus clients");
+
+        // Initialize sender client
+        senderClient = clientBuilder
+                .sender()
+                .queueName(queueName)
+                .buildClient();
+
+        // Initialize processor client with message handler
+        processorClient = clientBuilder
+                .processor()
+                .queueName(queueName)
+                .receiveMode(ServiceBusReceiveMode.RECEIVE_AND_DELETE)
+                .processMessage(context -> {
+                    String body = context.getMessage().getBody().toString();
+                    receivedMessages.add(body);
+                    LOG.infof("Received message: %s", body);
+                })
+                .processError(context -> {
+                    LOG.errorf("Error occurred: %s", context.getException());
+                })
+                .disableAutoComplete()
+                .buildProcessorClient();
+
+        // Start processing messages
+        processorClient.start();
+
+        LOG.info("Azure Service Bus clients initialized successfully");
+    }
+
+    @PreDestroy
+    void cleanup() {
+        LOG.info("Cleaning up Azure Service Bus clients");
+
+        if (processorClient != null) {
+            processorClient.close();
+        }
+
+        if (senderClient != null) {
+            senderClient.close();
+        }
+
+        LOG.info("Azure Service Bus clients cleaned up successfully");
+    }
+
+    public void sendMessage(String messageBody) {
+        LOG.infof("Sending message: %s", messageBody);
+
+        ServiceBusMessage message = new ServiceBusMessage(messageBody);
+        senderClient.sendMessage(message);
+
+        LOG.info("Message sent successfully");
+    }
+
+    public List<String> getReceivedMessages() {
+        return List.copyOf(receivedMessages);
+    }
+}
+----
+
+==== Send and retrieve messages in a REST resource
+
+[source,java]
+----
+@Path("/quarkus-azure-servicebus")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ServiceBusResource {
+
+    private static final Logger LOG = Logger.getLogger(ServiceBusResource.class);
+
+    @Inject
+    ServiceBusManager serviceBusManager;
+
+    @POST
+    @Path("/messages")
+    public Response sendMessage(Map<String, String> request) {
+        String message = request.get("message");
+        LOG.infof("REST request to send message: %s", message);
+        serviceBusManager.sendMessage(message);
+
+        return Response.ok(Map.of(
+                "status", "success",
+                "message", "Message sent successfully")).build();
+    }
+
+    @GET
+    @Path("/messages")
+    public Response getMessages() {
+        List<String> messages = serviceBusManager.getReceivedMessages();
+        LOG.infof("REST request to get messages, returning %d messages", messages.size());
+
+        return Response.ok(Map.of(
+                "status", "success",
+                "count", messages.size(),
+                "messages", messages)).build();
+    }
+}
+----
+
+To test this sample you can run the following cURL commands after the application is started:
+
+* `curl http://localhost:8080/quarkus-azure-servicebus/messages -X POST -d '{"message": "Hello Azure Service Bus!"}' -H "Content-Type: application/json"`
+* `curl http://localhost:8080/quarkus-azure-servicebus/messages`
+
+You should see similar outputs:
+
+```
+{"status":"success","message":"Message sent successfully"}
+{"messages":["Hello Azure Service Bus!"],"status":"success","count":1}
+```
+
+When you're done with the example and no longer need the Azure resources, run the following command to clean up the Azure resources you created before:
+
+[source,shell]
+----
+az group delete \
+    --name rg-quarkus-azure-servicebus \
+    --yes --no-wait
+----
+
+== Extension Configuration Reference
+
+include::includes/quarkus-azure-servicebus.adoc[leveloffset=+1, opts=optional]

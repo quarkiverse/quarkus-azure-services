@@ -25,6 +25,8 @@ Here's the current selection of Quarkus Azure Services:
   computing, and machine learning.
 - [Quarkus Azure Event Hubs Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-eventhubs.html): [Azure Event Hubs](https://azure.microsoft.com/products/event-hubs)
   is a big data streaming platform and event ingestion service. It can receive and process millions of events per second.
+- [Quarkus Azure Service Bus Extension](https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-servicebus.html): [Azure Service Bus](https://azure.microsoft.com/products/service-bus)
+  is a fully managed enterprise message broker with message queues and publish-subscribe topics.
 
 ## Azure Services outside this repository
 - [Quarkus Opentelemetry Exporter for Microsoft Azure](https://docs.quarkiverse.io/quarkus-opentelemetry-exporter/dev/quarkus-opentelemetry-exporter-azure.html) enables [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) telemetry for Quarkus native applications
@@ -40,18 +42,17 @@ Besides extensions for specific Azure services, there are some common extensions
 
 ## Example applications
 
-Example applications can be found inside the [integration-tests](integration-tests) folder:
+Extension example applications can be found inside the [integration-tests](integration-tests) folder:
 
-- [Azure App Configuration sample](integration-tests/azure-app-configuration): REST endpoint using the Quarkus extension
-  to get the configuration stored in Azure App Configuration.
-- [Azure Cosmos DB sample](integration-tests/azure-cosmos): REST endpoint using the Quarkus extension to implement CRUD operations in Azure Cosmos DB.
-- [Azure Key Vault sample](integration-tests/azure-keyvault): REST endpoint using the Quarkus extension
-  to:
+- [Azure App Configuration sample](integration-tests/azure-app-configuration): retrieve the configuration stored in Azure App Configuration.
+- [Azure Cosmos DB sample](integration-tests/azure-cosmos): implement CRUD operations in Azure Cosmos DB.
+- [Azure Key Vault sample](integration-tests/azure-keyvault):
     - Create a secret via [SecretClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretclient) and [SecretAsyncClient](https://learn.microsoft.com/java/api/com.azure.security.keyvault.secrets.secretasyncclient) in Azure Key Vault.
     - Load a secret from Azure Key Vault as property using `ConfigProperty`.
-- [Azure Blob Storage sample](integration-tests/azure-storage-blob): REST endpoint using the Quarkus extension to
-  upload and download files to/from Azure Blob Storage.
-- [Azure Event Hubs sample](integration-tests/azure-eventhubs): REST endpoint using the Quarkus extension to send/receive data to/from Azure Event Hubs.
+- [Azure Blob Storage sample](integration-tests/azure-storage-blob): upload and download files to/from Azure Blob Storage.
+- [Azure Event Hubs sample](integration-tests/azure-eventhubs): send/receive data to/from Azure Event Hubs.
+- [Azure Service Bus sample](integration-tests/azure-servicebus): send/receive data to/from Azure Service Bus.
+- [Multiple Azure services sample](integration-tests/azure-services-together): use multiple extensions for Azure services, for example, storing the connection string of Azure Blob Storage as a secret in Azure Key Vault, retrieving it as a configuration property, and then using it to authenticate to Azure Blob Storage.
 
 ## Compatibility matrix
 
@@ -82,7 +83,7 @@ The following matrix shows the compatibility of the extensions with Quarkus vers
 Follow [this wiki](https://github.com/quarkiverse/quarkiverse/wiki/Release) to release a new version of the extensions.
 You can reference the following PRs as examples:
 
-* Release a new version: https://github.com/quarkiverse/quarkus-azure-services/pull/316.
+* Release a new version: https://github.com/quarkiverse/quarkus-azure-services/pull/379.
 * Register new extensions in catalog: https://github.com/quarkusio/quarkus-extension-catalog/pull/64.
   See [Publish your extension in registry.quarkus.io](https://quarkus.io/guides/writing-extensions#publish-your-extension-in-registry-quarkus-io)
   for more information.
