@@ -187,7 +187,7 @@ mvn verify -Dazure.test=true
 
 ## Cleaning up Azure resources
 
-Run the following command to clean up the Azure resources if you created before:
+Run the following command to clean up the Azure resources you created before:
 
 ```
 az group delete \

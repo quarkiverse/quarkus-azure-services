@@ -247,6 +247,15 @@ You should see similar outputs:
 {"messages":["Hello Azure Service Bus!"],"status":"success","count":1}
 ```
 
+When you're done with the example and no longer need the Azure resources, run the following command to clean up the Azure resources you created before:
+
+[source,shell]
+----
+az group delete \
+    --name rg-quarkus-azure-servicebus \
+    --yes --no-wait
+----
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-servicebus.adoc[leveloffset=+1, opts=optional]
