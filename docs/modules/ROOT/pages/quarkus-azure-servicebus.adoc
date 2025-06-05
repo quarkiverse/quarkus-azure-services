@@ -188,6 +188,10 @@ public class ServiceBusManager {
 
         LOG.info("Message sent successfully");
     }
+
+    public List<String> getReceivedMessages() {
+        return List.copyOf(receivedMessages);
+    }
 }
 ----
 
