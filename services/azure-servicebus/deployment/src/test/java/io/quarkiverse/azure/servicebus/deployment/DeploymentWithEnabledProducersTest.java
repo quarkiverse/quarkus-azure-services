@@ -10,13 +10,19 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 
 import io.quarkus.test.QuarkusUnitTest;
 
-class EnabledDeploymentTest {
+class DeploymentWithEnabledProducersTest {
 
     @RegisterExtension
     static final QuarkusUnitTest config = new QuarkusUnitTest()
             .withApplicationRoot((jar) -> jar
-                    .addAsResource(new StringAsset(
-                            "quarkus.azure.servicebus.connection-string=Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;"),
+                    .addAsResource(
+                            new StringAsset(
+                                    """
+                                            # supply required configuration for the CDI producer
+                                            quarkus.azure.servicebus.namespace=some.namespace
+                                            # disable the Dev Services to avoid potential configuration issues to interfere with the injection tests
+                                            quarkus.azure.servicebus.devservices.enabled=false
+                                            """),
                             "application.properties"));
 
     @Inject
