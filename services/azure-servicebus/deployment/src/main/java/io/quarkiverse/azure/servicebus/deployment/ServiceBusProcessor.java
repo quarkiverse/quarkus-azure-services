@@ -2,7 +2,6 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import java.util.stream.Stream;
 
-import io.quarkiverse.azure.servicebus.runtime.ServiceBusBuildTimeConfig;
 import io.quarkiverse.azure.servicebus.runtime.ServiceBusClientProducer;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;

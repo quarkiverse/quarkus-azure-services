@@ -1,13 +1,11 @@
-package io.quarkiverse.azure.servicebus.runtime;
-
-import static io.quarkus.runtime.annotations.ConfigPhase.BUILD_AND_RUN_TIME_FIXED;
+package io.quarkiverse.azure.servicebus.deployment;
 
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
 
+@ConfigRoot
 @ConfigMapping(prefix = "quarkus.azure.servicebus")
-@ConfigRoot(phase = BUILD_AND_RUN_TIME_FIXED)
 public interface ServiceBusBuildTimeConfig {
 
     /**
