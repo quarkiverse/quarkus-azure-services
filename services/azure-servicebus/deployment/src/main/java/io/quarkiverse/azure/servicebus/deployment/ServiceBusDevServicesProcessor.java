@@ -11,6 +11,7 @@ import org.testcontainers.containers.MSSQLServerContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.utility.MountableFile;
 
+import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
 import io.quarkus.deployment.IsNormal;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
@@ -48,8 +49,7 @@ public class ServiceBusDevServicesProcessor {
 
         emulator.start();
 
-        Map<String, String> configOverrides = Map.of(
-                "quarkus.azure.servicebus.connection-string", emulator.getConnectionString());
+        Map<String, String> configOverrides = Map.of(ServiceBusConfig.CONNECTION_STRING, emulator.getConnectionString());
 
         RunningDevService databaseDevService = new RunningDevService(FEATURE, database.getContainerId(), database::close,
                 Collections.emptyMap());
