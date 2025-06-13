@@ -46,7 +46,7 @@ public class ServiceBusDevServicesProcessor {
     private static boolean isInvalidConfiguration(BuildProducer<ValidationErrorBuildItem> configErrors) {
         if (isEmulatorConfigFileMissing()) {
             configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(
-                    "The Service Bus emulator configuration file was not found at 'src/test/resources/%s'."
+                    "The Service Bus emulator configuration file was not found at 'src/main/resources/%s'."
                             .formatted(EMULATOR_CONFIG_FILE))));
             return true;
         }
