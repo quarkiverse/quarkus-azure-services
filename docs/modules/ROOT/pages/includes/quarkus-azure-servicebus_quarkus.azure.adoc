@@ -82,7 +82,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The namespace of the Service Bus.
+The namespace of the Service Bus. The domain name is appended to this value to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -103,7 +103,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The domain name of the Service Bus.
+The domain name of the Service Bus. The domain name is appended to the namespace to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]

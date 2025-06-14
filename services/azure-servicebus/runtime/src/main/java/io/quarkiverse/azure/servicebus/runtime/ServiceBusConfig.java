@@ -13,10 +13,37 @@ import io.smallrye.config.WithDefault;
 @ConfigRoot(phase = RUN_TIME)
 public interface ServiceBusConfig {
     String PREFIX = "quarkus.azure.servicebus";
-    String ENABLED = PREFIX + ".enabled";
-    String CONNECTION_STRING = PREFIX + ".connection-string";
-    String NAMESPACE = PREFIX + ".namespace";
-    String DOMAIN_NAME = PREFIX + ".domain-name";
+
+    /**
+     * The name of the property to enable or disable the extension.
+     */
+    String CONFIG_KEY_ENABLED = PREFIX + ".enabled";
+
+    /**
+     * The name of the property to configure the connection string.
+     *
+     * @see #connectionString()
+     */
+    String CONFIG_KEY_CONNECTION_STRING = PREFIX + ".connection-string";
+
+    /**
+     * The name of the property to configure the namespace.
+     *
+     * @see #namespace()
+     */
+    String CONFIG_KEY_NAMESPACE = PREFIX + ".namespace";
+
+    /**
+     * The name of the property to configure the domain name.
+     *
+     * @see #domainName()
+     */
+    String CONFIG_KEY_DOMAIN_NAME = PREFIX + ".domain-name";
+
+    /**
+     * The default value of {@link #domainName()}.
+     */
+    String DEFAULT_DOMAIN_NAME = "servicebus.windows.net";
 
     /**
      * Connect to the Service Bus using this connection string.
@@ -28,12 +55,16 @@ public interface ServiceBusConfig {
 
     /**
      * The namespace of the Service Bus.
+     * The domain name is appended to this value to form the fully qualified namespace name.
+     *
+     * @see #domainName()
      */
     Optional<String> namespace();
 
     /**
      * The domain name of the Service Bus.
+     * The domain name is appended to the namespace to form the fully qualified namespace name.
      */
-    @WithDefault("servicebus.windows.net")
+    @WithDefault(DEFAULT_DOMAIN_NAME)
     String domainName();
 }
