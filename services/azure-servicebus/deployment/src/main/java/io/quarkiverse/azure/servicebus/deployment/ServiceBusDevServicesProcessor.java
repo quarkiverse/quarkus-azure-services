@@ -20,6 +20,7 @@ import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
+import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class ServiceBusDevServicesProcessor {
@@ -30,7 +31,7 @@ public class ServiceBusDevServicesProcessor {
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class,
             ServiceBusDevServicesConfig.Enabled.class })
     public List<DevServicesResultBuildItem> startServiceBusEmulator(BuildProducer<ValidationErrorBuildItem> configErrors) {
-        if (isInvalidConfiguration(configErrors)) {
+        if (isServiceBusConnectionConfigured() || hasConfigurationProblems(configErrors)) {
             return null;
         }
 
@@ -43,7 +44,12 @@ public class ServiceBusDevServicesProcessor {
                 .toList();
     }
 
-    private static boolean isInvalidConfiguration(BuildProducer<ValidationErrorBuildItem> configErrors) {
+    private static boolean isServiceBusConnectionConfigured() {
+        return ConfigUtils.isPropertyPresent(ServiceBusConfig.CONFIG_KEY_NAMESPACE)
+                || ConfigUtils.isPropertyPresent(ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING);
+    }
+
+    private static boolean hasConfigurationProblems(BuildProducer<ValidationErrorBuildItem> configErrors) {
         if (isEmulatorConfigFileMissing()) {
             configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(
                     "The Service Bus emulator configuration file was not found at 'src/main/resources/%s'."
@@ -74,7 +80,8 @@ public class ServiceBusDevServicesProcessor {
 
         emulator.start();
 
-        Map<String, String> configOverrides = Map.of(ServiceBusConfig.CONNECTION_STRING, emulator.getConnectionString());
+        Map<String, String> configOverrides = Map.of(ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING,
+                emulator.getConnectionString());
 
         RunningDevService databaseDevService = new RunningDevService(FEATURE, database.getContainerId(), database::close,
                 Collections.emptyMap());
