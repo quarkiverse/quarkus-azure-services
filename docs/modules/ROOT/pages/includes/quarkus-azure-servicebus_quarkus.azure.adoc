@@ -17,12 +17,37 @@ endif::add-copy-button-to-config-props[]
 --
 The flag to enable the extension. If set to false, the CDI producers will be disabled.
 
+This flag does not affect Dev Services. To disable Dev Services, you must explicitly set either `quarkus.azure.servicebus.devservices.enabled` or `quarkus.devservices.enabled` to `false`.
+
 
 ifdef::add-copy-button-to-env-var[]
 Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_ENABLED+++[]
 endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
 Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled[`quarkus.azure.servicebus.devservices.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+If the Dev Services have been explicitly enabled or disabled. Dev Services are generally enabled by default.
+
+When Dev Services are enabled, Quarkus will attempt to automatically configure and start an Azure Service Bus emulator instance when running in Dev or Test mode and when Docker is running. `quarkus.azure.servicebus.connection-string` will be set to point to the emulator.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
@@ -57,7 +82,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The namespace of the Service Bus.
+The namespace of the Service Bus. The domain name is appended to this value to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -78,7 +103,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The domain name of the Service Bus.
+The domain name of the Service Bus. The domain name is appended to the namespace to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]

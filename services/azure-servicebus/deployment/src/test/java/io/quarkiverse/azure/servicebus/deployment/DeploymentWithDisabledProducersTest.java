@@ -11,13 +11,21 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 
 import io.quarkus.test.QuarkusUnitTest;
 
-class DisabledDeploymentTest {
+class DeploymentWithDisabledProducersTest {
 
     @RegisterExtension
     static final QuarkusUnitTest config = new QuarkusUnitTest()
             .setExpectedException(UnsatisfiedResolutionException.class)
             .withApplicationRoot((jar) -> jar
-                    .addAsResource(new StringAsset("quarkus.azure.servicebus.enabled=false"), "application.properties"));
+                    .addAsResource(
+                            new StringAsset(
+                                    """
+                                            # disable the CDI producers of the extension
+                                            quarkus.azure.servicebus.enabled=false
+                                            # disable the Dev Services to avoid potential configuration issues to interfere with the injection tests
+                                            quarkus.azure.servicebus.devservices.enabled=false
+                                            """),
+                            "application.properties"));
 
     @Inject
     ServiceBusClientBuilder serviceBusClientBuilder;
