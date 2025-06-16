@@ -1,5 +1,7 @@
 package io.quarkiverse.azure.servicebus.deployment;
 
+import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_DEVSERVICE_ENABLED;
+import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_LICENCE_ACCEPTED;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusProcessor.FEATURE;
 
 import java.net.URL;
@@ -26,12 +28,15 @@ import io.quarkus.runtime.configuration.ConfigurationException;
 public class ServiceBusDevServicesProcessor {
 
     private static final String EMULATOR_CONFIG_FILE = "servicebus-config.json";
+    public static final String SERVICEBUS_EULA_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/EMULATOR_EULA.txt";
+    public static final String MSSQL_SERVER_EULA = "https://hub.docker.com/r/microsoft/mssql-server";
     static volatile List<RunningDevService> devServices;
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class,
             ServiceBusDevServicesConfig.Enabled.class })
-    public List<DevServicesResultBuildItem> startServiceBusEmulator(BuildProducer<ValidationErrorBuildItem> configErrors) {
-        if (isServiceBusConnectionConfigured() || hasConfigurationProblems(configErrors)) {
+    public List<DevServicesResultBuildItem> startServiceBusEmulator(ServiceBusDevServicesConfig devServicesConfig,
+            BuildProducer<ValidationErrorBuildItem> configErrors) {
+        if (isServiceBusConnectionConfigured() || hasConfigurationProblems(devServicesConfig, configErrors)) {
             return null;
         }
 
@@ -49,11 +54,21 @@ public class ServiceBusDevServicesProcessor {
                 || ConfigUtils.isPropertyPresent(ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING);
     }
 
-    private static boolean hasConfigurationProblems(BuildProducer<ValidationErrorBuildItem> configErrors) {
+    private static boolean hasConfigurationProblems(ServiceBusDevServicesConfig devServicesConfig,
+            BuildProducer<ValidationErrorBuildItem> configErrors) {
+        if (!devServicesConfig.licenceAccepted()) {
+            configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
+                    "To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator (%s)"
+                            + " and the Microsoft SQL Server (described at %s).\n" +
+                            "Either accept the licences by setting '%s=true' or disable the Service Bus Dev Services with '%s=false'.",
+                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA, CONFIG_KEY_LICENCE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
+            return true;
+        }
         if (isEmulatorConfigFileMissing()) {
-            configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(
-                    "The Service Bus emulator configuration file was not found at 'src/main/resources/%s'."
-                            .formatted(EMULATOR_CONFIG_FILE))));
+            configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
+                    "The Service Bus emulator configuration file was not found at 'src/main/resources/%s'.\n" +
+                            "Either add it or disable the Service Bus Dev Services with '%s=false'.",
+                    EMULATOR_CONFIG_FILE, CONFIG_KEY_DEVSERVICE_ENABLED))));
             return true;
         }
         return false;

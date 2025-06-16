@@ -20,9 +20,4 @@ public interface ServiceBusBuildTimeConfig {
     @WithDefault("true")
     boolean enabled();
 
-    /**
-     * Dev Services configuration.
-     */
-    ServiceBusDevServicesConfig devservices();
-
 }
