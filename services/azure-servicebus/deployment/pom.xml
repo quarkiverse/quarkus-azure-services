@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <!-- required by the underlying Testcontainers library for checking readiness
-             of the MSSQL database container used by the Azure Service Bus emulator -->
+             of the Microsoft SQL Server container used by the Azure Service Bus emulator -->
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
         </dependency>

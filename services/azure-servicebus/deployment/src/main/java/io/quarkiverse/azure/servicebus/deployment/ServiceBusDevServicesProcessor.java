@@ -30,7 +30,7 @@ public class ServiceBusDevServicesProcessor {
 
     private static final String EMULATOR_CONFIG_FILE = "servicebus-config.json";
     public static final String SERVICEBUS_EULA_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/EMULATOR_EULA.txt";
-    public static final String MSSQL_SERVER_EULA = "https://hub.docker.com/r/microsoft/mssql-server";
+    public static final String MSSQL_SERVER_EULA_URL = "https://hub.docker.com/r/microsoft/mssql-server";
     static volatile List<RunningDevService> devServices;
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class,
@@ -42,7 +42,7 @@ public class ServiceBusDevServicesProcessor {
         }
 
         if (devServices == null) {
-            devServices = startContainers();
+            devServices = startContainers(devServicesConfig);
         }
 
         return devServices.stream()
@@ -61,7 +61,7 @@ public class ServiceBusDevServicesProcessor {
                     "To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator (%s)"
                             + " and the Microsoft SQL Server (described at %s).\n" +
                             "Either accept the licenses by setting '%s=true' or disable the Service Bus Dev Services with '%s=false'.",
-                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
+                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
             return true;
         }
         if (isEmulatorConfigFileMissing()) {
@@ -79,15 +79,14 @@ public class ServiceBusDevServicesProcessor {
         return resourceUrl == null;
     }
 
-    private List<RunningDevService> startContainers() {
+    private List<RunningDevService> startContainers(ServiceBusDevServicesConfig devServicesConfig) {
         Network internalNetwork = Network.newNetwork();
 
-        MSSQLServerContainer<?> database = new MSSQLServerContainer<>("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
+        MSSQLServerContainer<?> database = new MSSQLServerContainer<>(devServicesConfig.database().imageName())
                 .acceptLicense()
                 .withNetwork(internalNetwork);
 
-        ServiceBusEmulatorContainer emulator = new ServiceBusEmulatorContainer(
-                "mcr.microsoft.com/azure-messaging/servicebus-emulator:1.1.2")
+        ServiceBusEmulatorContainer emulator = new ServiceBusEmulatorContainer(devServicesConfig.emulator().imageName())
                 .acceptLicense()
                 .withConfig(MountableFile.forClasspathResource(EMULATOR_CONFIG_FILE))
                 .withMsSqlServerContainer(database)

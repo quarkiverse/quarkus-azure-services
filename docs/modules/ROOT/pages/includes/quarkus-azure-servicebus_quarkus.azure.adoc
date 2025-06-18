@@ -38,7 +38,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator and the Microsoft SQL Server.
+To use the Azure Service Bus Dev Services, you must accept the license terms of the Service Bus emulator and the Microsoft SQL Server.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -50,6 +50,48 @@ endif::add-copy-button-to-env-var[]
 --
 |boolean
 |`false`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name[`quarkus.azure.servicebus.devservices.emulator.image-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.emulator.image-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The container image name of the Azure Service Bus emulator. See the link:https://mcr.microsoft.com/en-us/artifact/mar/azure-messaging/servicebus-emulator/tags[artifact registry] for available tags of the default image.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_EMULATOR_IMAGE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_EMULATOR_IMAGE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`mcr.microsoft.com/azure-messaging/servicebus-emulator:1.1.2`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name[`quarkus.azure.servicebus.devservices.database.image-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.database.image-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The container image name of the Microsoft SQL Server required by the Azure Service Bus emulator. See the link:https://mcr.microsoft.com/en-us/artifact/mar/mssql/server/tags[artifact registry] for available tags of the default image.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_DATABASE_IMAGE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_DATABASE_IMAGE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`quarkus.azure.servicebus.enabled`]##
 ifdef::add-copy-button-to-config-props[]

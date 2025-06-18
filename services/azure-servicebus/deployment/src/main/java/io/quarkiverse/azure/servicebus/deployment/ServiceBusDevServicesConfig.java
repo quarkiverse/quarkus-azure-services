@@ -36,11 +36,21 @@ public interface ServiceBusDevServicesConfig {
     boolean enabled();
 
     /**
-     * To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator and the Microsoft SQL
-     * Server.
+     * To use the Azure Service Bus Dev Services, you must accept the license terms
+     * of the Service Bus emulator and the Microsoft SQL Server.
      */
     @WithDefault("false")
     boolean licenseAccepted();
+
+    /**
+     * Configuration of the Azure Service Bus emulator.
+     */
+    ServiceBusDevServicesEmulatorConfig emulator();
+
+    /**
+     * Configuration of the Microsoft SQL Server required by the Azure Service Bus emulator.
+     */
+    ServiceBusDevServicesDatabaseConfig database();
 
     class Enabled implements BooleanSupplier {
         final ServiceBusDevServicesConfig config;
