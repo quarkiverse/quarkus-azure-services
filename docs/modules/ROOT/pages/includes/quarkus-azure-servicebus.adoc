@@ -7,6 +7,50 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled[`quarkus.azure.servicebus.devservices.enabled`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether Dev Services should be enabled or not. Dev Services are enabled by default unless a specific Azure Service Bus connection exists.
+
+When Dev Services are enabled, Quarkus will attempt to automatically configure and start an Azure Service Bus emulator instance and an associated MSSQL Server when running in dev or test mode and when Docker is running. `quarkus.azure.servicebus.connection-string` will be set to point to the emulator.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`true`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-licence-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-licence-accepted[`quarkus.azure.servicebus.devservices.licence-accepted`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.licence-accepted+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator and the Microsoft SQL Server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENCE_ACCEPTED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENCE_ACCEPTED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`false`
+
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`quarkus.azure.servicebus.enabled`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.enabled+++[]
@@ -16,6 +60,8 @@ endif::add-copy-button-to-config-props[]
 [.description]
 --
 The flag to enable the extension. If set to false, the CDI producers will be disabled.
+
+This flag does not affect Dev Services. To disable Dev Services, you must explicitly set either `quarkus.azure.servicebus.devservices.enabled` or `quarkus.devservices.enabled` to `false`.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -57,7 +103,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The namespace of the Service Bus.
+The namespace of the Service Bus. The domain name is appended to this value to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -78,7 +124,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The domain name of the Service Bus.
+The domain name of the Service Bus. The domain name is appended to the namespace to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
