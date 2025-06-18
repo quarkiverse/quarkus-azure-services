@@ -3,6 +3,8 @@ package io.quarkiverse.azure.servicebus.deployment;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_DEVSERVICE_ENABLED;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_LICENSE_ACCEPTED;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusProcessor.FEATURE;
+import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING;
+import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_NAMESPACE;
 
 import java.net.URL;
 import java.util.Collections;
@@ -14,7 +16,6 @@ import org.testcontainers.containers.MSSQLServerContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.utility.MountableFile;
 
-import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
 import io.quarkus.arc.deployment.ValidationPhaseBuildItem.ValidationErrorBuildItem;
 import io.quarkus.deployment.IsNormal;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -50,8 +51,7 @@ public class ServiceBusDevServicesProcessor {
     }
 
     private static boolean isServiceBusConnectionConfigured() {
-        return ConfigUtils.isPropertyPresent(ServiceBusConfig.CONFIG_KEY_NAMESPACE)
-                || ConfigUtils.isPropertyPresent(ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING);
+        return ConfigUtils.isAnyPropertyPresent(List.of(CONFIG_KEY_NAMESPACE, CONFIG_KEY_CONNECTION_STRING));
     }
 
     private static boolean hasConfigurationProblems(ServiceBusDevServicesConfig devServicesConfig,
@@ -95,7 +95,7 @@ public class ServiceBusDevServicesProcessor {
 
         emulator.start();
 
-        Map<String, String> configOverrides = Map.of(ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING,
+        Map<String, String> configOverrides = Map.of(CONFIG_KEY_CONNECTION_STRING,
                 emulator.getConnectionString());
 
         RunningDevService databaseDevService = new RunningDevService(FEATURE, database.getContainerId(), database::close,
