@@ -3,6 +3,7 @@ package io.quarkiverse.azure.servicebus.deployment;
 import java.util.stream.Stream;
 
 import io.quarkiverse.azure.servicebus.runtime.ServiceBusClientProducer;
+import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfigVerifier;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -22,7 +23,7 @@ public class ServiceBusProcessor {
     @BuildStep
     AdditionalBeanBuildItem producer(ServiceBusBuildTimeConfig config) {
         if (config.enabled()) {
-            return new AdditionalBeanBuildItem(ServiceBusClientProducer.class);
+            return new AdditionalBeanBuildItem(ServiceBusConfigVerifier.class, ServiceBusClientProducer.class);
         }
         return null;
     }
