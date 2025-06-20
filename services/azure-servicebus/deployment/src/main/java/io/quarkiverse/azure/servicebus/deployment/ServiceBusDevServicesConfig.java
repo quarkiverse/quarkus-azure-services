@@ -21,7 +21,7 @@ public interface ServiceBusDevServicesConfig {
     /**
      * The name of the property to accept the EULA of Azure Service Bus emulator and MSSQL Server.
      */
-    String CONFIG_KEY_LICENCE_ACCEPTED = PREFIX + ".licence-accepted";
+    String CONFIG_KEY_LICENSE_ACCEPTED = PREFIX + ".license-accepted";
 
     /**
      * Whether Dev Services should be enabled or not.
@@ -40,7 +40,7 @@ public interface ServiceBusDevServicesConfig {
      * Server.
      */
     @WithDefault("false")
-    boolean licenceAccepted();
+    boolean licenseAccepted();
 
     class Enabled implements BooleanSupplier {
         final ServiceBusDevServicesConfig config;
