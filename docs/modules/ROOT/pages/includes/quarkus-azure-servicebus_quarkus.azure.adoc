@@ -30,9 +30,9 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`true`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-licence-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-licence-accepted[`quarkus.azure.servicebus.devservices.licence-accepted`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted[`quarkus.azure.servicebus.devservices.license-accepted`]##
 ifdef::add-copy-button-to-config-props[]
-config_property_copy_button:+++quarkus.azure.servicebus.devservices.licence-accepted+++[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.license-accepted+++[]
 endif::add-copy-button-to-config-props[]
 
 
@@ -42,10 +42,10 @@ To use the Service Bus Dev Services, you must accept the license terms of the Se
 
 
 ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENCE_ACCEPTED+++[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENSE_ACCEPTED+++[]
 endif::add-copy-button-to-env-var[]
 ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENCE_ACCEPTED+++`
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENSE_ACCEPTED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean

@@ -1,7 +1,7 @@
 package io.quarkiverse.azure.servicebus.deployment;
 
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_DEVSERVICE_ENABLED;
-import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_LICENCE_ACCEPTED;
+import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_LICENSE_ACCEPTED;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusProcessor.FEATURE;
 
 import java.net.URL;
@@ -56,12 +56,12 @@ public class ServiceBusDevServicesProcessor {
 
     private static boolean hasConfigurationProblems(ServiceBusDevServicesConfig devServicesConfig,
             BuildProducer<ValidationErrorBuildItem> configErrors) {
-        if (!devServicesConfig.licenceAccepted()) {
+        if (!devServicesConfig.licenseAccepted()) {
             configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
                     "To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator (%s)"
                             + " and the Microsoft SQL Server (described at %s).\n" +
-                            "Either accept the licences by setting '%s=true' or disable the Service Bus Dev Services with '%s=false'.",
-                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA, CONFIG_KEY_LICENCE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
+                            "Either accept the licenses by setting '%s=true' or disable the Service Bus Dev Services with '%s=false'.",
+                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
             return true;
         }
         if (isEmulatorConfigFileMissing()) {

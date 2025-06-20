@@ -25,7 +25,7 @@ class DeploymentWithDevServicesTest {
                                     """
                                             # We do not set a connection string. This triggers the Dev Services.
 
-                                            quarkus.azure.servicebus.devservices.licence-accepted=true
+                                            quarkus.azure.servicebus.devservices.license-accepted=true
                                             """),
                             "application.properties")
                     .addAsResource("minimal-servicebus-config.json", "servicebus-config.json"));

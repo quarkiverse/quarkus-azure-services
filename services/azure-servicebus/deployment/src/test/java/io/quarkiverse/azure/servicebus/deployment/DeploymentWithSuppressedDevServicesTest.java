@@ -26,7 +26,7 @@ class DeploymentWithSuppressedDevServicesTest {
                                             # We set a connection string. This disables the Dev Services.
                                             quarkus.azure.servicebus.connection-string=some-connection.string
 
-                                            quarkus.azure.servicebus.devservices.licence-accepted=true
+                                            quarkus.azure.servicebus.devservices.license-accepted=true
                                             """),
                             "application.properties")
                     .addAsResource("minimal-servicebus-config.json", "servicebus-config.json"));
