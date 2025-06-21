@@ -8,8 +8,8 @@
         <relativePath>../../services/pom.xml</relativePath>
     </parent>
     
-    <artifactId>quarkus-azure-identity-extensions-parent</artifactId>
-    <name>Quarkus Azure Services :: Common :: Azure Identity Extensions</name>
+    <artifactId>quarkus-azure-identity-jdbc-parent</artifactId>
+    <name>Quarkus Azure Services :: Common :: Azure Identity JDBC</name>
     <packaging>pom</packaging>
     
     <modules>

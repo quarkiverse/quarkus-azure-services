@@ -1,6 +1,6 @@
 ---
-name: "Quarkus Support Azure Identity Extensions"
-description: "Quarkus Support Azure Identity Extensions"
+name: "Quarkus Support Azure Identity JDBC"
+description: "Quarkus Support Azure Identity JDBC"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"

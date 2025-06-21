@@ -14,7 +14,7 @@
 
     <modules>
         <module>azure-identity</module>
-        <module>azure-identity-extensions</module>
+        <module>azure-identity-jdbc</module>
         <module>core</module>
         <module>jackson-dataformat-xml</module>
         <module>http-client-vertx</module>
