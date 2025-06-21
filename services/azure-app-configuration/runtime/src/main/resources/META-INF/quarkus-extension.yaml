@@ -1,6 +1,6 @@
 ---
-name: "Quarkus Azure App Configuration"
-description: "Quarkus Azure App Configuration"
+name: "Quarkus Support Azure App Configuration"
+description: "Manage configurations in Azure App Configuration Service"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
