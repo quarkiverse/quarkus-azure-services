@@ -1,6 +1,6 @@
 ---
-name: "Quarkus Support Azure Storage Blob"
-description: "Quarkus Support for Azure Storage Blob"
+name: "Quarkus Support Azure Blob Storage"
+description: "Interacts with Azure Blob Storage through the Azure SDK for Java"
 artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
   icon-url: "https://learn.microsoft.com/en-us/media/logos/logo_azure.svg"
