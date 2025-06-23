@@ -36,6 +36,7 @@ Here's the current selection of Quarkus Azure Services:
 Besides extensions for specific Azure services, there are some common extensions that are used by the Azure services extensions or can be used independently as well:
 
 * [Azure Identity Extension](common/azure-identity): This extension provides a way to authenticate with Azure services using the [azure-identity](https://mvnrepository.com/artifact/com.azure/azure-identity) library.
+* [Azure Identity JDBC Extension](common/azure-identity-jdbc): This extension provides a way to authenticate Azure Database for PostgreSQL/MySQL Flexible server with Microsoft Entra authentication using the [Azure identity authentication extensions plugin library for Java](https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/identity/azure-identity-extensions).
 * [Azure Core HTTP Vert.x](common/http-client-vertx): This extension provides the Vert.x HTTP client plugin using the [azure-core-http-vertx](https://mvnrepository.com/artifact/com.azure/azure-core-http-vertx) library.
 * [Azure Core Extension](common/core): This extension provides core types for Azure Java clients using the [azure-core](https://mvnrepository.com/artifact/com.azure/azure-core) library.
 * [Jackson Dataformat XML Extension](common/jackson-dataformat-xml): This extension provides a data format extension for Jackson to offer alternative support for serializing POJOs as XML and deserializing XML as pojos using the [jackson-dataformat-xml](https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml) library.
