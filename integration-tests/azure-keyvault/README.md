@@ -32,7 +32,7 @@ mvn clean install -DskipTests --file ../../pom.xml
 If you want to use the release version, you need to update the version of dependencies in the `pom.xml` file.
 
 First, you need to find out the latest release version of the Quarkus Azure services extensions
-from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases), for example, `1.1.5`.
+from [releases](https://github.com/quarkiverse/quarkus-azure-services/releases), for example, `1.1.6`.
 
 Then, update the version of dependencies in the `pom.xml` file, for example:
 
@@ -40,7 +40,7 @@ Then, update the version of dependencies in the `pom.xml` file, for example:
 <parent>
     <groupId>io.quarkiverse.azureservices</groupId>
     <artifactId>quarkus-azure-services-parent</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
     <relativePath></relativePath>
 </parent>
 ```
