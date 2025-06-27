@@ -18,9 +18,8 @@ public class ServiceBusClientProducer {
                     .connectionString(config.connectionString().get());
         }
 
-        // Configuration was already verified in ServiceBusConfigVerifier,
-        // so we can rely on the namespace being present here.
-        String namespace = config.namespace().get();
+        String namespace = config.namespace()
+                .orElseThrow(ServiceBusConfigVerifier::missingConnectionConfigurationException);
 
         return new ServiceBusClientBuilder()
                 .fullyQualifiedNamespace(namespace + "." + config.domainName())
