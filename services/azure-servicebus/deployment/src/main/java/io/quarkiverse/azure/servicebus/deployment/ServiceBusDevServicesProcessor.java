@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.logging.Logger;
 import org.testcontainers.azure.ServiceBusEmulatorContainer;
 import org.testcontainers.containers.MSSQLServerContainer;
 import org.testcontainers.containers.Network;
@@ -28,6 +29,7 @@ import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class ServiceBusDevServicesProcessor {
 
+    private static final Logger log = Logger.getLogger(ServiceBusDevServicesProcessor.class);
     private static final String EMULATOR_CONFIG_FILE = "servicebus-config.json";
     public static final String SERVICEBUS_EULA_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/EMULATOR_EULA.txt";
     public static final String MSSQL_SERVER_EULA_URL = "https://hub.docker.com/r/microsoft/mssql-server";
@@ -80,6 +82,8 @@ public class ServiceBusDevServicesProcessor {
     }
 
     private List<RunningDevService> startContainers(ServiceBusDevServicesConfig devServicesConfig) {
+        log.info("Dev Services for Azure Service Bus starting the Azure Service Bus emulator");
+
         Network internalNetwork = Network.newNetwork();
 
         MSSQLServerContainer<?> database = new MSSQLServerContainer<>(devServicesConfig.database().imageName())
@@ -93,6 +97,7 @@ public class ServiceBusDevServicesProcessor {
                 .withNetwork(internalNetwork);
 
         emulator.start();
+        log.infof("Azure Service Bus emulator started - connection string is '%s'", emulator.getConnectionString());
 
         Map<String, String> configOverrides = Map.of(CONFIG_KEY_CONNECTION_STRING,
                 emulator.getConnectionString());
