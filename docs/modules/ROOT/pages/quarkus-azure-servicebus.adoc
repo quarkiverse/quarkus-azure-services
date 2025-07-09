@@ -4,13 +4,13 @@ include::./includes/attributes.adoc[]
 
 include::./includes/support.adoc[]
 
-https://azure.microsoft.com/products/service-bus[Azure Service Bus] is a fully managed enterprise message broker with message queues and publish-subscribe topics. Service Bus is used to decouple applications and services from each other. 
+https://azure.microsoft.com/products/service-bus[Azure Service Bus] is a fully managed enterprise message broker with message queues and publish-subscribe topics. Service Bus is used to decouple applications and services from each other.
 
 This extension provides the following benefits:
 
 - It resolves native build issues so that applications using the Azure Service Bus with the Azure SDK for Java can be compiled to a native image.
 - It injects `com.azure.messaging.servicebus.ServiceBusClientBuilder` instances that can be used to create clients for an Azure Service Bus that send and consume messages.
-- The dev services launch an Azure Service Bus emulator in dev and test mode and configure the injected builders to use it.
+- The Dev Services launch an Azure Service Bus emulator in dev and test mode and configure the injected builders to use it.
 
 This is a step by step guide on how to use the Quarkus Azure Service Bus extension. If you're looking for a complete code sample, you can find it in the https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-servicebus[Azure Service Bus sample].
 
@@ -260,6 +260,39 @@ az group delete \
     --name rg-quarkus-azure-servicebus \
     --yes --no-wait
 ----
+
+== Dev Services
+
+The Dev Services of this extension launch an https://learn.microsoft.com/en-us/azure/service-bus-messaging/overview-emulator[Azure Service Bus emulator] in dev and test mode.
+
+The ServiceBusClientBuilder instances produced by this extension will be automatically configured to use the emulator's connection string when running in dev or test mode through the `quarkus.azure.servicebus.connection-string` property.
+
+=== Prerequisites
+
+The Azure Service Bus emulator consists of two containers:
+
+1. The Azure Service Bus emulator container
+2. A Microsoft SQL Server database container
+
+To use the Dev Services functionality, you must explicitly accept the license terms for both products:
+
+* Azure Service Bus Emulator EULA: https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/EMULATOR_EULA.txt[View license]
+* Microsoft SQL Server EULA: https://go.microsoft.com/fwlink/?linkid=857698[View license]
+
+You can accept both licenses by setting the following configuration:
+
+[source,properties]
+----
+quarkus.azure.servicebus.devservices.license-accepted=true
+----
+
+=== Disable the Dev Services
+
+The Dev Services will not start under any of these conditions:
+
+- A Service Bus connection is configured via `quarkus.azure.servicebus.namespace` or `quarkus.azure.servicebus.connection-string`
+- The Dev Services are explicitly disabled with `quarkus.azure.servicebus.devservices.enabled=false`
+- Global Dev Services are disabled with `quarkus.devservices.enabled=false`
 
 == Extension Configuration Reference
 

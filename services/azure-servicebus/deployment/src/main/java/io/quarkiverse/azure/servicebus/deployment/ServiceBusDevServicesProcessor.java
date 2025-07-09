@@ -34,7 +34,7 @@ public class ServiceBusDevServicesProcessor {
     private static final int DEFAULT_EMULATOR_PORT = 5672;
     private static final String EMULATOR_CONFIG_FILE = "servicebus-config.json";
     public static final String SERVICEBUS_EULA_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/EMULATOR_EULA.txt";
-    public static final String MSSQL_SERVER_EULA_URL = "https://hub.docker.com/r/microsoft/mssql-server";
+    public static final String MSSQL_SERVER_EULA_URL = "https://go.microsoft.com/fwlink/?linkid=857698";
     static volatile List<RunningDevService> devServices;
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class,
@@ -64,7 +64,7 @@ public class ServiceBusDevServicesProcessor {
         if (!devServicesConfig.licenseAccepted()) {
             configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
                     "To use the Service Bus Dev Services, you must accept the license terms of the Service Bus emulator (%s)"
-                            + " and the Microsoft SQL Server (described at %s).\n" +
+                            + " and the Microsoft SQL Server (%s).\n" +
                             "Either accept the licenses by setting '%s=true' or disable the Service Bus Dev Services with '%s=false'.",
                     SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
             return true;
