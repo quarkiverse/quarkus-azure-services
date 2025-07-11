@@ -76,6 +76,33 @@ endif::add-copy-button-to-env-var[]
 |string
 |`mcr.microsoft.com/azure-messaging/servicebus-emulator:latest`
 
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path[`quarkus.azure.servicebus.devservices.emulator.config-file-path`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.emulator.config-file-path+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Name and path of the Service Bus emulator configuration file. The value is interpreted as a relative path in the classpath, e.g. `my-servicebus-config.json`, that points to a valid Service Bus emulator configuration file in JSON format.
+
+If you need custom configuration for different test scenarios, this property allows you to specify distinct configuration files for each test profile.
+
+If a configuration file is specified with this property, it must exist. If the property is not used, the configuration is expected to reside at `servicebus-config.json`. If it does not exist there, a warning is issued and the emulator will use a default configuration file that defines a queue "queue" and a topic "topic" with a subscription "subscription".
+
+link:https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json[Example configuration file]
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_EMULATOR_CONFIG_FILE_PATH+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_EMULATOR_CONFIG_FILE_PATH+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name[`quarkus.azure.servicebus.devservices.database.image-name`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.database.image-name+++[]
