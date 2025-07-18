@@ -286,6 +286,15 @@ You can accept both licenses by setting the following configuration:
 quarkus.azure.servicebus.devservices.license-accepted=true
 ----
 
+=== Configure the Azure Service Bus emulator
+
+The emulator is configured via a configuration file in JSON format.
+See this link:https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json[example] for its syntax.
+
+The configuration file is expected at `src/main/resources/servicebus-config.json`.
+If it does not exist, a warning is issued and a fallback configuration
+providing a queue "queue" and a topic "topic" with a subscription "subscription" is applied.
+
 === Disable the Dev Services
 
 The Dev Services will not start under any of these conditions:
