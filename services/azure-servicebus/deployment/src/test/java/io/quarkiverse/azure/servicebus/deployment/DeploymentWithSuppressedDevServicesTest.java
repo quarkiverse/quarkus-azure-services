@@ -28,8 +28,7 @@ class DeploymentWithSuppressedDevServicesTest {
 
                                             quarkus.azure.servicebus.devservices.license-accepted=true
                                             """),
-                            "application.properties")
-                    .addAsResource("minimal-servicebus-config.json", "servicebus-config.json"));
+                            "application.properties"));
 
     @ConfigProperty(name = ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING)
     String connectionString;

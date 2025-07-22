@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkus.test.QuarkusUnitTest;
@@ -14,11 +13,10 @@ import io.quarkus.test.QuarkusUnitTest;
  * A custom config file location was explicitly configured, but the file does not exist.
  * Dev Services fail to start.
  */
-@ExtendWith(ResetDevServicesExtension.class)
 class EmulatorEnforcesCustomConfigLocationTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest config = new QuarkusUnitTest()
+    static final QuarkusUnitTest TEST = new QuarkusUnitTest()
             .withApplicationRoot((jar) -> jar
                     .addAsResource(
                             new StringAsset(

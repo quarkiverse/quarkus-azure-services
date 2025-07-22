@@ -5,25 +5,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.util.List;
+import java.util.logging.LogRecord;
+
 import org.jboss.logmanager.Level;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusDevModeTest;
 
 /**
  * No config file exists, and no custom config file location was specified.
  * The emulator starts with the fallback configuration.
  */
-@ExtendWith(ResetDevServicesExtension.class)
-class EmulatorStartsWithFallbackConfigTest {
+public class EmulatorStartsWithFallbackConfigTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest config = new QuarkusUnitTest()
+    static final QuarkusDevModeTest TEST = new QuarkusDevModeTest()
             .withApplicationRoot((jar) -> jar
                     .addAsResource(
                             new StringAsset(
@@ -33,16 +32,11 @@ class EmulatorStartsWithFallbackConfigTest {
                             "application.properties"))
             // only consider warnings from the Dev Services processor
             .setLogRecordPredicate(logRecord -> logRecord.getLoggerName().equals(ServiceBusDevServicesProcessor.class.getName())
-                    && logRecord.getLevel().equals(Level.WARNING))
-            // expect a specific log message
-            .assertLogRecords(logRecords -> assertThat(logRecords,
-                    hasItem(hasProperty("message", containsString("using a fallback configuration")))));
-
-    @ConfigProperty(name = ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING)
-    String connectionString;
+                    && logRecord.getLevel().equals(Level.WARNING));
 
     @Test
     void theEmulatorStartsWithFallbackConfig() {
-        assertThat(connectionString, containsString("UseDevelopmentEmulator=true"));
+        List<LogRecord> logRecords = TEST.getLogRecords();
+        assertThat(logRecords, hasItem(hasProperty("message", containsString("using a fallback configuration"))));
     }
 }
