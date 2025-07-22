@@ -36,7 +36,7 @@ class EmulatorStartsWithFallbackConfigTest {
                     && logRecord.getLevel().equals(Level.WARNING))
             // expect a specific log message
             .assertLogRecords(logRecords -> assertThat(logRecords,
-                    hasItem(hasProperty("message", containsString("A fallback configuration file was used")))));
+                    hasItem(hasProperty("message", containsString("using a fallback configuration")))));
 
     @ConfigProperty(name = ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING)
     String connectionString;

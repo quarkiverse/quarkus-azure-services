@@ -2,11 +2,14 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_DEVSERVICE_ENABLED;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.CONFIG_KEY_LICENSE_ACCEPTED;
+import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.EmulatorConfig.CONFIG_FILE_DIRECTORY;
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusProcessor.FEATURE;
 import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING;
 import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_NAMESPACE;
-import static io.quarkus.bootstrap.classloading.QuarkusClassLoader.isResourcePresentAtRuntime;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +82,9 @@ public class ServiceBusDevServicesProcessor {
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem) {
         log.info("Dev Services for Azure Service Bus starting the Azure Service Bus emulator");
 
-        String configFilePath = configFilePath(devServicesConfig);
+        MountableFile configFile = configFile(devServicesConfig);
+        log.debugf("Azure Service Bus emulator launching with configuration file at '%s'", configFile.getResolvedPath());
+
         boolean useSharedNetwork = !devServicesSharedNetworkBuildItem.isEmpty();
 
         MSSQLServerContainer<?> database = new MSSQLServerContainer<>(devServicesConfig.database().imageName())
@@ -99,7 +104,7 @@ public class ServiceBusDevServicesProcessor {
             }
         }
                 .acceptLicense()
-                .withConfig(MountableFile.forClasspathResource(configFilePath))
+                .withConfig(configFile)
                 .withMsSqlServerContainer(database)
                 .withNetwork(Network.SHARED);
 
@@ -116,34 +121,40 @@ public class ServiceBusDevServicesProcessor {
         return List.of(databaseDevService, emulatorDevService);
     }
 
-    private String configFilePath(ServiceBusDevServicesConfig devServicesConfig) {
-        Optional<String> configuredFilePath = devServicesConfig.emulator().configFilePath();
+    private MountableFile configFile(ServiceBusDevServicesConfig devServicesConfig) {
+        Optional<String> explicitConfigFilePath = devServicesConfig.emulator().configFilePath();
 
-        if (configuredFilePath.isPresent()) {
-            if (isResourcePresentAtRuntime(configuredFilePath.get())) {
-                return configuredFilePath.get();
+        if (explicitConfigFilePath.isPresent()) {
+            Path configFilePath = Paths.get(CONFIG_FILE_DIRECTORY, explicitConfigFilePath.get());
+            if (Files.exists(configFilePath)) {
+                return MountableFile.forHostPath(configFilePath);
             } else {
                 throw new ConfigurationException(String.format(
                         """
                                 The Azure Service Bus emulator configuration file was not found at the location specified with '%s'.
-                                Either add a configuration file at 'src/main/resources/%s' or disable the Service Bus Dev Services with '%s=false'.
+                                Either add a configuration file at '%s' or disable the Service Bus Dev Services with '%s=false'.
                                 """,
-                        EmulatorConfig.CONFIG_KEY_CONFIG_FILE_PATH, configuredFilePath.get(), CONFIG_KEY_DEVSERVICE_ENABLED));
+                        EmulatorConfig.CONFIG_KEY_CONFIG_FILE_PATH, configFilePath, CONFIG_KEY_DEVSERVICE_ENABLED));
             }
-        } else if (isResourcePresentAtRuntime(EmulatorConfig.DEFAULT_CONFIG_FILE_PATH)) {
-            return EmulatorConfig.DEFAULT_CONFIG_FILE_PATH;
-        } else {
-            log.warnf(
-                    """
-                            To use the Dev Services for Azure Service Bus, a configuration file for the Azure Service Bus emulator must be provided.
-                            Place it at 'src/main/resources/%s' or at a custom location configured with '%s'.
-                            See %s for an example configuration file.
-                            A fallback configuration file was used that provides a queue 'queue' and a topic 'topic' with a subscription 'subscription'.
-                            """,
-                    EmulatorConfig.DEFAULT_CONFIG_FILE_PATH, EmulatorConfig.CONFIG_KEY_CONFIG_FILE_PATH,
-                    EmulatorConfig.EXAMPLE_CONFIG_FILE_URL);
-
-            return EmulatorConfig.FALLBACK_CONFIG_FILE_PATH;
         }
+
+        Path defaultConfigFilePath = Paths.get(CONFIG_FILE_DIRECTORY, EmulatorConfig.DEFAULT_CONFIG_FILE_NAME);
+        if (Files.exists(defaultConfigFilePath)) {
+            return MountableFile.forHostPath(defaultConfigFilePath);
+        }
+
+        log.warnf(
+                """
+                        To use the Dev Services for Azure Service Bus, a configuration file for the Azure Service Bus emulator must be provided.
+                        Place it at '%s/%s'.
+                        See %s for an example configuration file.
+                        """,
+                EmulatorConfig.CONFIG_FILE_DIRECTORY, EmulatorConfig.DEFAULT_CONFIG_FILE_NAME,
+                EmulatorConfig.EXAMPLE_CONFIG_FILE_URL);
+
+        log.warn(
+                "Azure Service Bus emulator using a fallback configuration that provides a queue 'queue' and a topic 'topic' with a subscription 'subscription'.");
+
+        return MountableFile.forClasspathResource(EmulatorConfig.FALLBACK_CONFIG_FILE_PATH);
     }
 }

@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import io.quarkus.test.QuarkusUnitTest;
 
 /**
- * A custom config file location was explicitly configured.
- * This file has to exist. Dev Services do not resort to the fallback configuration file.
+ * A custom config file location was explicitly configured, but the file does not exist.
+ * Dev Services fail to start.
  */
 @ExtendWith(ResetDevServicesExtension.class)
 class EmulatorEnforcesCustomConfigLocationTest {
