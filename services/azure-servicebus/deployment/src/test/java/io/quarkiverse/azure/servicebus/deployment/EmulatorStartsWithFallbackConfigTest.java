@@ -37,6 +37,6 @@ public class EmulatorStartsWithFallbackConfigTest {
     @Test
     void theEmulatorStartsWithFallbackConfig() {
         List<LogRecord> logRecords = TEST.getLogRecords();
-        assertThat(logRecords, hasItem(hasProperty("message", containsString("using a fallback configuration"))));
+        assertThat(logRecords, hasItem(hasProperty("message", containsString("launching with a fallback configuration"))));
     }
 }
