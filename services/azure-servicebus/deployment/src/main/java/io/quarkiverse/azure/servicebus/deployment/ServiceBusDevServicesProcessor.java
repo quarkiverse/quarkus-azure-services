@@ -20,13 +20,17 @@ import org.testcontainers.utility.MountableFile;
 
 import io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.EmulatorConfig;
 import io.quarkus.arc.deployment.ValidationPhaseBuildItem.ValidationErrorBuildItem;
+import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.IsNormal;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
 import io.quarkus.deployment.builditem.DevServicesSharedNetworkBuildItem;
+import io.quarkus.deployment.builditem.HotDeploymentWatchedFileBuildItem;
+import io.quarkus.deployment.builditem.LiveReloadBuildItem;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
+import io.quarkus.logging.Log;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.runtime.configuration.ConfigurationException;
 
@@ -40,15 +44,21 @@ public class ServiceBusDevServicesProcessor {
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class,
             ServiceBusDevServicesConfig.Enabled.class })
-    public List<DevServicesResultBuildItem> startServiceBusEmulator(ServiceBusDevServicesConfig devServicesConfig,
-            List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
+    public List<DevServicesResultBuildItem> startDevServices(ServiceBusDevServicesConfig devServicesConfig,
+            List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem, LiveReloadBuildItem liveReload,
             BuildProducer<ValidationErrorBuildItem> configErrors) {
+
         if (isServiceBusConnectionConfigured() || hasConfigurationProblems(devServicesConfig, configErrors)) {
             return null;
         }
 
+        if (liveReload.isLiveReload()) {
+            Log.info("Live reload triggered - shutting down existing dev services");
+            stopServiceBusEmulator();
+        }
+
         if (devServices == null) {
-            devServices = startContainers(devServicesConfig, devServicesSharedNetworkBuildItem);
+            devServices = startServiceBusEmulator(devServicesConfig, devServicesSharedNetworkBuildItem);
         }
 
         return devServices.stream()
@@ -75,7 +85,22 @@ public class ServiceBusDevServicesProcessor {
         return false;
     }
 
-    private List<RunningDevService> startContainers(ServiceBusDevServicesConfig devServicesConfig,
+    private void stopServiceBusEmulator() {
+        if (devServices != null) {
+            for (RunningDevService service : devServices) {
+                try {
+                    Log.debugf("Shutting down dev service: %s", service.getName());
+                    service.close();
+                    Log.debugf("Shut down dev service: %s", service.getName());
+                } catch (Exception e) {
+                    Log.warnf("Failed to shut down dev service %s: %s", service.getName(), e.getMessage());
+                }
+            }
+            devServices = null;
+        }
+    }
+
+    private List<RunningDevService> startServiceBusEmulator(ServiceBusDevServicesConfig devServicesConfig,
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem) {
         log.info("Dev Services for Azure Service Bus starting the Azure Service Bus emulator");
 
@@ -83,7 +108,7 @@ public class ServiceBusDevServicesProcessor {
         log.debug(useSharedNetwork ? "Using" : "Not using" + " a shared network");
 
         MountableFile configFile = configFile(devServicesConfig.emulator());
-        log.debugf("Azure Service Bus emulator using configuration file at '%s'", configFile.getResolvedPath());
+        log.debugf("Azure Service Bus emulator uses configuration file at '%s'", configFile.getResolvedPath());
 
         MSSQLServerContainer<?> database = new MSSQLServerContainer<>(devServicesConfig.database().imageName())
                 .acceptLicense()
@@ -112,9 +137,11 @@ public class ServiceBusDevServicesProcessor {
         Map<String, String> configOverrides = Map.of(
                 CONFIG_KEY_CONNECTION_STRING, emulator.getConnectionString());
 
-        RunningDevService databaseDevService = new RunningDevService(FEATURE, database.getContainerId(), database::close,
+        RunningDevService databaseDevService = new RunningDevService(FEATURE + " (database)", database.getContainerId(),
+                database::close,
                 Collections.emptyMap());
-        RunningDevService emulatorDevService = new RunningDevService(FEATURE, emulator.getContainerId(), emulator::close,
+        RunningDevService emulatorDevService = new RunningDevService(FEATURE + " (emulator)", emulator.getContainerId(),
+                emulator::close,
                 configOverrides);
         return List.of(databaseDevService, emulatorDevService);
     }
@@ -160,5 +187,18 @@ public class ServiceBusDevServicesProcessor {
         log.warn(
                 "Azure Service Bus emulator launching with a fallback configuration that provides a queue 'queue' and a topic 'topic' with a subscription 'subscription'.");
         return MountableFile.forClasspathResource(EmulatorConfig.FALLBACK_CONFIG_FILE_RESOURCE_PATH);
+    }
+
+    @BuildStep(onlyIf = { DevServicesConfig.Enabled.class, ServiceBusDevServicesConfig.Enabled.class, IsDevelopment.class })
+    public HotDeploymentWatchedFileBuildItem watchEmulatorConfigFile(ServiceBusDevServicesConfig devServicesConfig) {
+        Optional<Path> configFilePath = devServicesConfig.emulator().effectiveConfigFilePath();
+
+        if (configFilePath.isPresent()) {
+            Path path = configFilePath.get();
+            log.debugf("Watching '%s' for changes", path);
+            return new HotDeploymentWatchedFileBuildItem(path.toAbsolutePath().toString());
+        } else {
+            return null;
+        }
     }
 }
