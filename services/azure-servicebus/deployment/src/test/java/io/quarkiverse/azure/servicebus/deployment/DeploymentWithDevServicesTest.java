@@ -2,25 +2,28 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.Matchers.hasProperty;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.util.List;
+import java.util.logging.LogRecord;
+
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusDevModeTest;
 
 /**
  * If no Service Bus connection was configured, the Dev Services start an
  * Azure Service Bus Emulator and set the connection string to point to it.
  */
-@ExtendWith(ResetDevServicesExtension.class)
-class DeploymentWithDevServicesTest {
+public class DeploymentWithDevServicesTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest config = new QuarkusUnitTest()
+    static final QuarkusDevModeTest TEST = new QuarkusDevModeTest()
             .withApplicationRoot((jar) -> jar
                     .addAsResource(
                             new StringAsset(
@@ -29,14 +32,17 @@ class DeploymentWithDevServicesTest {
 
                                             quarkus.azure.servicebus.devservices.license-accepted=true
                                             """),
-                            "application.properties")
-                    .addAsResource("minimal-servicebus-config.json", "servicebus-config.json"));
-
-    @ConfigProperty(name = ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING)
-    String connectionString;
+                            "application.properties"))
+            .setLogRecordPredicate(
+                    logRecord -> logRecord.getLoggerName().equals(ServiceBusDevServicesProcessor.class.getName()));
 
     @Test
     void theConnectionStringPointsToTheEmulator() {
-        assertThat(connectionString, containsString("UseDevelopmentEmulator=true"));
+        List<LogRecord> logRecords = TEST.getLogRecords();
+        assertThat(logRecords, hasItem(allOf(
+                // As the message was produced with `log.infof()`, `message` contains the non-interpolated format string.
+                // We have to check the parameters.
+                hasProperty("message", containsString("connection string is")),
+                hasProperty("parameters", hasItemInArray(containsString("UseDevelopmentEmulator=true"))))));
     }
 }

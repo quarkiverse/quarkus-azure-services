@@ -2,6 +2,8 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.PREFIX;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
@@ -71,10 +73,26 @@ public interface ServiceBusDevServicesConfig {
      */
     interface EmulatorConfig {
         String DEFAULT_IMAGE_NAME = "mcr.microsoft.com/azure-messaging/servicebus-emulator:latest";
-        String DEFAULT_CONFIG_FILE_PATH = "servicebus-config.json";
-        String FALLBACK_CONFIG_FILE_PATH = "servicebus-emulator/default-config.json";
+
+        /**
+         * The directory for storing Azure Service Bus emulator configuration files, relative to the project root.
+         */
+        String CONFIG_FILE_DIRECTORY = "src/main/azure/servicebus-emulator";
+
+        /**
+         * Name of the default configuration file in {@value #CONFIG_FILE_DIRECTORY}.
+         */
+        String DEFAULT_CONFIG_FILE_NAME = "config.json";
+
+        /**
+         * Location in the classpath from where the fallback configuration file can be loaded.
+         */
+        String FALLBACK_CONFIG_FILE_RESOURCE_PATH = "azure/servicebus-emulator/default-config.json";
         String EXAMPLE_CONFIG_FILE_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json";
 
+        /**
+         * Prefix for the properties defined in this interface.
+         */
         String PREFIX = ServiceBusDevServicesConfig.PREFIX + ".emulator";
 
         /**
@@ -104,15 +122,14 @@ public interface ServiceBusDevServicesConfig {
         String CONFIG_KEY_CONFIG_FILE_PATH = PREFIX + ".config-file-path";
 
         /**
-         * Name and path of the Service Bus emulator configuration file.
-         * The value is interpreted as a relative path in the classpath, e.g. {@code my-servicebus-config.json},
-         * that points to a valid Service Bus emulator configuration file in JSON format.
+         * Name and path of the Service Bus emulator configuration file relative to the directory
+         * {@code src/main/azure/servicebus-emulator}, e.g. {@code my-servicebus-config.json}.
          * <p>
          * If you need custom configuration for different test scenarios,
          * this property allows you to specify distinct configuration files for each test profile.
          * <p>
          * If a configuration file is specified with this property, it must exist.
-         * If the property is not used, the configuration is expected to reside at {@code servicebus-config.json}.
+         * If the property is not used, the path defaults to {@code config.json}.
          * If it does not exist there, a warning is issued and the emulator will use a fallback configuration file
          * that provides a queue "queue" and a topic "topic" with a subscription "subscription".
          * <p>
@@ -121,6 +138,19 @@ public interface ServiceBusDevServicesConfig {
          * configuration file</a>
          */
         Optional<String> configFilePath();
+
+        /**
+         * The verified path to a Service Bus emulator configuration file.
+         * The default configuration file is only considered if no {@link #configFilePath()} is configured.
+         *
+         * @return an Optional containing the path to the configuration file
+         *         or an empty Optional if the file does not exist.
+         */
+        default Optional<Path> effectiveConfigFilePath() {
+            return configFilePath().isPresent()
+                    ? configFilePath().map(path -> Path.of(CONFIG_FILE_DIRECTORY, path)).filter(Files::exists)
+                    : Optional.of(Path.of(CONFIG_FILE_DIRECTORY, DEFAULT_CONFIG_FILE_NAME)).filter(Files::exists);
+        }
     }
 
     /**
@@ -129,6 +159,9 @@ public interface ServiceBusDevServicesConfig {
     interface DatabaseConfig {
         String DEFAULT_IMAGE_NAME = "mcr.microsoft.com/mssql/server:latest";
 
+        /**
+         * Prefix for the properties defined in this interface.
+         */
         String PREFIX = ServiceBusDevServicesConfig.PREFIX + ".database";
         /**
          * The name of the property to configure the container image name of the

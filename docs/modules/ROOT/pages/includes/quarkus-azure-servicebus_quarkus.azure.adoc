@@ -84,11 +84,11 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-Name and path of the Service Bus emulator configuration file. The value is interpreted as a relative path in the classpath, e.g. `my-servicebus-config.json`, that points to a valid Service Bus emulator configuration file in JSON format.
+Name and path of the Service Bus emulator configuration file relative to the directory `src/main/azure/servicebus-emulator`, e.g. `my-servicebus-config.json`.
 
 If you need custom configuration for different test scenarios, this property allows you to specify distinct configuration files for each test profile.
 
-If a configuration file is specified with this property, it must exist. If the property is not used, the configuration is expected to reside at `servicebus-config.json`. If it does not exist there, a warning is issued and the emulator will use a fallback configuration file that provides a queue "queue" and a topic "topic" with a subscription "subscription".
+If a configuration file is specified with this property, it must exist. If the property is not used, the path defaults to `config.json`. If it does not exist there, a warning is issued and the emulator will use a fallback configuration file that provides a queue "queue" and a topic "topic" with a subscription "subscription".
 
 link:https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json[Example configuration file]
 

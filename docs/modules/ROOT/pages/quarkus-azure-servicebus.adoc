@@ -291,7 +291,7 @@ quarkus.azure.servicebus.devservices.license-accepted=true
 The emulator is configured via a configuration file in JSON format.
 See this link:https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json[example] for its syntax.
 
-The configuration file is expected at `src/main/resources/servicebus-config.json`.
+The configuration file is expected at `src/main/azure/servicebus-emulator/config.json`.
 If it does not exist, a warning is issued and a fallback configuration
 providing a queue "queue" and a topic "topic" with a subscription "subscription" is applied.
 
