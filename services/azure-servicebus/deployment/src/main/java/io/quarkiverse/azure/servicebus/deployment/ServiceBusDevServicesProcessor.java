@@ -105,7 +105,7 @@ public class ServiceBusDevServicesProcessor {
         log.info("Dev Services for Azure Service Bus starting the Azure Service Bus emulator");
 
         boolean useSharedNetwork = !devServicesSharedNetworkBuildItem.isEmpty();
-        log.debug(useSharedNetwork ? "Using" : "Not using" + " a shared network");
+        log.debug((useSharedNetwork ? "Using" : "Not using") + " a shared network");
 
         MountableFile configFile = configFile(devServicesConfig.emulator());
         log.debugf("Azure Service Bus emulator uses configuration file at '%s'", configFile.getResolvedPath());
