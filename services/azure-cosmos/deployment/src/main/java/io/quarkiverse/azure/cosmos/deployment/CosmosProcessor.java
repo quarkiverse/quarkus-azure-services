@@ -58,7 +58,7 @@ public class CosmosProcessor {
                 com.azure.cosmos.implementation.DatabaseAccount.class.getName(),
                 com.azure.cosmos.implementation.DocumentCollection.class.getName(),
                 com.azure.cosmos.implementation.RetryContext.class.getName(),
-                com.azure.cosmos.implementation.circuitBreaker.PartitionLevelCircuitBreakerConfig.class.getName(),
+                com.azure.cosmos.implementation.perPartitionCircuitBreaker.PartitionLevelCircuitBreakerConfig.class.getName(),
                 "com.azure.cosmos.implementation.ClientSideRequestStatistics$StoreResponseStatistics",
                 "com.azure.cosmos.implementation.routing.PartitionKeyInternal$PartitionKeyInternalJsonSerializer",
                 com.azure.cosmos.models.PartitionKeyDefinition.class.getName(),
