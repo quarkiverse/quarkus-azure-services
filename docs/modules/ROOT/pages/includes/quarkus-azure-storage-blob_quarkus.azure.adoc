@@ -26,7 +26,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_HEALTH_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-enabled[`quarkus.azure.storage.blob.devservices.enabled`]##
 ifdef::add-copy-button-to-config-props[]
@@ -49,7 +49,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-image-name[`quarkus.azure.storage.blob.devservices.image-name`]##
 ifdef::add-copy-button-to-config-props[]
@@ -70,7 +70,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_IMAGE_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`mcr.microsoft.com/azure-storage/azurite:3.35.0`
+|`+++mcr.microsoft.com/azure-storage/azurite:3.35.0+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-port[`quarkus.azure.storage.blob.devservices.port`]##
 ifdef::add-copy-button-to-config-props[]
@@ -118,7 +118,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_SHARED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-service-name[`quarkus.azure.storage.blob.devservices.service-name`]##
 ifdef::add-copy-button-to-config-props[]
@@ -141,7 +141,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_SERVICE_NAME+++
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`default-storage-blob`
+|`+++default-storage-blob+++`
 
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled[`quarkus.azure.storage.blob.enabled`]##
 ifdef::add-copy-button-to-config-props[]
@@ -162,7 +162,7 @@ Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-endpoint[`quarkus.azure.storage.blob.endpoint`]##
 ifdef::add-copy-button-to-config-props[]

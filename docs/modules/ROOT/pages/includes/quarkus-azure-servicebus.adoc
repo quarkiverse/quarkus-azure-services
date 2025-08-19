@@ -28,7 +28,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted[`quarkus.azure.servicebus.devservices.license-accepted`]##
 ifdef::add-copy-button-to-config-props[]
@@ -49,7 +49,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_LICENSE_ACCEPTED+
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`false`
+|`+++false+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name[`quarkus.azure.servicebus.devservices.emulator.image-name`]##
 ifdef::add-copy-button-to-config-props[]
@@ -74,7 +74,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_EMULATOR_IMAGE_NA
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`mcr.microsoft.com/azure-messaging/servicebus-emulator:latest`
+|`+++mcr.microsoft.com/azure-messaging/servicebus-emulator:latest+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path[`quarkus.azure.servicebus.devservices.emulator.config-file-path`]##
 ifdef::add-copy-button-to-config-props[]
@@ -126,7 +126,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_DATABASE_IMAGE_NA
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`mcr.microsoft.com/mssql/server:latest`
+|`+++mcr.microsoft.com/mssql/server:latest+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`quarkus.azure.servicebus.enabled`]##
 ifdef::add-copy-button-to-config-props[]
@@ -149,7 +149,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string[`quarkus.azure.servicebus.connection-string`]##
 ifdef::add-copy-button-to-config-props[]
@@ -212,7 +212,7 @@ Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DOMAIN_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`servicebus.windows.net`
+|`+++servicebus.windows.net+++`
 
 |===
 

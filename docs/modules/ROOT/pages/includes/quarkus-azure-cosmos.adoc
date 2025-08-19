@@ -26,7 +26,7 @@ Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared[`quarkus.azure.cosmos.devservices.shared`]##
 ifdef::add-copy-button-to-config-props[]
@@ -51,7 +51,7 @@ Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SHARED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name[`quarkus.azure.cosmos.devservices.service-name`]##
 ifdef::add-copy-button-to-config-props[]
@@ -74,7 +74,7 @@ Environment variable: `+++QUARKUS_AZURE_COSMOS_DEVSERVICES_SERVICE_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`default-cosmos`
+|`+++default-cosmos+++`
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[`quarkus.azure.cosmos.enabled`]##
 ifdef::add-copy-button-to-config-props[]
@@ -95,7 +95,7 @@ Environment variable: `+++QUARKUS_AZURE_COSMOS_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`true`
+|`+++true+++`
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint[`quarkus.azure.cosmos.endpoint`]##
 ifdef::add-copy-button-to-config-props[]
@@ -137,7 +137,7 @@ Environment variable: `+++QUARKUS_AZURE_COSMOS_DEFAULT_GATEWAY_MODE+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`false`
+|`+++false+++`
 
 a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[`quarkus.azure.cosmos.key`]##
 ifdef::add-copy-button-to-config-props[]
