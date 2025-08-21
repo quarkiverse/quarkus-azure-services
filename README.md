@@ -59,6 +59,10 @@ Extension example applications can be found inside the [integration-tests](integ
 
 The latest version of the extensions is recommended to be used, which contains the latest features and bug fixes. However, if you are working on an specific version of Quarkus, you can use the compatibility matrix below to find the right version of the extensions.
 
+<details>
+<summary>Show/hide the compatibility matrix</summary>
+&nbsp;
+
 The following matrix shows the compatibility of the extensions with Quarkus versions and Java versions. The Quarkus version is the one used to build the extension, and the Java version is the one used to build the extension and run the tests.
 
 | Quarkus Azure services Version | Quarkus Version | Java Version |
@@ -83,6 +87,8 @@ The following matrix shows the compatibility of the extensions with Quarkus vers
 | [1.0.2](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.2/pom.xml#L12) | [3.6.5](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.2/pom.xml#L20) | [Java 11](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.2/pom.xml#L17-L18) |
 | [1.0.1](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.1/pom.xml#L12) | [3.2.3.Final](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.1/pom.xml#L20) | [Java 11](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.1/pom.xml#L17-L18) |
 | [1.0.0](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.0/pom.xml#L12) | [3.2.0.Final](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.0/pom.xml#L23) | [Java 11](https://github.com/quarkiverse/quarkus-azure-services/blob/1.0.0/pom.xml#L20-L21) |
+
+</details>
 
 ## How to release a new version
 
