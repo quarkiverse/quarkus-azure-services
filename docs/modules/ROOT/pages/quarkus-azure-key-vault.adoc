@@ -210,6 +210,40 @@ az ad signed-in-user show --query id -o tsv \
     --object-id @-
 ----
 
+== Dev Service
+
+The Dev Service of this extension launch an https://github.com/nagyesta/lowkey-vault[Lowkey Vault emulator] in dev and test mode.
+
+The SecretClient and SecretAsyncClient instances produced by this extension will be automatically configured to use the emulator's connection string when running in dev or test mode through the `quarkus.azure.keyvault.secret.endpoint` property.
+
+=== Prerequisites for Managed Identity simulation
+
+The credentials used by the aforementioned clients will be also automatically configured based on the existence of the properties under `quarkus.azure.keyvault.secret.local-configuration.basic-authentication`. This can be disabled by setting the `quarkus.azure.keyvault.devservices.managed-identity.token-port` property in the Dev Service configuration. Setting the port number explicitly will switch authentication to use a simulated Azure Managed Identity token endpoint.
+
+In order to make managed identity work, you must explicitly set the following environment variables:
+
+1. `IDENTITY_ENDPOINT`=`http://localhost:<token_port>/metadata/identity/oauth2/token` where the `<token_port>` placeholder must match the token port of the Dev Service configuration.
+2. `IDENTITY_HEADER`=`header`
+
+=== Pre-populate the Key Vault with secrets
+
+You can instruct the Dev Service to set secrets with pre-defined values after start-up by setting the key-value pairs of the map under the `quarkus.azure.keyvault.devservices.pre-set-secrets` configuration property.
+
+For example:
+
+[source,property]
+----
+quarkus.azure.keyvault.devservices.pre-set-secrets.secret1=value1
+quarkus.azure.keyvault.devservices.pre-set-secrets.secret2=value2
+----
+
+=== Disable the Dev Service
+
+The Dev Service will not start under any of these conditions:
+
+- The Dev Service is explicitly disabled with `quarkus.azure.keyvault.devservices.enabled=false`
+- Global Dev Service is disabled with `quarkus.devservices.enabled=false`
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-keyvault.adoc[leveloffset=+1, opts=optional]

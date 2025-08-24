@@ -20,4 +20,11 @@ public interface KeyVaultSecretConfig {
      * The endpoint of Azure Key Vault Secret. Required if quarkus.azure.keyvault.secret.enabled is set to true
      */
     Optional<String> endpoint();
+
+    /**
+     * Additional configuration options for local execution.<br/>
+     * WARNING! Must not be used in production.
+     */
+    Optional<KeyVaultSecretLocalConfig> localConfiguration();
+
 }
