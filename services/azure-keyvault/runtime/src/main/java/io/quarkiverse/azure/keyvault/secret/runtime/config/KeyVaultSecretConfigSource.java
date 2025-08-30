@@ -7,10 +7,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.vertx.VertxHttpClientBuilder;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.smallrye.config.common.AbstractConfigSource;
@@ -23,6 +27,7 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
     private static final int KEYVAULT_SECRET_ORDINAL = 50;
 
     private static final String CONFIG_SOURCE_NAME = "io.quarkiverse.azure.keyvault.secret.runtime.config";
+    private static final Logger log = LoggerFactory.getLogger(KeyVaultSecretConfigSource.class);
 
     private final KeyVaultSecretConfig kvConfig;
 
@@ -32,10 +37,13 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
     }
 
     private SecretClient createClient(String hostAuthority, Vertx vertx) {
+        log.info("Creating Key Vault Secret client for host authority: {}", hostAuthority);
         HttpClient httpClient = new VertxHttpClientBuilder().vertx(vertx).build();
-        return configureClientBuilder(kvConfig,
+        SecretClientBuilder clientBuilder = configureClientBuilder(kvConfig,
                 AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT,
-                new DefaultAzureCredentialBuilder().httpClient(httpClient)::build).httpClient(httpClient)
+                () -> new DefaultAzureCredentialBuilder().httpClient(httpClient).build());
+        return clientBuilder
+                .httpClient(httpClient)
                 .vaultUrl("https://" + hostAuthority)
                 .buildClient();
     }
@@ -75,6 +83,7 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
         }
 
         Vertx vertx = createVertx();
+        vertx.createHttpClient();
         SecretClient client = createClient(reference.hostAuthority(), vertx);
         String secretValue;
         if (reference.secretVersion().isEmpty()) {

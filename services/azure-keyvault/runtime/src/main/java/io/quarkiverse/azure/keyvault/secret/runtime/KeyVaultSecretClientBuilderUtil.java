@@ -9,7 +9,6 @@ import com.azure.core.credential.BasicAuthenticationCredential;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredential;
-import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
 
 import io.quarkiverse.azure.keyvault.secret.runtime.config.KeyVaultSecretConfig;
@@ -53,7 +52,7 @@ public final class KeyVaultSecretClientBuilderUtil {
 
         Optional<KeyVaultSecretTokenConfig> basicAuthConfig = localConfig.get().basicAuthentication();
         if (basicAuthConfig.isEmpty()) {
-            return new DefaultAzureCredentialBuilder().build();
+            return defaultAzureCredentialSupplier.get();
         }
 
         log.warn("Using basic authentication for Azure Key Vault Secret client");
