@@ -35,7 +35,7 @@ public interface KeyVaultDevServicesConfig {
     Optional<KeyVaultDevServicesManagedIdentityConfig> managedIdentity();
 
     /**
-     * If we want to automatically merge the Lowkey Vault SSL keystore with the application keystore.
+     * Set to true to automatically merge the Lowkey Vault SSL keystore with the application keystore.
      */
     @WithDefault("true")
     boolean mergeSslKeystoreWithApplicationKeystore();

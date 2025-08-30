@@ -59,7 +59,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-Set if we want to specify the token port for the managed identity token server.
+Specify the token port for the managed identity server.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -80,7 +80,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-If we want to automatically merge the Lowkey Vault SSL keystore with the application keystore.
+Set to true to automatically merge the Lowkey Vault SSL keystore with the application keystore.
 
 
 ifdef::add-copy-button-to-env-var[]

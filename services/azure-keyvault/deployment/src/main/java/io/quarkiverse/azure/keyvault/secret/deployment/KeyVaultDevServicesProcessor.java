@@ -147,7 +147,8 @@ public class KeyVaultDevServicesProcessor {
         }
 
         if (!dockerStatusBuildItem.isContainerRuntimeAvailable()) {
-            log.warn("Please configure quarkus.azure.keyvault.secret.endpoint for Azure Key Vault client or get a working docker instance");
+            log.warn(
+                    "Please configure quarkus.azure.keyvault.secret.endpoint for Azure Key Vault client or get a working container instance");
             return null;
         }
 

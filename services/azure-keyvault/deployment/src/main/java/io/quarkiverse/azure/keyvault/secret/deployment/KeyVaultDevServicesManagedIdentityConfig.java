@@ -6,7 +6,7 @@ import io.quarkus.runtime.annotations.ConfigGroup;
 public interface KeyVaultDevServicesManagedIdentityConfig {
 
     /**
-     * Set if we want to specify the token port for the managed identity token server.
+     * Specify the token port for the managed identity server.
      */
     int tokenPort();
 
