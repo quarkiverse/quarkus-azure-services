@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-azure-services.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.azureservices/quarkus-azure-services-parent?color=green)](https://central.sonatype.com/artifact/io.quarkiverse.azureservices/quarkus-azure-services-parent)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 This repository hosts Quarkus extensions for a selection of popular Azure Services and a few common extensions that are used by the Azure services extensions or can be used independently. All extensions support native executable build.
@@ -137,6 +137,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://hollycummins.com"><img src="https://avatars.githubusercontent.com/u/11509290?v=4?s=100" width="100px;" alt="Holly Cummins"/><br /><sub><b>Holly Cummins</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/issues?q=author%3Aholly-cummins" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://beachape.com"><img src="https://avatars.githubusercontent.com/u/914805?v=4?s=100" width="100px;" alt="Lloyd"/><br /><sub><b>Lloyd</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=lloydmeta" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/albers"><img src="https://avatars.githubusercontent.com/u/2901725?v=4?s=100" width="100px;" alt="Harald Albers"/><br /><sub><b>Harald Albers</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=albers" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://nagyesta.github.io/"><img src="https://avatars.githubusercontent.com/u/308406?v=4?s=100" width="100px;" alt="Esta Nagy"/><br /><sub><b>Esta Nagy</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-azure-services/commits?author=nagyesta" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
