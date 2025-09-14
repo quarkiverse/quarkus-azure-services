@@ -1,45 +1,51 @@
 package io.quarkiverse.azure.keyvault.secret.runtime.config;
 
+import static io.quarkiverse.azure.keyvault.secret.runtime.KeyVaultSecretClientBuilderUtil.configureClientBuilder;
+import static io.quarkiverse.azure.keyvault.secret.runtime.config.KeyVaultSecretConfigUtil.getSecretReference;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.vertx.VertxHttpClientBuilder;
-import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
 
 import io.quarkiverse.azure.core.util.AzureQuarkusIdentifier;
 import io.smallrye.config.common.AbstractConfigSource;
 import io.vertx.core.Vertx;
 
 class KeyVaultSecretConfigSource extends AbstractConfigSource {
-    /** The ordinal is set to < 100 (which is the default) so that this config source is retrieved from last. */
+    /**
+     * The ordinal is set to < 100 (which is the default) so that this config source is retrieved from last.
+     */
     private static final int KEYVAULT_SECRET_ORDINAL = 50;
 
     private static final String CONFIG_SOURCE_NAME = "io.quarkiverse.azure.keyvault.secret.runtime.config";
+    private static final Logger log = LoggerFactory.getLogger(KeyVaultSecretConfigSource.class);
 
     private final KeyVaultSecretConfig kvConfig;
-
-    private final SecretClientBuilder builder;
 
     public KeyVaultSecretConfigSource(final KeyVaultSecretConfig kvConfig) {
         super(CONFIG_SOURCE_NAME, KEYVAULT_SECRET_ORDINAL);
         this.kvConfig = kvConfig;
-
-        this.builder = new SecretClientBuilder()
-                .clientOptions(
-                        new ClientOptions().setApplicationId(AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT));
     }
 
-    private SecretClient createClient(String vaultUrl, Vertx vertx) {
+    private SecretClient createClient(String hostAuthority, Vertx vertx) {
+        log.info("Creating Key Vault Secret client for host authority: {}", hostAuthority);
         HttpClient httpClient = new VertxHttpClientBuilder().vertx(vertx).build();
-        return this.builder
-                .credential(new DefaultAzureCredentialBuilder().httpClient(httpClient).build())
-                .vaultUrl(vaultUrl).httpClient(httpClient).buildClient();
+        SecretClientBuilder clientBuilder = configureClientBuilder(kvConfig,
+                AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT,
+                () -> new DefaultAzureCredentialBuilder().httpClient(httpClient).build());
+        return clientBuilder
+                .httpClient(httpClient)
+                .vaultUrl("https://" + hostAuthority)
+                .buildClient();
     }
 
     private Vertx createVertx() {
@@ -66,20 +72,24 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
 
     @Override
     public String getValue(String propertyName) {
-        KeyVaultSecretIdentifier secretIdentifier = KeyVaultSecretConfigUtil.getSecretIdentifier(propertyName,
-                kvConfig.endpoint().orElse(""));
-        if (secretIdentifier == null) {
+        if (!kvConfig.enabled() || kvConfig.endpoint().isEmpty()) {
+            //the Key Vault integration is disabled or the endpoint is not set
+            return null;
+        }
+        KeyVaultSecretReference reference = getSecretReference(propertyName, kvConfig.endpoint().orElse(""));
+        if (reference == null) {
             // The propertyName is not in the form "kv//..." so return null.
             return null;
         }
 
         Vertx vertx = createVertx();
-        SecretClient client = createClient(secretIdentifier.getVaultUrl(), vertx);
+        vertx.createHttpClient();
+        SecretClient client = createClient(reference.hostAuthority(), vertx);
         String secretValue;
-        if (secretIdentifier.getVersion().equals("latest")) {
-            secretValue = client.getSecret(secretIdentifier.getName()).getValue();
+        if (reference.secretVersion().isEmpty()) {
+            secretValue = client.getSecret(reference.secretName()).getValue();
         } else {
-            secretValue = client.getSecret(secretIdentifier.getName(), secretIdentifier.getVersion()).getValue();
+            secretValue = client.getSecret(reference.secretName(), reference.secretVersion().get()).getValue();
         }
 
         closeVertx(vertx);

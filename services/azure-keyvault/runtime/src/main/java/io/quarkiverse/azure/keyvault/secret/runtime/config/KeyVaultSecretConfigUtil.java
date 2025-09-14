@@ -1,13 +1,13 @@
 package io.quarkiverse.azure.keyvault.secret.runtime.config;
 
-import com.azure.security.keyvault.secrets.models.KeyVaultSecretIdentifier;
+import java.net.URI;
+import java.util.Optional;
 
 import io.quarkus.runtime.configuration.ConfigurationException;
 
 public class KeyVaultSecretConfigUtil {
     private static final String AZURE_KEYVAULT_PREFIX = "kv//";
     private static final String AZURE_KEYVAULT_ENDPOINT_PREFIX = "https://";
-    private static final String AZURE_VAULT_URL_FORMAT = "https://%s.%s/secrets/%s/%s";
     private static final String AZURE_CLOUD_DNS = "vault.azure.net";
 
     private KeyVaultSecretConfigUtil() {
@@ -15,13 +15,12 @@ public class KeyVaultSecretConfigUtil {
 
     /**
      *
-     * @returns a {@link KeyVaultSecretIdentifier} from the specified input or <code>null</code> if the input does not start
-     *          with {@link #AZURE_KEYVAULT_PREFIX}.
-     *
      * @throws IllegalArgumentException if the input cannot otherwise be parsed.
+     * @return a {@link KeyVaultSecretReference} from the specified input or <code>null</code> if the input does not start
+     *         with {@link #AZURE_KEYVAULT_PREFIX}.
      *
      */
-    static KeyVaultSecretIdentifier getSecretIdentifier(String input, String defaultEndpoint) {
+    static KeyVaultSecretReference getSecretReference(String input, String defaultEndpoint) {
 
         if (!input.startsWith(AZURE_KEYVAULT_PREFIX)) {
             return null;
@@ -75,8 +74,14 @@ public class KeyVaultSecretConfigUtil {
             throw new IllegalArgumentException("The provided Key Vault secret URI is invalid: " + input);
         }
 
-        return new KeyVaultSecretIdentifier(
-                String.format(AZURE_VAULT_URL_FORMAT, kvName, getKeyValutDNS(defaultEndpoint), secretName, version));
+        String hostAuthority;
+        if (defaultEndpoint.startsWith("https://localhost")) {
+            hostAuthority = URI.create(defaultEndpoint).getAuthority();
+        } else {
+            hostAuthority = kvName + "." + getKeyVaultDns(defaultEndpoint);
+        }
+        Optional<String> optionalVersion = Optional.of(version).filter(v -> !"latest".equals(v));
+        return new KeyVaultSecretReference(hostAuthority, secretName, optionalVersion);
     }
 
     static String getAzureKeyVaultName(String endpoint) {
@@ -99,7 +104,7 @@ public class KeyVaultSecretConfigUtil {
      *         Relevant documentation:
      *         https://learn.microsoft.com/azure/key-vault/general/about-keys-secrets-certificates#dns-suffixes-for-object-identifiers
      */
-    static String getKeyValutDNS(String endpoint) {
+    static String getKeyVaultDns(String endpoint) {
         if (endpoint.isEmpty()) {
             // return Azure Cloud DNS suffix
             return AZURE_CLOUD_DNS;
