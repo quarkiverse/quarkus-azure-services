@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l6",
+      "label": "l6",
+      "content_type": "",
+      "value": "Label 6",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    },
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l7",
+      "label": "l7",
+      "content_type": "",
+      "value": "Label 7",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    }
+  ]
+}

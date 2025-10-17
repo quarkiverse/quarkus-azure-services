@@ -87,6 +87,15 @@ az appconfig kv set \
     --label prod \
     --yes
     
+for i in {1..7}; do
+    az appconfig kv set \
+        --name "${APP_CONFIG_NAME}" \
+        --key "another.prop.l${i}" \
+        --value "Label ${i}" \
+        --label "l${i}" \
+        --yes
+done
+
 export QUARKUS_AZURE_APP_CONFIGURATION_ENDPOINT=$(az appconfig show \
   --resource-group "${RESOURCE_GROUP_NAME}" \
   --name "${APP_CONFIG_NAME}" \

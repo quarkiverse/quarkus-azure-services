@@ -66,9 +66,13 @@ public class AzureAppConfigurationResource implements QuarkusTestResourceLifecyc
     private static URL getResource(HttpExchange exchange) {
         Map<String, String> params = getQueryParameters(exchange.getRequestURI().getQuery());
         URL resource;
-
+        String labels = params.get("label");
         if (Objects.equals("prod", params.get("label"))) {
             resource = loadResource("response_prod.json");
+        } else if (Objects.equals("l1,l2,l3,l4,l5", labels)) {
+            resource = loadResource("response_labels_1.json");
+        } else if (Objects.equals("l6,l7", labels)) {
+            resource = loadResource("response_labels_2.json");
         } else {
             resource = loadResource("response.json");
         }

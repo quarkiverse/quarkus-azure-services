@@ -48,6 +48,15 @@ az appconfig kv set \
     --label prod \
     --yes
 
+for i in {1..7}; do
+    az appconfig kv set \
+        --name "${APP_CONFIG_NAME}" \
+        --key "another.prop.l${i}" \
+        --value "Label ${i}" \
+        --label "l${i}" \
+        --yes
+done
+
 # Azure Key Vault Extension
 # The same commands used in 
 #  - integration-tests/README.md
