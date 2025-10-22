@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l1",
+      "label": "l1",
+      "content_type": "",
+      "value": "Label 1",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    },
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l2",
+      "label": "l2",
+      "content_type": "",
+      "value": "Label 2",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    },
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l3",
+      "label": "l3",
+      "content_type": "",
+      "value": "Label 3",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    },
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l4",
+      "label": "l4",
+      "content_type": "",
+      "value": "Label 4",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    },
+    {
+      "etag": "l1hQuZysAyuOXArQpGaZAYxV_7nNctKmKYANd_IUoIw",
+      "key": "another.prop.l5",
+      "label": "l5",
+      "content_type": "",
+      "value": "Label 5",
+      "tags": {},
+      "locked": false,
+      "last_modified": "2022-11-29T17:07:33+00:00"
+    }
+  ]
+}

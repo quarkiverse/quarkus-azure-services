@@ -1,7 +1,10 @@
 package io.quarkiverse.azure.app.configuration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -26,11 +29,23 @@ import io.vertx.core.Vertx;
 public class AzureAppConfigurationConfigSourceFactory
         implements ConfigurableConfigSourceFactory<AzureAppConfigurationConfig> {
 
-    private static SettingSelector getSettingSelector(final AzureAppConfigurationConfig config) {
-        var settingSelector = new SettingSelector();
-        config.labels().ifPresent(settingSelector::setLabelFilter);
+    /*
+     * The maximum number of labels that can be specified in a single request.
+     */
+    private static final int MAX_LABELS_PER_REQUEST = 5;
 
-        return settingSelector;
+    private static List<SettingSelector> getSettingSelector(final AzureAppConfigurationConfig config) {
+        if (config.labels().isEmpty()) {
+            return List.of(new SettingSelector());
+        } else {
+            List<String> allLabels = Arrays.asList(config.labels().get().split(","));
+            List<List<String>> labelsPartitions = partition(allLabels, MAX_LABELS_PER_REQUEST);
+            List<SettingSelector> settingSelectors = new ArrayList<>(labelsPartitions.size());
+            for (List<String> settingSelector : labelsPartitions) {
+                settingSelectors.add(new SettingSelector().setLabelFilter(String.join(",", settingSelector)));
+            }
+            return settingSelectors;
+        }
     }
 
     @Override
@@ -66,14 +81,19 @@ public class AzureAppConfigurationConfigSourceFactory
         ConfigurationClient client = clientBuilder.buildClient();
 
         Map<String, String> properties = new LinkedHashMap<>(); // LinkedHashMap for reproducible ordering
-        PagedIterable<ConfigurationSetting> listConfigurationSettings = client
-                .listConfigurationSettings(getSettingSelector(config));
-        listConfigurationSettings.forEach(new Consumer<ConfigurationSetting>() {
+
+        Consumer<ConfigurationSetting> consumer = new Consumer<>() {
             @Override
             public void accept(final ConfigurationSetting configurationSetting) {
                 properties.put(configurationSetting.getKey(), configurationSetting.getValue());
             }
-        });
+        };
+        List<SettingSelector> settingSelectors = getSettingSelector(config);
+        for (SettingSelector settingSelector : settingSelectors) {
+            PagedIterable<ConfigurationSetting> listConfigurationSettings = client
+                    .listConfigurationSettings(settingSelector);
+            listConfigurationSettings.forEach(consumer);
+        }
 
         try {
             vertx.close().toCompletionStage().toCompletableFuture().get();
@@ -82,5 +102,13 @@ public class AzureAppConfigurationConfigSourceFactory
         }
 
         return properties;
+    }
+
+    private static List<List<String>> partition(List<String> list, int chunkSize) {
+        List<List<String>> chunks = new ArrayList<>();
+        for (int i = 0; i < list.size(); i += chunkSize) {
+            chunks.add(list.subList(i, Math.min(list.size(), i + chunkSize)));
+        }
+        return chunks;
     }
 }
