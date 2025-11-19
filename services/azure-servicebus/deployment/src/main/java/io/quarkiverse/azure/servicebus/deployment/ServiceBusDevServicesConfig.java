@@ -2,8 +2,6 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.PREFIX;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
@@ -84,10 +82,6 @@ public interface ServiceBusDevServicesConfig {
          */
         String DEFAULT_CONFIG_FILE_NAME = "config.json";
 
-        /**
-         * Location in the classpath from where the fallback configuration file can be loaded.
-         */
-        String FALLBACK_CONFIG_FILE_RESOURCE_PATH = "azure/servicebus-emulator/default-config.json";
         String EXAMPLE_CONFIG_FILE_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json";
 
         /**
@@ -117,7 +111,7 @@ public interface ServiceBusDevServicesConfig {
         String imageName();
 
         /**
-         * The name of the property to configure a custom Service Bus emulator configuration file location.
+         * The name of the property to configure a custom Service Bus emulator configuration file.
          */
         String CONFIG_KEY_CONFIG_FILE_PATH = PREFIX + ".config-file-path";
 
@@ -138,19 +132,6 @@ public interface ServiceBusDevServicesConfig {
          * configuration file</a>
          */
         Optional<String> configFilePath();
-
-        /**
-         * The verified path to a Service Bus emulator configuration file.
-         * The default configuration file is only considered if no {@link #configFilePath()} is configured.
-         *
-         * @return an Optional containing the path to the configuration file
-         *         or an empty Optional if the file does not exist.
-         */
-        default Optional<Path> effectiveConfigFilePath() {
-            return configFilePath().isPresent()
-                    ? configFilePath().map(path -> Path.of(CONFIG_FILE_DIRECTORY, path)).filter(Files::exists)
-                    : Optional.of(Path.of(CONFIG_FILE_DIRECTORY, DEFAULT_CONFIG_FILE_NAME)).filter(Files::exists);
-        }
     }
 
     /**

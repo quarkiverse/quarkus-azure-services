@@ -6,6 +6,7 @@ import static io.quarkiverse.azure.servicebus.deployment.ServiceBusProcessor.FEA
 import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_CONNECTION_STRING;
 import static io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig.CONFIG_KEY_NAMESPACE;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +82,6 @@ public class ServiceBusDevServicesProcessor {
                     SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICE_ENABLED))));
             return true;
         }
-
         return false;
     }
 
@@ -107,7 +107,7 @@ public class ServiceBusDevServicesProcessor {
         boolean useSharedNetwork = !devServicesSharedNetworkBuildItem.isEmpty();
         log.debug((useSharedNetwork ? "Using" : "Not using") + " a shared network");
 
-        MountableFile configFile = configFile(devServicesConfig.emulator());
+        MountableFile configFile = mountableConfigFile(devServicesConfig.emulator());
         log.debugf("Azure Service Bus emulator uses configuration file at '%s'", configFile.getResolvedPath());
 
         MSSQLServerContainer<?> database = new MSSQLServerContainer<>(devServicesConfig.database().imageName())
@@ -146,36 +146,23 @@ public class ServiceBusDevServicesProcessor {
         return List.of(databaseDevService, emulatorDevService);
     }
 
-    private MountableFile configFile(EmulatorConfig emulatorConfig) {
-        Optional<Path> effectiveConfigFilePath = emulatorConfig.effectiveConfigFilePath();
+    private MountableFile mountableConfigFile(EmulatorConfig emulatorConfig) {
+        try {
+            var emulatorConfigResolver = new ServiceBusEmulatorConfigResolver(emulatorConfig.configFilePath());
+            Optional<MountableFile> mountableConfigFile = emulatorConfigResolver.getMountableConfigFile();
 
-        if (effectiveConfigFilePath.isPresent()) {
-            // either configured location or default location.
-            return MountableFile.forHostPath(effectiveConfigFilePath.get());
-        } else {
-            if (isConfigFilePathConfigured(emulatorConfig)) {
-                throw configurationExceptionForMissingConfigFile(emulatorConfig);
-            } else {
-                return fallbackConfiguration();
+            if (mountableConfigFile.isEmpty()) {
+                logFallbackConfigurationUsage();
             }
+
+            return mountableConfigFile
+                    .orElse(ServiceBusEmulatorConfigResolver.getFallbackConfiguration());
+        } catch (FileNotFoundException e) {
+            throw configurationExceptionForMissingConfigFile(emulatorConfig);
         }
     }
 
-    private static boolean isConfigFilePathConfigured(EmulatorConfig emulatorConfig) {
-        return emulatorConfig.configFilePath().isPresent();
-    }
-
-    private ConfigurationException configurationExceptionForMissingConfigFile(EmulatorConfig emulatorConfig) {
-        return new ConfigurationException(String.format(
-                """
-                        The Azure Service Bus emulator configuration file was not found at the location specified with '%s'.
-                        Either add a configuration file at '%s/%s' or disable the Service Bus Dev Services with '%s=false'.
-                        """,
-                EmulatorConfig.CONFIG_KEY_CONFIG_FILE_PATH, EmulatorConfig.CONFIG_FILE_DIRECTORY,
-                emulatorConfig.configFilePath().get(), CONFIG_KEY_DEVSERVICE_ENABLED));
-    }
-
-    private MountableFile fallbackConfiguration() {
+    private void logFallbackConfigurationUsage() {
         log.warnf(
                 """
                         To use the Dev Services for Azure Service Bus, a configuration file for the Azure Service Bus emulator must be provided.
@@ -186,15 +173,36 @@ public class ServiceBusDevServicesProcessor {
                 EmulatorConfig.EXAMPLE_CONFIG_FILE_URL);
         log.warn(
                 "Azure Service Bus emulator launching with a fallback configuration that provides a queue 'queue' and a topic 'topic' with a subscription 'subscription'.");
-        return MountableFile.forClasspathResource(EmulatorConfig.FALLBACK_CONFIG_FILE_RESOURCE_PATH);
+    }
+
+    private static ConfigurationException configurationExceptionForMissingConfigFile(EmulatorConfig emulatorConfig) {
+        return new ConfigurationException(String.format(
+                """
+                        The Azure Service Bus emulator configuration file was not found at the location specified with '%s'.
+                        Either add a configuration file at '%s/%s' or disable the Service Bus Dev Services with '%s=false'.
+                        """,
+                EmulatorConfig.CONFIG_KEY_CONFIG_FILE_PATH, EmulatorConfig.CONFIG_FILE_DIRECTORY,
+                emulatorConfig.configFilePath().get(), CONFIG_KEY_DEVSERVICE_ENABLED));
     }
 
     @BuildStep(onlyIf = { DevServicesConfig.Enabled.class, ServiceBusDevServicesConfig.Enabled.class, IsDevelopment.class })
     public HotDeploymentWatchedFileBuildItem watchEmulatorConfigFile(ServiceBusDevServicesConfig devServicesConfig) {
-        Optional<Path> configFilePath = devServicesConfig.emulator().effectiveConfigFilePath();
+        try {
+            return watchConfigFile(devServicesConfig.emulator());
+        } catch (FileNotFoundException e) {
+            // Configuration errors are treated at dev service startup,
+            // so we can safely ignore them here.
+            return null;
+        }
+    }
 
-        if (configFilePath.isPresent()) {
-            Path path = configFilePath.get();
+    private HotDeploymentWatchedFileBuildItem watchConfigFile(EmulatorConfig emulatorConfig) throws FileNotFoundException {
+        var emulatorConfigResolver = new ServiceBusEmulatorConfigResolver(emulatorConfig.configFilePath());
+
+        Optional<Path> configFile = emulatorConfigResolver.getConfigFile();
+
+        if (configFile.isPresent()) {
+            Path path = configFile.get();
             log.debugf("Watching '%s' for changes", path);
             return new HotDeploymentWatchedFileBuildItem(path.toAbsolutePath().toString());
         } else {
