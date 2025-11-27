@@ -2,8 +2,6 @@ package io.quarkiverse.azure.servicebus.deployment;
 
 import static io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.PREFIX;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
@@ -17,14 +15,24 @@ public interface ServiceBusDevServicesConfig {
     String PREFIX = "quarkus.azure.servicebus.devservices";
 
     /**
-     * The name of the property to enable or disable the DevServices.
+     * The name of the property to enable or disable the Dev Services.
      */
-    String CONFIG_KEY_DEVSERVICE_ENABLED = PREFIX + ".enabled";
+    String CONFIG_KEY_DEVSERVICES_ENABLED = PREFIX + ".enabled";
 
     /**
      * The name of the property to accept the EULA of Azure Service Bus emulator and MSSQL Server.
      */
     String CONFIG_KEY_LICENSE_ACCEPTED = PREFIX + ".license-accepted";
+
+    /**
+     * The name of the property to configure whether the Dev Services should be shared or not.
+     */
+    String CONFIG_KEY_SHARED = PREFIX + ".shared";
+
+    /**
+     * The name of the property to set a custom service name for the Dev Services.
+     */
+    String CONFIG_KEY_SERVICE_NAME = PREFIX + ".service-name";
 
     /**
      * Whether Dev Services should be enabled or not.
@@ -40,10 +48,38 @@ public interface ServiceBusDevServicesConfig {
 
     /**
      * To use the Azure Service Bus Dev Services, you must accept the license terms
-     * of the Service Bus emulator and the Microsoft SQL Server.
+     * of the Azure Service Bus emulator and the Microsoft SQL Server.
      */
     @WithDefault("false")
     boolean licenseAccepted();
+
+    /**
+     * Indicates if the Azure Service Bus emulator managed by Quarkus Dev Services is shared.
+     * When shared, Quarkus looks for running containers using label-based service discovery.
+     * If a matching container is found, it is used, and so a second one is not started.
+     * Otherwise, Dev Services for Azure Service Bus starts a new container.
+     * <p>
+     * The discovery uses the {@code quarkus-dev-service-azure-servicebus} label.
+     * The value is configured using the {@code service-name} property.
+     * <p>
+     * Container sharing is only used in dev mode.
+     */
+    @WithDefault("true")
+    boolean shared();
+
+    /**
+     * The value of the {@code quarkus-dev-service-azure-servicebus} label attached to the started container.
+     * This property is used when {@code shared} is set to {@code true}.
+     * In this case, before starting a container, Dev Services for Azure Service Bus looks for a container with the
+     * {@code quarkus-dev-service-azure-servicebus} label set to the configured value.
+     * If found, it will use this container instead of starting a new one.
+     * Otherwise, it starts a new container with the {@code quarkus-dev-service-azure-servicebus} label
+     * set to the specified value.
+     * <p>
+     * This property is used when you need multiple shared Azure Service Bus emulator instances.
+     */
+    @WithDefault("azure-servicebus-emulator")
+    String serviceName();
 
     /**
      * Configuration of the Azure Service Bus emulator.
@@ -84,10 +120,6 @@ public interface ServiceBusDevServicesConfig {
          */
         String DEFAULT_CONFIG_FILE_NAME = "config.json";
 
-        /**
-         * Location in the classpath from where the fallback configuration file can be loaded.
-         */
-        String FALLBACK_CONFIG_FILE_RESOURCE_PATH = "azure/servicebus-emulator/default-config.json";
         String EXAMPLE_CONFIG_FILE_URL = "https://github.com/Azure/azure-service-bus-emulator-installer/blob/main/ServiceBus-Emulator/Config/Config.json";
 
         /**
@@ -117,12 +149,12 @@ public interface ServiceBusDevServicesConfig {
         String imageName();
 
         /**
-         * The name of the property to configure a custom Service Bus emulator configuration file location.
+         * The name of the property to configure a custom Azure Service Bus emulator configuration file.
          */
         String CONFIG_KEY_CONFIG_FILE_PATH = PREFIX + ".config-file-path";
 
         /**
-         * Name and path of the Service Bus emulator configuration file relative to the directory
+         * Name and path of the Azure Service Bus emulator configuration file relative to the directory
          * {@code src/main/azure/servicebus-emulator}, e.g. {@code my-servicebus-config.json}.
          * <p>
          * If you need custom configuration for different test scenarios,
@@ -138,19 +170,6 @@ public interface ServiceBusDevServicesConfig {
          * configuration file</a>
          */
         Optional<String> configFilePath();
-
-        /**
-         * The verified path to a Service Bus emulator configuration file.
-         * The default configuration file is only considered if no {@link #configFilePath()} is configured.
-         *
-         * @return an Optional containing the path to the configuration file
-         *         or an empty Optional if the file does not exist.
-         */
-        default Optional<Path> effectiveConfigFilePath() {
-            return configFilePath().isPresent()
-                    ? configFilePath().map(path -> Path.of(CONFIG_FILE_DIRECTORY, path)).filter(Files::exists)
-                    : Optional.of(Path.of(CONFIG_FILE_DIRECTORY, DEFAULT_CONFIG_FILE_NAME)).filter(Files::exists);
-        }
     }
 
     /**

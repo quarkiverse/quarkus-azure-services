@@ -61,7 +61,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-To use the Azure Service Bus Dev Services, you must accept the license terms of the Service Bus emulator and the Microsoft SQL Server.
+To use the Azure Service Bus Dev Services, you must accept the license terms of the Azure Service Bus emulator and the Microsoft SQL Server.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -73,6 +73,54 @@ endif::add-copy-button-to-env-var[]
 --
 |boolean
 |`+++false+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared[`quarkus.azure.servicebus.devservices.shared`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.shared+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Indicates if the Azure Service Bus emulator managed by Quarkus Dev Services is shared. When shared, Quarkus looks for running containers using label-based service discovery. If a matching container is found, it is used, and so a second one is not started. Otherwise, Dev Services for Azure Service Bus starts a new container.
+
+The discovery uses the `quarkus-dev-service-azure-servicebus` label. The value is configured using the `service-name` property.
+
+Container sharing is only used in dev mode.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_SHARED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_SHARED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name[`quarkus.azure.servicebus.devservices.service-name`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.servicebus.devservices.service-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The value of the `quarkus-dev-service-azure-servicebus` label attached to the started container. This property is used when `shared` is set to `true`. In this case, before starting a container, Dev Services for Azure Service Bus looks for a container with the `quarkus-dev-service-azure-servicebus` label set to the configured value. If found, it will use this container instead of starting a new one. Otherwise, it starts a new container with the `quarkus-dev-service-azure-servicebus` label set to the specified value.
+
+This property is used when you need multiple shared Azure Service Bus emulator instances.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_SERVICE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_SERVICEBUS_DEVSERVICES_SERVICE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++azure-servicebus-emulator+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name[`quarkus.azure.servicebus.devservices.emulator.image-name`]##
 ifdef::add-copy-button-to-config-props[]
@@ -107,7 +155,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-Name and path of the Service Bus emulator configuration file relative to the directory `src/main/azure/servicebus-emulator`, e.g. `my-servicebus-config.json`.
+Name and path of the Azure Service Bus emulator configuration file relative to the directory `src/main/azure/servicebus-emulator`, e.g. `my-servicebus-config.json`.
 
 If you need custom configuration for different test scenarios, this property allows you to specify distinct configuration files for each test profile.
 
@@ -159,7 +207,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-Connect to the Service Bus using this connection string. If set, authentication is handled by the SAS key in the connection string. Otherwise, a DefaultAzureCredentialBuilder will be used for authentication, and namespace and domain have to be configured.
+Connect to the Azure Service Bus using this connection string. If set, authentication is handled by the SAS key in the connection string. Otherwise, a DefaultAzureCredentialBuilder will be used for authentication, and namespace and domain have to be configured.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -180,7 +228,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The namespace of the Service Bus. The domain name is appended to this value to form the fully qualified namespace name.
+The namespace of the Azure Service Bus. The domain name is appended to this value to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
@@ -201,7 +249,7 @@ endif::add-copy-button-to-config-props[]
 
 [.description]
 --
-The domain name of the Service Bus. The domain name is appended to the namespace to form the fully qualified namespace name.
+The domain name of the Azure Service Bus. The domain name is appended to the namespace to form the fully qualified namespace name.
 
 
 ifdef::add-copy-button-to-env-var[]
