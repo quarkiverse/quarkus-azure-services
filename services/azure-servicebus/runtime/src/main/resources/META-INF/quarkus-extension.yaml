@@ -13,5 +13,6 @@ metadata:
   categories:
     - "cloud"
   status: "preview"
+  requires-quarkus-core: "[3.27,)"
   config:
     - "quarkus.azure.servicebus."

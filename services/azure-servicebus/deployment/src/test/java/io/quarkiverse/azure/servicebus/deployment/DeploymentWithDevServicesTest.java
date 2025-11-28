@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import io.quarkus.test.QuarkusDevModeTest;
 
 /**
- * If no Service Bus connection was configured, the Dev Services start an
+ * If no Azure Service Bus connection was configured, the Dev Services start an
  * Azure Service Bus Emulator and set the connection string to point to it.
  */
 public class DeploymentWithDevServicesTest {
@@ -42,7 +42,7 @@ public class DeploymentWithDevServicesTest {
         assertThat(logRecords, hasItem(allOf(
                 // As the message was produced with `log.infof()`, `message` contains the non-interpolated format string.
                 // We have to check the parameters.
-                hasProperty("message", containsString("connection string is")),
+                hasProperty("message", containsString("Connection string:")),
                 hasProperty("parameters", hasItemInArray(containsString("UseDevelopmentEmulator=true"))))));
     }
 }

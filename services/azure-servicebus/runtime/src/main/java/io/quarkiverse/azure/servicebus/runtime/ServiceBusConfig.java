@@ -46,7 +46,7 @@ public interface ServiceBusConfig {
     String DEFAULT_DOMAIN_NAME = "servicebus.windows.net";
 
     /**
-     * Connect to the Service Bus using this connection string.
+     * Connect to the Azure Service Bus using this connection string.
      * If set, authentication is handled by the SAS key in the connection string.
      * Otherwise, a DefaultAzureCredentialBuilder will be used for authentication,
      * and namespace and domain have to be configured.
@@ -54,7 +54,7 @@ public interface ServiceBusConfig {
     Optional<String> connectionString();
 
     /**
-     * The namespace of the Service Bus.
+     * The namespace of the Azure Service Bus.
      * The domain name is appended to this value to form the fully qualified namespace name.
      *
      * @see #domainName()
@@ -62,7 +62,7 @@ public interface ServiceBusConfig {
     Optional<String> namespace();
 
     /**
-     * The domain name of the Service Bus.
+     * The domain name of the Azure Service Bus.
      * The domain name is appended to the namespace to form the fully qualified namespace name.
      */
     @WithDefault(DEFAULT_DOMAIN_NAME)
