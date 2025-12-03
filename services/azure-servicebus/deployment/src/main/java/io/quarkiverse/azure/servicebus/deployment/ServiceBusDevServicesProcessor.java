@@ -18,10 +18,8 @@ import org.jboss.logging.Logger;
 import org.testcontainers.utility.MountableFile;
 
 import io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.EmulatorConfig;
-import io.quarkus.arc.deployment.ValidationPhaseBuildItem.ValidationErrorBuildItem;
 import io.quarkus.deployment.IsDevServicesSupportedByLaunchMode;
 import io.quarkus.deployment.IsDevelopment;
-import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.*;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
@@ -55,12 +53,12 @@ public class ServiceBusDevServicesProcessor {
             LaunchModeBuildItem launchMode,
             LiveReloadBuildItem liveReload,
             List<DevServicesSharedNetworkBuildItem> sharedNetwork,
-            DevServicesComposeProjectBuildItem compose,
-            BuildProducer<ValidationErrorBuildItem> configErrors) {
+            DevServicesComposeProjectBuildItem compose) {
 
-        if (isServiceBusConnectionConfigured() || hasConfigurationProblems(serviceBusDevServicesConfig, configErrors)) {
+        if (isServiceBusConnectionConfigured()) {
             return null;
         }
+        ensureLicenceIsAccepted(serviceBusDevServicesConfig);
 
         boolean useSharedNetwork = DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig, sharedNetwork);
 
@@ -97,18 +95,15 @@ public class ServiceBusDevServicesProcessor {
         return ConfigUtils.isAnyPropertyPresent(List.of(CONFIG_KEY_NAMESPACE, CONFIG_KEY_CONNECTION_STRING));
     }
 
-    private static boolean hasConfigurationProblems(ServiceBusDevServicesConfig devServicesConfig,
-            BuildProducer<ValidationErrorBuildItem> configErrors) {
+    private static void ensureLicenceIsAccepted(ServiceBusDevServicesConfig devServicesConfig) throws ConfigurationException {
         if (!devServicesConfig.licenseAccepted()) {
-            configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
+            throw new ConfigurationException(String.format(
                     """
                             To use the Azure Service Bus Dev Services, you must accept the license terms of the Azure Service Bus emulator (%s) and the Microsoft SQL Server (%s).
                             Either accept the licenses by setting '%s=true' or disable the Azure Service Bus Dev Services with '%s=false'.
                             """,
-                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICES_ENABLED))));
-            return true;
+                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICES_ENABLED));
         }
-        return false;
     }
 
     private static MountableFile mountableConfigFile(EmulatorConfig emulatorConfig) {
