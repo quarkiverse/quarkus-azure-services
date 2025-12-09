@@ -303,6 +303,11 @@ The Dev Services will not start under any of these conditions:
 - The Dev Services are explicitly disabled with `quarkus.azure.servicebus.devservices.enabled=false`
 - Global Dev Services are disabled with `quarkus.devservices.enabled=false`
 
+=== Dev Services Tutorial
+
+See this https://github.com/quarkiverse/quarkus-azure-services/tree/main/integration-tests/azure-servicebus-devservices[tutorial project]
+for how to take full advatage of the Azure Service Bus Dev Services.
+
 == Extension Configuration Reference
 
 include::includes/quarkus-azure-servicebus.adoc[leveloffset=+1, opts=optional]

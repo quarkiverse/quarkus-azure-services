@@ -18,6 +18,7 @@
         <module>azure-eventhubs</module>
         <module>azure-keyvault</module>
         <module>azure-servicebus</module>
+        <module>azure-servicebus-devservices</module>
         <module>azure-storage-blob</module>
         <module>azure-services-disabled</module>
         <module>azure-services-together</module>

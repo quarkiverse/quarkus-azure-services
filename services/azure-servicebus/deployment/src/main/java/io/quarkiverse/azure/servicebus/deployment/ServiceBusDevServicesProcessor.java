@@ -18,13 +18,12 @@ import org.jboss.logging.Logger;
 import org.testcontainers.utility.MountableFile;
 
 import io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.EmulatorConfig;
-import io.quarkus.arc.deployment.ValidationPhaseBuildItem.ValidationErrorBuildItem;
 import io.quarkus.deployment.IsDevServicesSupportedByLaunchMode;
 import io.quarkus.deployment.IsDevelopment;
-import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.*;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
+import io.quarkus.devservices.common.ComposeLocator;
 import io.quarkus.devservices.common.ContainerLocator;
 import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.runtime.configuration.ConfigurationException;
@@ -54,57 +53,60 @@ public class ServiceBusDevServicesProcessor {
             LaunchModeBuildItem launchMode,
             LiveReloadBuildItem liveReload,
             List<DevServicesSharedNetworkBuildItem> sharedNetwork,
-            BuildProducer<ValidationErrorBuildItem> configErrors) {
+            DevServicesComposeProjectBuildItem compose) {
 
-        if (isServiceBusConnectionConfigured() || hasConfigurationProblems(serviceBusDevServicesConfig, configErrors)) {
+        if (isServiceBusConnectionConfigured()) {
             return null;
         }
+        ensureLicenceIsAccepted(serviceBusDevServicesConfig);
 
-        MountableFile configFile = mountableConfigFile(serviceBusDevServicesConfig.emulator());
-        RelaunchControllingConfig relaunchControllingConfig = toRelaunchControllingConfig(
-                serviceBusDevServicesConfig.emulator(),
-                configFile, liveReload);
         boolean useSharedNetwork = DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig, sharedNetwork);
 
         return emulatorContainerLocator
                 .locateContainer(serviceBusDevServicesConfig.serviceName(), serviceBusDevServicesConfig.shared(),
                         launchMode.getLaunchMode())
+                .or(() -> ComposeLocator.locateContainer(compose,
+                        List.of(serviceBusDevServicesConfig.emulator().imageName()),
+                        EMULATOR_PORT, launchMode.getLaunchMode(), useSharedNetwork))
                 .map(containerAddress -> DevServicesResultBuildItem.discovered()
                         .name(FEATURE)
                         .containerId(containerAddress.getId())
                         .config(Map.of(CONFIG_KEY_CONNECTION_STRING,
                                 CONNECTION_STRING_FORMAT.formatted(containerAddress.getHost(), containerAddress.getPort())))
                         .build())
-                .orElseGet(() -> DevServicesResultBuildItem.owned()
-                        .name(FEATURE)
-                        .serviceName(serviceBusDevServicesConfig.serviceName())
-                        .serviceConfig(relaunchControllingConfig)
-                        .startable(
-                                () -> createContainers(serviceBusDevServicesConfig, configFile, useSharedNetwork, launchMode))
-                        .postStartHook(logStarted())
-                        .configProvider(Map.of(CONFIG_KEY_CONNECTION_STRING, ServiceBusDevService::getConnectionInfo))
-                        .build());
+                .orElseGet(() -> {
+                    MountableFile configFile = mountableConfigFile(serviceBusDevServicesConfig.emulator());
+                    RelaunchControllingConfig serviceConfig = toRelaunchControllingConfig(
+                            serviceBusDevServicesConfig.emulator(), configFile, liveReload);
+                    return DevServicesResultBuildItem.owned()
+                            .name(FEATURE)
+                            .serviceName(serviceBusDevServicesConfig.serviceName())
+                            .serviceConfig(serviceConfig)
+                            .startable(
+                                    () -> createContainers(serviceBusDevServicesConfig, configFile, useSharedNetwork,
+                                            launchMode))
+                            .postStartHook(logStarted())
+                            .configProvider(Map.of(CONFIG_KEY_CONNECTION_STRING, ServiceBusDevService::getConnectionInfo))
+                            .build();
+                });
     }
 
     private static boolean isServiceBusConnectionConfigured() {
         return ConfigUtils.isAnyPropertyPresent(List.of(CONFIG_KEY_NAMESPACE, CONFIG_KEY_CONNECTION_STRING));
     }
 
-    private static boolean hasConfigurationProblems(ServiceBusDevServicesConfig devServicesConfig,
-            BuildProducer<ValidationErrorBuildItem> configErrors) {
+    private static void ensureLicenceIsAccepted(ServiceBusDevServicesConfig devServicesConfig) throws ConfigurationException {
         if (!devServicesConfig.licenseAccepted()) {
-            configErrors.produce(new ValidationErrorBuildItem(new ConfigurationException(String.format(
+            throw new ConfigurationException(String.format(
                     """
                             To use the Azure Service Bus Dev Services, you must accept the license terms of the Azure Service Bus emulator (%s) and the Microsoft SQL Server (%s).
                             Either accept the licenses by setting '%s=true' or disable the Azure Service Bus Dev Services with '%s=false'.
                             """,
-                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICES_ENABLED))));
-            return true;
+                    SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICES_ENABLED));
         }
-        return false;
     }
 
-    private MountableFile mountableConfigFile(EmulatorConfig emulatorConfig) {
+    private static MountableFile mountableConfigFile(EmulatorConfig emulatorConfig) {
         try {
             var emulatorConfigResolver = new ServiceBusEmulatorConfigResolver(emulatorConfig.configFilePath());
             Optional<Path> configFile = emulatorConfigResolver.getConfigFile();
@@ -121,7 +123,7 @@ public class ServiceBusDevServicesProcessor {
         }
     }
 
-    private void logFallbackConfigurationUsage() {
+    private static void logFallbackConfigurationUsage() {
         log.warnf(
                 """
                         To use the Dev Services for Azure Service Bus, a configuration file for the Azure Service Bus emulator must be provided.

@@ -1,0 +1,38 @@
+# This file contains a customized set of containers that can be picked up and managed by
+# the Azure Service Bus Quarkus Dev Services in dev and test mode.
+# This will automatically happen if the file is present in the root of the project and the
+# Compose Dev Services are not disabled by the user with `quarkus.azure.servicebus.devservices.enabled=false`
+# (as done in this demo project).
+
+name: sb-emulator-devservice-demo
+services:
+  emulator:
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator:latest
+    volumes:
+      - "./src/main/azure/servicebus-emulator/config.json:/ServiceBus_Emulator/ConfigFiles/Config.json"
+    ports:
+      - "5672"
+    environment:
+      SQL_SERVER: mssql
+      MSSQL_SA_PASSWORD: "A-Str0ng-Passw0rd"  # Password should be same as what is set for SQL Server Linux
+      ACCEPT_EULA: Y
+    labels:
+      io.quarkus.devservices.compose.wait_for.logs: ".*Emulator Service is Successfully Up!.*"
+    depends_on:
+      - mssql
+    networks:
+      sb-emulator:
+        aliases:
+          - "sb-emulator"
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    networks:
+      sb-emulator:
+        aliases:
+          - "mssql"
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: "A-Str0ng-Passw0rd" # To be filled by user as per policy : https://learn.microsoft.com/en-us/sql/relational-databases/security/strong-passwords?view=sql-server-linux-ver16
+
+networks:
+  sb-emulator:
