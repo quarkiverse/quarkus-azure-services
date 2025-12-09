@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>azure</artifactId>
+            <artifactId>testcontainers-azure</artifactId>
         </dependency>
         <dependency>
             <!-- required by the underlying Testcontainers library for checking readiness
