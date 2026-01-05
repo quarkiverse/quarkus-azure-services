@@ -18,6 +18,7 @@ import org.jboss.logging.Logger;
 import org.testcontainers.utility.MountableFile;
 
 import io.quarkiverse.azure.servicebus.deployment.ServiceBusDevServicesConfig.EmulatorConfig;
+import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
 import io.quarkus.deployment.IsDevServicesSupportedByLaunchMode;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -52,13 +53,16 @@ public class ServiceBusDevServicesProcessor {
             DevServicesConfig devServicesConfig,
             LaunchModeBuildItem launchMode,
             LiveReloadBuildItem liveReload,
+            DockerStatusBuildItem dockerStatusBuildItem,
             List<DevServicesSharedNetworkBuildItem> sharedNetwork,
             DevServicesComposeProjectBuildItem compose) {
 
         if (isServiceBusConnectionConfigured()) {
             return null;
         }
-        ensureLicenceIsAccepted(serviceBusDevServicesConfig);
+
+        ensureDockerIsAvailable(dockerStatusBuildItem);
+        ensureLicenseIsAccepted(serviceBusDevServicesConfig);
 
         boolean useSharedNetwork = DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig, sharedNetwork);
 
@@ -95,7 +99,15 @@ public class ServiceBusDevServicesProcessor {
         return ConfigUtils.isAnyPropertyPresent(List.of(CONFIG_KEY_NAMESPACE, CONFIG_KEY_CONNECTION_STRING));
     }
 
-    private static void ensureLicenceIsAccepted(ServiceBusDevServicesConfig devServicesConfig) throws ConfigurationException {
+    /**
+     * Ensures that the license was accepted.
+     * If not, throws a ConfigurationException to provide a clear error message
+     * instead of a later CDI failure caused by the missing configuration value
+     * {@value ServiceBusConfig#CONFIG_KEY_CONNECTION_STRING}.
+     *
+     * @throws ConfigurationException if the license is not accepted
+     */
+    private static void ensureLicenseIsAccepted(ServiceBusDevServicesConfig devServicesConfig) throws ConfigurationException {
         if (!devServicesConfig.licenseAccepted()) {
             throw new ConfigurationException(String.format(
                     """
@@ -103,6 +115,25 @@ public class ServiceBusDevServicesProcessor {
                             Either accept the licenses by setting '%s=true' or disable the Azure Service Bus Dev Services with '%s=false'.
                             """,
                     SERVICEBUS_EULA_URL, MSSQL_SERVER_EULA_URL, CONFIG_KEY_LICENSE_ACCEPTED, CONFIG_KEY_DEVSERVICES_ENABLED));
+        }
+    }
+
+    /**
+     * Ensures that a container runtime is available.
+     * If none is detected, throws a ConfigurationException to provide a clear error message
+     * instead of a later CDI failure caused by the missing configuration value
+     * {@value ServiceBusConfig#CONFIG_KEY_CONNECTION_STRING}.
+     *
+     * @throws ConfigurationException if no container runtime is available
+     */
+    private static void ensureDockerIsAvailable(DockerStatusBuildItem dockerStatusBuildItem) throws ConfigurationException {
+        if (!dockerStatusBuildItem.isContainerRuntimeAvailable()) {
+            throw new ConfigurationException(String.format(
+                    """
+                            No Docker daemon was found, Azure Service Bus Dev Services will not be started.
+                            Configure a Docker daemon or set a connection to an Azure Service Bus with either '%s' or '%s'.
+                            """,
+                    CONFIG_KEY_CONNECTION_STRING, CONFIG_KEY_NAMESPACE));
         }
     }
 
