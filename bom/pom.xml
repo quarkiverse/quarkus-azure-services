@@ -32,7 +32,7 @@
         <!-- @sync com.azure:azure-core-http-vertx:${azure.core.http.client.vertx.version} dep:com.azure:azure-core com.azure:azure-sdk-bom:${azure-sdk-bom.version} managedDep:com.azure:azure-core -->
         <azure.core.http.client.vertx.version>1.0.5</azure.core.http.client.vertx.version>
         <assertj-core.version>3.27.7</assertj-core.version>
-        <lowkey-vault.version>6.0.6</lowkey-vault.version>
+        <lowkey-vault.version>7.1.0</lowkey-vault.version>
     </properties>
     
     <dependencyManagement>
