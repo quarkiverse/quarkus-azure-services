@@ -30,6 +30,17 @@ defaults:
 # See https://aka.ms/config-federated-identity-on-uami for more information on how to configure federated identity credential on a user-assigned managed identity (uami) and retrieve values for these required GitHub variables.
 # Besides, the uami needs to be granted the "Contributor" and "User Access Administrator" roles on the subscription to grant necessary permissions, deploy and delete Azure resources for testing.
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     permissions:
