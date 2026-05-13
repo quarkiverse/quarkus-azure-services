@@ -143,6 +143,27 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++default-storage-blob+++`
 
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-skip-api-version-check]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-devservices-skip-api-version-check[`quarkus.azure.storage.blob.devservices.skip-api-version-check`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.azure.storage.blob.devservices.skip-api-version-check+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+By default, Azurite will check the request API version is valid API version. If this property is set to true, the API version check will be skipped, and the request with any API version will be accepted.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_SKIP_API_VERSION_CHECK+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_AZURE_STORAGE_BLOB_DEVSERVICES_SKIP_API_VERSION_CHECK+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++false+++`
+
 a| [[quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled]] [.property-path]##link:#quarkus-azure-storage-blob_quarkus-azure-storage-blob-enabled[`quarkus.azure.storage.blob.enabled`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.storage.blob.enabled+++[]

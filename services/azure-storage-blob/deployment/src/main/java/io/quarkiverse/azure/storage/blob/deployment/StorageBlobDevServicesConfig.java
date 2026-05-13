@@ -58,4 +58,12 @@ public interface StorageBlobDevServicesConfig {
      */
     @WithDefault("default-storage-blob")
     String serviceName();
+
+    /**
+     * By default, Azurite will check the request API version is valid API version.
+     * If this property is set to true, the API version check will be skipped, and the request with any API version will be
+     * accepted.
+     */
+    @WithDefault("false")
+    boolean skipApiVersionCheck();
 }

@@ -156,7 +156,8 @@ public class DevServicesStorageBlobProcessor {
         Supplier<RunningDevService> storageBlobServerSupplier = () -> {
             QuarkusPortAzuriteContainer azuriteContainer = new QuarkusPortAzuriteContainer(dockerImageName,
                     storageBlobDevServicesConfig.port(),
-                    launchMode == DEVELOPMENT ? storageBlobDevServicesConfig.serviceName() : null, useSharedNetwork);
+                    launchMode == DEVELOPMENT ? storageBlobDevServicesConfig.serviceName() : null, useSharedNetwork,
+                    storageBlobDevServicesConfig.skipApiVersionCheck());
             timeout.ifPresent(azuriteContainer::withStartupTimeout);
             azuriteContainer.start();
             return new RunningDevService(StorageBlobProcessor.FEATURE, azuriteContainer.getContainerId(),
@@ -177,14 +178,16 @@ public class DevServicesStorageBlobProcessor {
     private static class QuarkusPortAzuriteContainer extends GenericContainer<QuarkusPortAzuriteContainer> {
         private final OptionalInt fixedExposedPort;
         private final boolean useSharedNetwork;
+        private final boolean skipApiVersionCheck;
 
         private String hostName = null;
 
         public QuarkusPortAzuriteContainer(DockerImageName dockerImageName, OptionalInt fixedExposedPort, String serviceName,
-                boolean useSharedNetwork) {
+                boolean useSharedNetwork, boolean skipApiVersionCheck) {
             super(dockerImageName);
             this.fixedExposedPort = fixedExposedPort;
             this.useSharedNetwork = useSharedNetwork;
+            this.skipApiVersionCheck = skipApiVersionCheck;
 
             if (serviceName != null) {
                 withLabel(DEV_SERVICE_LABEL, serviceName);
@@ -204,6 +207,10 @@ public class DevServicesStorageBlobProcessor {
                 addFixedExposedPort(fixedExposedPort.getAsInt(), EXPOSED_PORT);
             } else {
                 addExposedPort(EXPOSED_PORT);
+            }
+            if (skipApiVersionCheck) {
+                setCommand("azurite", "-l", "/data", "blobHost", "0.0.0.0", "queueHost", "0.0.0.0", "--tableHost", "0.0.0.0",
+                        "--skipApiVersionCheck");
             }
         }
 
