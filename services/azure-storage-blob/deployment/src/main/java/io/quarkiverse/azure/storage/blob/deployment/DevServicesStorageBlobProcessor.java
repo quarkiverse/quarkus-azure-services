@@ -209,7 +209,8 @@ public class DevServicesStorageBlobProcessor {
                 addExposedPort(EXPOSED_PORT);
             }
             if (skipApiVersionCheck) {
-                setCommand("azurite", "-l", "/data", "blobHost", "0.0.0.0", "queueHost", "0.0.0.0", "--tableHost", "0.0.0.0",
+                setCommand("azurite", "-l", "/data", "--blobHost", "0.0.0.0", "--queueHost", "0.0.0.0", "--tableHost",
+                        "0.0.0.0",
                         "--skipApiVersionCheck");
             }
         }
