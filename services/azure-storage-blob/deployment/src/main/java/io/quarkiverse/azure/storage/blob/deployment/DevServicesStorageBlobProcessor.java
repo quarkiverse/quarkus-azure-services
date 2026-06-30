@@ -200,14 +200,14 @@ public class DevServicesStorageBlobProcessor {
 
             if (useSharedNetwork) {
                 hostName = ConfigureUtil.configureSharedNetwork(this, StorageBlobProcessor.FEATURE);
-                return;
+            } else {
+                if (fixedExposedPort.isPresent()) {
+                    addFixedExposedPort(fixedExposedPort.getAsInt(), EXPOSED_PORT);
+                } else {
+                    addExposedPort(EXPOSED_PORT);
+                }
             }
 
-            if (fixedExposedPort.isPresent()) {
-                addFixedExposedPort(fixedExposedPort.getAsInt(), EXPOSED_PORT);
-            } else {
-                addExposedPort(EXPOSED_PORT);
-            }
             if (skipApiVersionCheck) {
                 setCommand("azurite", "-l", "/data", "--blobHost", "0.0.0.0", "--queueHost", "0.0.0.0", "--tableHost",
                         "0.0.0.0",
