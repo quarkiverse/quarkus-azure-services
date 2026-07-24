@@ -34,6 +34,7 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBui
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedPackageBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 import io.quarkus.deployment.util.ServiceUtil;
 
@@ -48,12 +49,22 @@ public class AzureCoreSupportProcessor {
     @BuildStep
     void runtimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClasses) {
         runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(OpenSsl.class.getName()));
-        runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem("io.netty.internal.tcnative.SSL"));
+        runtimeInitializedClasses.produce(
+                new RuntimeInitializedClassBuildItem("io.netty.handler.ssl.OpenSslPrivateKeyMethod"));
+        runtimeInitializedClasses.produce(
+                new RuntimeInitializedClassBuildItem("io.netty.handler.ssl.OpenSslAsyncPrivateKeyMethod"));
         runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem("io.netty.util.concurrent.GlobalEventExecutor"));
         runtimeInitializedClasses.produce(new RuntimeInitializedClassBuildItem(
                 "com.azure.core.http.vertx.VertxHttpClientProvider$GlobalVertxHttpClient"));
         runtimeInitializedClasses.produce(
                 new RuntimeInitializedClassBuildItem("com.azure.core.http.vertx.VertxHttpClientBuilder$DefaultVertx"));
+    }
+
+    @BuildStep
+    void runtimeInitializedPackages(BuildProducer<RuntimeInitializedPackageBuildItem> runtimeInitializedPackages) {
+        // The io.netty.internal.tcnative classes rely on JNI-backed native methods that cannot be resolved
+        // at native image build time. Initialize the whole package at run time to avoid UnsatisfiedLinkError.
+        runtimeInitializedPackages.produce(new RuntimeInitializedPackageBuildItem("io.netty.internal.tcnative"));
     }
 
     @BuildStep

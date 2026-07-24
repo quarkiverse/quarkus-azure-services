@@ -7,7 +7,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`quarkus.azure.servicebus.enabled`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-enabled[`+++quarkus.azure.servicebus.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -30,7 +30,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled[`quarkus.azure.servicebus.devservices.enabled`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-enabled[`+++quarkus.azure.servicebus.devservices.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -53,7 +53,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted[`quarkus.azure.servicebus.devservices.license-accepted`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-license-accepted[`+++quarkus.azure.servicebus.devservices.license-accepted+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.license-accepted+++[]
 endif::add-copy-button-to-config-props[]
@@ -74,7 +74,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++false+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared[`quarkus.azure.servicebus.devservices.shared`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-shared[`+++quarkus.azure.servicebus.devservices.shared+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.shared+++[]
 endif::add-copy-button-to-config-props[]
@@ -99,7 +99,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name[`quarkus.azure.servicebus.devservices.service-name`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-service-name[`+++quarkus.azure.servicebus.devservices.service-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.service-name+++[]
 endif::add-copy-button-to-config-props[]
@@ -122,7 +122,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++azure-servicebus-emulator+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name[`quarkus.azure.servicebus.devservices.emulator.image-name`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-image-name[`+++quarkus.azure.servicebus.devservices.emulator.image-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.emulator.image-name+++[]
 endif::add-copy-button-to-config-props[]
@@ -147,7 +147,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++mcr.microsoft.com/azure-messaging/servicebus-emulator:latest+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path[`quarkus.azure.servicebus.devservices.emulator.config-file-path`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-emulator-config-file-path[`+++quarkus.azure.servicebus.devservices.emulator.config-file-path+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.emulator.config-file-path+++[]
 endif::add-copy-button-to-config-props[]
@@ -174,7 +174,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name[`quarkus.azure.servicebus.devservices.database.image-name`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-devservices-database-image-name[`+++quarkus.azure.servicebus.devservices.database.image-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.devservices.database.image-name+++[]
 endif::add-copy-button-to-config-props[]
@@ -199,7 +199,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++mcr.microsoft.com/mssql/server:latest+++`
 
-a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string[`quarkus.azure.servicebus.connection-string`]##
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-connection-string[`+++quarkus.azure.servicebus.connection-string+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.connection-string+++[]
 endif::add-copy-button-to-config-props[]
@@ -220,7 +220,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-namespace]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-namespace[`quarkus.azure.servicebus.namespace`]##
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-namespace]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-namespace[`+++quarkus.azure.servicebus.namespace+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.namespace+++[]
 endif::add-copy-button-to-config-props[]
@@ -241,7 +241,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name[`quarkus.azure.servicebus.domain-name`]##
+a| [[quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name]] [.property-path]##link:#quarkus-azure-servicebus_quarkus-azure-servicebus-domain-name[`+++quarkus.azure.servicebus.domain-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.servicebus.domain-name+++[]
 endif::add-copy-button-to-config-props[]

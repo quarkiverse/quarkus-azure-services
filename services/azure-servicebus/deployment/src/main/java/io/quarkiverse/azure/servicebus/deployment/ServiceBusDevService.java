@@ -5,8 +5,8 @@ import static io.quarkus.devservices.common.ConfigureUtil.configureLabels;
 
 import org.testcontainers.azure.ServiceBusEmulatorContainer;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.MSSQLServerContainer;
 import org.testcontainers.containers.Network;
+import org.testcontainers.mssqlserver.MSSQLServerContainer;
 import org.testcontainers.utility.MountableFile;
 
 import io.quarkus.deployment.builditem.Startable;
@@ -21,12 +21,12 @@ import io.quarkus.runtime.LaunchMode;
  */
 class ServiceBusDevService implements Startable {
 
-    private final MSSQLServerContainer<?> database;
+    private final MSSQLServerContainer database;
     private final ServiceBusEmulatorContainer emulator;
 
     public ServiceBusDevService(ServiceBusDevServicesConfig config, MountableFile configFile,
             boolean useSharedNetwork, LaunchMode launchMode) {
-        this.database = new MSSQLServerContainer<>(config.database().imageName())
+        this.database = new MSSQLServerContainer(config.database().imageName())
                 .acceptLicense()
                 .withNetwork(Network.SHARED)
                 .withLabel(DEV_SERVICE_LABEL, config.serviceName());
