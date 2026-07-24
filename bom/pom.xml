@@ -33,6 +33,10 @@
         <azure.core.http.client.vertx.version>1.0.5</azure.core.http.client.vertx.version>
         <assertj-core.version>3.27.7</assertj-core.version>
         <lowkey-vault.version>7.2.18</lowkey-vault.version>
+        <!-- @sync com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson-dataformat-xml.version} dep:com.fasterxml.woodstox:woodstox-core -->
+        <woodstox-core.version>7.2.0</woodstox-core.version>
+        <!-- @sync com.fasterxml.woodstox:woodstox-core:${woodstox-core.version} dep:org.codehaus.woodstox:stax2-api -->
+        <stax2-api.version>4.3.0</stax2-api.version>
     </properties>
     
     <dependencyManagement>
@@ -67,6 +71,18 @@
                 <groupId>io.projectreactor.netty</groupId>
                 <artifactId>reactor-netty-http</artifactId>
                 <version>${reactor-netty-http.version}</version>
+            </dependency>
+            <!-- Needed for dependency convergence between Jackson 2 (jackson-dataformat-xml)
+                 and Jackson 3 (tools.jackson, brought by lowkey-vault-client) XML dataformats -->
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>${woodstox-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.woodstox</groupId>
+                <artifactId>stax2-api</artifactId>
+                <version>${stax2-api.version}</version>
             </dependency>
             
             <!-- Utilities for Azure Services Extensions -->

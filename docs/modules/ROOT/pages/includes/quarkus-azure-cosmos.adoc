@@ -7,7 +7,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled[`quarkus.azure.cosmos.devservices.enabled`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-enabled[`+++quarkus.azure.cosmos.devservices.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.devservices.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -28,7 +28,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared[`quarkus.azure.cosmos.devservices.shared`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-shared[`+++quarkus.azure.cosmos.devservices.shared+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.devservices.shared+++[]
 endif::add-copy-button-to-config-props[]
@@ -53,7 +53,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name[`quarkus.azure.cosmos.devservices.service-name`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-devservices-service-name[`+++quarkus.azure.cosmos.devservices.service-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.devservices.service-name+++[]
 endif::add-copy-button-to-config-props[]
@@ -76,7 +76,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++default-cosmos+++`
 
-a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[`quarkus.azure.cosmos.enabled`]##
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-enabled]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-enabled[`+++quarkus.azure.cosmos.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -97,7 +97,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint[`quarkus.azure.cosmos.endpoint`]##
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-endpoint[`+++quarkus.azure.cosmos.endpoint+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.endpoint+++[]
 endif::add-copy-button-to-config-props[]
@@ -118,7 +118,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode[`quarkus.azure.cosmos.default-gateway-mode`]##
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-default-gateway-mode[`+++quarkus.azure.cosmos.default-gateway-mode+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.default-gateway-mode+++[]
 endif::add-copy-button-to-config-props[]
@@ -139,7 +139,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++false+++`
 
-a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[`quarkus.azure.cosmos.key`]##
+a| [[quarkus-azure-cosmos_quarkus-azure-cosmos-key]] [.property-path]##link:#quarkus-azure-cosmos_quarkus-azure-cosmos-key[`+++quarkus.azure.cosmos.key+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.cosmos.key+++[]
 endif::add-copy-button-to-config-props[]

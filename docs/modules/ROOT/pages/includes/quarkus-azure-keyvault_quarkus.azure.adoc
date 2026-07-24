@@ -7,7 +7,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-enabled]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-enabled[`quarkus.azure.keyvault.devservices.enabled`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-enabled]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-enabled[`+++quarkus.azure.keyvault.devservices.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.devservices.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -28,7 +28,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-image-name]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-image-name[`quarkus.azure.keyvault.devservices.image-name`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-image-name]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-image-name[`+++quarkus.azure.keyvault.devservices.image-name+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.devservices.image-name+++[]
 endif::add-copy-button-to-config-props[]
@@ -51,7 +51,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++nagyesta/lowkey-vault:4.0.0-ubi9-minimal+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-managed-identity-token-port]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-managed-identity-token-port[`quarkus.azure.keyvault.devservices.managed-identity.token-port`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-managed-identity-token-port]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-managed-identity-token-port[`+++quarkus.azure.keyvault.devservices.managed-identity.token-port+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.devservices.managed-identity.token-port+++[]
 endif::add-copy-button-to-config-props[]
@@ -72,7 +72,7 @@ endif::add-copy-button-to-env-var[]
 |int
 |`+++0+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-merge-ssl-keystore-with-application-keystore]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-merge-ssl-keystore-with-application-keystore[`quarkus.azure.keyvault.devservices.merge-ssl-keystore-with-application-keystore`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-merge-ssl-keystore-with-application-keystore]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-merge-ssl-keystore-with-application-keystore[`+++quarkus.azure.keyvault.devservices.merge-ssl-keystore-with-application-keystore+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.devservices.merge-ssl-keystore-with-application-keystore+++[]
 endif::add-copy-button-to-config-props[]
@@ -93,7 +93,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-pre-set-secrets-pre-set-secrets]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-pre-set-secrets-pre-set-secrets[`quarkus.azure.keyvault.devservices.pre-set-secrets."pre-set-secrets"`]##
+a|icon:lock[title=Fixed at build time] [[quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-pre-set-secrets-pre-set-secrets]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-devservices-pre-set-secrets-pre-set-secrets[`+++quarkus.azure.keyvault.devservices.pre-set-secrets."pre-set-secrets"+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.devservices.pre-set-secrets."pre-set-secrets"+++[]
 endif::add-copy-button-to-config-props[]
@@ -114,7 +114,7 @@ endif::add-copy-button-to-env-var[]
 |Map<String,String>
 |
 
-a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-enabled]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-enabled[`quarkus.azure.keyvault.secret.enabled`]##
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-enabled]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-enabled[`+++quarkus.azure.keyvault.secret.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.secret.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -135,7 +135,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++true+++`
 
-a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-endpoint]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-endpoint[`quarkus.azure.keyvault.secret.endpoint`]##
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-endpoint]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-endpoint[`+++quarkus.azure.keyvault.secret.endpoint+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.secret.endpoint+++[]
 endif::add-copy-button-to-config-props[]
@@ -156,7 +156,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |
 
-a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-disable-challenge-resource-verification]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-disable-challenge-resource-verification[`quarkus.azure.keyvault.secret.local-configuration.disable-challenge-resource-verification`]##
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-disable-challenge-resource-verification]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-disable-challenge-resource-verification[`+++quarkus.azure.keyvault.secret.local-configuration.disable-challenge-resource-verification+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.secret.local-configuration.disable-challenge-resource-verification+++[]
 endif::add-copy-button-to-config-props[]
@@ -177,7 +177,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++false+++`
 
-a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-username]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-username[`quarkus.azure.keyvault.secret.local-configuration.basic-authentication.username`]##
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-username]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-username[`+++quarkus.azure.keyvault.secret.local-configuration.basic-authentication.username+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.secret.local-configuration.basic-authentication.username+++[]
 endif::add-copy-button-to-config-props[]
@@ -198,7 +198,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |required icon:exclamation-circle[title=Configuration property is required]
 
-a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-password]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-password[`quarkus.azure.keyvault.secret.local-configuration.basic-authentication.password`]##
+a| [[quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-password]] [.property-path]##link:#quarkus-azure-keyvault_quarkus-azure-keyvault-secret-local-configuration-basic-authentication-password[`+++quarkus.azure.keyvault.secret.local-configuration.basic-authentication.password+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.azure.keyvault.secret.local-configuration.basic-authentication.password+++[]
 endif::add-copy-button-to-config-props[]
