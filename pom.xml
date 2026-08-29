@@ -29,7 +29,8 @@
     <module>bom</module>
     <module>services</module>
     <module>common</module>
-  </modules>
+      <module>docs-rag</module>
+    </modules>
   <dependencyManagement>
     <dependencies>
       <dependency>
