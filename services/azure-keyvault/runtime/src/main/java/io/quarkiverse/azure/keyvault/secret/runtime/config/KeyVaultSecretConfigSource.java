@@ -37,7 +37,8 @@ class KeyVaultSecretConfigSource extends AbstractConfigSource {
     }
 
     private SecretClient createClient(String hostAuthority, Vertx vertx) {
-        log.info("Creating Key Vault Secret client with Azure Core Vert.x HTTP transport for host authority: {}", hostAuthority);
+        log.info("Creating Key Vault Secret client with Azure Core Vert.x HTTP transport for host authority: {}",
+                hostAuthority);
         HttpClient httpClient = new VertxHttpClientBuilder().vertx(vertx).build();
         SecretClientBuilder clientBuilder = configureClientBuilder(kvConfig,
                 AzureQuarkusIdentifier.AZURE_QUARKUS_KEY_VAULT_SYNC_CLIENT,
