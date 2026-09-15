@@ -43,14 +43,14 @@ jobs:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      RESOURCE_GROUP_NAME: ${{ github.repository_owner }}-quarkus${{ github.run_id }}-${{ github.run_number }}
-      STORAGE_ACCOUNT_NAME: storage${{ github.run_id }}${{ github.run_number }}
-      APP_CONFIG_NAME: appconfig${{ github.run_id }}-${{ github.run_number }}
-      KEY_VAULT_NAME: kv${{ github.run_id }}-${{ github.run_number }}
-      COSMOSDB_ACCOUNT_NAME: cosmos${{ github.run_id }}-${{ github.run_number }}
-      EVENTHUBS_NAMESPACE: eventhubs-ns-${{ github.run_id }}-${{ github.run_number }}
-      EVENTHUBS_EVENTHUB_NAME: eventhubs-ehn-${{ github.run_id }}-${{ github.run_number }}
-      SERVICEBUS_NAMESPACE: servicebus-ns-${{ github.run_id }}-${{ github.run_number }}
+      RESOURCE_GROUP_NAME: ${{ github.repository_owner }}-quarkus${{ github.run_id }}-${{ github.run_attempt }}
+      STORAGE_ACCOUNT_NAME: storage${{ github.run_id }}${{ github.run_attempt }}
+      APP_CONFIG_NAME: appconfig${{ github.run_id }}-${{ github.run_attempt }}
+      KEY_VAULT_NAME: kv${{ github.run_id }}-${{ github.run_attempt }}
+      COSMOSDB_ACCOUNT_NAME: cosmos${{ github.run_id }}-${{ github.run_attempt }}
+      EVENTHUBS_NAMESPACE: eventhubs-ns-${{ github.run_id }}-${{ github.run_attempt }}
+      EVENTHUBS_EVENTHUB_NAME: eventhubs-ehn-${{ github.run_id }}-${{ github.run_attempt }}
+      SERVICEBUS_NAMESPACE: servicebus-ns-${{ github.run_id }}-${{ github.run_attempt }}
     name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false
