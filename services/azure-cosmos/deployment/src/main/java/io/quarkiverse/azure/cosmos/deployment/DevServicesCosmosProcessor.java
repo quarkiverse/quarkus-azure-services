@@ -1,32 +1,24 @@
 package io.quarkiverse.azure.cosmos.deployment;
 
-import java.net.ServerSocket;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.jboss.logging.Logger;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
-import io.quarkus.deployment.IsNormal;
-import io.quarkus.deployment.annotations.BuildProducer;
+import io.quarkus.deployment.IsProduction;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.CuratedApplicationShutdownBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
-import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
 import io.quarkus.deployment.builditem.DevServicesSharedNetworkBuildItem;
 import io.quarkus.deployment.builditem.DockerStatusBuildItem;
 import io.quarkus.deployment.builditem.LaunchModeBuildItem;
-import io.quarkus.deployment.console.ConsoleInstalledBuildItem;
-import io.quarkus.deployment.console.StartupLogCompressor;
+import io.quarkus.deployment.builditem.Startable;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
-import io.quarkus.deployment.logging.LoggingSetupBuildItem;
 import io.quarkus.devservices.common.ConfigureUtil;
 import io.quarkus.devservices.common.ContainerLocator;
-import io.quarkus.runtime.LaunchMode;
 import io.quarkus.runtime.configuration.ConfigUtils;
 
 public class DevServicesCosmosProcessor {
@@ -36,91 +28,19 @@ public class DevServicesCosmosProcessor {
     static final String CONFIG_KEY_COSMOS_ENDPOINT = "quarkus.azure.cosmos.endpoint";
     static final String CONFIG_KEY_COSMOS_KEY = "quarkus.azure.cosmos.key";
     static final String CONFIG_KEY_DEFAULT_GATEWAY_MODE = "quarkus.azure.cosmos.default-gateway-mode";
-    private static volatile CosmosDevServicesConfig capturedDevServicesConfiguration;
-    private static volatile boolean first = true;
-    private static volatile RunningDevService devService;
 
     private static final ContainerLocator containerLocator = new ContainerLocator(DEV_SERVICE_LABEL,
             CosmosContainer.EXPOSED_PORT);
 
-    @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class })
-    public void startCosmosDBContainer(BuildProducer<DevServicesResultBuildItem> devConfig,
+    @BuildStep(onlyIfNot = IsProduction.class, onlyIf = { DevServicesConfig.Enabled.class })
+    public DevServicesResultBuildItem startCosmosDBContainer(
             LaunchModeBuildItem launchMode,
             DockerStatusBuildItem dockerStatusBuildItem,
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
             CosmosBuildTimeConfig buildTimeConfig,
-            Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
-            CuratedApplicationShutdownBuildItem closeBuildItem,
-            LoggingSetupBuildItem loggingSetupBuildItem,
             DevServicesConfig devServicesConfig) {
 
         CosmosDevServicesConfig cosmosDevServicesConfig = buildTimeConfig.devservices();
-
-        // figure out if we need to shut down and restart existing Cosmos
-        // container
-        // if not and the Cosmos container has already started we just
-        // return
-        if (devService != null) {
-            boolean restartRequired = !cosmosDevServicesConfig.equals(capturedDevServicesConfiguration);
-            if (!restartRequired) {
-                return;
-            }
-            try {
-                devService.close();
-            } catch (Throwable e) {
-                log.error("Failed to stop Cosmos container", e);
-            }
-            devService = null;
-            capturedDevServicesConfiguration = null;
-        }
-
-        capturedDevServicesConfiguration = cosmosDevServicesConfig;
-
-        StartupLogCompressor compressor = new StartupLogCompressor(
-                (launchMode.isTest() ? "(test) " : "") + "Azure Cosmos Dev Services Starting:",
-                consoleInstalledBuildItem,
-                loggingSetupBuildItem);
-        try {
-            devService = startContainer(
-                    dockerStatusBuildItem,
-                    cosmosDevServicesConfig,
-                    launchMode.getLaunchMode(),
-                    !devServicesSharedNetworkBuildItem.isEmpty(),
-                    devServicesConfig.timeout());
-            if (devService != null) {
-                devConfig.produce(devService.toBuildItem());
-                log.infof("The Cosmos container %s is ready to accept connections",
-                        devService.getContainerId());
-            }
-            compressor.close();
-        } catch (Throwable t) {
-            compressor.closeAndDumpCaptured();
-            throw new RuntimeException(t);
-        }
-
-        if (first) {
-            first = false;
-            Runnable closeTask = () -> {
-                if (devService != null) {
-                    try {
-                        devService.close();
-                    } catch (Throwable t) {
-                        log.error("Failed to stop Cosmos container", t);
-                    }
-                    devService = null;
-                }
-                first = true;
-            };
-            closeBuildItem.addCloseTask(closeTask, true);
-        }
-    }
-
-    private RunningDevService startContainer(
-            DockerStatusBuildItem dockerStatusBuildItem,
-            CosmosDevServicesConfig cosmosDevServicesConfig,
-            LaunchMode launchMode,
-            boolean useSharedNetwork,
-            Optional<Duration> timeout) {
         if (!cosmosDevServicesConfig.enabled()) {
             log.info("Cosmos Dev Services is disabled");
             return null;
@@ -143,68 +63,74 @@ public class DevServicesCosmosProcessor {
             return null;
         }
 
-        // At this point, we know we need to use the emulator, so set the property that
-        // allows the client to
-        // connect w/o SSL cert validation when used with the emulator
+        // The emulator uses a self-signed certificate. This SDK property must be set
+        // before the application creates its Cosmos client.
         System.setProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED", "true");
 
-        Supplier<RunningDevService> cosmosServerSupplier = () -> {
-            CosmosContainer container = new CosmosContainer(cosmosDevServicesConfig.serviceName(), useSharedNetwork,
-                    timeout);
-            container.start();
-            return new RunningDevService(
-                    CosmosProcessor.FEATURE,
-                    container.getContainerId(),
-                    container::close,
-                    Map.of(CONFIG_KEY_COSMOS_ENDPOINT, container.getEndpoint(),
-                            CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
-                            CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
-
-        };
+        boolean useSharedNetwork = DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig,
+                devServicesSharedNetworkBuildItem);
         return containerLocator
-                .locateContainer(cosmosDevServicesConfig.serviceName(), cosmosDevServicesConfig.shared(), launchMode)
-                .map(containerAddress -> {
-                    String endpoint = CosmosContainer.getEndpoint(containerAddress.getHost(),
-                            containerAddress.getPort());
-                    return new RunningDevService(
-                            CosmosProcessor.FEATURE,
-                            containerAddress.getId(),
-                            null,
-                            Map.of(CONFIG_KEY_COSMOS_ENDPOINT, endpoint,
-                                    CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
-                                    CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
-                })
-                .orElseGet(cosmosServerSupplier);
-
+                .locateContainer(cosmosDevServicesConfig.serviceName(), cosmosDevServicesConfig.shared(),
+                        launchMode.getLaunchMode())
+                .map(containerAddress -> DevServicesResultBuildItem.discovered()
+                        .feature(CosmosProcessor.FEATURE)
+                        .containerId(containerAddress.getId())
+                        .config(Map.of(CONFIG_KEY_COSMOS_ENDPOINT,
+                                CosmosContainer.getEndpoint(containerAddress.getHost(), containerAddress.getPort()),
+                                CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
+                                CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"))
+                        .build())
+                .orElseGet(() -> DevServicesResultBuildItem.owned()
+                        .feature(CosmosProcessor.FEATURE)
+                        .serviceName(cosmosDevServicesConfig.serviceName())
+                        .serviceConfig(cosmosDevServicesConfig)
+                        .startable(() -> new CosmosContainer(cosmosDevServicesConfig.serviceName(), useSharedNetwork,
+                                devServicesConfig.timeout()))
+                        .configProvider(Map.of(
+                                CONFIG_KEY_COSMOS_ENDPOINT, CosmosContainer::getEndpoint,
+                                CONFIG_KEY_COSMOS_KEY, container -> CosmosContainer.getKey(),
+                                CONFIG_KEY_DEFAULT_GATEWAY_MODE, container -> "true"))
+                        .build());
     }
 
     private boolean isCosmosConfigured() {
         return ConfigUtils.isPropertyPresent(CONFIG_KEY_COSMOS_ENDPOINT);
     }
 
-    private static class CosmosContainer extends GenericContainer<CosmosContainer> {
+    private static class CosmosContainer extends GenericContainer<CosmosContainer> implements Startable {
 
         private final boolean useSharedNetwork;
         private String hostName = null;
         static final int EXPOSED_PORT = 8081;
 
-        private final int safePort;
-
         CosmosContainer(String serviceName, boolean useSharedNetwork, Optional<Duration> timeout) {
             super("mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview");
-            safePort = findFreePort();
-            addFixedExposedPort(getPort(), EXPOSED_PORT);
-            setPortBindings(List.of(getPort() + ":" + getPort()));
+            addExposedPort(EXPOSED_PORT);
             waitingFor(Wait.forLogMessage("Now listening.*", 1));
             withLabel(DEV_SERVICE_LABEL, serviceName);
             withEnv(
                     Map.of(
                             "PROTOCOL", "https",
-                            "PORT", "" + getPort()));
+                            "PORT", "" + EXPOSED_PORT));
             this.useSharedNetwork = useSharedNetwork;
             if (timeout.isPresent()) {
                 withStartupTimeout(timeout.get());
             }
+        }
+
+        @Override
+        public void start() {
+            super.start();
+        }
+
+        @Override
+        public void close() {
+            super.close();
+        }
+
+        @Override
+        public String getConnectionInfo() {
+            return getEndpoint();
         }
 
         /**
@@ -224,7 +150,10 @@ public class DevServicesCosmosProcessor {
          * @return secure https emulator endpoint to send requests
          */
         String getEndpoint() {
-            return getEndpoint(getHost(), getPort());
+            String host = getHost();
+            // COSMOS.EMULATOR_HOST is needed so the Azure Cosmos SDK recognizes the dynamically mapped Testcontainers host as the Cosmos emulator.
+            System.setProperty("COSMOS.EMULATOR_HOST", host);
+            return getEndpoint(host, getPort());
         }
 
         @Override
@@ -237,7 +166,7 @@ public class DevServicesCosmosProcessor {
         }
 
         final int getPort() {
-            return safePort;
+            return useSharedNetwork ? EXPOSED_PORT : super.getFirstMappedPort();
         }
 
         @Override
@@ -249,13 +178,6 @@ public class DevServicesCosmosProcessor {
             return "https://" + host + ":" + port;
         }
 
-        static final int findFreePort() {
-            try (ServerSocket socket = new ServerSocket(0)) {
-                return socket.getLocalPort();
-            } catch (Exception e) {
-                throw new RuntimeException("Unable to find free port", e);
-            }
-        }
     }
 
 }
