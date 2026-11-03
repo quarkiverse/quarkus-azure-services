@@ -7,7 +7,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 
 /**
  * A custom config file location was explicitly configured, but the file does not exist.
@@ -16,7 +16,7 @@ import io.quarkus.test.QuarkusUnitTest;
 class EmulatorEnforcesCustomConfigLocationTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest TEST = new QuarkusUnitTest()
+    static final QuarkusExtensionTest TEST = new QuarkusExtensionTest()
             .withApplicationRoot((jar) -> jar
                     .addAsResource(
                             new StringAsset(

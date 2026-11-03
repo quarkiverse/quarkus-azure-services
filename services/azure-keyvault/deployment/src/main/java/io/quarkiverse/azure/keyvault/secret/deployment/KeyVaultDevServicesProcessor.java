@@ -17,14 +17,9 @@ import com.github.nagyesta.lowkeyvault.testcontainers.LowkeyVaultContainer;
 import com.github.nagyesta.lowkeyvault.testcontainers.LowkeyVaultContainerBuilder;
 
 import io.quarkus.deployment.IsNormal;
-import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.*;
-import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
-import io.quarkus.deployment.console.ConsoleInstalledBuildItem;
-import io.quarkus.deployment.console.StartupLogCompressor;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
-import io.quarkus.deployment.logging.LoggingSetupBuildItem;
 import io.quarkus.runtime.LaunchMode;
 import io.quarkus.runtime.configuration.ConfigUtils;
 
@@ -37,91 +32,19 @@ public class KeyVaultDevServicesProcessor {
     static final String CONFIG_KEY_KEYVAULT_DISABLE_CRV = "quarkus.azure.keyvault.secret.local-configuration.disable-challenge-resource-verification";
     static final String CONFIG_KEY_KEYVAULT_USERNAME = "quarkus.azure.keyvault.secret.local-configuration.basic-authentication.username";
     static final String CONFIG_KEY_KEYVAULT_PASSWORD = "quarkus.azure.keyvault.secret.local-configuration.basic-authentication.password";
-    private static volatile KeyVaultDevServicesConfig capturedDevServicesConfiguration;
-    private static volatile boolean first = true;
-    private static volatile RunningDevService devService;
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class })
-    public void startKeyVaultContainer(BuildProducer<DevServicesResultBuildItem> devConfig,
+    public DevServicesResultBuildItem startKeyVaultContainer(
             LaunchModeBuildItem launchMode,
             DockerStatusBuildItem dockerStatusBuildItem,
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
             KeyVaultBuildTimeConfig buildTimeConfig,
-            Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
-            CuratedApplicationShutdownBuildItem closeBuildItem,
-            LoggingSetupBuildItem loggingSetupBuildItem,
             DevServicesConfig devServicesConfig) {
-
-        KeyVaultDevServicesConfig keyVaultDevServicesConfig = buildTimeConfig.devservices();
-
-        // Figure out if we need to shut down and restart the existing Lowkey Vault
-        // container. If not and the container has already started, we just return.
-        if (devService != null) {
-            if (!isRestartRequired(keyVaultDevServicesConfig)) {
-                return;
-            }
-            stopRunningDevService();
-        }
-
-        capturedDevServicesConfiguration = keyVaultDevServicesConfig;
-
-        StartupLogCompressor compressor = new StartupLogCompressor(
-                (launchMode.isTest() ? "(test) " : "") + "Azure Key Vault Dev Services Starting:",
-                consoleInstalledBuildItem,
-                loggingSetupBuildItem);
-        try {
-            devService = startContainer(
-                    dockerStatusBuildItem,
-                    keyVaultDevServicesConfig,
-                    launchMode.getLaunchMode(),
-                    devServicesConfig.timeout());
-            if (devService != null) {
-                devConfig.produce(devService.toBuildItem());
-                log.infof("The Key Vault container %s is ready to accept connections",
-                        devService.getContainerId());
-            }
-            compressor.close();
-        } catch (Throwable t) {
-            compressor.closeAndDumpCaptured();
-            throw new RuntimeException(t);
-        }
-
-        addGracefulShutdown(closeBuildItem);
+        return startContainer(dockerStatusBuildItem, buildTimeConfig.devservices(), launchMode.getLaunchMode(),
+                devServicesConfig.timeout());
     }
 
-    private static void addGracefulShutdown(CuratedApplicationShutdownBuildItem closeBuildItem) {
-        if (first) {
-            first = false;
-            Runnable closeTask = () -> {
-                if (devService != null) {
-                    try {
-                        devService.close();
-                    } catch (Throwable t) {
-                        log.error("Failed to stop Key Vault container", t);
-                    }
-                    devService = null;
-                }
-                first = true;
-            };
-            closeBuildItem.addCloseTask(closeTask, true);
-        }
-    }
-
-    private static void stopRunningDevService() {
-        try {
-            devService.close();
-        } catch (Throwable e) {
-            log.error("Failed to stop Key Vault container", e);
-        }
-        devService = null;
-        capturedDevServicesConfiguration = null;
-    }
-
-    private static boolean isRestartRequired(KeyVaultDevServicesConfig keyVaultDevServicesConfig) {
-        return !keyVaultDevServicesConfig.equals(capturedDevServicesConfiguration);
-    }
-
-    private RunningDevService startContainer(
+    private DevServicesResultBuildItem startContainer(
             DockerStatusBuildItem dockerStatusBuildItem,
             KeyVaultDevServicesConfig keyVaultDevServicesConfig,
             LaunchMode launchMode,
@@ -152,32 +75,63 @@ public class KeyVaultDevServicesProcessor {
             return null;
         }
 
-        int tokenPort = keyVaultDevServicesConfig.managedIdentity()
-                .map(KeyVaultDevServicesManagedIdentityConfig::tokenPort)
-                .orElseGet(this::findFreePort);
-        LowkeyVaultContainerBuilder builder = lowkeyVault(keyVaultDevServicesConfig.imageName())
-                .hostTokenPort(tokenPort);
-        if (keyVaultDevServicesConfig.mergeSslKeystoreWithApplicationKeystore()) {
-            builder.mergeTrustStores();
-        }
-        LowkeyVaultContainer container = builder
-                .build()
-                .withStartupTimeout(timeout.orElse(Duration.ofSeconds(15)))
-                .withLabel(DEV_SERVICE_LABEL, DEV_SERVICE_NAME);
-        container.start();
-        if (!keyVaultDevServicesConfig.preSetSecrets().isEmpty()) {
-            SecretClient secretClient = container.getClientFactory().getSecretClientBuilderForDefaultVault().buildClient();
-            keyVaultDevServicesConfig.preSetSecrets().forEach((name, value) -> {
-                log.infof("Pre-setting secret '%s'", name);
-                secretClient.setSecret(name, value);
-            });
-        }
-        return new RunningDevService(
-                KeyVaultSecretProcessor.FEATURE,
-                container.getContainerId(),
-                container::close,
-                configMap(keyVaultDevServicesConfig, container));
+        return DevServicesResultBuildItem.owned()
+                .feature(KeyVaultSecretProcessor.FEATURE)
+                .serviceName(DEV_SERVICE_NAME)
+                .serviceConfig(keyVaultDevServicesConfig)
+                .startable(() -> new KeyVaultDevService(keyVaultDevServicesConfig, timeout))
+                .configProvider(service -> configMap(keyVaultDevServicesConfig, service.container))
+                .postStartHook(service -> log.infof("The Key Vault container %s is ready to accept connections",
+                        service.getContainerId()))
+                .build();
+    }
 
+    private class KeyVaultDevService implements Startable {
+        private final LowkeyVaultContainer container;
+        private final KeyVaultDevServicesConfig config;
+
+        private KeyVaultDevService(KeyVaultDevServicesConfig config, Optional<Duration> timeout) {
+            this.config = config;
+            int tokenPort = config.managedIdentity()
+                    .map(KeyVaultDevServicesManagedIdentityConfig::tokenPort)
+                    .orElseGet(KeyVaultDevServicesProcessor.this::findFreePort);
+            LowkeyVaultContainerBuilder builder = lowkeyVault(config.imageName())
+                    .hostTokenPort(tokenPort);
+            if (config.mergeSslKeystoreWithApplicationKeystore()) {
+                builder.mergeTrustStores();
+            }
+            container = builder
+                    .build()
+                    .withStartupTimeout(timeout.orElse(Duration.ofSeconds(15)))
+                    .withLabel(DEV_SERVICE_LABEL, DEV_SERVICE_NAME);
+        }
+
+        @Override
+        public void start() {
+            container.start();
+            if (!config.preSetSecrets().isEmpty()) {
+                SecretClient secretClient = container.getClientFactory().getSecretClientBuilderForDefaultVault().buildClient();
+                config.preSetSecrets().forEach((name, value) -> {
+                    log.infof("Pre-setting secret '%s'", name);
+                    secretClient.setSecret(name, value);
+                });
+            }
+        }
+
+        @Override
+        public String getConnectionInfo() {
+            return container.getEndpointBaseUrl();
+        }
+
+        @Override
+        public String getContainerId() {
+            return container.getContainerId();
+        }
+
+        @Override
+        public void close() {
+            container.close();
+        }
     }
 
     private static @NotNull Map<String, String> configMap(

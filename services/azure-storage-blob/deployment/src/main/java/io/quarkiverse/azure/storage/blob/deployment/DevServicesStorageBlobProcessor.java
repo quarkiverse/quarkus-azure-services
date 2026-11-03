@@ -4,27 +4,22 @@ import static io.quarkus.runtime.LaunchMode.DEVELOPMENT;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.function.Supplier;
 
 import org.jboss.logging.Logger;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import io.quarkus.deployment.IsNormal;
-import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.CuratedApplicationShutdownBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
-import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
 import io.quarkus.deployment.builditem.DevServicesSharedNetworkBuildItem;
 import io.quarkus.deployment.builditem.DockerStatusBuildItem;
 import io.quarkus.deployment.builditem.LaunchModeBuildItem;
-import io.quarkus.deployment.console.ConsoleInstalledBuildItem;
-import io.quarkus.deployment.console.StartupLogCompressor;
+import io.quarkus.deployment.builditem.Startable;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
-import io.quarkus.deployment.logging.LoggingSetupBuildItem;
 import io.quarkus.devservices.common.ConfigureUtil;
 import io.quarkus.devservices.common.ContainerLocator;
 import io.quarkus.runtime.LaunchMode;
@@ -47,9 +42,6 @@ public class DevServicesStorageBlobProcessor {
      */
     private static final String DEV_SERVICE_LABEL = "quarkus-dev-service-azure-storage-blob";
     private static final ContainerLocator containerLocator = new ContainerLocator(DEV_SERVICE_LABEL, EXPOSED_PORT);
-    private static volatile RunningDevService devService;
-    private static volatile StorageBlobDevServicesConfig capturedDevServicesConfiguration;
-    private static volatile boolean first = true;
 
     public static String getBlobEndpoint(String host, int port) {
         return String.format("%s://%s:%s/%s", PROTOCOL, host, port, ACCOUNT_NAME);
@@ -62,73 +54,19 @@ public class DevServicesStorageBlobProcessor {
     }
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class })
-    public void startStorageBlobContainer(BuildProducer<DevServicesResultBuildItem> devConfig,
+    public DevServicesResultBuildItem startStorageBlobContainer(
             LaunchModeBuildItem launchMode,
             DockerStatusBuildItem dockerStatusBuildItem,
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
             StorageBlobBuildTimeConfig config,
-            Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
-            CuratedApplicationShutdownBuildItem closeBuildItem,
-            LoggingSetupBuildItem loggingSetupBuildItem,
             DevServicesConfig devServicesConfig) {
-
-        StorageBlobDevServicesConfig storageBlobDevServicesConfig = config.devservices();
-
-        // figure out if we need to shut down and restart existing Azurite storage blob container
-        // if not and the Azurite storage blob container has already started we just return
-        if (devService != null) {
-            boolean restartRequired = !storageBlobDevServicesConfig.equals(capturedDevServicesConfiguration);
-            if (!restartRequired) {
-                return;
-            }
-            try {
-                devService.close();
-            } catch (Throwable e) {
-                log.error("Failed to stop Azurite storage blob container", e);
-            }
-            devService = null;
-            capturedDevServicesConfiguration = null;
-        }
-
-        capturedDevServicesConfiguration = storageBlobDevServicesConfig;
-
-        StartupLogCompressor compressor = new StartupLogCompressor(
-                (launchMode.isTest() ? "(test) " : "") + "Azure Storage Blob Dev Services Starting:", consoleInstalledBuildItem,
-                loggingSetupBuildItem);
-        try {
-            devService = startContainer(dockerStatusBuildItem, storageBlobDevServicesConfig, launchMode.getLaunchMode(),
-                    !devServicesSharedNetworkBuildItem.isEmpty(), devServicesConfig.timeout());
-            if (devService != null) {
-                devConfig.produce(devService.toBuildItem());
-
-                log.infof("The Azurite storage blob container %s is ready to accept connections",
-                        devService.getContainerId());
-            }
-            compressor.close();
-        } catch (Throwable t) {
-            compressor.closeAndDumpCaptured();
-            throw new RuntimeException(t);
-        }
-
-        if (first) {
-            first = false;
-            Runnable closeTask = () -> {
-                if (devService != null) {
-                    try {
-                        devService.close();
-                    } catch (Throwable t) {
-                        log.error("Failed to stop Azurite storage blob container", t);
-                    }
-                    devService = null;
-                }
-                first = true;
-                capturedDevServicesConfiguration = null;
-            };
-            closeBuildItem.addCloseTask(closeTask, true);
-        }
+        return startContainer(dockerStatusBuildItem, config.devservices(), launchMode.getLaunchMode(),
+                DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig,
+                        devServicesSharedNetworkBuildItem),
+                devServicesConfig.timeout());
     }
 
-    private RunningDevService startContainer(DockerStatusBuildItem dockerStatusBuildItem,
+    private DevServicesResultBuildItem startContainer(DockerStatusBuildItem dockerStatusBuildItem,
             StorageBlobDevServicesConfig storageBlobDevServicesConfig, LaunchMode launchMode,
             boolean useSharedNetwork, Optional<Duration> timeout) {
         if (!storageBlobDevServicesConfig.enabled()) {
@@ -153,29 +91,37 @@ public class DevServicesStorageBlobProcessor {
         DockerImageName dockerImageName = DockerImageName.parse(storageBlobDevServicesConfig.imageName().orElse(IMAGE))
                 .asCompatibleSubstituteFor(IMAGE);
 
-        Supplier<RunningDevService> storageBlobServerSupplier = () -> {
-            QuarkusPortAzuriteContainer azuriteContainer = new QuarkusPortAzuriteContainer(dockerImageName,
-                    storageBlobDevServicesConfig.port(),
-                    launchMode == DEVELOPMENT ? storageBlobDevServicesConfig.serviceName() : null, useSharedNetwork,
-                    storageBlobDevServicesConfig.skipApiVersionCheck());
-            timeout.ifPresent(azuriteContainer::withStartupTimeout);
-            azuriteContainer.start();
-            return new RunningDevService(StorageBlobProcessor.FEATURE, azuriteContainer.getContainerId(),
-                    azuriteContainer::close, CONFIG_KEY_CONNECTION_STRING,
-                    getConnectionString(azuriteContainer.getHost(), azuriteContainer.getPort()));
-        };
-
         return containerLocator
                 .locateContainer(storageBlobDevServicesConfig.serviceName(), storageBlobDevServicesConfig.shared(), launchMode)
                 .map(containerAddress -> {
-                    return new RunningDevService(StorageBlobProcessor.FEATURE, containerAddress.getId(),
-                            null, CONFIG_KEY_CONNECTION_STRING,
-                            getConnectionString(containerAddress.getHost(), containerAddress.getPort()));
+                    return DevServicesResultBuildItem.discovered()
+                            .feature(StorageBlobProcessor.FEATURE)
+                            .containerId(containerAddress.getId())
+                            .config(Map.of(CONFIG_KEY_CONNECTION_STRING,
+                                    getConnectionString(containerAddress.getHost(), containerAddress.getPort())))
+                            .build();
                 })
-                .orElseGet(storageBlobServerSupplier);
+                .orElseGet(() -> DevServicesResultBuildItem.owned()
+                        .feature(StorageBlobProcessor.FEATURE)
+                        .serviceName(storageBlobDevServicesConfig.serviceName())
+                        .serviceConfig(storageBlobDevServicesConfig)
+                        .startable(() -> {
+                            QuarkusPortAzuriteContainer container = new QuarkusPortAzuriteContainer(dockerImageName,
+                                    storageBlobDevServicesConfig.port(),
+                                    launchMode == DEVELOPMENT ? storageBlobDevServicesConfig.serviceName() : null,
+                                    useSharedNetwork, storageBlobDevServicesConfig.skipApiVersionCheck());
+                            timeout.ifPresent(container::withStartupTimeout);
+                            return container;
+                        })
+                        .configProvider(container -> Map.of(CONFIG_KEY_CONNECTION_STRING, container.getConnectionInfo()))
+                        .postStartHook(
+                                container -> log.infof("The Azurite storage blob container %s is ready to accept connections",
+                                        container.getContainerId()))
+                        .build());
     }
 
-    private static class QuarkusPortAzuriteContainer extends GenericContainer<QuarkusPortAzuriteContainer> {
+    private static class QuarkusPortAzuriteContainer extends GenericContainer<QuarkusPortAzuriteContainer>
+            implements Startable {
         private final OptionalInt fixedExposedPort;
         private final boolean useSharedNetwork;
         private final boolean skipApiVersionCheck;
@@ -224,6 +170,16 @@ public class DevServicesStorageBlobProcessor {
                 return fixedExposedPort.getAsInt();
             }
             return super.getFirstMappedPort();
+        }
+
+        @Override
+        public String getConnectionInfo() {
+            return getConnectionString(getHost(), getPort());
+        }
+
+        @Override
+        public void close() {
+            stop();
         }
 
         @Override

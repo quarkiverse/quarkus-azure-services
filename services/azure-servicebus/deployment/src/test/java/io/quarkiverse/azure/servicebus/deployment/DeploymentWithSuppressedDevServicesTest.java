@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkiverse.azure.servicebus.runtime.ServiceBusConfig;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 
 /**
  * The presence of a connection string (or namespace, not tested here) prevents the Dev Services
@@ -18,7 +18,7 @@ import io.quarkus.test.QuarkusUnitTest;
 class DeploymentWithSuppressedDevServicesTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest config = new QuarkusUnitTest()
+    static final QuarkusExtensionTest config = new QuarkusExtensionTest()
             .withApplicationRoot((jar) -> jar
                     .addAsResource(
                             new StringAsset(
