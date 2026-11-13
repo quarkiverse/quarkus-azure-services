@@ -24,6 +24,10 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-devservices</artifactId>
+        </dependency>
         <!-- See https://github.com/quarkusio/quarkus/issues/26879 -->
         <dependency>
             <groupId>com.azure</groupId>

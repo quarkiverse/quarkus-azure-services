@@ -57,6 +57,11 @@ Extension example applications can be found inside the [integration-tests](integ
 
 ## Compatibility matrix
 
+| Quarkus Azure Services | Quarkus | Java |
+| --- | --- | --- |
+| 2.x (`main`) | 4.x | 21+ |
+| 1.x | 3.x | 17+ |
+
 The latest version of the extensions is recommended to be used, which contains the latest features and bug fixes. However, if you are working on an specific version of Quarkus, you can use the compatibility matrix below to find the right version of the extensions.
 
 <details>

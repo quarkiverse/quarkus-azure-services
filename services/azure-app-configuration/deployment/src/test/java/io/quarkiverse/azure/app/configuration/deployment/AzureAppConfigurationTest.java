@@ -9,14 +9,14 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 import io.quarkus.test.common.WithTestResource;
 import io.smallrye.config.SmallRyeConfig;
 
 @WithTestResource(AzureAppConfigurationResource.class)
 class AzureAppConfigurationTest {
     @RegisterExtension
-    static final QuarkusUnitTest TEST = new QuarkusUnitTest()
+    static final QuarkusExtensionTest TEST = new QuarkusExtensionTest()
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class));
 
     @Inject
@@ -24,7 +24,7 @@ class AzureAppConfigurationTest {
 
     @Test
     void azureAppConfiguration() {
-        assertEquals("1234", config.getRawValue("my.prop"));
-        assertEquals("5678", config.getRawValue("another.prop"));
+        assertEquals("1234", config.getConfigValue("my.prop").getRawValue());
+        assertEquals("5678", config.getConfigValue("another.prop").getRawValue());
     }
 }

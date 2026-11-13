@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.quarkiverse</groupId>
     <artifactId>quarkiverse-parent</artifactId>
-    <version>22</version>
+    <version>26</version>
   </parent>
   <groupId>io.quarkiverse.azureservices</groupId>
   <artifactId>quarkus-azure-services-parent</artifactId>
@@ -14,10 +14,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
     <maven.compiler.parameters>true</maven.compiler.parameters>
-    <quarkus.version>3.37.4</quarkus.version>
+    <quarkus.version>4.0.0.CR1</quarkus.version>
   </properties>
   <scm>
     <connection>scm:git:git@github.com:quarkiverse/quarkus-azure-services.git</connection>

@@ -5,25 +5,19 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.jboss.logging.Logger;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
 import io.quarkus.deployment.IsNormal;
-import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.builditem.CuratedApplicationShutdownBuildItem;
 import io.quarkus.deployment.builditem.DevServicesResultBuildItem;
-import io.quarkus.deployment.builditem.DevServicesResultBuildItem.RunningDevService;
 import io.quarkus.deployment.builditem.DevServicesSharedNetworkBuildItem;
 import io.quarkus.deployment.builditem.DockerStatusBuildItem;
 import io.quarkus.deployment.builditem.LaunchModeBuildItem;
-import io.quarkus.deployment.console.ConsoleInstalledBuildItem;
-import io.quarkus.deployment.console.StartupLogCompressor;
+import io.quarkus.deployment.builditem.Startable;
 import io.quarkus.deployment.dev.devservices.DevServicesConfig;
-import io.quarkus.deployment.logging.LoggingSetupBuildItem;
 import io.quarkus.devservices.common.ConfigureUtil;
 import io.quarkus.devservices.common.ContainerLocator;
 import io.quarkus.runtime.LaunchMode;
@@ -36,86 +30,24 @@ public class DevServicesCosmosProcessor {
     static final String CONFIG_KEY_COSMOS_ENDPOINT = "quarkus.azure.cosmos.endpoint";
     static final String CONFIG_KEY_COSMOS_KEY = "quarkus.azure.cosmos.key";
     static final String CONFIG_KEY_DEFAULT_GATEWAY_MODE = "quarkus.azure.cosmos.default-gateway-mode";
-    private static volatile CosmosDevServicesConfig capturedDevServicesConfiguration;
-    private static volatile boolean first = true;
-    private static volatile RunningDevService devService;
 
     private static final ContainerLocator containerLocator = new ContainerLocator(DEV_SERVICE_LABEL,
             CosmosContainer.EXPOSED_PORT);
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = { DevServicesConfig.Enabled.class })
-    public void startCosmosDBContainer(BuildProducer<DevServicesResultBuildItem> devConfig,
+    public DevServicesResultBuildItem startCosmosDBContainer(
             LaunchModeBuildItem launchMode,
             DockerStatusBuildItem dockerStatusBuildItem,
             List<DevServicesSharedNetworkBuildItem> devServicesSharedNetworkBuildItem,
             CosmosBuildTimeConfig buildTimeConfig,
-            Optional<ConsoleInstalledBuildItem> consoleInstalledBuildItem,
-            CuratedApplicationShutdownBuildItem closeBuildItem,
-            LoggingSetupBuildItem loggingSetupBuildItem,
             DevServicesConfig devServicesConfig) {
-
-        CosmosDevServicesConfig cosmosDevServicesConfig = buildTimeConfig.devservices();
-
-        // figure out if we need to shut down and restart existing Cosmos
-        // container
-        // if not and the Cosmos container has already started we just
-        // return
-        if (devService != null) {
-            boolean restartRequired = !cosmosDevServicesConfig.equals(capturedDevServicesConfiguration);
-            if (!restartRequired) {
-                return;
-            }
-            try {
-                devService.close();
-            } catch (Throwable e) {
-                log.error("Failed to stop Cosmos container", e);
-            }
-            devService = null;
-            capturedDevServicesConfiguration = null;
-        }
-
-        capturedDevServicesConfiguration = cosmosDevServicesConfig;
-
-        StartupLogCompressor compressor = new StartupLogCompressor(
-                (launchMode.isTest() ? "(test) " : "") + "Azure Cosmos Dev Services Starting:",
-                consoleInstalledBuildItem,
-                loggingSetupBuildItem);
-        try {
-            devService = startContainer(
-                    dockerStatusBuildItem,
-                    cosmosDevServicesConfig,
-                    launchMode.getLaunchMode(),
-                    !devServicesSharedNetworkBuildItem.isEmpty(),
-                    devServicesConfig.timeout());
-            if (devService != null) {
-                devConfig.produce(devService.toBuildItem());
-                log.infof("The Cosmos container %s is ready to accept connections",
-                        devService.getContainerId());
-            }
-            compressor.close();
-        } catch (Throwable t) {
-            compressor.closeAndDumpCaptured();
-            throw new RuntimeException(t);
-        }
-
-        if (first) {
-            first = false;
-            Runnable closeTask = () -> {
-                if (devService != null) {
-                    try {
-                        devService.close();
-                    } catch (Throwable t) {
-                        log.error("Failed to stop Cosmos container", t);
-                    }
-                    devService = null;
-                }
-                first = true;
-            };
-            closeBuildItem.addCloseTask(closeTask, true);
-        }
+        return startContainer(dockerStatusBuildItem, buildTimeConfig.devservices(), launchMode.getLaunchMode(),
+                DevServicesSharedNetworkBuildItem.isSharedNetworkRequired(devServicesConfig,
+                        devServicesSharedNetworkBuildItem),
+                devServicesConfig.timeout());
     }
 
-    private RunningDevService startContainer(
+    private DevServicesResultBuildItem startContainer(
             DockerStatusBuildItem dockerStatusBuildItem,
             CosmosDevServicesConfig cosmosDevServicesConfig,
             LaunchMode launchMode,
@@ -148,33 +80,30 @@ public class DevServicesCosmosProcessor {
         // connect w/o SSL cert validation when used with the emulator
         System.setProperty("COSMOS.EMULATOR_SERVER_CERTIFICATE_VALIDATION_DISABLED", "true");
 
-        Supplier<RunningDevService> cosmosServerSupplier = () -> {
-            CosmosContainer container = new CosmosContainer(cosmosDevServicesConfig.serviceName(), useSharedNetwork,
-                    timeout);
-            container.start();
-            return new RunningDevService(
-                    CosmosProcessor.FEATURE,
-                    container.getContainerId(),
-                    container::close,
-                    Map.of(CONFIG_KEY_COSMOS_ENDPOINT, container.getEndpoint(),
-                            CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
-                            CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
-
-        };
         return containerLocator
                 .locateContainer(cosmosDevServicesConfig.serviceName(), cosmosDevServicesConfig.shared(), launchMode)
                 .map(containerAddress -> {
                     String endpoint = CosmosContainer.getEndpoint(containerAddress.getHost(),
                             containerAddress.getPort());
-                    return new RunningDevService(
-                            CosmosProcessor.FEATURE,
-                            containerAddress.getId(),
-                            null,
-                            Map.of(CONFIG_KEY_COSMOS_ENDPOINT, endpoint,
+                    return DevServicesResultBuildItem.discovered()
+                            .feature(CosmosProcessor.FEATURE)
+                            .containerId(containerAddress.getId())
+                            .config(Map.of(CONFIG_KEY_COSMOS_ENDPOINT, endpoint,
                                     CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
-                                    CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"));
+                                    CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"))
+                            .build();
                 })
-                .orElseGet(cosmosServerSupplier);
+                .orElseGet(() -> DevServicesResultBuildItem.owned()
+                        .feature(CosmosProcessor.FEATURE)
+                        .serviceName(cosmosDevServicesConfig.serviceName())
+                        .serviceConfig(cosmosDevServicesConfig)
+                        .startable(() -> new CosmosContainer(cosmosDevServicesConfig.serviceName(), useSharedNetwork, timeout))
+                        .configProvider(container -> Map.of(CONFIG_KEY_COSMOS_ENDPOINT, container.getEndpoint(),
+                                CONFIG_KEY_COSMOS_KEY, CosmosContainer.getKey(),
+                                CONFIG_KEY_DEFAULT_GATEWAY_MODE, "true"))
+                        .postStartHook(container -> log.infof("The Cosmos container %s is ready to accept connections",
+                                container.getContainerId()))
+                        .build());
 
     }
 
@@ -182,7 +111,7 @@ public class DevServicesCosmosProcessor {
         return ConfigUtils.isPropertyPresent(CONFIG_KEY_COSMOS_ENDPOINT);
     }
 
-    private static class CosmosContainer extends GenericContainer<CosmosContainer> {
+    private static class CosmosContainer extends GenericContainer<CosmosContainer> implements Startable {
 
         private final boolean useSharedNetwork;
         private String hostName = null;
@@ -225,6 +154,16 @@ public class DevServicesCosmosProcessor {
          */
         String getEndpoint() {
             return getEndpoint(getHost(), getPort());
+        }
+
+        @Override
+        public String getConnectionInfo() {
+            return getEndpoint();
+        }
+
+        @Override
+        public void close() {
+            stop();
         }
 
         @Override

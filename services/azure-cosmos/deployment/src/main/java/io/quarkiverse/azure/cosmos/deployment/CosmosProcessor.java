@@ -64,7 +64,7 @@ public class CosmosProcessor {
                 com.azure.cosmos.models.PartitionKeyDefinition.class.getName(),
                 com.azure.cosmos.models.PartitionKind.class.getName(),
                 com.azure.cosmos.models.UniqueKeyPolicy.class.getName(),
-                io.netty.channel.epoll.EpollSocketChannel.class.getName()).methods().build());
+                "io.netty.channel.epoll.EpollSocketChannel").methods().build());
 
     }
 }

@@ -73,7 +73,7 @@ public class ServiceBusDevServicesProcessor {
                         List.of(serviceBusDevServicesConfig.emulator().imageName()),
                         EMULATOR_PORT, launchMode.getLaunchMode(), useSharedNetwork))
                 .map(containerAddress -> DevServicesResultBuildItem.discovered()
-                        .name(FEATURE)
+                        .feature(FEATURE)
                         .containerId(containerAddress.getId())
                         .config(Map.of(CONFIG_KEY_CONNECTION_STRING,
                                 CONNECTION_STRING_FORMAT.formatted(containerAddress.getHost(), containerAddress.getPort())))
@@ -83,14 +83,14 @@ public class ServiceBusDevServicesProcessor {
                     RelaunchControllingConfig serviceConfig = toRelaunchControllingConfig(
                             serviceBusDevServicesConfig.emulator(), configFile, liveReload);
                     return DevServicesResultBuildItem.owned()
-                            .name(FEATURE)
+                            .feature(FEATURE)
                             .serviceName(serviceBusDevServicesConfig.serviceName())
                             .serviceConfig(serviceConfig)
                             .startable(
                                     () -> createContainers(serviceBusDevServicesConfig, configFile, useSharedNetwork,
                                             launchMode))
                             .postStartHook(logStarted())
-                            .configProvider(Map.of(CONFIG_KEY_CONNECTION_STRING, ServiceBusDevService::getConnectionInfo))
+                            .configProvider(service -> Map.of(CONFIG_KEY_CONNECTION_STRING, service.getConnectionInfo()))
                             .build();
                 });
     }
